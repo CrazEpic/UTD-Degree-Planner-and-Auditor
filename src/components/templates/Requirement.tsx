@@ -1,24 +1,122 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
+import { ChevronDownIcon } from "@heroicons/react/24/solid"
+import ProgressBar from "./ProgressBar"
 
 function Requirement() {
   return (
     <>
-      <div className="border rounded-[10px] grid grid-cols-3 items-center p-[15px]">
+      <div className="border rounded-[10px] items-center p-[15px] pr-0">
         <Disclosure>
-          <p className="col-span-2 line-clamp-1">1. Requirement Name</p>
-          <DisclosureButton className="group py-2">
-            <img className="group-data-[open]:size-7 size-5 justify-self-end"src="" alt="" />
-          </DisclosureButton>
-          <DisclosurePanel className="grid grid-cols-3 col-span-3">
-            <Disclosure>
-              <p className="col-span-2 line-clamp-1">1. Nested Requirement</p>
-              <DisclosureButton className="group py-2">
-                <img className="group-data-[open]:size-6 size-4 justify-self-end"src="" alt="" />
-              </DisclosureButton>
-              <DisclosurePanel className="col-span-3">
-                This is a nested message
-              </DisclosurePanel>
-            </Disclosure>
+          <div className="grid grid-cols-6 items-center">
+            <p className="col-span-3 line-clamp-1">1. Requirement Name</p>
+            <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+            <DisclosureButton className="group py-2">
+              <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+            </DisclosureButton>
+          </div>
+          <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
+            <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+              <Disclosure>
+                <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                <DisclosureButton className="group py-2">
+                  <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                </DisclosureButton>
+                <DisclosurePanel className="col-span-6">
+                  <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                    <Disclosure>
+                      <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                      <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                      <DisclosureButton className="group py-2">
+                        <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                      </DisclosureButton>
+                      <DisclosurePanel className="col-span-6">
+                        <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                          <Disclosure>
+                            <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                            <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                            <DisclosureButton className="group py-2">
+                              <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                            </DisclosureButton>
+                            <DisclosurePanel className="col-span-6">
+                              This would be a list of courses
+                            </DisclosurePanel>
+                          </Disclosure>
+                        </div>
+                      </DisclosurePanel>
+                    </Disclosure>
+                  </div>
+                </DisclosurePanel>
+              </Disclosure>
+            </div>
+            <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+              <Disclosure>
+                <p className="col-span-3 line-clamp-1">2. Nested Requirement</p>
+                <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                <DisclosureButton className="group py-2">
+                  <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                </DisclosureButton>
+                <DisclosurePanel className="col-span-6">
+                  <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                    <Disclosure>
+                      <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                      <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                      <DisclosureButton className="group py-2">
+                        <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                      </DisclosureButton>
+                      <DisclosurePanel className="col-span-6">
+                        <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                          <Disclosure>
+                            <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                            <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                            <DisclosureButton className="group py-2">
+                              <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                            </DisclosureButton>
+                            <DisclosurePanel className="col-span-6">
+                              This would be a list of courses
+                            </DisclosurePanel>
+                          </Disclosure>
+                        </div>
+                      </DisclosurePanel>
+                    </Disclosure>
+                  </div>
+                </DisclosurePanel>
+              </Disclosure>
+            </div>
+            <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+              <Disclosure>
+                <p className="col-span-3 line-clamp-1">3. Nested Requirement</p>
+                <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                <DisclosureButton className="group py-2">
+                  <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                </DisclosureButton>
+                <DisclosurePanel className="col-span-6">
+                  <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                    <Disclosure>
+                      <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                      <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                      <DisclosureButton className="group py-2">
+                        <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                      </DisclosureButton>
+                      <DisclosurePanel className="col-span-6">
+                        <div className="border border-r-0 rounded-[10px] rounded-r-none grid grid-cols-6 p-[12px] pr-0 items-center">
+                          <Disclosure>
+                            <p className="col-span-3 line-clamp-1">1. Nested Requirement</p>
+                            <div className="col-span-2 justify-self-end w-[140px]"><ProgressBar></ProgressBar></div>
+                            <DisclosureButton className="group py-2">
+                              <ChevronDownIcon className="size-[24px] justify-self-end mr-[15px]"></ChevronDownIcon>
+                            </DisclosureButton>
+                            <DisclosurePanel className="col-span-6">
+                              This would be a list of courses
+                            </DisclosurePanel>
+                          </Disclosure>
+                        </div>
+                      </DisclosurePanel>
+                    </Disclosure>
+                  </div>
+                </DisclosurePanel>
+              </Disclosure>
+            </div>
           </DisclosurePanel>
         </Disclosure>
       </div>
