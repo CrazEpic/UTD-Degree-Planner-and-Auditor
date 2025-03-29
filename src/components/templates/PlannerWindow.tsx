@@ -11,11 +11,17 @@ function PlannerWindow() {
         */}
       </div>
       <div className="w-7/10 overflow-auto p-[15px] pt-0">
-        <PlannerSection></PlannerSection>
-        <PlannerSection></PlannerSection>
-        <PlannerSection></PlannerSection>
-        <PlannerSection></PlannerSection>
-        <PlannerSection></PlannerSection>
+        <PlannerSection name="Future Courses"></PlannerSection>
+        <PlannerSection name="Fall 2025"></PlannerSection>
+        <PlannerSection name="Spring 2026"></PlannerSection>
+        <PlannerSection name="Fall 2026"></PlannerSection>
+        <PlannerSection name="Spring 2027"></PlannerSection>
+        <PlannerSection name="Fall 2023 (Past Semester)"></PlannerSection>
+        <PlannerSection name="Spring 2024 (Past Semester)"></PlannerSection>
+        <PlannerSection name="Fall 2024 (Past Semester)"></PlannerSection>
+        <PlannerSection name="Spring 2025 (Past Semester)"></PlannerSection>
+        <PlannerSection name="Exam Credits (AP/IB/etc.)"></PlannerSection>
+        <PlannerSection name="Transferred Credits"></PlannerSection>
 			</div>
     </>
   )
