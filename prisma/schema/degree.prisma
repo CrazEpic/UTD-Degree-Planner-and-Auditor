@@ -1,0 +1,100 @@
+model TestEquivalency {
+    test_component_id          String       @id @map("test_component_id")
+    earned_score_minimum       Int          @map("earned_score_minimum")
+    earned_score_maximum       Int          @map("earned_score_maximum")
+    course_equivalency         Json         @map("course_equivalency")
+    max_claimable_credit_hours Int          @map("max_claimable_credit_hours")
+    TestCredit                 TestCredit[]
+
+    @@map("test_equivalency")
+}
+
+model TransferCourseEquivalency {
+    external_school    String           @map("external_school")
+    external_course_id String           @map("external_course_id")
+    course_equivalency Json             @map("course_equivalency")
+    TransferCredit     TransferCredit[]
+
+    @@id([external_school, external_course_id])
+    @@map("transfer_course_equivalency")
+}
+
+// enum LogicalRelationType {
+//     AND
+//     OR
+// }
+
+model Course {
+    prefix                      String              @map("prefix")
+    number                      String              @map("number")
+    name                        String              @map("name")
+    CourseBlocks                CourseBlock[]
+    CoreCurriculumArea          CoreCurriculumArea? @relation(fields: [coreCurriculumAreaName], references: [name])
+    coreCurriculumAreaName      String?             @map("core_curriculum_area_name")
+    DegreePlanCourses           DegreePlanCourse[]
+    // TODO: should I not be lazy and make actual tables for these?
+    prequisites                 Json                @map("prequisites")
+    corequisites                Json                @map("corequisites")
+    prerequires_or_corequisites Json                @map("prerequires_or_corequisites")
+
+    @@id(name: "course_id", [prefix, number])
+    @@map("course")
+}
+
+model CoreCurriculumArea {
+    name    String   @id @map("name")
+    Courses Course[]
+
+    @@map("core_curriculum_area")
+}
+
+model BlockRequirement {
+    block_id          String             @id @default(cuid()) @map("block_id")
+    block_name        String             @map("block_name")
+    parent_block_id   String?            @map("parent_block_id")
+    ParentBlock       BlockRequirement?  @relation("BlockHierarchy", fields: [parent_block_id], references: [block_id])
+    InnerBlocks       BlockRequirement[] @relation("BlockHierarchy")
+    // TODO: use lexoranking for ordering
+    block_position    Int                @default(1) @map("block_position")
+    // PLEASE ONLY USE ONE AND ONLY ONE OF THE BLOCKS BELOW
+    NonterminalBlock  NonterminalBlock?
+    CourseBlock       CourseBlock?
+    TextBlock         TextBlock?
+    MatcherGroupBlock MatcherGroupBlock?
+    FlagToggleBlock   FlagToggleBlock?
+    // should only be true for the root block
+    DegreePlan        DegreePlan?
+
+    DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
+
+    @@map("block_requirement")
+}
+
+model NonterminalBlock {
+    id    String           @id @default(cuid()) @map("id")
+    Block BlockRequirement @relation(fields: [id], references: [block_id])
+}
+
+model CourseBlock {
+    id     String           @id @default(cuid()) @map("id")
+    Block  BlockRequirement @relation(fields: [id], references: [block_id])
+    Course Course           @relation(fields: [prefix, number], references: [prefix, number])
+    prefix String           @map("prefix")
+    number String           @map("number")
+}
+
+model TextBlock {
+    id    String           @id @default(cuid()) @map("id")
+    Block BlockRequirement @relation(fields: [id], references: [block_id])
+    text  String
+}
+
+model MatcherGroupBlock {
+    id    String           @id @default(cuid()) @map("id")
+    Block BlockRequirement @relation(fields: [id], references: [block_id])
+}
+
+model FlagToggleBlock {
+    id    String           @id @default(cuid()) @map("id")
+    Block BlockRequirement @relation(fields: [id], references: [block_id])
+}

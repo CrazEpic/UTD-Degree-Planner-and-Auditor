@@ -1,0 +1,78 @@
+// TODO: implement multiple plans, for now, only support one plan for prototype
+model User {
+    user_id         String           @id @default(cuid())
+    TestCredits     TestCredit[]
+    TransferCredits TransferCredit[]
+    DegreePlan      DegreePlan?
+
+    @@map("user")
+}
+
+model TestCredit {
+    TestEquivalency   TestEquivalency @relation(fields: [test_component_id], references: [test_component_id])
+    test_component_id String          @map("test_component_id")
+    user_id           String          @map("user_id")
+    User              User            @relation(fields: [user_id], references: [user_id])
+
+    @@id(name: "testCreditID", [test_component_id, user_id])
+    @@map("test_credit")
+}
+
+model TransferCredit {
+    id                        String                    @id @default(cuid()) @map("id")
+    user_id                   String                    @map("user_id")
+    User                      User                      @relation(fields: [user_id], references: [user_id])
+    TransferCourseEquivalency TransferCourseEquivalency @relation(fields: [external_school, external_course_id], references: [external_school, external_course_id])
+    external_school           String                    @map("external_school")
+    external_course_id        String                    @map("external_course_id")
+
+    @@map("transfer_credit")
+}
+
+model DegreePlan {
+    id                String             @id @default(cuid()) @map("id")
+    user_id           String             @unique @map("user_id")
+    User              User               @relation(fields: [user_id], references: [user_id])
+    name              String             @map("name")
+    RootBlock         BlockRequirement   @relation(fields: [block_id], references: [block_id])
+    block_id          String             @unique @map("block_id")
+    DegreePlanCourses DegreePlanCourse[]
+
+    @@map("degree_plan")
+}
+
+enum SemesterTerm {
+    FALL
+    SPRING
+    SUMMER
+}
+
+model DegreePlanCourse {
+    id                        String        @id @default(cuid()) @map("id")
+    degree_id                 String        @map("degree_id")
+    DegreePlan                DegreePlan    @relation(fields: [degree_id], references: [id])
+    Course                    Course        @relation(fields: [prefix, number], references: [prefix, number])
+    prefix                    String        @map("prefix")
+    number                    String        @map("number")
+    // only applicable for courses at utd
+    semester_year             String?       @map("semester")
+    semester_term             SemesterTerm? @map("term")
+    // only applicable for transfer credits
+    transfer_credit_course_id String?       @map("transfer_credit_course_id")
+    // only applicable for test credits
+    test_credit_course_id     String?       @map("test_credit_course_id")
+
+    DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
+
+    @@map("degree_plan_course")
+}
+
+model DegreePlanCourseCreditHourClaim {
+    block_id              String           @map("block_id")
+    Block                 BlockRequirement @relation(fields: [block_id], references: [block_id])
+    DegreePlanCourse      DegreePlanCourse @relation(fields: [degree_plan_course_id], references: [id])
+    degree_plan_course_id String           @map("degree_plan_course_id")
+    credit                Int              @map("credit")
+
+    @@id([degree_plan_course_id, block_id])
+}
