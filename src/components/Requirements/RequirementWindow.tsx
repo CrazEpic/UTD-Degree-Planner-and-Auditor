@@ -1,4 +1,3 @@
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import RequirementBlock from "./RequirementBlock"
 import { Requirement } from "../../types/degreeTest"
 
@@ -67,33 +66,29 @@ const reqList : Requirement[] = [
   },
 ]
 
+const footnotes : string[] = [
+  "1. Curriculum Requirements can be fulfilled by other approved courses. The courses listed are recommended as the most efficient way to satisfy both Core Curriculum and Major Requirements at UT Dallas.",
+  "2. Semester credit hours fulfill the communication component of the Core Curriculum.",
+  "3. Three semester credit hours of Calculus are counted under Mathematics Core, and five semester credit hours of Calculus are counted as Component Area Option Core.",
+  "4. Six semester credit hours of Physics are counted under Science core, and one semester credit hour of Physics (PHYS 2125) is counted as Component Area Option Core.",
+  "5. Transfer students with sufficient background may petition to substitute upper-division semester credit hours in the major for this class.",
+  "6. BS in Data Science students can substitute MATH 3315 for CS 2305.",
+  "7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
+]
+
 function RequirementWindow() {
   return (
     <> 
-      <div className="max-w-[375px] min-w-[375px] p-[15px] overflow-auto border-l-2">
-        <TabGroup className="flex flex-col gap-[15px]">
-          <TabList className="border-2 rounded-[10px] w-fit">
-            <Tab className="p-[2px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
-              Requirements
-            </Tab>
-            <Tab className="p-[2px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
-              Prerequisites
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel className="flex flex-col gap-[15px]">
-              {reqList.map((req) =>
-                <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={false}></RequirementBlock>
-              )}
-              {reqList.map((req) =>
-                <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={true}></RequirementBlock>
-              )}
-            </TabPanel>
-            <TabPanel>
-              Prerequisite Window
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
+      <div className="flex flex-col gap-[15px]">
+        {reqList.map((req) =>
+          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={false}></RequirementBlock>
+        )}
+        {reqList.map((req) =>
+          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={true}></RequirementBlock>
+        )}
+        {footnotes.map((footnote) =>
+          <p>{footnote}</p>
+        )}
       </div>
     </>
   )
