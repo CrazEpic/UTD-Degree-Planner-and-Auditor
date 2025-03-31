@@ -10,7 +10,7 @@ function PlannerWindow() {
             etc?
         */}
       </div>
-      <div className="w-7/10 overflow-auto p-[15px] pt-0">
+      <div className="w-full overflow-auto p-[15px] pt-0">
         <PlannerSection name="Future Courses"></PlannerSection>
         <PlannerSection name="Fall 2025"></PlannerSection>
         <PlannerSection name="Spring 2026"></PlannerSection>

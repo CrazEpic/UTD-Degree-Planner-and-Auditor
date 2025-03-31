@@ -1,5 +1,4 @@
 import Requirement from "./Requirement"
-import SearchWindow from "./SearchWindow"
 import { Req } from "../../types/degreeTest"
 
 const reqList : Req[] = [
@@ -38,7 +37,7 @@ const reqList : Req[] = [
         id: 1,
         prefix: "CS",
         number: "1337",
-        name: "Computer Science I",
+        name: "Electrical and Computer Engineering Laboratory in Computer Systems and Computer Engineering",
       },
       {
         id: 2,
@@ -54,19 +53,23 @@ const reqList : Req[] = [
     subReqs: [],
     subCourses: [],
   },
+  { 
+    id: 4,
+    name: "Unrelated Courses",
+    subReqs: [],
+    subCourses: [],
+  },
 ]
 
 function RequirementWindow() {
   return (
     <> 
-      <div className="w-3/10 border-l-2 flex flex-col gap-[15px] pt-[15px] pb-[15px]">
+      <div className="max-w-[375px] min-w-[375px] border-l-2 flex flex-col gap-[15px] pt-[15px] pb-[15px]">
         <div className="flex flex-col gap-[15px] overflow-auto h-[calc(100vh-145px)] pl-[15px] pr-[15px]">
           {reqList.map((req) =>
             <Requirement key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses}></Requirement>
           )}
         </div>
-        <hr className="w-full"/>
-        <SearchWindow></SearchWindow>
       </div>
     </>
   )

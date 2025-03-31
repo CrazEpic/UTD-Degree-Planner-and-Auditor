@@ -3,7 +3,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/solid"
 function PlannerCourse({prefix, number, name, tag}: {prefix: string, number: string, name: string, tag: string}) {
   return (
     <>
-      <div className="border-3 rounded-[10px] h-[125px] p-[3px] flex flex-col">
+      <div className="border-3 rounded-[10px] w-full h-[125px] p-[3px] flex flex-col">
         <div>
           <p className="float-left">{tag}</p>
           <EllipsisVerticalIcon className="size-5 float-right"></EllipsisVerticalIcon>
