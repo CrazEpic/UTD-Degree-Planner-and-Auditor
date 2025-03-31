@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar"
-import PlannerWindow from "./components/Planner/PlannerWindow"
-import RequirementWindow from "./components/Requirements/RequirementWindow"
+import PlannerWindow from "./components/planner/PlannerWindow"
+import RequirementWindow from "./components/requirements/RequirementWindow"
  
 function App() {
 	return (

@@ -19,7 +19,6 @@ function RequirementCourse({course}: {course: Course}) {
             <a className="text-[#037b3f]" href="">{course.prefix + " " + course.number + " "}</a>
             {course.name}
           </p>
-          {/* Replace with an icon for the checkbox */}
           {planned ? (
             <PlusIcon className="size-[24px]  ml-auto mr-[15px]"></PlusIcon>
           ) : (

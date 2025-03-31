@@ -1,7 +1,7 @@
-export type Req = {
+export type Requirement = {
     id: number,
     name: string
-    subReqs: Req[],
+    subReqs: Requirement[],
     subCourses: Course[],
 }
 
