@@ -14,9 +14,6 @@ function PlannerSection({name}: {name: string}) {
     <>
       <div className="w-[100%-30px] border-3 border rounded-[10px] mt-[15px]">
         <h1 className="h-[30px] text-xl text-[#e87500] font-bold m-[15px]">{name}</h1>
-        {/* Convert this to a grid for future courses being added 
-            grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1
-        */}
         <div className="grid gap-[15px] p-[15px] pt-0 place-items-center" style={{gridTemplateColumns: "repeat(auto-fill, minmax(288px, 1fr))"}}>
           {courseList.map((course) => 
             <PlannerCourse prefix={course[0]} number={course[1]} name={course[2]} tag={course[3]}></PlannerCourse>

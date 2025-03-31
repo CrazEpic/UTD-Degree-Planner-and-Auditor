@@ -7,6 +7,11 @@ function App() {
 		<>
 			<div className="">
 				<NavBar></NavBar>
+
+				{/* Since there is two possibilities for content in each pane
+					changing their names to Large/Small or Left/Right may be 
+					more clear
+				*/}
 				<div className="flex flex-row h-[calc(100vh-55px)]">
 					<PlannerWindow></PlannerWindow>
 					<RequirementWindow></RequirementWindow>
