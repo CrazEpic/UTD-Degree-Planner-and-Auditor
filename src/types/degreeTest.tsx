@@ -1,6 +1,7 @@
 export type Requirement = {
     id: number,
     name: string
+    matcher: boolean,
     subReqs: Requirement[],
     subCourses: Course[],
 }

@@ -5,10 +5,12 @@ const reqList : Requirement[] = [
   { 
     id: 1,
     name: "Core Curriculum",
+    matcher: false,
     subReqs: [
       {
         id: 1,
         name: "Communication",
+        matcher: true,
         subReqs: [],
         subCourses: [
           {
@@ -30,7 +32,8 @@ const reqList : Requirement[] = [
   },
   { 
     id: 2,
-    name: "Name",
+    name: "Major",
+    matcher: false,
     subReqs: [],
     subCourses: [
       {
@@ -49,13 +52,15 @@ const reqList : Requirement[] = [
   },
   { 
     id: 3,
-    name: "Name",
+    name: "Electives",
+    matcher: true,
     subReqs: [],
     subCourses: [],
   },
   { 
     id: 4,
     name: "Unrelated Courses",
+    matcher: true,
     subReqs: [],
     subCourses: [],
   },
@@ -64,12 +69,13 @@ const reqList : Requirement[] = [
 function RequirementWindow() {
   return (
     <> 
-      <div className="max-w-[375px] min-w-[375px] border-l-2 flex flex-col gap-[15px] pt-[15px] pb-[15px]">
-        <div className="flex flex-col gap-[15px] overflow-auto h-[calc(100vh-145px)] pl-[15px] pr-[15px]">
-          {reqList.map((req) =>
-            <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} checkbox={false}></RequirementBlock>
-          )}
-        </div>
+      <div className="max-w-[375px] min-w-[375px] flex flex-col gap-[15px] p-[15px] overflow-auto border-l-2">
+        {reqList.map((req) =>
+          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={false}></RequirementBlock>
+        )}
+        {reqList.map((req) =>
+          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={true}></RequirementBlock>
+        )}
       </div>
     </>
   )
