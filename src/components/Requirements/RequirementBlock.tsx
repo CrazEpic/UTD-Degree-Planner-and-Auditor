@@ -1,52 +1,96 @@
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
+import { Button, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/24/solid"
+import { Requirement } from "../../types/degreeTest"
 import ProgressBar from "./ProgressBar"
 import RequirementCourse from "./RequirementCourse"
-import { Requirement, Course } from "../../types/degreeTest"
+import { useState } from "react"
 
-function RequirementBlock({name, depth, subReqs, subCourses, matcher, checkbox}: {name:string, depth: number, subReqs: Requirement[], subCourses: Course[], matcher: boolean, checkbox: boolean}) {
- 
-  const border_style = "border rounded-[10px] items-center p-[12px] pr-0" + (depth > 1 ? " border-r-0 rounded-r-none" : "") 
+function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirement, depth: number, checkbox: boolean}) {
   
-  {/* Placeholder for + course*/}
-  const addMoreCourse = {
-    id: 2,
-    prefix: "Add",
-    number: "",
-    name: "",
+
+  // Extremely ugly, just testing understanding
+  const [selected, setSelected] = useState(false)
+  const handleClick = () => {
+    setSelected(!selected)
+  }
+  const MyButton = () => {
+    return (
+      <button className={"size-[32px] border-2 rounded-[5px] hover:bg-green-200" + (selected ? " bg-[#154734]" : " bg-[#ffffff]")} onClick={handleClick}> </button>
+    )
+  }
+
+  const borderStyle = "border rounded-[10px] items-center p-[12px] pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "") 
+
+  const progress : number[] = [
+    10, // getCompleted()
+    20, // getPlanned()
+    30, // getUnplanned()
+  ]
+
+  let conditionType = ""
+  const conditions = requirement.condition.split(" ")
+  switch (conditions[0]) {
+    case "":
+      conditionType = "None"
+      break;
+    case "All":
+      conditionType = "All"
+      break;
+    default:
+      conditionType = "Some"
+      if (conditions[1] == "Hours") {
+        conditionType += " Hours"
+      }
+      else {
+        conditionType += " Blocks"
+      }
+      break;
   }
 
   return (
     <>
-      <div className={border_style}>
+      <div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
         <Disclosure>
-          <div className="grid grid-cols-9 items-center">
+          <div className="grid grid-cols-9 items-center pr-[12px]">
             <DisclosureButton className="group py-2">
               <ChevronDownIcon className="size-[24px]"></ChevronDownIcon>
             </DisclosureButton>
 
             {/* Text does not truncate or turn to ellipses*/}
-            <p className="col-span-4 truncate justify-self-start">{name}</p>
-            <div className="col-span-3 justify-self-end w-full max-w-[140px] mr-[15px]">
-              <ProgressBar></ProgressBar>
+            <p className="col-span-4 line-clamp-1 justify-self-start">{requirement.name}</p>
+            <div className="col-span-3 justify-self-end mr-[12px]">
+              <ProgressBar progress={progress}></ProgressBar>
             </div>
-            {checkbox && <img className="size-[24px] "src="" alt="" />}
+            {checkbox && 
+              <>
+                <MyButton></MyButton>
+                {/* 
+                  Headless UI Button
+                  Trying to understand how to use 
+                  the data-active and data-hover props
+                  <Button></Button> 
+                */}  
+              </>
+            }
           </div>
-
-          { subReqs.length == 0 ? (
-            <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
-              {subCourses.map((course) =>
-                <RequirementCourse key={course.id} course={course}></RequirementCourse>
-              )}
-              {matcher && <RequirementCourse course={addMoreCourse}></RequirementCourse>}
-              </DisclosurePanel>
-          ) : (
-            <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
-              {subReqs.map((req) =>
-                <RequirementBlock key={req.id} name={(depth <= 1 ? "" : req.id + ". ") + req.name} depth={depth + 1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={false}></RequirementBlock>
-              )}
-            </DisclosurePanel>
-          )}
+          <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
+            <p>{requirement.condition != "" ? "Complete " + requirement.condition : ""}</p>
+            {requirement.subReqs.length != 0 &&
+              <>
+                {requirement.subReqs.map((req) =>
+                  <RequirementBlock key={req.id} requirement={req} depth={depth + 1} checkbox={conditionType == "Some Blocks"}></RequirementBlock>
+                )}
+              </>
+            }
+            {requirement.subCourses.length != 0 &&
+              <>
+                {requirement.subCourses.map((course) =>
+                  <RequirementCourse key={course.id} course={course}></RequirementCourse>
+                )}
+              </>
+            }
+            {requirement.matcher && <RequirementCourse course={{id: -1, prefix: "Add", number: "More", name: "Courses"}}></RequirementCourse>}
+          </DisclosurePanel>
         </Disclosure>
       </div>
     </>

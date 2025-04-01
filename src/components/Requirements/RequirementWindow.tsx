@@ -1,5 +1,5 @@
-import RequirementBlock from "./RequirementBlock"
 import { Requirement } from "../../types/degreeTest"
+import RequirementBlock from "./RequirementBlock"
 
 const reqList : Requirement[] = [
   { 
@@ -26,29 +26,135 @@ const reqList : Requirement[] = [
             name: "Professional and Technical Communication",
           },
         ],
+        condition: "6 Hours",
       },
     ],
     subCourses: [],
+    condition: "All Blocks",
   },
   { 
     id: 2,
     name: "Major",
     matcher: false,
-    subReqs: [],
-    subCourses: [
+    subReqs: [
       {
         id: 1,
-        prefix: "CS",
-        number: "1337",
-        name: "Electrical and Computer Engineering Laboratory in Computer Systems and Computer Engineering",
+        name: "Major Preparatory Courses",
+        matcher: false,
+        subReqs: [
+          {
+            id: 1,
+            name: "MATH SEQUENCE",
+            matcher: false,
+            subReqs: [
+              {
+                id: 1,
+                name: "Sequence 1",
+                matcher: false,
+                subReqs: [],
+                subCourses: [
+                  {
+                    id: 1,
+                    prefix: "MATH",
+                    number: "2413",
+                    name: "Differential Calculus",
+                  },
+                  {
+                    id: 2,
+                    prefix: "MATH",
+                    number: "2414",
+                    name: "Integral Calculus",
+                  },
+                ],
+                condition: "All Blocks",
+              },
+              {
+                id: 2,
+                name: "Sequence 2",
+                matcher: false,
+                subReqs: [],
+                subCourses: [
+                  {
+                    id: 1,
+                    prefix: "MATH",
+                    number: "2417",
+                    name: "Calculus I",
+                  },
+                  {
+                    id: 2,
+                    prefix: "MATH",
+                    number: "2419",
+                    name: "Calculus II",
+                  },
+                ],
+                condition: "All Blocks",
+              },
+            ],
+            subCourses: [],
+            condition: "1 Block",
+          },
+        ],
+        subCourses: [
+          {
+            id: 1,
+            prefix: "ECS",
+            number: "1100",
+            name: "Introduction to Engineering and Computer Science",
+          },
+          {
+            id: 2,
+            prefix: "CS",
+            number: "1200",
+            name: "Introduction to Computer Science and Software Engineering",
+          },
+        ],
+        condition: "24 Hours Beyond Core",
       },
       {
         id: 2,
-        prefix: "CS",
-        number: "1337",
-        name: "Computer Science I",
+        name: "Major Core Courses",
+        matcher: false,
+        subReqs: [],
+        subCourses: [
+          {
+            id: 1,
+            prefix: "CS",
+            number: "3162",
+            name: "Professional Responsibility in Computer Science and Software Engineering",
+          },
+          {
+            id: 2,
+            prefix: "CS",
+            number: "3341",
+            name: "Probability and Statistics in Computer Science and Software Engineering",
+          },
+        ],
+        condition: "36 Hours Beyond Core",
+      },
+      {
+        id: 3,
+        name: "Major Technical Electives",
+        matcher: true,
+        subReqs: [],
+        subCourses: [
+          {
+            id: 1,
+            prefix: "CS",
+            number: "4314",
+            name: "Intelligent Systems Analysis",
+          },
+          {
+            id: 2,
+            prefix: "CS",
+            number: "4315",
+            name: "Intelligent Systems Design",
+          },
+        ],
+        condition: "12 Hours",
       },
     ],
+    subCourses: [],
+    condition: "All Blocks",
   },
   { 
     id: 3,
@@ -56,6 +162,7 @@ const reqList : Requirement[] = [
     matcher: true,
     subReqs: [],
     subCourses: [],
+    condition: "10 Hours",
   },
   { 
     id: 4,
@@ -63,6 +170,7 @@ const reqList : Requirement[] = [
     matcher: true,
     subReqs: [],
     subCourses: [],
+    condition: "",
   },
 ]
 
@@ -79,13 +187,15 @@ const footnotes : string[] = [
 function RequirementWindow() {
   return (
     <> 
-      <div className="flex flex-col gap-[15px]">
+      <div className="flex flex-col gap-[12px]">
         {reqList.map((req) =>
-          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={false}></RequirementBlock>
+          <>
+            <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={false}></RequirementBlock>
+            {/* <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={true}></RequirementBlock> */}
+          </>
         )}
-        {reqList.map((req) =>
-          <RequirementBlock key={req.id} name={req.id + ". " + req.name} depth={1} subReqs={req.subReqs} subCourses={req.subCourses} matcher={req.matcher} checkbox={true}></RequirementBlock>
-        )}
+        
+        {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
         {footnotes.map((footnote) =>
           <p>{footnote}</p>
         )}

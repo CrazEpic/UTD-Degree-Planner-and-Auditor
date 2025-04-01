@@ -4,6 +4,7 @@ export type Requirement = {
     matcher: boolean,
     subReqs: Requirement[],
     subCourses: Course[],
+    condition: string,
 }
 
 export type Course = {
