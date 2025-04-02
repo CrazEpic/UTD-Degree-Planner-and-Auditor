@@ -6,7 +6,7 @@ import { log } from "./middleware/01.log"
 import { authentication } from "./middleware/02.authentication"
 import { authorization } from "./middleware/03.authorization"
 import { PrismaClient } from "@prisma/client"
-import router from "./routes/testRoute"
+import router from "./routes/routes"
 
 interface Context {
 	permissions: { [id: string]: boolean }
