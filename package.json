@@ -11,9 +11,13 @@
 		"format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json|tsx)\""
 	},
 	"dependencies": {
+		"@headlessui/react": "^2.2.0",
+		"@heroicons/react": "^2.2.0",
 		"@tailwindcss/vite": "^4.0.8",
+		"immer": "^10.1.1",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
+		"tailwind-scrollbar-hide": "^2.0.0",
 		"tailwindcss": "^4.0.8"
 	},
 	"devDependencies": {
@@ -28,6 +32,6 @@
 		"prettier": "^3.5.2",
 		"typescript": "~5.7.2",
 		"typescript-eslint": "^8.22.0",
-		"vite": "^6.1.0"
+		"vite": "^6.2.3"
 	}
 }

@@ -1,7 +1,17 @@
+import NavBar from "./components/NavBar"
+import LargeWindow from "./components/LargeWindow"
+import SmallWindow from "./components/SmallWindow"
+ 
 function App() {
 	return (
 		<>
-			<h1 className="text-green-700">Vite + React</h1>
+			<div className="">
+				<NavBar></NavBar>
+				<div className="flex flex-row h-[calc(100vh-55px)]">
+					<LargeWindow></LargeWindow>
+					<SmallWindow></SmallWindow>
+				</div>
+			</div>
 		</>
 	)
 }
