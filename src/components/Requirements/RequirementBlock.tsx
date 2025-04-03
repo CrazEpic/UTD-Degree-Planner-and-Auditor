@@ -22,9 +22,9 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
   const borderStyle = "border rounded-[10px] items-center p-[12px] pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "") 
 
   const progress : number[] = [
-    10, // getCompleted()
-    20, // getPlanned()
-    30, // getUnplanned()
+    1, // getCompleted()
+    2, // getPlanned()
+    3, // getUnplanned()
   ]
 
   let conditionType = ""

@@ -1,6 +1,6 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
-import RequirementWindow from "./requirements/RequirementWindow"
-import PrerequisiteWindow from "./prerequisites/PrerequisiteWindow"
+import RequirementWindow from "./Requirements/RequirementWindow"
+import PrerequisiteWindow from "./Prerequisites/PrerequisiteWindow"
 
 function SmallWindow() {
 	return (

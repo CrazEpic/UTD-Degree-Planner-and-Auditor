@@ -1,7 +1,7 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import { CogIcon } from "@heroicons/react/24/solid"
-import PlannerWindow from "./planner/PlannerWindow"
-import FlowchartWindow from "./flowchart/FlowchartWindow"
+import PlannerWindow from "./Planner/PlannerWindow"
+import FlowchartWindow from "./Flowchart/FlowchartWindow"
 
 function LargeWindow() {
 	return (
