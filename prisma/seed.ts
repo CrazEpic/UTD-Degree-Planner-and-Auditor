@@ -1,49 +1,8 @@
 import { PrismaClient } from "@prisma/client"
+import { Requisites } from "../src/server/types/requisites"
+import { DegreeConditions } from "../src/server/types/degree"
 
 const prisma = new PrismaClient()
-
-const createBlock = async () => {
-	// const block = await prisma.blockRequirement.create({
-	// 	data: {
-	// 		block_name: "Block 1",
-	// 		NonterminalBlock: {
-	// 			create: {},
-	// 		},
-	// 	},
-	// })
-	// const block2 = await prisma.blockRequirement.create({
-	// 	data: {
-	// 		block_name: "Block 2",
-	// 		parent_block_id: block.block_id,
-	// 		block_position: 1,
-	// 		NonterminalBlock: {
-	// 			create: {},
-	// 		},
-	// 	},
-	// })
-	// const block3 = await prisma.blockRequirement.create({
-	// 	data: {
-	// 		block_name: "Block 3",
-	// 		parent_block_id: block2.block_id,
-	// 		block_position: 1,
-	// 		NonterminalBlock: {
-	// 			create: {},
-	// 		},
-	// 	},
-	// })
-	// const block3_1 = await prisma.blockRequirement.create({
-	// 	data: {
-	// 		block_name: "Block 3.1",
-	// 		parent_block_id: block2.block_id,
-	// 		block_position: 2,
-	// 		TextBlock: {
-	// 			create: {
-	// 				text: "This is a text block",
-	// 			},
-	// 		},
-	// 	},
-	// })
-}
 
 const createCoreCurriculumAreas = async () => {
 	const areas = [
@@ -65,15 +24,19 @@ const createCoreCurriculumAreas = async () => {
 }
 
 const createCourses = async () => {
+	const emptyRequisites: Requisites = {
+		prequisites: { logicalOperator: "AND", requisites: [] },
+		corequisites: { logicalOperator: "AND", requisites: [] },
+		prerequires_or_corequisites: { logicalOperator: "AND", requisites: [] },
+	}
+
 	await prisma.course.create({
 		data: {
 			prefix: "MATH",
 			number: "2413",
 			name: "Differential Calculus",
 			coreCurriculumAreaName: "Mathematics",
-			prequisites: {},
-			corequisites: {},
-			prerequires_or_corequisites: {},
+			requisites: emptyRequisites,
 		},
 	})
 
@@ -82,14 +45,14 @@ const createCourses = async () => {
 			prefix: "CS",
 			number: "1436",
 			name: "Programming Fundamentals",
-			prequisites: {},
-			corequisites: {},
-			prerequires_or_corequisites: {},
+			requisites: emptyRequisites,
 		},
 	})
 }
 
 const createCSDegree = async () => {
+	const emptyConditions: DegreeConditions = {}
+
 	await prisma.degree.create({
 		data: {
 			degree_name: "Computer Science",
@@ -97,22 +60,20 @@ const createCSDegree = async () => {
 			RootBlock: {
 				create: {
 					block_name: "Bachelor of Science in Computer Science (2025)",
-					NonterminalBlock: {},
+					NonterminalBlock: {
+						create: { conditions: emptyConditions },
+					},
 					InnerBlocks: {
 						create: [
 							{
 								block_name: "I. Core Curriculum",
 								block_position: 1,
-								NonterminalBlock: {
-									create: {},
-								},
+								NonterminalBlock: { create: { conditions: emptyConditions } },
 								InnerBlocks: {
 									create: [
 										{
 											block_name: "Mathematics",
-											NonterminalBlock: {
-												create: {},
-											},
+											NonterminalBlock: { create: { conditions: emptyConditions } },
 											InnerBlocks: {
 												create: [
 													{
@@ -133,9 +94,7 @@ const createCSDegree = async () => {
 							{
 								block_name: "II. Major Requirements",
 								block_position: 2,
-								NonterminalBlock: {
-									create: {},
-								},
+								NonterminalBlock: { create: { conditions: emptyConditions } },
 							},
 						],
 					},
@@ -154,7 +113,6 @@ const createUsers = async () => {
 }
 
 const main = async () => {
-	// await createBlock()
 	await createCoreCurriculumAreas()
 	await createCourses()
 	await createCSDegree()

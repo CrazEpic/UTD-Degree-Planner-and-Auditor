@@ -1,7 +1,5 @@
 import { CourseLevel } from "./requisites"
 
-type Condition = BlockFulfillmentCondition | BlockInclusionCondition | CreditHourCondition | LevelCondition | HourBeyondBlockCondition
-
 type BlockFulfillmentCondition = {
 	minBlocksToFulfill: number
 }
@@ -25,7 +23,11 @@ type HourBeyondBlockCondition = {
 }
 
 export type DegreeConditions = {
-	conditions: Condition[]
+	blockFulfillmentCondition?: BlockFulfillmentCondition
+	blockInclusionCondition?: BlockInclusionCondition
+	creditHourCondition?: CreditHourCondition
+	levelCondition?: LevelCondition
+	hourBeyondBlockCondition?: HourBeyondBlockCondition
 }
 
 // separate from just course list because this is global across years

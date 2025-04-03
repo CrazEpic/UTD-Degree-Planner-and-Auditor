@@ -65,7 +65,7 @@ model BlockRequirement {
     block_id          String             @id @default(cuid()) @map("block_id")
     block_name        String             @map("block_name")
     parent_block_id   String?            @map("parent_block_id")
-    ParentBlock       BlockRequirement?  @relation("BlockHierarchy", fields: [parent_block_id], references: [block_id])
+    ParentBlock       BlockRequirement?  @relation("BlockHierarchy", fields: [parent_block_id], references: [block_id], onDelete: Cascade)
     InnerBlocks       BlockRequirement[] @relation("BlockHierarchy")
     // TODO: use lexoranking for ordering
     block_position    Int                @default(1) @map("block_position")
@@ -85,7 +85,7 @@ model BlockRequirement {
 
 model NonterminalBlock {
     id         String           @id @default(cuid()) @map("id")
-    Block      BlockRequirement @relation(fields: [id], references: [block_id])
+    Block      BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
     conditions Json             @map("conditions")
 
     @@map("nonterminal_block")
@@ -93,7 +93,7 @@ model NonterminalBlock {
 
 model CourseBlock {
     id     String           @id @default(cuid()) @map("id")
-    Block  BlockRequirement @relation(fields: [id], references: [block_id])
+    Block  BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
     Course Course           @relation(fields: [prefix, number], references: [prefix, number])
     prefix String           @map("prefix")
     number String           @map("number")
@@ -103,16 +103,16 @@ model CourseBlock {
 
 model TextBlock {
     id    String           @id @default(cuid()) @map("id")
-    Block BlockRequirement @relation(fields: [id], references: [block_id])
-    text  String
+    Block BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    text  String           @default("") @map("text")
 
     @@map("text_block")
 }
 
 model MatcherGroupBlock {
-    id    String           @id @default(cuid()) @map("id")
-    Block BlockRequirement @relation(fields: [id], references: [block_id])
-    match Json             @map("match")
+    id      String           @id @default(cuid()) @map("id")
+    Block   BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    matcher Json             @map("matcher")
 
     @@map("matcher_group_block")
 }
@@ -120,7 +120,7 @@ model MatcherGroupBlock {
 // assume Block.InnerBlocks has only two blocks, position 0 is false, 1 is true
 model FlagToggleBlock {
     id         String           @id @default(cuid()) @map("id")
-    Block      BlockRequirement @relation(fields: [id], references: [block_id])
+    Block      BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
     DegreeFlag DegreeFlag       @relation(fields: [flag_id], references: [id])
     flag_id    String           @map("flag")
 
