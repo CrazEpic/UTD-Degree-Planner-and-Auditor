@@ -7,7 +7,7 @@ function RequirementCourse({course}: {course: Course}) {
   const planned = Math.random() > 0.5
 
   return (
-    <div className="flex flex-row gap-[12px] border rounded-[10px] items-center justify-center p-[12px] pr-0 border-r-0 rounded-r-none">
+    <div className="flex flex-row gap-[8px] border rounded-[10px] items-center justify-center p-[8px] pr-0 border-r-0 rounded-r-none">
       {course.prefix == "Add" ? (
         <PlusIcon className="size-[24px]"></PlusIcon>
       ) : (

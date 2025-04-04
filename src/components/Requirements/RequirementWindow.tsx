@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react"
 import { Requirement } from "../../types/degreeTest"
 import RequirementBlock from "./RequirementBlock"
+import axios from "axios"
 
 const reqList : Requirement[] = [
   { 
@@ -184,24 +186,46 @@ const footnotes : string[] = [
   "7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
 ]
 
+
 function RequirementWindow() {
-  return (
-    <> 
-      <div className="flex flex-col gap-[12px]">
-        {reqList.map((req) =>
-          <>
-            <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={false}></RequirementBlock>
-            {/* <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={true}></RequirementBlock> */}
-          </>
-        )}
-        
-        {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
-        {footnotes.map((footnote) =>
-          <p>{footnote}</p>
-        )}
-      </div>
-    </>
-  )
+
+    const [d, setD] = useState({})
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const resp = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
+                setD(resp.data);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        console.log(d)
+    }, [d]);
+
+
+
+
+    return (
+        <> 
+            <div className="flex flex-col gap-[8px]">
+            {reqList.map((req) =>
+                <>
+                    <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={false}></RequirementBlock>
+                    {/* <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={true}></RequirementBlock> */}
+                </>
+            )}
+
+            {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
+            {footnotes.map((footnote) =>
+                <p>{footnote}</p>
+            )}
+            </div>
+        </>
+    )
 }
 
 export default RequirementWindow

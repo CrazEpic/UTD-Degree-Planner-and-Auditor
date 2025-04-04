@@ -15,11 +15,11 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
   }
   const MyButton = () => {
     return (
-      <button className={"size-[32px] border-2 rounded-[5px] hover:bg-green-200" + (selected ? " bg-[#154734]" : " bg-[#ffffff]")} onClick={handleClick}> </button>
+      <button className={"size-[24px] border-2 rounded-[5px] hover:bg-green-200" + (selected ? " bg-[#154734]" : " bg-[#ffffff]")} onClick={handleClick}> </button>
     )
   }
 
-  const borderStyle = "border rounded-[10px] items-center p-[12px] pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "") 
+  const borderStyle = "border rounded-[10px] items-center p-[8px] pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "") 
 
   const progress : number[] = [
     1, // getCompleted()
@@ -51,27 +51,30 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
     <>
       <div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
         <Disclosure>
-          <div className="grid grid-cols-9 items-center pr-[12px]">
-            <DisclosureButton className="group py-2">
-              <ChevronDownIcon className="size-[24px]"></ChevronDownIcon>
-            </DisclosureButton>
+          {/* Flexbox instead of grid wth*/}
+          <div className="flex flex-row items-center pr-[8px]">
+            <div className="flex flex-row items-center gap-[8px]">
+              <DisclosureButton className="group py-2">
+                <ChevronDownIcon className="size-[24px]"></ChevronDownIcon>
+              </DisclosureButton>
 
-            {/* Text does not truncate or turn to ellipses*/}
-            <p className="col-span-4 line-clamp-1 justify-self-start">{requirement.name}</p>
-            <div className="col-span-3 justify-self-end mr-[12px]">
-              <ProgressBar progress={progress}></ProgressBar>
+              {/* Text does not truncate or turn to ellipses*/}
+              <p className="line-clamp-1 justify-self-start">{requirement.name}</p>
             </div>
-            {checkbox && 
-              <>
+            <div className="flex flex-row ml-auto items-center justify-self-end mr-[8px] gap-[8px]">
+              <ProgressBar progress={progress}></ProgressBar>
+              {checkbox ? (
                 <MyButton></MyButton>
-                {/* 
+                /* 
                   Headless UI Button
                   Trying to understand how to use 
                   the data-active and data-hover props
                   <Button></Button> 
-                */}  
-              </>
-            }
+                */  
+              ) : (
+                <div className="size-[24px]"></div>
+              )}
+            </div>
           </div>
           <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
             <p>{requirement.condition != "" ? "Complete " + requirement.condition : ""}</p>
