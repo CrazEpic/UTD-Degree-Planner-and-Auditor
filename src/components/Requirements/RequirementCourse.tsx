@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/solid"
-import { Course } from "../../types/degreeTest"
+import { CourseBlock } from "../../types/degreeTest"
 
-function RequirementCourse({course}: {course: Course}) {
+function RequirementCourse({course, name}: {course: CourseBlock, name: string}) {
 
   {/* To be replaced with actual logic*/}
   const planned = Math.random() > 0.5
@@ -14,7 +14,7 @@ function RequirementCourse({course}: {course: Course}) {
         <>
           <p className="line-clamp-2 max-w-15/20">
             <a className="text-[#037b3f]" href="">{course.prefix + " " + course.number + " "}</a>
-            {course.name}
+            {name}
           </p>
           {planned ? (
             <PlusIcon className="size-[24px]  ml-auto mr-[15px]"></PlusIcon>

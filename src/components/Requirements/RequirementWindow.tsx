@@ -1,180 +1,20 @@
 import { useEffect, useState } from "react"
-import { Requirement } from "../../types/degreeTest"
+import { Block, Degree } from "../../types/degreeTest"
 import RequirementBlock from "./RequirementBlock"
 import axios from "axios"
 
-const reqList : Requirement[] = [
-  { 
-    id: 1,
-    name: "Core Curriculum",
-    matcher: false,
-    subReqs: [
-      {
-        id: 1,
-        name: "Communication",
-        matcher: true,
-        subReqs: [],
-        subCourses: [
-          {
-            id: 1,
-            prefix: "RHET",
-            number: "1302",
-            name: "Rhetoric",
-          },
-          {
-            id: 2,
-            prefix: "ECS",
-            number: "2390",
-            name: "Professional and Technical Communication",
-          },
-        ],
-        condition: "6 Hours",
-      },
-    ],
-    subCourses: [],
-    condition: "All Blocks",
-  },
-  { 
-    id: 2,
-    name: "Major",
-    matcher: false,
-    subReqs: [
-      {
-        id: 1,
-        name: "Major Preparatory Courses",
-        matcher: false,
-        subReqs: [
-          {
-            id: 1,
-            name: "MATH SEQUENCE",
-            matcher: false,
-            subReqs: [
-              {
-                id: 1,
-                name: "Sequence 1",
-                matcher: false,
-                subReqs: [],
-                subCourses: [
-                  {
-                    id: 1,
-                    prefix: "MATH",
-                    number: "2413",
-                    name: "Differential Calculus",
-                  },
-                  {
-                    id: 2,
-                    prefix: "MATH",
-                    number: "2414",
-                    name: "Integral Calculus",
-                  },
-                ],
-                condition: "All Blocks",
-              },
-              {
-                id: 2,
-                name: "Sequence 2",
-                matcher: false,
-                subReqs: [],
-                subCourses: [
-                  {
-                    id: 1,
-                    prefix: "MATH",
-                    number: "2417",
-                    name: "Calculus I",
-                  },
-                  {
-                    id: 2,
-                    prefix: "MATH",
-                    number: "2419",
-                    name: "Calculus II",
-                  },
-                ],
-                condition: "All Blocks",
-              },
-            ],
-            subCourses: [],
-            condition: "1 Block",
-          },
-        ],
-        subCourses: [
-          {
-            id: 1,
-            prefix: "ECS",
-            number: "1100",
-            name: "Introduction to Engineering and Computer Science",
-          },
-          {
-            id: 2,
-            prefix: "CS",
-            number: "1200",
-            name: "Introduction to Computer Science and Software Engineering",
-          },
-        ],
-        condition: "24 Hours Beyond Core",
-      },
-      {
-        id: 2,
-        name: "Major Core Courses",
-        matcher: false,
-        subReqs: [],
-        subCourses: [
-          {
-            id: 1,
-            prefix: "CS",
-            number: "3162",
-            name: "Professional Responsibility in Computer Science and Software Engineering",
-          },
-          {
-            id: 2,
-            prefix: "CS",
-            number: "3341",
-            name: "Probability and Statistics in Computer Science and Software Engineering",
-          },
-        ],
-        condition: "36 Hours Beyond Core",
-      },
-      {
-        id: 3,
-        name: "Major Technical Electives",
-        matcher: true,
-        subReqs: [],
-        subCourses: [
-          {
-            id: 1,
-            prefix: "CS",
-            number: "4314",
-            name: "Intelligent Systems Analysis",
-          },
-          {
-            id: 2,
-            prefix: "CS",
-            number: "4315",
-            name: "Intelligent Systems Design",
-          },
-        ],
-        condition: "12 Hours",
-      },
-    ],
-    subCourses: [],
-    condition: "All Blocks",
-  },
-  { 
-    id: 3,
-    name: "Electives",
-    matcher: true,
-    subReqs: [],
-    subCourses: [],
-    condition: "10 Hours",
-  },
-  { 
-    id: 4,
-    name: "Unrelated Courses",
-    matcher: true,
-    subReqs: [],
-    subCourses: [],
-    condition: "",
-  },
-]
+const defaultBlock : Block = {
+    block_id: "",
+    block_name: "",
+    parent_block_id: "",
+    block_position: 0,
+    inner_blocks: [],
+    blockType: {
+      id: "",
+      type: 'NonTerminal',
+      conditions: {},
+    },
+}
 
 const footnotes : string[] = [
   "1. Curriculum Requirements can be fulfilled by other approved courses. The courses listed are recommended as the most efficient way to satisfy both Core Curriculum and Major Requirements at UT Dallas.",
@@ -186,15 +26,76 @@ const footnotes : string[] = [
   "7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
 ]
 
+function parseBlock(data: any) {
+  let block = defaultBlock
+
+  block.block_id = data.block_id
+  block.block_name = data.block_name
+  block.parent_block_id = data.parent_block_id
+  block.block_position = data.block_position
+  
+  // Will become a switch with other types
+  if ('NonTerminalBlock' in data) {
+    block.blockType = {
+      id: data.NonTerminalBlock.id,
+      type: 'NonTerminal',
+      conditions: data.NonTerminalBlock.conditions,
+    }
+  }
+
+  if ('CourseBlock' in data) {
+    block.blockType = {
+      id: data.CourseBlock.id,
+      type: 'Course',
+      number: data.CourseBlock.number,
+      prefix: data.CourseBlock.prefix,
+    }
+  }
+
+  // If the block is non terminal then generate all inner blocks
+  if (block.blockType.type === 'NonTerminal') {
+    Object.values(data.inner_blocks).forEach(inner => {
+      block.inner_blocks.push(parseBlock(inner))
+    })
+  }
+  return block
+}
+
+function parseDegree(data: any) {
+  
+  let degree : Degree = {
+    RootBlock: {
+    block_id: "",
+    block_name: "",
+    parent_block_id: "",
+    block_position: 0,
+    inner_blocks: [],
+    blockType: {
+        id: "",
+        type: 'NonTerminal',
+        conditions: {},
+      },
+    },
+    block_id: "",
+    degree_name: "",
+    degree_year: "",
+  }
+  
+  degree.RootBlock = parseBlock(data.RootBlock)
+  degree.block_id = data.block_id
+  degree.degree_name = data.degree_name
+  degree.degree_year = data.degree_year
+  
+  return degree
+}
 
 function RequirementWindow() {
-
-    const [d, setD] = useState({})
+    const [d, setD] = useState<Degree>({RootBlock: defaultBlock, block_id: "a", degree_name: "b", degree_year: "c"})
     useEffect(() => {
         async function fetchData() {
             try {
                 const resp = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
-                setD(resp.data);
+                setD(parseDegree(resp.data));
             } catch (error) {
                 console.log(error)
             }
@@ -203,21 +104,25 @@ function RequirementWindow() {
     }, [])
 
     useEffect(() => {
+        console.log("Updated Version?")
         console.log(d)
     }, [d]);
-
-
-
+    
 
     return (
         <> 
             <div className="flex flex-col gap-[8px]">
+            {Object.values(d.RootBlock.inner_blocks || {}).map((inner) => 
+              <RequirementBlock key={inner.block_id} requirement={inner} depth={1} checkbox={false}></RequirementBlock>
+            )}
+
+            {/* 
             {reqList.map((req) =>
                 <>
                     <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={false}></RequirementBlock>
-                    {/* <RequirementBlock key={req.id} requirement={req} depth={1} checkbox={true}></RequirementBlock> */}
                 </>
             )}
+            */}
 
             {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
             {footnotes.map((footnote) =>

@@ -1,11 +1,11 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/24/solid"
-import { Requirement } from "../../types/degreeTest"
+import { Block } from "../../types/degreeTest"
 import ProgressBar from "./ProgressBar"
 import RequirementCourse from "./RequirementCourse"
 import { useState } from "react"
 
-function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirement, depth: number, checkbox: boolean}) {
+function RequirementBlock({requirement, depth, checkbox}: {requirement: Block, depth: number, checkbox: boolean}) {
   
 
   // Extremely ugly, just testing understanding
@@ -27,6 +27,7 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
     3, // getUnplanned()
   ]
 
+  /*
   let conditionType = ""
   const conditions = requirement.condition.split(" ")
   switch (conditions[0]) {
@@ -46,6 +47,7 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
       }
       break;
   }
+  */
 
   return (
     <>
@@ -59,7 +61,7 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
               </DisclosureButton>
 
               {/* Text does not truncate or turn to ellipses*/}
-              <p className="line-clamp-1 justify-self-start">{requirement.name}</p>
+              <p className="line-clamp-1 justify-self-start">{requirement.block_name}</p>
             </div>
             <div className="flex flex-row ml-auto items-center justify-self-end mr-[8px] gap-[8px]">
               <ProgressBar progress={progress}></ProgressBar>
@@ -77,7 +79,24 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
             </div>
           </div>
           <DisclosurePanel className="flex flex-col gap-[12px] col-span-6">
-            <p>{requirement.condition != "" ? "Complete " + requirement.condition : ""}</p>
+            {/* <p>{requirement.condition != "" ? "Complete " + requirement.condition : ""}</p> */}
+            <p>{Object.values(requirement.inner_blocks).length}</p>
+            {Object.values(requirement.inner_blocks).length != 0 &&
+              <>
+                {Object.values(requirement.inner_blocks).map((inner) => {
+                    if (Object.values(inner.inner_blocks).length != 0) {
+                      <RequirementBlock key={inner.block_id} requirement={inner} depth={depth + 1} checkbox={false}></RequirementBlock>
+                    }
+                    else {
+                      if (inner.blockType.type == 'Course') {
+                        <RequirementCourse key={inner.block_id} course={inner.blockType} name={inner.block_name}></RequirementCourse>
+                      }
+                    }
+                  }
+                )}
+              </>
+            }
+            {/*
             {requirement.subReqs.length != 0 &&
               <>
                 {requirement.subReqs.map((req) =>
@@ -92,7 +111,8 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Requirem
                 )}
               </>
             }
-            {requirement.matcher && <RequirementCourse course={{id: -1, prefix: "Add", number: "More", name: "Courses"}}></RequirementCourse>}
+            */}
+            {/* requirement.matcher && <RequirementCourse course={{id: -1, prefix: "Add", number: "More", name: "Courses"}}></RequirementCourse> */}
           </DisclosurePanel>
         </Disclosure>
       </div>
