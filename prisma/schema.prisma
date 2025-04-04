@@ -180,6 +180,7 @@ model DegreePlan {
     Degree            Degree             @relation(fields: [degree_id], references: [block_id])
     degree_id         String             @map("degree_id")
     DegreePlanCourses DegreePlanCourse[]
+    selection_options Json               @map("selection_options")
 
     @@map("degree_plan")
 }
@@ -192,8 +193,8 @@ enum SemesterTerm {
 
 model DegreePlanCourse {
     id                        String        @id @default(cuid()) @map("id")
-    degree_id                 String        @map("degree_id")
-    DegreePlan                DegreePlan    @relation(fields: [degree_id], references: [id])
+    degree_plan_id            String        @map("degree_id")
+    DegreePlan                DegreePlan    @relation(fields: [degree_plan_id], references: [id])
     Course                    Course        @relation(fields: [prefix, number], references: [prefix, number])
     prefix                    String        @map("prefix")
     number                    String        @map("number")
