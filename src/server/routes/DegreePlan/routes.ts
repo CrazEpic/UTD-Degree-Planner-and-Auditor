@@ -113,15 +113,10 @@ router.delete("/removeCourse", async (req, res) => {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
 	const { id } = data
-	try {
-		const degreePlanCourse = await req.context.prisma.degreePlanCourse.delete({
-			where: { id: id },
-		})
-		res.json(degreePlanCourse)
-	} catch (error) {
-		console.log(error)
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error removing class")
-	}
+	const degreePlanCourse = await req.context.prisma.degreePlanCourse.delete({
+		where: { id: id },
+	})
+	res.json(degreePlanCourse)
 })
 
 router.put("/updateCourseSemester", async (req, res) => {

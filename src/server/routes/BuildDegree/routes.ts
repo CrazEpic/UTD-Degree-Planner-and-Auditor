@@ -113,15 +113,10 @@ router.delete("/deleteBlock", async (req, res) => {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
 	const { block_id } = data
-	try {
-		const block = await req.context.prisma.blockRequirement.delete({
-			where: { block_id: block_id },
-		})
-		res.json(block)
-	} catch (error) {
-		console.log(error)
-		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error deleting block")
-	}
+	const block = await req.context.prisma.blockRequirement.delete({
+		where: { block_id: block_id },
+	})
+	res.json(block)
 })
 
 router.put("/updateBlockName", async (req, res) => {
