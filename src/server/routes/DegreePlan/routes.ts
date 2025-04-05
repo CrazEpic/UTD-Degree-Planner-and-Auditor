@@ -3,7 +3,7 @@ import { Router } from "express"
 import { z } from "zod"
 const router = Router()
 
-router.get("/:id", async (req, res) => {
+router.get("/:degreePlanID", async (req, res) => {
 	const { data, error } = z
 		.object({
 			degreePlanID: z.string(),
@@ -143,6 +143,97 @@ router.put("/updateCourseSemester", async (req, res) => {
 		},
 	})
 	res.json(degreePlanCourse)
+})
+
+router.get("/:degreePlanID/getAllCourseToRequirementBlockLinks", async (req, res) => {
+	const { data, error } = z
+		.object({
+			degreePlanID: z.string(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.params)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { degreePlanID } = data
+	const degreePlanCourseCreditHourClaims = await req.context.prisma.degreePlanCourseCreditHourClaim.findMany({
+		where: {
+			DegreePlanCourse: {
+				DegreePlan: {
+					degreePlanID: degreePlanID,
+				},
+			},
+		},
+		include: {
+			DegreePlanCourse: true,
+			Block: true,
+		},
+	})
+	res.json(degreePlanCourseCreditHourClaims)
+})
+	
+
+// TODO: check for terminal block
+router.put("/linkCourseToRequirementBlock", async (req, res) => {
+	const { data, error } = z
+		.object({
+			degreePlanCourseID: z.string(),
+			blockID: z.string(),
+			credit: z.number().int().nonnegative(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { degreePlanCourseID, blockID, credit } = data
+	const degreePlanCourseCreditHourClaim = await req.context.prisma.degreePlanCourseCreditHourClaim.upsert({
+		where: {
+			degreePlanCourseCreditHourClaimID: {
+				degreePlanCourseID: degreePlanCourseID,
+				blockID: blockID,
+			},
+		},
+		update: {
+			credit: credit,
+		},
+		create: {
+			credit: credit,
+			DegreePlanCourse: {
+				connect: { degreePlanCourseID: degreePlanCourseID },
+			},
+			Block: {
+				connect: { blockID: blockID },
+			},
+		},
+	})
+	res.json(degreePlanCourseCreditHourClaim)
+})
+
+router.delete("/unlinkCourseFromRequirementBlock", async (req, res) => {
+	const { data, error } = z
+		.object({
+			degreePlanCourseID: z.string(),
+			blockID: z.string(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { degreePlanCourseID, blockID } = data
+	const degreePlanCourseCreditHourClaim = await req.context.prisma.degreePlanCourseCreditHourClaim.delete({
+		where: {
+			degreePlanCourseCreditHourClaimID: {
+				degreePlanCourseID: degreePlanCourseID,
+				blockID: blockID,
+			},
+		},
+	})
+	res.json(degreePlanCourseCreditHourClaim)
 })
 
 export default router
