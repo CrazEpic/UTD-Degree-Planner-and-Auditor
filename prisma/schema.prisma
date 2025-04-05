@@ -152,12 +152,13 @@ model User {
 }
 
 model TestCredit {
-    TestEquivalency   TestEquivalency @relation(fields: [test_component_id], references: [test_component_id])
-    test_component_id String          @map("test_component_id")
-    user_id           String          @map("user_id")
-    User              User            @relation(fields: [user_id], references: [user_id])
+    id                String             @id @default(cuid()) @map("id")
+    TestEquivalency   TestEquivalency    @relation(fields: [test_component_id], references: [test_component_id])
+    test_component_id String             @map("test_component_id")
+    user_id           String             @map("user_id")
+    User              User               @relation(fields: [user_id], references: [user_id])
+    DegreePlanCourse  DegreePlanCourse[]
 
-    @@id(name: "testCreditID", [test_component_id, user_id])
     @@map("test_credit")
 }
 
@@ -168,6 +169,7 @@ model TransferCredit {
     TransferCourseEquivalency TransferCourseEquivalency @relation(fields: [external_school, external_course_id], references: [external_school, external_course_id])
     external_school           String                    @map("external_school")
     external_course_id        String                    @map("external_course_id")
+    DegreePlanCourse          DegreePlanCourse[]
 
     @@map("transfer_credit")
 }
@@ -192,19 +194,21 @@ enum SemesterTerm {
 }
 
 model DegreePlanCourse {
-    id                        String        @id @default(cuid()) @map("id")
-    degree_plan_id            String        @map("degree_id")
-    DegreePlan                DegreePlan    @relation(fields: [degree_plan_id], references: [id])
-    Course                    Course        @relation(fields: [prefix, number], references: [prefix, number])
-    prefix                    String        @map("prefix")
-    number                    String        @map("number")
+    id                        String          @id @default(cuid()) @map("id")
+    degree_plan_id            String          @map("degree_id")
+    DegreePlan                DegreePlan      @relation(fields: [degree_plan_id], references: [id])
+    Course                    Course          @relation(fields: [prefix, number], references: [prefix, number])
+    prefix                    String          @map("prefix")
+    number                    String          @map("number")
     // only applicable for courses at utd
-    semester_year             String?       @map("semester")
-    semester_term             SemesterTerm? @map("term")
+    semester_year             String?         @map("semester")
+    semester_term             SemesterTerm?   @map("term")
     // only applicable for transfer credits
-    transfer_credit_course_id String?       @map("transfer_credit_course_id")
+    TransferCredit            TransferCredit? @relation(fields: [transfer_credit_course_id], references: [id])
+    transfer_credit_course_id String?         @map("transfer_credit_course_id")
     // only applicable for test credits
-    test_credit_course_id     String?       @map("test_credit_course_id")
+    TestCredit                TestCredit?     @relation(fields: [test_credit_course_id], references: [id])
+    test_credit_course_id     String?         @map("test_credit_course_id")
 
     DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
 
