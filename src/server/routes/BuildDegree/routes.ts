@@ -22,11 +22,11 @@ router.post("/degree", async (req, res) => {
 	const { name, year } = data
 	const degree = await req.context.prisma.degree.create({
 		data: {
-			degree_name: name,
-			degree_year: year,
+			degreeName: name,
+			degreeYear: year,
 			RootBlock: {
 				create: {
-					block_name: "Default Root Block", // Replace with appropriate default values
+					blockName: "Default Root Block", // Replace with appropriate default values
 				},
 			},
 		},
@@ -37,12 +37,12 @@ router.post("/degree", async (req, res) => {
 router.post("/insertBlockAtPosition", async (req, res) => {
 	const { data, error } = z
 		.object({
-			parent_block_id: z.string(),
+			parentBlockID: z.string(),
 			position: z.number().nonnegative(),
-			block_type_information: z.discriminatedUnion("block_type", [
-				z.object({ block_type: z.literal("NONTERMINAL") }),
-				z.object({ block_type: z.literal("COURSE"), prefix: z.string(), number: z.string() }),
-				z.object({ block_type: z.literal("TEXT") }),
+			blockTypeInformation: z.discriminatedUnion("blockType", [
+				z.object({ blockType: z.literal("NONTERMINAL") }),
+				z.object({ blockType: z.literal("COURSE"), prefix: z.string(), number: z.string() }),
+				z.object({ blockType: z.literal("TEXT") }),
 			]),
 		})
 		.strict()
@@ -51,30 +51,30 @@ router.post("/insertBlockAtPosition", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { parent_block_id, position, block_type_information } = data
-	const { block_type } = block_type_information
+	const { parentBlockID, position, blockTypeInformation } = data
+	const { blockType } = blockTypeInformation
 	// fix positions of other blocks with same parent
 	await req.context.prisma.blockRequirement.updateMany({
 		where: {
-			parent_block_id: parent_block_id,
-			block_position: { gte: position },
+			parentBlockID: parentBlockID,
+			blockPosition: { gte: position },
 		},
 		data: {
-			block_position: { increment: 1 },
+			blockPosition: { increment: 1 },
 		},
 	})
 	const block = await req.context.prisma.blockRequirement.create({
 		data: {
-			block_name: "New Block",
-			block_position: position,
-			parent_block_id: parent_block_id,
+			blockName: "New Block",
+			blockPosition: position,
+			parentBlockID: parentBlockID,
 		},
 	})
-	switch (block_type) {
+	switch (blockType) {
 		case "NONTERMINAL":
 			await req.context.prisma.nonterminalBlock.create({
 				data: {
-					id: block.block_id,
+					id: block.blockID,
 					conditions: {},
 				},
 			})
@@ -82,16 +82,16 @@ router.post("/insertBlockAtPosition", async (req, res) => {
 		case "COURSE":
 			await req.context.prisma.courseBlock.create({
 				data: {
-					id: block.block_id,
-					prefix: block_type_information.prefix,
-					number: block_type_information.number,
+					id: block.blockID,
+					prefix: blockTypeInformation.prefix,
+					number: blockTypeInformation.number,
 				},
 			})
 			break
 		case "TEXT":
 			await req.context.prisma.textBlock.create({
 				data: {
-					id: block.block_id,
+					id: block.blockID,
 				},
 			})
 			break
@@ -104,7 +104,7 @@ router.post("/insertBlockAtPosition", async (req, res) => {
 router.delete("/deleteBlock", async (req, res) => {
 	const { data, error } = z
 		.object({
-			block_id: z.string(),
+			blockID: z.string(),
 		})
 		.strict()
 		.required()
@@ -112,9 +112,9 @@ router.delete("/deleteBlock", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { block_id } = data
+	const { blockID } = data
 	const block = await req.context.prisma.blockRequirement.delete({
-		where: { block_id: block_id },
+		where: { blockID: blockID },
 	})
 	res.json(block)
 })
@@ -122,8 +122,8 @@ router.delete("/deleteBlock", async (req, res) => {
 router.put("/updateBlockName", async (req, res) => {
 	const { data, error } = z
 		.object({
-			block_id: z.string(),
-			block_name: z.string(),
+			blockID: z.string(),
+			blockName: z.string(),
 		})
 		.strict()
 		.required()
@@ -131,10 +131,10 @@ router.put("/updateBlockName", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { block_id, block_name } = data
+	const { blockID, blockName } = data
 	const block = await req.context.prisma.blockRequirement.update({
-		where: { block_id: block_id },
-		data: { block_name: block_name },
+		where: { blockID: blockID },
+		data: { blockName: blockName },
 	})
 	res.json(block)
 })
@@ -142,7 +142,7 @@ router.put("/updateBlockName", async (req, res) => {
 router.put("/updateTextBlock", async (req, res) => {
 	const { data, error } = z
 		.object({
-			block_id: z.string(),
+			blockID: z.string(),
 			text: z.string(),
 		})
 		.strict()
@@ -151,9 +151,9 @@ router.put("/updateTextBlock", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { block_id, text } = data
+	const { blockID, text } = data
 	const block = await req.context.prisma.textBlock.update({
-		where: { id: block_id },
+		where: { id: blockID },
 		data: { text: text },
 	})
 	res.json(block)
@@ -162,7 +162,7 @@ router.put("/updateTextBlock", async (req, res) => {
 router.put("/updateNonterminalBlockCondition", async (req, res) => {
 	const { data, error } = z
 		.object({
-			block_id: z.string(),
+			blockID: z.string(),
 			conditions: z
 				.object({
 					blockFulfillmentCondition: z
@@ -201,9 +201,9 @@ router.put("/updateNonterminalBlockCondition", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { block_id, conditions } = data
+	const { blockID, conditions } = data
 	const block = await req.context.prisma.nonterminalBlock.update({
-		where: { id: block_id },
+		where: { id: blockID },
 		data: { conditions: conditions },
 	})
 	res.json(block)

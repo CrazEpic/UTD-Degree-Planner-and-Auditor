@@ -6,7 +6,7 @@ const router = Router()
 router.get("/:id", async (req, res) => {
 	const { data, error } = z
 		.object({
-			id: z.string(),
+			degreePlanID: z.string(),
 		})
 		.strict()
 		.required()
@@ -14,22 +14,22 @@ router.get("/:id", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { id } = data
+	const { degreePlanID } = data
 	const degreePlan = await req.context.prisma.degreePlan.findUnique({
-		where: { id: id },
+		where: { degreePlanID: degreePlanID },
 		include: { DegreePlanCourses: true },
 	})
 	res.json(degreePlan)
 })
 
-// probably change user_id to be in the cookie instead
+// probably change userID to be in the cookie instead
 router.post("/", async (req, res) => {
 	const { data, error } = z
 		.object({
-			user_id: z.string(),
-			degree_id: z.object({
-				degree_name: z.string(),
-				degree_year: z.string(),
+			userID: z.string(),
+			degreeID: z.object({
+				degreeName: z.string(),
+				degreeYear: z.string(),
 			}),
 			name: z.string(),
 		})
@@ -39,19 +39,19 @@ router.post("/", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { user_id, degree_id, name } = data
+	const { userID, degreeID, name } = data
 	const degreePlan = await req.context.prisma.degreePlan.create({
 		data: {
 			name: name,
-			selection_options: {},
+			selectionOptions: {},
 			User: {
-				connect: { user_id: user_id },
+				connect: { userID: userID },
 			},
 			Degree: {
 				connect: {
-					degree_id: {
-						degree_name: degree_id.degree_name,
-						degree_year: degree_id.degree_year,
+					degreeID: {
+						degreeName: degreeID.degreeName,
+						degreeYear: degreeID.degreeYear,
 					},
 				},
 			},
@@ -64,14 +64,14 @@ router.post("/", async (req, res) => {
 router.post("/addCourse", async (req, res) => {
 	const { data, error } = z
 		.object({
-			degree_plan_id: z.string(),
+			degreePlanID: z.string(),
 			course: z.object({
 				prefix: z.string(),
 				number: z.string(),
 			}),
 			semester: z.object({
-				semester_term: z.enum(["FALL", "SPRING", "SUMMER"]),
-				semester_year: z.string(),
+				semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
+				semesterYear: z.string(),
 			}),
 		})
 		.strict()
@@ -80,21 +80,21 @@ router.post("/addCourse", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { degree_plan_id, course, semester } = data
+	const { degreePlanID, course, semester } = data
 	const degreePlanCourse = await req.context.prisma.degreePlanCourse.create({
 		data: {
-			semester_term: semester.semester_term,
-			semester_year: semester.semester_year,
+			semesterTerm: semester.semesterTerm,
+			semesterYear: semester.semesterYear,
 			Course: {
 				connect: {
-					course_id: {
+					courseID: {
 						prefix: course.prefix,
 						number: course.number,
 					},
 				},
 			},
 			DegreePlan: {
-				connect: { id: degree_plan_id },
+				connect: { degreePlanID: degreePlanID },
 			},
 		},
 	})
@@ -104,7 +104,7 @@ router.post("/addCourse", async (req, res) => {
 router.delete("/removeCourse", async (req, res) => {
 	const { data, error } = z
 		.object({
-			id: z.string(),
+			degreePlanCourseID: z.string(),
 		})
 		.strict()
 		.required()
@@ -112,9 +112,9 @@ router.delete("/removeCourse", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { id } = data
+	const { degreePlanCourseID } = data
 	const degreePlanCourse = await req.context.prisma.degreePlanCourse.delete({
-		where: { id: id },
+		where: { degreePlanCourseID: degreePlanCourseID },
 	})
 	res.json(degreePlanCourse)
 })
@@ -122,10 +122,10 @@ router.delete("/removeCourse", async (req, res) => {
 router.put("/updateCourseSemester", async (req, res) => {
 	const { data, error } = z
 		.object({
-			id: z.string(),
+			degreePlanCourseID: z.string(),
 			semester: z.object({
-				semester_term: z.enum(["FALL", "SPRING", "SUMMER"]),
-				semester_year: z.string(),
+				semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
+				semesterYear: z.string(),
 			}),
 		})
 		.strict()
@@ -134,12 +134,12 @@ router.put("/updateCourseSemester", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { id, semester } = data
+	const { degreePlanCourseID, semester } = data
 	const degreePlanCourse = await req.context.prisma.degreePlanCourse.update({
-		where: { id: id },
+		where: { degreePlanCourseID: degreePlanCourseID },
 		data: {
-			semester_term: semester.semester_term,
-			semester_year: semester.semester_year,
+			semesterTerm: semester.semesterTerm,
+			semesterYear: semester.semesterYear,
 		},
 	})
 	res.json(degreePlanCourse)

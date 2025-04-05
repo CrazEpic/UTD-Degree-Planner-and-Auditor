@@ -8,23 +8,21 @@ datasource db {
 }
 
 model TestEquivalency {
-    test_component_id          String       @id @map("test_component_id")
-    earned_score_minimum       Int          @map("earned_score_minimum")
-    earned_score_maximum       Int          @map("earned_score_maximum")
-    course_equivalency         Json         @map("course_equivalency")
-    max_claimable_credit_hours Int          @map("max_claimable_credit_hours")
-    TestCredit                 TestCredit[]
+    testComponentID         String       @id @map("test_component_id")
+    courseEquivalency       Json         @map("course_equivalency")
+    maxClaimableCreditHours Int          @map("max_claimable_credit_hours")
+    TestCredit              TestCredit[]
 
     @@map("test_equivalency")
 }
 
 model TransferCourseEquivalency {
-    external_school    String           @map("external_school")
-    external_course_id String           @map("external_course_id")
-    course_equivalency Json             @map("course_equivalency")
-    TransferCredit     TransferCredit[]
+    externalSchool    String           @map("external_school")
+    externalCourseID  String           @map("external_course_id")
+    courseEquivalency Json             @map("course_equivalency")
+    TransferCredit    TransferCredit[]
 
-    @@id([external_school, external_course_id])
+    @@id(name: "transferCourseEquivalencyID", [externalSchool, externalCourseID])
     @@map("transfer_course_equivalency")
 }
 
@@ -33,42 +31,42 @@ model Course {
     number                 String              @map("number")
     name                   String              @map("name")
     CourseBlocks           CourseBlock[]
-    CoreCurriculumArea     CoreCurriculumArea? @relation(fields: [coreCurriculumAreaName], references: [name])
+    CoreCurriculumArea     CoreCurriculumArea? @relation(fields: [coreCurriculumAreaName], references: [coreCurriculumAreaName])
     coreCurriculumAreaName String?             @map("core_curriculum_area_name")
     DegreePlanCourses      DegreePlanCourse[]
     // TODO: should I not be lazy and make actual tables for these?
     requisites             Json                @map("requisites")
 
-    @@id(name: "course_id", [prefix, number])
+    @@id(name: "courseID", [prefix, number])
     @@map("course")
 }
 
 model CoreCurriculumArea {
-    name    String   @id @map("name")
-    Courses Course[]
+    coreCurriculumAreaName String   @id @map("core_curriculum_area_name")
+    Courses                Course[]
 
     @@map("core_curriculum_area")
 }
 
 model Degree {
-    degree_name String           @map("degree_name")
-    degree_year String           @map("degree_year")
-    RootBlock   BlockRequirement @relation(fields: [block_id], references: [block_id])
-    block_id    String           @unique @map("block_id")
-    DegreePlan  DegreePlan[]
+    degreeName String           @map("degree_name")
+    degreeYear String           @map("degree_year")
+    RootBlock  BlockRequirement @relation(fields: [blockID], references: [blockID])
+    blockID    String           @unique @map("block_id")
+    DegreePlan DegreePlan[]
 
-    @@id(name: "degree_id", [degree_name, degree_year])
+    @@id(name: "degreeID", [degreeName, degreeYear])
     @@map("degree")
 }
 
 model BlockRequirement {
-    block_id          String             @id @default(cuid()) @map("block_id")
-    block_name        String             @map("block_name")
-    parent_block_id   String?            @map("parent_block_id")
-    ParentBlock       BlockRequirement?  @relation("BlockHierarchy", fields: [parent_block_id], references: [block_id], onDelete: Cascade)
+    blockID           String             @id @default(cuid()) @map("block_id")
+    blockName         String             @map("block_name")
+    parentBlockID     String?            @map("parent_block_id")
+    ParentBlock       BlockRequirement?  @relation("BlockHierarchy", fields: [parentBlockID], references: [blockID], onDelete: Cascade)
     InnerBlocks       BlockRequirement[] @relation("BlockHierarchy")
     // TODO: use lexoranking for ordering
-    block_position    Int                @default(1) @map("block_position")
+    blockPosition     Int                @default(1) @map("block_position")
     // PLEASE ONLY USE ONE AND ONLY ONE OF THE BLOCKS BELOW
     NonterminalBlock  NonterminalBlock?
     CourseBlock       CourseBlock?
@@ -85,7 +83,7 @@ model BlockRequirement {
 
 model NonterminalBlock {
     id         String           @id @default(cuid()) @map("id")
-    Block      BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    Block      BlockRequirement @relation(fields: [id], references: [blockID], onDelete: Cascade)
     conditions Json             @map("conditions")
 
     @@map("nonterminal_block")
@@ -93,7 +91,7 @@ model NonterminalBlock {
 
 model CourseBlock {
     id     String           @id @default(cuid()) @map("id")
-    Block  BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    Block  BlockRequirement @relation(fields: [id], references: [blockID], onDelete: Cascade)
     Course Course           @relation(fields: [prefix, number], references: [prefix, number])
     prefix String           @map("prefix")
     number String           @map("number")
@@ -103,7 +101,7 @@ model CourseBlock {
 
 model TextBlock {
     id    String           @id @default(cuid()) @map("id")
-    Block BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    Block BlockRequirement @relation(fields: [id], references: [blockID], onDelete: Cascade)
     text  String           @default("") @map("text")
 
     @@map("text_block")
@@ -111,7 +109,7 @@ model TextBlock {
 
 model MatcherGroupBlock {
     id      String           @id @default(cuid()) @map("id")
-    Block   BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    Block   BlockRequirement @relation(fields: [id], references: [blockID], onDelete: Cascade)
     matcher Json             @map("matcher")
 
     @@map("matcher_group_block")
@@ -120,7 +118,7 @@ model MatcherGroupBlock {
 // assume Block.InnerBlocks has only two blocks, position 0 is false, 1 is true
 model FlagToggleBlock {
     id         String           @id @default(cuid()) @map("id")
-    Block      BlockRequirement @relation(fields: [id], references: [block_id], onDelete: Cascade)
+    Block      BlockRequirement @relation(fields: [id], references: [blockID], onDelete: Cascade)
     DegreeFlag DegreeFlag       @relation(fields: [flag_id], references: [id])
     flag_id    String           @map("flag")
 
@@ -142,7 +140,7 @@ model DegreeFlag {
 
 // TODO: implement multiple plans, for now, only support one plan for prototype
 model User {
-    user_id         String           @id @default(cuid())
+    userID          String           @id @default(cuid())
     username        String           @map("username")
     TestCredits     TestCredit[]
     TransferCredits TransferCredit[]
@@ -152,37 +150,38 @@ model User {
 }
 
 model TestCredit {
-    id                String             @id @default(cuid()) @map("id")
-    TestEquivalency   TestEquivalency    @relation(fields: [test_component_id], references: [test_component_id])
-    test_component_id String             @map("test_component_id")
-    user_id           String             @map("user_id")
-    User              User               @relation(fields: [user_id], references: [user_id])
-    DegreePlanCourse  DegreePlanCourse[]
+    TestEquivalency  TestEquivalency    @relation(fields: [testComponentID], references: [testComponentID])
+    testComponentID  String             @map("test_component_id")
+    userID           String             @map("user_id")
+    User             User               @relation(fields: [userID], references: [userID])
+    DegreePlanCourse DegreePlanCourse[]
 
+    @@id(name: "testCreditID", [userID, testComponentID])
     @@map("test_credit")
 }
 
 model TransferCredit {
-    id                        String                    @id @default(cuid()) @map("id")
-    user_id                   String                    @map("user_id")
-    User                      User                      @relation(fields: [user_id], references: [user_id])
-    TransferCourseEquivalency TransferCourseEquivalency @relation(fields: [external_school, external_course_id], references: [external_school, external_course_id])
-    external_school           String                    @map("external_school")
-    external_course_id        String                    @map("external_course_id")
+    userID                    String                    @map("user_id")
+    User                      User                      @relation(fields: [userID], references: [userID])
+    TransferCourseEquivalency TransferCourseEquivalency @relation(fields: [externalSchool, externalCourseID], references: [externalSchool, externalCourseID])
+    externalSchool            String                    @map("external_school")
+    externalCourseID          String                    @map("external_course_id")
     DegreePlanCourse          DegreePlanCourse[]
 
+    @@id(name: "transferCreditID", [userID, externalSchool, externalCourseID])
     @@map("transfer_credit")
 }
 
 model DegreePlan {
-    id                String             @id @default(cuid()) @map("id")
-    user_id           String             @unique @map("user_id")
-    User              User               @relation(fields: [user_id], references: [user_id])
+    degreePlanID      String             @id @default(cuid()) @map("degree_plan_id")
+    userID            String             @unique @map("user_id")
+    User              User               @relation(fields: [userID], references: [userID])
     name              String             @map("name")
-    Degree            Degree             @relation(fields: [degree_id], references: [block_id])
-    degree_id         String             @map("degree_id")
+    Degree            Degree             @relation(fields: [degreeName, degreeYear], references: [degreeName, degreeYear])
+    degreeName        String             @map("degree_name")
+    degreeYear        String             @map("degree_year")
     DegreePlanCourses DegreePlanCourse[]
-    selection_options Json               @map("selection_options")
+    selectionOptions  Json               @map("selection_options")
 
     @@map("degree_plan")
 }
@@ -193,22 +192,26 @@ enum SemesterTerm {
     SUMMER
 }
 
+// has its own id because you can repeat a course for credit
 model DegreePlanCourse {
-    id                        String          @id @default(cuid()) @map("id")
-    degree_plan_id            String          @map("degree_id")
-    DegreePlan                DegreePlan      @relation(fields: [degree_plan_id], references: [id])
-    Course                    Course          @relation(fields: [prefix, number], references: [prefix, number])
-    prefix                    String          @map("prefix")
-    number                    String          @map("number")
+    degreePlanCourseID String          @id @default(cuid()) @map("degree_plan_course_id")
+    degreePlanID       String          @map("degree_id")
+    DegreePlan         DegreePlan      @relation(fields: [degreePlanID], references: [degreePlanID])
+    Course             Course          @relation(fields: [prefix, number], references: [prefix, number])
+    prefix             String          @map("prefix")
+    number             String          @map("number")
     // only applicable for courses at utd
-    semester_year             String?         @map("semester")
-    semester_term             SemesterTerm?   @map("term")
-    // only applicable for transfer credits
-    TransferCredit            TransferCredit? @relation(fields: [transfer_credit_course_id], references: [id])
-    transfer_credit_course_id String?         @map("transfer_credit_course_id")
+    semesterYear       String?         @map("semester")
+    semesterTerm       SemesterTerm?   @map("term")
+    // both test and transfer uses userID
+    userID             String?         @map("user_id")
     // only applicable for test credits
-    TestCredit                TestCredit?     @relation(fields: [test_credit_course_id], references: [id])
-    test_credit_course_id     String?         @map("test_credit_course_id")
+    TestCredit         TestCredit?     @relation(fields: [testComponentID, userID], references: [testComponentID, userID])
+    testComponentID    String?         @map("test_component_id")
+    // only applicable for transfer credits
+    TransferCredit     TransferCredit? @relation(fields: [externalSchool, externalCourseID, userID], references: [externalSchool, externalCourseID, userID])
+    externalSchool     String?         @map("external_school")
+    externalCourseID   String?         @map("external_course_id")
 
     DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
 
@@ -216,11 +219,11 @@ model DegreePlanCourse {
 }
 
 model DegreePlanCourseCreditHourClaim {
-    block_id              String           @map("block_id")
-    Block                 BlockRequirement @relation(fields: [block_id], references: [block_id])
-    DegreePlanCourse      DegreePlanCourse @relation(fields: [degree_plan_course_id], references: [id])
-    degree_plan_course_id String           @map("degree_plan_course_id")
-    credit                Int              @map("credit")
+    blockID            String           @map("block_id")
+    Block              BlockRequirement @relation(fields: [blockID], references: [blockID])
+    DegreePlanCourse   DegreePlanCourse @relation(fields: [degreePlanCourseID], references: [degreePlanCourseID])
+    degreePlanCourseID String           @map("degree_plan_course_id")
+    credit             Int              @map("credit")
 
-    @@id([degree_plan_course_id, block_id])
+    @@id(name: "degreePlanCourseCreditHourClaimID", [degreePlanCourseID, blockID])
 }

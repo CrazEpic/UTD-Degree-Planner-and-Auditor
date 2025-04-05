@@ -12,21 +12,31 @@ router.get("/degrees", async (req, res) => {
 router.get("/:name/:year", async (req, res) => {
 	const { name, year } = req.params
 	const degree = await req.context.prisma.degree.findUnique({
-		where: { degree_id: { degree_name: name, degree_year: year } },
+		where: { degreeID: { degreeName: name, degreeYear: year } },
 		include: { RootBlock: true },
 	})
 	if (!degree) {
 		return res.status(StatusCodes.NOT_FOUND).send("Degree not found")
 	}
 
-	// probably not a security issue because degree.degree_id is not directly controlled by client
-	const block = await req.context.prisma.$queryRaw`WITH RECURSIVE BlockHierarchy AS
-        (SELECT block_id, block_name, parent_block_id, block_position FROM block_requirement WHERE parent_block_id IS NULL AND block_id = ${degree.block_id}
+	// probably not a security issue because degree.degreeID is not directly controlled by client
+	const rawblock = await req.context.prisma.$queryRaw`WITH RECURSIVE BlockHierarchy AS
+        (SELECT block_id, block_name, parent_block_id, block_position FROM block_requirement WHERE parent_block_id IS NULL AND block_id = ${degree.blockID}
             UNION ALL
             SELECT b.block_id, b.block_name, b.parent_block_id, b.block_position FROM block_requirement b INNER JOIN BlockHierarchy bh ON b.parent_block_id = bh.block_id)
         SELECT * FROM BlockHierarchy`
+
+	// back to camelCase
+	const block = rawblock.map((b) => {
+		return {
+			blockID: b.block_id,
+			blockName: b.block_name,
+			parentBlockID: b.parent_block_id,
+			blockPosition: b.block_position,
+		}
+	})
 	// need to bring back typings for each block
-	const blockIDs = block.map((b) => b.block_id)
+	const blockIDs = block.map((b) => b.blockID)
 
 	const nonterminalBlocks = await req.context.prisma.nonterminalBlock.findMany({
 		where: { id: { in: blockIDs } },
@@ -46,45 +56,45 @@ router.get("/:name/:year", async (req, res) => {
 
 	// recursive query returns a flattened list, need to rebuild the tree structure
 	block.forEach((b) => {
-		b.inner_blocks = {} // initialize inner_blocks
-		const nonterminalBlock = nonterminalBlocks.find((nb) => nb.id === b.block_id)
+		b.innerBlocks = {} // initialize innerBlocks
+		const nonterminalBlock = nonterminalBlocks.find((nb) => nb.id === b.blockID)
 		if (nonterminalBlock) {
 			b.NonTerminalBlock = nonterminalBlock
 		}
-		const courseBlock = courseBlocks.find((cb) => cb.id === b.block_id)
+		const courseBlock = courseBlocks.find((cb) => cb.id === b.blockID)
 		if (courseBlock) {
 			b.CourseBlock = courseBlock
 		}
-		const textBlock = textBlocks.find((tb) => tb.id === b.block_id)
+		const textBlock = textBlocks.find((tb) => tb.id === b.blockID)
 		if (textBlock) {
 			b.TextBlock = textBlock
 		}
-		const matcherGroupBlock = matcherGroupBlocks.find((mgb) => mgb.id === b.block_id)
+		const matcherGroupBlock = matcherGroupBlocks.find((mgb) => mgb.id === b.blockID)
 		if (matcherGroupBlock) {
 			b.MatcherGroupBlock = matcherGroupBlock
 		}
-		const flagToggleBlock = flagToggleBlocks.find((ftb) => ftb.id === b.block_id)
+		const flagToggleBlock = flagToggleBlocks.find((ftb) => ftb.id === b.blockID)
 		if (flagToggleBlock) {
 			b.FlagToggleBlock = flagToggleBlock
 		}
 	})
-	const blocks_same_parent = Object.groupBy(block, (b) => b.parent_block_id)
+	const blocksSameParent = Object.groupBy(block, (b) => b.parentBlockID)
 	// sort the blocks by their position
-	Object.keys(blocks_same_parent).forEach((key) => {
-		blocks_same_parent[key].sort((a, b) => a.block_position - b.block_position)
+	Object.keys(blocksSameParent).forEach((key) => {
+		blocksSameParent[key].sort((a, b) => a.blockPosition - b.blockPosition)
 	})
 
-	const queue = [blocks_same_parent[null][0]] // start with the root block (parent_block_id is null)
+	const queue = [blocksSameParent[null][0]] // start with the root block (parentBlockID is null)
 	while (queue.length > 0) {
 		const currentBlock = queue.shift()
-		if (blocks_same_parent[currentBlock.block_id] === undefined) continue // if no children, skip
-		blocks_same_parent[currentBlock.block_id].forEach((b) => {
-			currentBlock.inner_blocks[b.block_id] = b
+		if (blocksSameParent[currentBlock.blockID] === undefined) continue // if no children, skip
+		blocksSameParent[currentBlock.blockID].forEach((b) => {
+			currentBlock.innerBlocks[b.blockID] = b
 			queue.push(b)
 		})
 	}
 
-	degree.RootBlock = blocks_same_parent[null][0]
+	degree.RootBlock = blocksSameParent[null][0]
 
 	res.send(degree)
 })
