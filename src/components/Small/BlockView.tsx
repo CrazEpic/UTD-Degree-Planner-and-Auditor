@@ -1,11 +1,11 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/24/solid"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, TextBlock } from "../../types/degreeTest"
-import ProgressBar from "./ProgressBar"
-import RequirementCourse from "./RequirementCourse"
+import ProgressBar from "./Requirements/ProgressBar"
+import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 
-function RequirementBlock({requirement, depth, checkbox}: {requirement: Block, depth: number, checkbox: boolean}) {
+function BlockView({requirement, depth, checkbox}: {requirement: Block, depth: number, checkbox: boolean}) {
   
     // Extremely ugly, just testing understanding
     const [selected, setSelected] = useState(false)
@@ -60,10 +60,10 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Block, d
                         {requirement.innerBlocks.map((inner) =>
                             <>
                                 {{  // Inline switch for the block types (Need to implement Text and FlagToggle)
-                                'NonTerminal': <RequirementBlock requirement={inner} depth={depth + 1} checkbox={false}></RequirementBlock>,
-                                'Course': <RequirementCourse course={inner.blockContent as CourseBlock} name={inner.blockName}></RequirementCourse>,
+                                'NonTerminal': <BlockView requirement={inner} depth={depth + 1} checkbox={false}></BlockView>,
+                                'Course': <CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName}></CourseBlockView>,
                                 'Text': <p>{(inner.blockContent as TextBlock).text}</p>,
-                                'MatcherGroup': <RequirementCourse course={inner.blockContent as CourseBlock} name={"Matcher"}></RequirementCourse>, // Probably doesn't work this way
+                                'MatcherGroup': <CourseBlockView course={inner.blockContent as CourseBlock} name={"Matcher"}></CourseBlockView>, // Probably doesn't work this way
                                 'FlagToggle': <p>{(inner.blockContent as FlagToggleBlock).flagId}</p>,
                                 } [inner.blockType] }
                             </>
@@ -75,4 +75,4 @@ function RequirementBlock({requirement, depth, checkbox}: {requirement: Block, d
     )
 }
 
-export default RequirementBlock
+export default BlockView

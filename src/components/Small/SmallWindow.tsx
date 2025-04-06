@@ -20,8 +20,7 @@ function SmallWindow() {
 							<RequirementWindow></RequirementWindow>
 						</TabPanel>
 						<TabPanel>
-							Prerequisite Window
-							<PrerequisiteWindow></PrerequisiteWindow>
+							<PrerequisiteWindow ></PrerequisiteWindow>
 						</TabPanel>
 					</TabPanels>
 				</TabGroup>

@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/solid"
 import { CourseBlock } from "../../types/degreeTest"
 
-function RequirementCourse({course, name}: {course: CourseBlock, name: string}) {
+function CourseBlockView({course, name}: {course: CourseBlock, name: string}) {
 
     {/* To be replaced with actual logic*/}
     const planned = Math.random() > 0.5
@@ -27,4 +27,4 @@ function RequirementCourse({course, name}: {course: CourseBlock, name: string}) 
     )
 }
 
-export default RequirementCourse
+export default CourseBlockView

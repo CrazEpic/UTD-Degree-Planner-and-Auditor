@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Block, Degree } from "../../types/degreeTest"
-import RequirementBlock from "./RequirementBlock"
+import { Block, Degree } from "../../../types/degreeTest"
+import BlockView from "../BlockView"
 import axios from "axios"
 
 function createDefaultBlock(): Block {
@@ -26,52 +26,48 @@ function parseBlock(data: any) : Block {
     block.parentBlockId = data.parentBlockId
     block.blockPosition = data.blockPosition
 
-    switch(true) {
-        case !!data.NonTerminalBlock:
-            block.blockType = 'NonTerminal'
-            block.blockContent = {
-                id: data.NonTerminalBlock.id,
-                conditions: data.NonTerminalBlock.conditions,
+    if(data.NonTerminalBlock) {
+        block.blockType = 'NonTerminal'
+        block.blockContent = {
+            id: data.NonTerminalBlock.id,
+            conditions: data.NonTerminalBlock.conditions,
+        }
+
+        if (data.innerBlocks && typeof data.innerBlocks === 'object') {
+            for (const inner of Object.values(data.innerBlocks)) {
+                block.innerBlocks.push(parseBlock(inner))
             }
-    
-            if (data.innerBlocks && typeof data.innerBlocks === 'object') {
-                for (const inner of Object.values(data.innerBlocks)) {
-                    block.innerBlocks.push(parseBlock(inner))
-                }
-            }
-            break;
-        case !!data.CourseBlock:
-            block.blockType = 'Course'
-            block.blockContent = {
-                id: data.CourseBlock.id,
-                number: data.CourseBlock.number,
-                prefix: data.CourseBlock.prefix,
-            }
-            break;
-        case !!data.TextBlock:
-            block.blockType = 'Text'
-            block.blockContent = {
-                id: data.TextBlock.id,
-                text: data.TextBlock.text,
-            }
-            break;
-        case !!data.MatcherGroupBlock:
-            block.blockType = 'MatcherGroup'
-            block.blockContent = {
-                id: data.MatcherGroupBlock.id,
-                matcher: data.MatcherGroupBlock.matcher,
-            }
-            break;
-        case !!data.FlagToggleBlock:
-            block.blockType = 'FlagToggle'
-            block.blockContent = {
-                id: data.FlagToggleBlock.id,
-                flag: data.FlagToggleBlock.flag,
-                flagId: data.FlagToggleBlock.flagId,
-            }
-            break;
-        default:
-            break;
+        }
+    }
+    else if (data.CourseBlock) {
+        block.blockType = 'Course'
+        block.blockContent = {
+            id: data.CourseBlock.id,
+            number: data.CourseBlock.number,
+            prefix: data.CourseBlock.prefix,
+        }
+    }
+    else if (data.TextBlock) {
+        block.blockType = 'Text'
+        block.blockContent = {
+            id: data.TextBlock.id,
+            text: data.TextBlock.text,
+        }
+    }
+    else if (data.MatcherGroupBlock) {
+        block.blockType = 'MatcherGroup'
+        block.blockContent = {
+            id: data.MatcherGroupBlock.id,
+            matcher: data.MatcherGroupBlock.matcher,
+        }
+    }
+    else if (data.FlagToggleBlock) {
+        block.blockType = 'FlagToggle'
+        block.blockContent = {
+            id: data.FlagToggleBlock.id,
+            flag: data.FlagToggleBlock.flag,
+            flagId: data.FlagToggleBlock.flagId,
+        }
     }
 
     return block
@@ -104,6 +100,7 @@ const footnotes : string[] = [
     "7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
 ]
 
+// Currently does not work because of camelCase change not merged
 function RequirementWindow() {
     const [d, setD] = useState<Degree>({RootBlock: createDefaultBlock(), blockId: "a", degreeName: "b", degreeYear: "c"})
     useEffect(() => {
@@ -118,12 +115,13 @@ function RequirementWindow() {
         }
         fetchData()
     }, [])
-
+    
     return (
         <> 
             <div className="flex flex-col gap-[8px]">
+                {/* d.blockId != "a" is for the default value*/}
                 {d.blockId != "a" && d.RootBlock.innerBlocks.map((inner: Block) => 
-                    <RequirementBlock key={inner.blockId} requirement={inner} depth={1} checkbox={false}></RequirementBlock>
+                    <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
 
                 {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
