@@ -1,3 +1,10 @@
+export type Course = {
+    prefix: string,
+    number: string,
+    name: string,
+    flag: string
+}
+
 export type Degree = {
     RootBlock: Block,
     blockId: string,
