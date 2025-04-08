@@ -7,15 +7,15 @@ type MatcherRequisite = {
 	condition: {
 		prefix?: string
 		level?: CourseLevel
-		min_grade?: string
-		min_credit_hours?: number
+		minGrade?: string
+		minCreditHours?: number
 	}
 }
 
 type CourseRequisite = {
 	type: "course"
-	course_id: string
-	min_grade?: string
+	courseID: string
+	minGrade?: string
 }
 
 type MajorRequisite = {
@@ -48,5 +48,5 @@ type RequisiteGroup = {
 export type Requisites = {
 	prequisites: RequisiteGroup
 	corequisites: RequisiteGroup
-	prerequires_or_corequisites: RequisiteGroup
+	prerequiresOrCorequisites: RequisiteGroup
 }

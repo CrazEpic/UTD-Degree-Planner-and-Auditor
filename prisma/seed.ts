@@ -18,7 +18,7 @@ const createCoreCurriculumAreas = async () => {
 	]
 	await prisma.coreCurriculumArea.createMany({
 		data: areas.map((area) => ({
-			name: area,
+			coreCurriculumAreaName: area,
 		})),
 	})
 }
@@ -27,7 +27,7 @@ const createCourses = async () => {
 	const emptyRequisites: Requisites = {
 		prequisites: { logicalOperator: "AND", requisites: [] },
 		corequisites: { logicalOperator: "AND", requisites: [] },
-		prerequires_or_corequisites: { logicalOperator: "AND", requisites: [] },
+		prerequiresOrCorequisites: { logicalOperator: "AND", requisites: [] },
 	}
 
 	await prisma.course.create({
@@ -55,29 +55,29 @@ const createCSDegree = async () => {
 
 	await prisma.degree.create({
 		data: {
-			degree_name: "Computer Science",
-			degree_year: "2025",
+			degreeName: "Computer Science",
+			degreeYear: "2025",
 			RootBlock: {
 				create: {
-					block_name: "Bachelor of Science in Computer Science (2025)",
+					blockName: "Bachelor of Science in Computer Science (2025)",
 					NonterminalBlock: {
 						create: { conditions: emptyConditions },
 					},
 					InnerBlocks: {
 						create: [
 							{
-								block_name: "I. Core Curriculum",
-								block_position: 1,
+								blockName: "I. Core Curriculum",
+								blockPosition: 1,
 								NonterminalBlock: { create: { conditions: emptyConditions } },
 								InnerBlocks: {
 									create: [
 										{
-											block_name: "Mathematics",
+											blockName: "Mathematics",
 											NonterminalBlock: { create: { conditions: emptyConditions } },
 											InnerBlocks: {
 												create: [
 													{
-														block_name: "Differential Calculus",
+														blockName: "Differential Calculus",
 														CourseBlock: {
 															create: {
 																prefix: "MATH",
@@ -92,8 +92,8 @@ const createCSDegree = async () => {
 								},
 							},
 							{
-								block_name: "II. Major Requirements",
-								block_position: 2,
+								blockName: "II. Major Requirements",
+								blockPosition: 2,
 								NonterminalBlock: { create: { conditions: emptyConditions } },
 							},
 						],
