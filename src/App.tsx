@@ -1,6 +1,6 @@
 import NavBar from "./components/NavBar"
-import LargeWindow from "./components/LargeWindow"
-import SmallWindow from "./components/SmallWindow"
+import LargeWindow from "./components/Large/LargeWindow"
+import SmallWindow from "./components/Small/SmallWindow"
  
 function App() {
 	return (
