@@ -6,7 +6,8 @@ import { log } from "./middleware/01.log"
 import { authentication } from "./middleware/02.authentication"
 import { authorization } from "./middleware/03.authorization"
 import { PrismaClient } from "@prisma/client"
-import router from "./routes/routes"
+import router from "./routes/routes.ts"
+import errorHandler from "./error.ts"
 
 interface Context {
 	permissions: { [id: string]: boolean }
@@ -49,6 +50,10 @@ app.use(authorization)
 
 // routes
 app.use("/api", router)
+
+// error handling middleware
+// this should be the last middleware
+app.use(errorHandler)
 
 app.listen(PORT, () => {
 	console.log(`Server is running on ${BASE_URL}`)
