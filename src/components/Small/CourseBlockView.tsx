@@ -1,10 +1,15 @@
 import { PlusIcon } from "@heroicons/react/24/solid"
 import { CourseBlock } from "../../types/degreeTest"
+import { Button } from "@headlessui/react"
+
+function click(message: string) {
+    console.log(message)
+}
 
 function CourseBlockView({course, name}: {course: CourseBlock, name: string}) {
 
-    {/* To be replaced with actual logic*/}
-    const planned = Math.random() > 0.5
+    {/* Replace with check in planned degree */}
+    const planned = false
 
     return (
         <div className="flex flex-row gap-[8px] border rounded-[10px] items-center justify-center p-[8px] pr-0 border-r-0 rounded-r-none">
@@ -17,9 +22,11 @@ function CourseBlockView({course, name}: {course: CourseBlock, name: string}) {
                     {name}
                 </p>
                 {planned ? (
-                    <PlusIcon className="size-[24px]  ml-auto mr-[15px]"></PlusIcon>
-                ) : (
                     <p className="underline ml-auto mr-[15px]">Planned</p>
+                ) : (
+                    <Button className="hover:bg-blue-200 size-[24px] ml-auto mr-[15px]" onClick={() => click("Add Course")}>
+                        <PlusIcon></PlusIcon>
+                    </Button>
                 )}
             </>
             )}
