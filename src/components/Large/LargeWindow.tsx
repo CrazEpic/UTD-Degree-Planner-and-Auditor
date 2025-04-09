@@ -31,15 +31,15 @@ function LargeWindow() {
               </MenuButton>
               <MenuItems className="absolute right-0 border-2 rounded-[10px] bg-white flex flex-col z-10">
                 <MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("One")}>
-                  Setting 1
+                	Setting 1
                 </MenuItem>
                 <hr />
                 <MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("Two")}>
-									Setting 2
+					Setting 2
                 </MenuItem>
                 <hr />
                 <MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("Three")}>
-									Setting 3
+					Setting 3
                 </MenuItem>
               </MenuItems>
             </Menu>
