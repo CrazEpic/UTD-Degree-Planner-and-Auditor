@@ -34,7 +34,7 @@ function PlannerSection({name, courseList}: {name: string, courseList: Course[]}
                     </div>
                 }
                 </div>
-                <div className="grid gap-[15px] p-[15px] pt-0 place-items-center" style={{gridTemplateColumns: "repeat(auto-fill, minmax(288px, 1fr))"}}>
+                <div className="grid gap-[15px] p-[15px] pt-0 place-items-center" style={{gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))"}}>
                     {courseList.map((course) => 
                         // Key could be the prefix + number (there should be no duplicate in a degree plan)
                         <PlannerCourse prefix={course.prefix} number={course.number} name={course.name} tag={course.flag}></PlannerCourse>
