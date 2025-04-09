@@ -119,7 +119,6 @@ function RequirementWindow() {
     return (
         <> 
             <div className="flex flex-col gap-[8px]">
-                <p>camelCase broke me :(</p>
                 {/* d.blockId != "a" is for the default value*/}
                 {d.blockId != "a" && d.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>

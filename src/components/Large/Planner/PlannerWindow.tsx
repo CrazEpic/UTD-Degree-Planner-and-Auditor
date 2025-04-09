@@ -41,8 +41,8 @@ const courseList : Course[] = [
         flag: ""
     },
     {
-        prefix: "MATH",
-        number: "4234",
+        prefix: "PHYS",
+        number: "5234",
         name: "Course Name",
         flag: ""
     },
