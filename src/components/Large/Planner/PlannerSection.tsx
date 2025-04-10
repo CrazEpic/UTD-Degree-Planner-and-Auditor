@@ -19,7 +19,7 @@ function click(message: string) {
 function PlannerSection({name, courseList}: {name: string, courseList: Course[]}) {
     return (
         <>
-            <div className="w-[100%-30px] border-3 rounded-[10px] mt-[15px]">
+            <div className="w-[100%-30px] border-3 rounded-[10px] min-h-52">
                 <div className="flex flex-row justify-between">
                 <h1 className="h-[30px] text-xl text-[#e87500] font-bold m-[15px]">{name}</h1>
                 {name != "Future Courses" && 

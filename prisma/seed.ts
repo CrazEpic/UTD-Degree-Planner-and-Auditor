@@ -117,7 +117,7 @@ const createCrazDegreePlan = async () => {
 		where: { username: "craz" },
 	})
 
-	await prisma.degreePlan.create({
+	const degreePlan = await prisma.degreePlan.create({
 		data: {
 			name: "Craz's Degree Plan",
 			startSemesterTerm: "FALL",
@@ -133,6 +133,24 @@ const createCrazDegreePlan = async () => {
 					degreeID: {
 						degreeName: "Computer Science",
 						degreeYear: "2025",
+					},
+				},
+			},
+		},
+	})
+
+	await prisma.degreePlanCourse.create({
+		data: {
+			semesterTerm: "FALL",
+			semesterYear: "2022",
+			DegreePlan: {
+				connect: { degreePlanID: degreePlan.degreePlanID },
+			},
+			Course: {
+				connect: {
+					courseID: {
+						prefix: "CS",
+						number: "1436",
 					},
 				},
 			},
