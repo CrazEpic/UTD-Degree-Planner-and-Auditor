@@ -174,6 +174,10 @@ model TransferCredit {
 
 model DegreePlan {
     degreePlanID      String             @id @default(cuid()) @map("degree_plan_id")
+    startSemesterTerm SemesterTerm       @map("start_semester_term")
+    startSemesterYear String             @map("start_semester_year")
+    endSemesterTerm   SemesterTerm       @map("end_semester_term")
+    endSemesterYear   String             @map("end_semester_year")
     userID            String             @unique @map("user_id")
     User              User               @relation(fields: [userID], references: [userID])
     name              String             @map("name")

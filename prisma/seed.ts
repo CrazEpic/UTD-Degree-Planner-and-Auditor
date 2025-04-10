@@ -112,11 +112,40 @@ const createUsers = async () => {
 	})
 }
 
+const createCrazDegreePlan = async () => {
+	const craz = await prisma.user.findFirst({
+		where: { username: "craz" },
+	})
+
+	await prisma.degreePlan.create({
+		data: {
+			name: "Craz's Degree Plan",
+			startSemesterTerm: "FALL",
+			startSemesterYear: "2022",
+			endSemesterTerm: "SPRING",
+			endSemesterYear: "2026",
+			selectionOptions: {},
+			User: {
+				connect: { userID: craz.userID },
+			},
+			Degree: {
+				connect: {
+					degreeID: {
+						degreeName: "Computer Science",
+						degreeYear: "2025",
+					},
+				},
+			},
+		},
+	})
+}
+
 const main = async () => {
 	await createCoreCurriculumAreas()
 	await createCourses()
 	await createCSDegree()
 	await createUsers()
+	await createCrazDegreePlan()
 	console.log(`Database has been seeded. 🌱`)
 }
 

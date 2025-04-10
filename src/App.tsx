@@ -1,17 +1,34 @@
 import NavBar from "./components/NavBar"
 import LargeWindow from "./components/Large/LargeWindow"
 import SmallWindow from "./components/Small/SmallWindow"
- 
+import { UserContext } from "./contexts/UserContext"
+import { useEffect, useState } from "react"
+import axios from "axios"
+
 function App() {
+	const [user, setUser] = useState({})
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/api/user/craz")
+				setUser(response.data)
+			} catch (error) {
+				console.error("Error fetching user data:", error)
+			}
+		}
+		fetchUser()
+	}, [])
 	return (
 		<>
-			<div className="">
-				<NavBar></NavBar>
-				<div className="flex flex-row h-[calc(100vh-55px)]">
-					<LargeWindow></LargeWindow>
-					<SmallWindow></SmallWindow>
+			<UserContext.Provider value={user}>
+				<div className="">
+					<NavBar></NavBar>
+					<div className="flex flex-row h-[calc(100vh-55px)]">
+						<LargeWindow></LargeWindow>
+						<SmallWindow></SmallWindow>
+					</div>
 				</div>
-			</div>
+			</UserContext.Provider>
 		</>
 	)
 }
