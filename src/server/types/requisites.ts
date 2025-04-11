@@ -28,17 +28,12 @@ type MinorRequisite = {
 	minor: string
 }
 
-type HourStandingRequisite = {
-	type: "hour_standing"
-	hours: "FRESHMAN" | "SOPHOMORE" | "JUNIOR" | "SENIOR"
-}
-
 type CustomRequisite = {
 	type: "custom"
 	text: string
 }
 
-type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequisite | HourStandingRequisite | CustomRequisite
+type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequisite | CustomRequisite
 
 type RequisiteGroup = {
 	logicalOperator: "AND" | "OR"

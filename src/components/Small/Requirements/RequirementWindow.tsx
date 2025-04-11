@@ -107,7 +107,6 @@ function RequirementWindow() {
         async function fetchData() {
             try {
                 const resp = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
-                console.log(resp.data)
                 setD(parseDegree(resp.data));
             } catch (error) {
                 console.log(error)
