@@ -4,6 +4,7 @@ import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
 
 function PlannerWindow() {
 	const user = useContext(UserContext)
@@ -42,6 +43,25 @@ function PlannerWindow() {
 		}
 	})
 
+	const startSemester = { term: degreePlan.startSemesterTerm, year: degreePlan.startSemesterYear }
+	const endSemester = { term: degreePlan.endSemesterTerm, year: degreePlan.endSemesterYear }
+	const currentSemester = semesterFromDate(new Date())
+
+	const pastSemesters = {}
+	let semesterCounter = startSemester
+	while (compareSemesters(semesterCounter, currentSemester) < 0) {
+		pastSemesters[`${semesterCounter.term} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+	}
+	const currentAndFutureSemesters = {}
+	while (compareSemesters(semesterCounter, endSemester) <= 0) {
+		currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
+			degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+	}
+	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"]
+	const transferredCredits = degreePlanCourses["Transferred Credits"]
+
 	console.log(degreePlanCourses)
 
 	return (
@@ -54,25 +74,29 @@ function PlannerWindow() {
 							<ChevronDownIcon className="size-[24px]" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
-							{Object.keys(degreePlanCourses).map((section) => {
-								return <PlannerSection name={section} courseList={degreePlanCourses[section]}></PlannerSection>
+							{Object.keys(currentAndFutureSemesters).map((section) => {
+								return <PlannerSection name={section} courseList={currentAndFutureSemesters[section]}></PlannerSection>
 							})}
 						</DisclosurePanel>
 					</>
 				)}
 			</Disclosure>
-			<Disclosure as="div" defaultOpen={true} className="mt-4">
+			<Disclosure as="div" className="mt-4">
 				{({ open }) => (
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
 							<span>Past Semesters</span>
 							<ChevronDownIcon className="size-[24px]" />
 						</DisclosureButton>
-						<DisclosurePanel></DisclosurePanel>
+						<DisclosurePanel className="flex flex-col pt-4 gap-4">
+							{Object.keys(pastSemesters).map((section) => {
+								return <PlannerSection name={section} courseList={pastSemesters[section]}></PlannerSection>
+							})}
+						</DisclosurePanel>
 					</>
 				)}
 			</Disclosure>
-			<Disclosure as="div" defaultOpen={true} className="mt-4">
+			<Disclosure as="div" className="mt-4">
 				{({ open }) => (
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
