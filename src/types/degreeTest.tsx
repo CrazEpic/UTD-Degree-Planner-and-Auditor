@@ -51,6 +51,6 @@ export type Block = {
     parentBlockId: string,
     blockPosition: number,
     innerBlocks: Block[],
-    blockType: string
+    blockType: string,
     blockContent: NonTerminalBlock | CourseBlock | TextBlock | MatcherGroupBlock | FlagToggleBlock,
 }
