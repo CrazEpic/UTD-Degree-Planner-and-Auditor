@@ -7,20 +7,22 @@ import axios from "axios"
 
 function App() {
 	const [user, setUser] = useState(null)
-	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const response = await axios.get("http://localhost:3000/api/user/craz")
-				setUser(response.data)
-			} catch (error) {
-				console.error("Error fetching user data:", error)
-			}
+
+	const fetchUser = async () => {
+		try {
+			const response = await axios.get("http://localhost:3000/api/user/craz")
+			setUser(response.data)
+		} catch (error) {
+			console.error("Error fetching user data:", error)
 		}
+	}
+
+	useEffect(() => {
 		fetchUser()
 	}, [])
 	return (
 		<>
-			<UserContext.Provider value={user}>
+			<UserContext.Provider value={{user, fetchUser}}>
 				<div className="">
 					<NavBar></NavBar>
 					<div className="flex flex-row h-[calc(100vh-55px)]">

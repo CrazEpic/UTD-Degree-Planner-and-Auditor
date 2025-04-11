@@ -96,9 +96,8 @@ function PrerequisiteWindow() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const resp = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
-                console.log(resp.data)
-                setD(parseDegree(resp.data));
+                const response = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
+                setD(parseDegree(response.data));
             } catch (error) {
                 console.log(error)
             }

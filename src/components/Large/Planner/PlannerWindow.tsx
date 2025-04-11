@@ -7,7 +7,8 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
 
 function PlannerWindow() {
-	const user = useContext(UserContext)
+	const { user } = useContext(UserContext)
+
 	const [degreePlan, setDegreePlan] = useState(null)
 	useEffect(() => {
 		const fetchDegreePlan = async () => {
@@ -38,8 +39,10 @@ function PlannerWindow() {
 			return "Transferred Credits"
 		}
 		// semester credit
-		else {
+		else if (course.semesterTerm && course.semesterYear) {
 			return `${course.semesterTerm} ${course.semesterYear}`
+		} else {
+			return "Future"
 		}
 	})
 
@@ -54,15 +57,16 @@ function PlannerWindow() {
 		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
 	}
 	const currentAndFutureSemesters = {}
+	currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
 	while (compareSemesters(semesterCounter, endSemester) <= 0) {
 		currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
 			degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
 		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
 	}
-	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"]
-	const transferredCredits = degreePlanCourses["Transferred Credits"]
+	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
+	const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
 
-	console.log(degreePlanCourses)
+	console.log(currentAndFutureSemesters)
 
 	return (
 		<>
@@ -104,8 +108,8 @@ function PlannerWindow() {
 							<ChevronDownIcon className="size-[24px]" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
-							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={[]}></PlannerSection>
-							<PlannerSection name="Transferred Credits" courseList={[]}></PlannerSection>
+							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={testCredits}></PlannerSection>
+							<PlannerSection name="Transferred Credits" courseList={transferredCredits}></PlannerSection>
 						</DisclosurePanel>
 					</>
 				)}
