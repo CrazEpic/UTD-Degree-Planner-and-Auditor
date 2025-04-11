@@ -1,5 +1,5 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
-import { CogIcon } from "@heroicons/react/24/solid"
+import { Cog6ToothIcon } from "@heroicons/react/24/outline"
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 
@@ -27,7 +27,7 @@ function LargeWindow() {
 						*/}
 						<Menu as="div" className="w-fit">
 							<MenuButton className="hover:bg-blue-200">
-								<CogIcon className="size-[32px]"></CogIcon>
+								<Cog6ToothIcon className="size-[32px]"></Cog6ToothIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-[10px] bg-white flex flex-col z-10">
 								<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("One")}>

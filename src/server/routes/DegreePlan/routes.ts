@@ -17,7 +17,11 @@ router.get("/:degreePlanID", async (req, res) => {
 	const { degreePlanID } = data
 	const degreePlan = await req.context.prisma.degreePlan.findUnique({
 		where: { degreePlanID: degreePlanID },
-		include: { DegreePlanCourses: true },
+		include: {
+			DegreePlanCourses: {
+				include: { Course: true },
+			},
+		},
 	})
 	res.json(degreePlan)
 })
@@ -69,10 +73,6 @@ router.post("/addCourse", async (req, res) => {
 				prefix: z.string(),
 				number: z.string(),
 			}),
-			semester: z.object({
-				semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
-				semesterYear: z.string(),
-			}),
 		})
 		.strict()
 		.required()
@@ -80,11 +80,9 @@ router.post("/addCourse", async (req, res) => {
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
-	const { degreePlanID, course, semester } = data
+	const { degreePlanID, course } = data
 	const degreePlanCourse = await req.context.prisma.degreePlanCourse.create({
 		data: {
-			semesterTerm: semester.semesterTerm,
-			semesterYear: semester.semesterYear,
 			Course: {
 				connect: {
 					courseID: {
@@ -172,7 +170,6 @@ router.get("/:degreePlanID/getAllCourseToRequirementBlockLinks", async (req, res
 	})
 	res.json(degreePlanCourseCreditHourClaims)
 })
-	
 
 // TODO: check for terminal block
 router.put("/linkCourseToRequirementBlock", async (req, res) => {
