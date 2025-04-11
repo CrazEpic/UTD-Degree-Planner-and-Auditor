@@ -10,15 +10,14 @@ function click(message: string) {
 function LargeWindow() {
 	return (
 		<>
-			{/* Mask for the course-link */}
-			<div className="w-full overflow-auto p-4">
+			<div className="w-full overflow-auto p-[15px]">
 				<TabGroup>
 					<div className="flex flex-row justify-between relative">
-						<TabList className="border-2 rounded-[10px] size-fit overflow-hidden">
-							<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+						<TabList className="border-2 rounded-[10px] w-fit">
+							<Tab className="p-[2px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 								Planner
 							</Tab>
-							<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+							<Tab className="p-[2px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 								Flowchart
 							</Tab>
 						</TabList>
