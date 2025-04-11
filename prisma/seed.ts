@@ -27,7 +27,7 @@ const createCourses = async () => {
 	const emptyRequisites: Requisites = {
 		prequisites: { logicalOperator: "AND", requisites: [] },
 		corequisites: { logicalOperator: "AND", requisites: [] },
-		prerequiresOrCorequisites: { logicalOperator: "AND", requisites: [] },
+		prerequisitesOrCorequisites: { logicalOperator: "AND", requisites: [] },
 	}
 
 	await prisma.course.createMany({
@@ -64,7 +64,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -86,7 +86,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -96,7 +96,7 @@ const createCourses = async () => {
 				requisites: {
 					prequisites: {},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -106,7 +106,7 @@ const createCourses = async () => {
 				requisites: {
 					prequisites: {},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -116,7 +116,7 @@ const createCourses = async () => {
 				requisites: {
 					prequisites: {},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -129,7 +129,7 @@ const createCourses = async () => {
 						requisites: { type: "course", courseID: "CS 1436", minGrade: "C" },
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -151,7 +151,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -164,7 +164,7 @@ const createCourses = async () => {
 						requisites: [{ type: "course", courseID: "CS 1337", minGrade: "C" }],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {
+					prerequisitesOrCorequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 2305", minGrade: "C" }],
 					},
@@ -183,7 +183,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -200,7 +200,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -210,7 +210,7 @@ const createCourses = async () => {
 				requisites: {
 					prequisites: {},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -223,7 +223,7 @@ const createCourses = async () => {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "PHYS 2325" }],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -236,7 +236,7 @@ const createCourses = async () => {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "PHYS 2326" }],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -267,7 +267,7 @@ const createCourses = async () => {
 							},
 						],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -292,7 +292,7 @@ const createCourses = async () => {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "PHYS 2126" }],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -308,7 +308,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -321,7 +321,7 @@ const createCourses = async () => {
 						requisites: [{ type: "course", courseID: "MATH 2417", minGrade: "C-" }],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -331,7 +331,7 @@ const createCourses = async () => {
 				requisites: {
 					prequisites: {},
 					corequisites: {},
-					prerequiresOrCorequisites: {
+					prerequisitesOrCorequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 3345" },
@@ -361,7 +361,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -377,7 +377,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {
+					prerequisitesOrCorequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 3341" }],
 					},
@@ -396,7 +396,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {
+					prerequisitesOrCorequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "ECS 2390" }],
 					},
@@ -412,7 +412,7 @@ const createCourses = async () => {
 						requisites: [{ type: "course", courseID: "CS 2336", minGrade: "C" }],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -425,7 +425,7 @@ const createCourses = async () => {
 						requisites: [{ type: "course", courseID: "RHET 1302" }],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -438,7 +438,7 @@ const createCourses = async () => {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 4341" }],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -455,7 +455,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -474,7 +474,7 @@ const createCourses = async () => {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 4141" }],
 					},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -487,7 +487,7 @@ const createCourses = async () => {
 						requisites: [{ type: "course", courseID: "CS 3345" }],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -504,7 +504,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -520,7 +520,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			{
@@ -533,7 +533,7 @@ const createCourses = async () => {
 						requisites: { type: "course", courseID: "CS 2305", minGrade: "C" },
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 			// Prerequisites: (CE 3345 or CS 3345 or SE 3345), and (CE 3354 or CS 3354 or SE 3354)
@@ -578,7 +578,7 @@ const createCourses = async () => {
 						],
 					},
 					corequisites: {},
-					prerequiresOrCorequisites: {},
+					prerequisitesOrCorequisites: {},
 				},
 			},
 		],
