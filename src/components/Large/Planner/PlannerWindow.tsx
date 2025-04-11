@@ -1,5 +1,28 @@
-import { Course } from "../../../types/degreeTest"
+import { Block, Course } from "../../../types/degreeTest"
 import PlannerSection from "./PlannerSection"
+import CourseLink from "../CourseLink"
+
+function createDefaultRequirement(): Block {
+    return {
+        blockId: "",
+        blockName: "Requirement Name",
+        parentBlockId: "",
+        blockPosition: 0,
+        innerBlocks: [],
+        blockType: "",
+        blockContent: {
+            id: "",
+            conditions: {},
+        }
+    }
+}
+
+const reqList : Block[] = [
+    createDefaultRequirement(),
+    createDefaultRequirement(),
+    createDefaultRequirement(),
+    createDefaultRequirement(),
+]
 
 const sections : string[] = [
     "Future Courses", 
@@ -78,11 +101,29 @@ function renderSectionContent(sections: string[], courseLists: Course[][]) {
 }
 
 function PlannerWindow() {
+
+    const section = true
+    const course = {
+        name: "Differential Calculus",
+        hours: 4,
+    }
+
     // Sections and courseBySection can be replaced by DB information once I have the format of those
     return (
-    <>
-        {renderSectionContent(sections, courseBySection)}
-    </>
+        <> 
+            {/* Want to overlay this over the rendered content rather than instead of */}
+            {section ? (
+                <>
+                    <div className="w-[375px] m-auto">
+                        <CourseLink name={course.name} hours={course.hours} requirementList={reqList}></CourseLink>
+                    </div>
+                </>
+            ) : (
+                <>
+                    {renderSectionContent(sections, courseBySection)}
+                </>
+            )}
+        </>
     )
 }
 

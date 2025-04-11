@@ -10,14 +10,15 @@ function click(message: string) {
 function LargeWindow() {
 	return (
 		<>
-			<div className="w-full overflow-auto p-[15px]">
+			{/* Mask for the course-link */}
+			<div className="w-full overflow-auto p-4">
 				<TabGroup>
 					<div className="flex flex-row justify-between relative">
 						<TabList className="border-2 rounded-[10px] size-fit overflow-hidden">
-							<Tab className="p-[4px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+							<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 								Planner
 							</Tab>
-							<Tab className="p-[4px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+							<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 								Flowchart
 							</Tab>
 						</TabList>
@@ -27,7 +28,7 @@ function LargeWindow() {
 						*/}
 						<Menu as="div" className="w-fit">
 							<MenuButton className="hover:bg-blue-200">
-								<CogIcon className="size-[32px]"></CogIcon>
+								<CogIcon className="size-8"></CogIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-[10px] bg-white flex flex-col z-10">
 								<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("One")}>
