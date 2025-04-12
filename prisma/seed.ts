@@ -536,8 +536,6 @@ const createCourses = async () => {
 					prerequisitesOrCorequisites: {},
 				},
 			},
-			// Prerequisites: (CE 3345 or CS 3345 or SE 3345), and (CE 3354 or CS 3354 or SE 3354)
-			// or equivalent and at least three CS 43XX classes.
 			{
 				prefix: "CS",
 				number: "4485",
@@ -870,24 +868,6 @@ const createCrazDegreePlan = async () => {
 					degreeID: {
 						degreeName: "Computer Science",
 						degreeYear: "2025",
-					},
-				},
-			},
-		},
-	})
-
-	await prisma.degreePlanCourse.create({
-		data: {
-			semesterTerm: "FALL",
-			semesterYear: "2022",
-			DegreePlan: {
-				connect: { degreePlanID: degreePlan.degreePlanID },
-			},
-			Course: {
-				connect: {
-					courseID: {
-						prefix: "CS",
-						number: "1436",
 					},
 				},
 			},
