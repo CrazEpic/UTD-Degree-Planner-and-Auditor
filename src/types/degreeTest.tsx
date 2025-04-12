@@ -2,7 +2,6 @@ export type Course = {
     prefix: string,
     number: string,
     name: string,
-    flag: string
 }
 
 export enum SemesterTerm {
@@ -21,7 +20,12 @@ export type User = {
 
 export type UserContextType = {
     user: User | null,
-    fetchUser (): void,
+    fetchUser(): void,
+}
+
+export type LinkContextType = {
+    course: Course | null,
+    linkCourse(): void,
 }
 
 export type DegreePlan = {
@@ -54,10 +58,10 @@ export type DegreePlanCourse = {
     // both test and transfer uses us
     userID?: string,       
     // only applicable for test credit    
-    // TestCredit         TestCredit?   
+    // TestCredit?: TestCredit   
     testComponentID?: string,       
     // only applicable for transfer credit
-    // TransferCredit     TransferCredit
+    // TransferCredit?: TransferCredit
     externalSchool?: string,       
     externalCourseID?: string,       
 

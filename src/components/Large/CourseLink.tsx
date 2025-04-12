@@ -1,10 +1,6 @@
 import { Block } from "../../types/degreeTest"
 import RequirementLinkBlock from "./RequirementLinkBlock"
 
-function click(message: string) {
-    console.log(message)
-}
-
 function getProgress() {
     return [1, 2, 3]
 }
