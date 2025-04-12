@@ -1,55 +1,149 @@
 import cytoscape from "cytoscape"
 import dagre from "cytoscape-dagre"
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid"
-import { useEffect } from "react"
+import { UserContext } from "../../../contexts/UserContext"
+import { useEffect, useContext, useState } from "react"
+import axios from "axios"
+import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
+
+/*
+Steps:
+Get all courses with credit received
+Get all future courses in planner
+Resolve all block ambiguity in the planner
+-> Get all courses in the degree
+Fulfill all requisites to the best of your ability
+while unresolved requisites
+	Resolve all ambiguous requisites
+	Fetch all missing requisite courses if needed 
+display flowchart
+*/
 
 cytoscape.use(dagre)
 
 let cy: cytoscape.Core
 
-// for requisites, can only handle matchers and course types
-
-const nodes = ["CS 1336", "CS 1337", "CS 2337", "CS 3354", "CS 3345", "ECS 3390", "RHET 1302", "MATH 2413", "MATH 2414", "CS 3341", "CS 2305", "CS 3162"].map(
-	(node) => {
-		return { data: { id: node } }
-	}
-)
-
-const prereqs = [
-	{ source: "CS 1336", target: "CS 1337" },
-	{ source: "CS 1337", target: "CS 2337" },
-	{ source: "CS 2337", target: "CS 3345" },
-	{ source: "MATH 2413", target: "MATH 2414" },
-	{ source: "MATH 2414", target: "CS 3341" },
-	{ source: "CS 2305", target: "CS 3345" },
-	{ source: "CS 2337", target: "CS 3354" },
-	{ source: "RHET 1302", target: "ECS 3390" },
-].map((edge) => {
-	return { data: { id: `prereq:${edge.source}-${edge.target}`, source: edge.source, target: edge.target, class: "prereq" } }
-})
-
-const coreqs = [
-	{ source: "CS 3341", target: "CS 3345" },
-	{ source: "CS 3345", target: "CS 3162" },
-	{ source: "CS 3354", target: "CS 3162" },
-	{ source: "ECS 3390", target: "CS 3354" },
-].map((edge) => {
-	return { data: { id: `coreq:${edge.source}-${edge.target}`, source: edge.source, target: edge.target, class: "coreq" } }
-})
-
 const FlowchartCytoscape = () => {
+	// TODO: I WILL FIX WHERE I API CALL LATER BUT I JUST NEED THE INFORMATION
+	const { user } = useContext(UserContext)
+	const [degreePlan, setDegreePlan] = useState(null)
+
 	useEffect(() => {
+		if (!user) {
+			return
+		}
+
+		const fetchDegreePlan = async () => {
+			try {
+				if (!user) {
+					return
+				}
+				const response = await axios.get(`http://localhost:3000/api/degreePlan/${user.DegreePlan.degreePlanID}`)
+				setDegreePlan(response.data)
+			} catch (error) {
+				console.error("Error fetching degree plan:", error)
+			}
+		}
+		if (!degreePlan) {
+			fetchDegreePlan()
+			return
+		}
+		const degreePlanCourses = Object.groupBy(degreePlan.DegreePlanCourses, (course) => {
+			// test credit
+			if (course.testComponentID) {
+				return "Test Credits (AP/IB/CLEP/etc.)"
+			}
+			// transferred credit
+			else if (course.externalCourseID) {
+				return "Transferred Credits"
+			}
+			// semester credit
+			else if (course.semesterTerm && course.semesterYear) {
+				return `${course.semesterTerm} ${course.semesterYear}`
+			} else {
+				return "Future"
+			}
+		})
+
+		const startSemester = { term: degreePlan.startSemesterTerm, year: degreePlan.startSemesterYear }
+		const endSemester = { term: degreePlan.endSemesterTerm, year: degreePlan.endSemesterYear }
+		const currentSemester = semesterFromDate(new Date())
+
+		const pastSemesters = {}
+		let semesterCounter = startSemester
+		while (compareSemesters(semesterCounter, currentSemester) < 0) {
+			pastSemesters[`${semesterCounter.term} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		}
+		const currentAndFutureSemesters = {}
+		currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
+		while (compareSemesters(semesterCounter, endSemester) <= 0) {
+			currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
+				degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		}
+		const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
+		const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
+
+		const creditReceived = new Set(
+			testCredits
+				.map((course) => `${course.prefix} ${course.number}`)
+				.concat(transferredCredits.map((course) => `${course.prefix} ${course.number}`))
+				.concat(
+					Object.keys(pastSemesters).flatMap((key) => {
+						return pastSemesters[key].map((degreePlanCourse) => `${degreePlanCourse.prefix} ${degreePlanCourse.number}`)
+					})
+				)
+		)
+
+		const coursesNeeded = {}
+		Object.keys(currentAndFutureSemesters).forEach((key) => {
+			currentAndFutureSemesters[key].forEach((degreePlanCourse) => {
+				if (!creditReceived.has(`${degreePlanCourse.prefix} ${degreePlanCourse.number}`)) {
+					coursesNeeded[`${degreePlanCourse.prefix} ${degreePlanCourse.number}`] = {
+						requisites: degreePlanCourse.Course.requisites,
+						neededRequisiteCourses: [],
+					}
+				}
+			})
+		})
+
+		// TODO: pretend I fulfilled all block ambiguity :)
+
+		/*
+			try to fulfill all requisites
+		*/
+
+
+		const nodes = Object.keys(coursesNeeded).map((course) => {
+			return { data: { id: course } }
+		})
+
 		cy = cytoscape({
 			container: document.getElementById("cy"),
-			elements: nodes.concat(prereqs).concat(coreqs),
-			style: [],
+			elements: nodes,
+			style: [
+				// the stylesheet for the graph
+				{
+					selector: "node",
+					style: {
+						"background-color": "#000000",
+						content: "data(id)",
+						shape: "round-rectangle",
+						width: "125px",
+						backgroundColor: "#FFFFFF",
+						"border-width": 2,
+						padding: "10px",
+					},
+				},
+			],
 			layout: {
 				name: "dagre",
 				// @ts-expect-error: dagre import is not typed here
 				nodeDimensionsIncludeLabels: true,
 			},
 		})
-	})
+	}, [degreePlan, user])
 
 	return (
 		<>
