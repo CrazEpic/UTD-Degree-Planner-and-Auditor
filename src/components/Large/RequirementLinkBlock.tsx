@@ -1,6 +1,10 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid"
 import ProgressBar from "../Small/Requirements/ProgressBar"
 
+function click(message: string) {
+    console.log(message)
+}
+
 function RequirementLinkBlock({name, progress}: {name: string, progress: number[]}) {
 
     return (
@@ -12,16 +16,21 @@ function RequirementLinkBlock({name, progress}: {name: string, progress: number[
                     <div className="flex flex-row ml-auto justify-self-end gap-2">
                         <ProgressBar progress={progress}></ProgressBar>
                         <div className="flex flex-row items-center gap-1">
-                            <button className="size-4 border rounded-sm">
+
+                            {/* Fade minus on 0 hours applied*/}
+                            <button className="size-4 border rounded-sm" onClick={() => click("Minus Hour")}>
                                 <MinusIcon></MinusIcon>
                             </button>
-                            <button className="size-4 border rounded-sm">
+
+                            {/* Fade plus on all hours applied / requirement is filled*/}
+                            <button className="size-4 border rounded-sm" onClick={() => click("Plus Hour")}>
                                 <PlusIcon></PlusIcon>
                             </button>
+
+                            {/* Display number of applied hours to this requirement */}
                         </div>
                     </div>
                 </div>
-                {/* Disclosure Panel */}
             </div>
         </>
     )
