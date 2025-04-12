@@ -97,23 +97,47 @@ const FlowchartCytoscape = () => {
 		)
 
 		const coursesNeeded = {}
+		// add selected property to all requisites so we can attempt to fulfill them
 		Object.keys(currentAndFutureSemesters).forEach((key) => {
 			currentAndFutureSemesters[key].forEach((degreePlanCourse) => {
 				if (!creditReceived.has(`${degreePlanCourse.prefix} ${degreePlanCourse.number}`)) {
+					const recursivelyAddSelected = (requisites) => {
+						if (Object.hasOwn(requisites, "logicalOperator") || Object.hasOwn(requisites, "type")) {
+							requisites["selected"] = false
+							if (Object.hasOwn(requisites, "logicalOperator")) {
+								requisites.requisites.forEach((requisite) => {
+									recursivelyAddSelected(requisite)
+								})
+							}
+						}
+					}
+					const prerequisites = degreePlanCourse.Course.requisites.prequisites
+					recursivelyAddSelected(prerequisites)
+					const corequisites = degreePlanCourse.Course.requisites.corequisites
+					recursivelyAddSelected(corequisites)
+					const prerequisitesOrCorequisites = degreePlanCourse.Course.requisites.prerequisitesOrCorequisites
+					recursivelyAddSelected(prerequisitesOrCorequisites)
 					coursesNeeded[`${degreePlanCourse.prefix} ${degreePlanCourse.number}`] = {
-						requisites: degreePlanCourse.Course.requisites,
-						neededRequisiteCourses: [],
+						requisites: {
+							prerequisites: prerequisites,
+							corequisites: corequisites,
+							prerequisitesOrCorequisites: prerequisitesOrCorequisites,
+						},
 					}
 				}
 			})
 		})
 
+		console.log(coursesNeeded)
+
 		// TODO: pretend I fulfilled all block ambiguity :)
 
 		/*
-			try to fulfill all requisites
+			try to get a neededcourse to fulfill all requisites
 		*/
 
+		// we can only try to fulfill course or matcher requisites, and check major/minor requisites
+		const major = degreePlan.degreeName
 
 		const nodes = Object.keys(coursesNeeded).map((course) => {
 			return { data: { id: course } }
@@ -149,6 +173,7 @@ const FlowchartCytoscape = () => {
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
 				<div id="cy" className="w-full h-full"></div>
+				<div className="absolute top-0 border-black border-2 w-64 h-64 bg-white">Select prereq to fulfill</div>
 			</div>
 		</>
 	)
