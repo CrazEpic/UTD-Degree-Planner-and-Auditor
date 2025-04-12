@@ -4,6 +4,7 @@ import SmallWindow from "./components/Small/SmallWindow"
 import { UserContext } from "./contexts/UserContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import MobileView from "./components/MobileView"
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -23,12 +24,16 @@ function App() {
 	return (
 		<>
 			<UserContext.Provider value={{user, fetchUser}}>
-				<div className="">
+				<div className="lg:inline sm:hidden">
 					<NavBar></NavBar>
-					<div className="flex flex-row h-[calc(100vh-55px)]">
+					<div className="flex flex-row lg:h-[calc(100vh-55px)] md:h-[calc(100vh-110px)]">
 						<LargeWindow></LargeWindow>
 						<SmallWindow></SmallWindow>
 					</div>
+				</div>
+				<div className="lg:hidden">
+					{/* Need a default view (far left?) */}
+					<MobileView></MobileView>
 				</div>
 			</UserContext.Provider>
 		</>

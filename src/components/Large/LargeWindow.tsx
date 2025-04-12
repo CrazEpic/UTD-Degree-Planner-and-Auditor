@@ -1,10 +1,12 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
-import { Cog6ToothIcon } from "@heroicons/react/24/outline"
+import { ArrowTrendingUpIcon, BookOpenIcon, Cog6ToothIcon } from "@heroicons/react/24/outline"
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLink from "./CourseLink"
 import { Block, Course } from "../../types/degreeTest"
 import { LinkContext } from "../../contexts/LinkContext"
+import { Fragment } from "react/jsx-runtime"
+import clsx from 'clsx'
 
 function createDefaultBlock() {
 	return {
@@ -68,13 +70,26 @@ function LargeWindow() {
 					<div className={"w-full overflow-auto p-4 " + (masked ? "backdrop-brightness-70 brightness-70" : "")}>
 						<TabGroup>
 							<div className="flex flex-row justify-between relative">
-								<TabList className="border-2 rounded-[10px] size-fit overflow-hidden">
-									<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
-										Planner
+								{/* "flex flex-row justify-between items-end bg-white w-full h-[55px] border" */}
+								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 bg-white overflow-hidden  pt-1">
+									<Tab as={Fragment}>
+										{({ hover, selected}) => (
+											<button className="flex flex-col items-center w-full">
+												<BookOpenIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></BookOpenIcon>
+												Planner
+												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
+											</button>
+										)}
 									</Tab>
-									<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
-										Flowchart
-									</Tab>
+									<Tab as={Fragment}>
+										{({ hover, selected}) => (
+											<button className="flex flex-col items-center w-full">
+												<ArrowTrendingUpIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></ArrowTrendingUpIcon>
+												Flowchart
+												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
+											</button>
+										)}
+									</Tab> 
 								</TabList>
 								{/* Feels like text should be here? 
 										Or at least something should
