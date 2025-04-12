@@ -11,9 +11,9 @@ function MatcherBlockView({matcher} : {matcher: MatcherGroupBlock}) {
     // The matcher will be used for finding the relevant courses
 
     return (
-        <div className="flex flex-row gap-[8px] border rounded-[10px] items-center justify-center p-[8px] pr-0 border-r-0 rounded-r-none">
-            <Button className="hover:bg-blue-200 size-[24px] ml-auto mr-[15px]" onClick={() => click("Matcher")}>
-                <PlusIcon className="size-[24px]"></PlusIcon>
+        <div className="flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 border-r-0 rounded-r-none">
+            <Button className="hover:bg-blue-200 size-6 ml-auto mr-4" onClick={() => click("Matcher")}>
+                <PlusIcon className="size-6"></PlusIcon>
             </Button>
         </div>
     )

@@ -5,13 +5,13 @@ import PrerequisiteWindow from "./Prerequisites/PrerequisiteWindow"
 function SmallWindow() {
 	return (
 		<>
-			<div className="max-w-[375px] min-w-[375px] p-[15px] overflow-auto border-l-2">
-				<TabGroup className="flex flex-col gap-[15px]">
-					<TabList className="border-2 rounded-[10px] size-fit overflow-hidden">
-						<Tab className="p-[4px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+			<div className="max-w-[375px] min-w-[375px] p-4 overflow-auto border-l-2">
+				<TabGroup className="flex flex-col gap-4">
+					<TabList className="border-2 rounded-lg size-fit overflow-hidden">
+						<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 							Requirements
 						</Tab>
-						<Tab className="p-[4px] data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
+						<Tab className="p-1 data-[selected]:bg-blue-500 data-[selected]:text-white data-[hover]:underline">
 							Prerequisites
 						</Tab>
 					</TabList>
