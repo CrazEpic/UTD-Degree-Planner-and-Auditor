@@ -594,19 +594,35 @@ const createCSDegree = async () => {
 				create: {
 					blockName: "Bachelor of Science in Computer Science (2025)",
 					NonterminalBlock: {
-						create: { conditions: emptyConditions },
+						create: {
+							conditions: {
+								blockFulfillmentCondition: { blocksToFulfill: 3 },
+							},
+						},
 					},
 					InnerBlocks: {
 						create: [
 							{
 								blockName: "I. Core Curriculum",
 								blockPosition: 0,
-								NonterminalBlock: { create: { conditions: emptyConditions } },
+								NonterminalBlock: {
+									create: {
+										conditions: {
+											blockFulfillmentCondition: { blocksToFulfill: 1 },
+										},
+									},
+								},
 								InnerBlocks: {
 									create: [
 										{
 											blockName: "Mathematics",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 1 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
@@ -626,12 +642,24 @@ const createCSDegree = async () => {
 							{
 								blockName: "II. Major Requirements",
 								blockPosition: 1,
-								NonterminalBlock: { create: { conditions: emptyConditions } },
+								NonterminalBlock: {
+									create: {
+										conditions: {
+											blockFulfillmentCondition: { blocksToFulfill: 3 },
+										},
+									},
+								},
 								InnerBlocks: {
 									create: [
 										{
 											blockName: "Major Preparatory Courses",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 14 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
@@ -688,12 +716,24 @@ const createCSDegree = async () => {
 													},
 													{
 														blockName: "Math Sequence",
-														NonterminalBlock: { create: { conditions: emptyConditions } },
+														NonterminalBlock: {
+															create: {
+																conditions: {
+																	blockFulfillmentCondition: { blocksToFulfill: 1 },
+																},
+															},
+														},
 														InnerBlocks: {
 															create: [
 																{
 																	blockName: "",
-																	NonterminalBlock: { create: { conditions: emptyConditions } },
+																	NonterminalBlock: {
+																		create: {
+																			conditions: {
+																				blockFulfillmentCondition: { blocksToFulfill: 2 },
+																			},
+																		},
+																	},
 																	InnerBlocks: {
 																		create: [
 																			{
@@ -717,7 +757,13 @@ const createCSDegree = async () => {
 																},
 																{
 																	blockName: "",
-																	NonterminalBlock: { create: { conditions: emptyConditions } },
+																	NonterminalBlock: {
+																		create: {
+																			conditions: {
+																				blockFulfillmentCondition: { blocksToFulfill: 2 },
+																			},
+																		},
+																	},
 																	InnerBlocks: {
 																		create: [
 																			{
@@ -747,7 +793,13 @@ const createCSDegree = async () => {
 										},
 										{
 											blockName: "Major Core Courses",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 14 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
