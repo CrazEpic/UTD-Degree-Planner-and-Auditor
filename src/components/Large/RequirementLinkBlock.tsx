@@ -1,4 +1,4 @@
-import { ChevronDownIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/solid"
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid"
 import ProgressBar from "../Small/Requirements/ProgressBar"
 
 function RequirementLinkBlock({name, progress}: {name: string, progress: number[]}) {

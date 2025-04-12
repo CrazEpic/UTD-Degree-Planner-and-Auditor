@@ -1,5 +1,4 @@
 import { Block } from "../../types/degreeTest"
-import CourseLinkBlock from "./CourseLinkBlock"
 import RequirementLinkBlock from "./RequirementLinkBlock"
 
 function click(message: string) {

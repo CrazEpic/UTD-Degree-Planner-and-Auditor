@@ -1,13 +1,13 @@
-import { Course } from "../../../types/degreeTest"
+import { DegreePlanCourse, Course } from "../../../types/degreeTest"
 import PlannerCourse from "./PlannerCourse"
 import { LockClosedIcon } from "@heroicons/react/24/outline"
 import { Button } from "@headlessui/react"
 
 // Grabbing the second number in the of the course.number
 // This does not work for internship and other similar course requirements (V)
-function currentHours(courseList: Course[]) {
+function currentHours(courseList: DegreePlanCourse[]) {
 	let total = 0
-	for (let i = 0; i < courseList.length; i++) total += parseInt(courseList[i].number.split("")[1])
+	for (let i = 0; i < courseList.length; i++) total += parseInt(courseList[i].Course.number.split("")[1])
 	return total
 }
 
@@ -15,7 +15,7 @@ function click(message: string) {
 	console.log(message)
 }
 
-function PlannerSection({ name, courseList }: { name: string; courseList: Course[] }) {
+function PlannerSection({ name, courseList }: { name: string; courseList: DegreePlanCourse[] }) {
 	return (
 		<>
 			<div className="w-[100%-30px] border-3 rounded-[10px] min-h-52">
@@ -34,7 +34,7 @@ function PlannerSection({ name, courseList }: { name: string; courseList: Course
 				<div className="grid gap-[15px] p-[15px] pt-0 place-items-center" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(288px, 1fr))" }}>
 					{courseList.map((course) => (
 						// Key could be the prefix + number (there should be no duplicate in a degree plan)
-						<PlannerCourse degreePlanCourseID={course.degreePlanCourseID} prefix={course.prefix} number={course.number} name={course.Course.name} tag={course.flag}></PlannerCourse>
+						<PlannerCourse degreePlanCourseID={course.degreePlanCourseID} prefix={course.prefix} number={course.number} name={course.Course.name} tag={""}></PlannerCourse>
 					))}
 				</div>
 			</div>

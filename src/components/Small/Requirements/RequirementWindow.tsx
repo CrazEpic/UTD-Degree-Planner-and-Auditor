@@ -102,7 +102,7 @@ const footnotes : string[] = [
 
 // Currently does not work because of camelCase change not merged
 function RequirementWindow() {
-    const [d, setD] = useState<Degree>({RootBlock: createDefaultBlock(), blockId: "a", degreeName: "b", degreeYear: "c"})
+    const [d, setD] = useState<Degree | null>(null)
     useEffect(() => {
         async function fetchData() {
             try {
@@ -118,10 +118,11 @@ function RequirementWindow() {
     return (
         <> 
             <div className="flex flex-col gap-[8px]">
-                {/* d.blockId != "a" is for the default value*/}
-                {d.blockId != "a" && d.RootBlock.innerBlocks.map((inner: Block) => 
+                {d?.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
+
+                {/* Add unrelated courses */}
 
                 {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
                 {footnotes.map((footnote) =>

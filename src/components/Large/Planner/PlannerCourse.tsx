@@ -21,7 +21,9 @@ function PlannerCourse({
 	name: string
 	tag: string
 }) {
-	const { fetchUser } = useContext(UserContext)
+
+	// Might have an issue with the ? "could be undefined"
+	const fetchUser = useContext(UserContext)?.fetchUser
 
 	return (
 		<>
@@ -50,7 +52,11 @@ function PlannerCourse({
 											const response = await axios.delete("http://localhost:3000/api/degreePlan/removeCourse", {
 												data: { degreePlanCourseID: degreePlanCourseID },
 											})
-											fetchUser()
+
+											// If fetchUser is undefined this will be a problem
+											if (fetchUser) {
+												fetchUser()
+											}
 										} catch (error) {
 											console.error("Error removing course: ", error)
 										}

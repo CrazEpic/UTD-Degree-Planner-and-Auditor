@@ -8,11 +8,11 @@ function click(message: string) {
 
 function MatcherBlockView({matcher} : {matcher: MatcherGroupBlock}) {
 
-    // Use the matcher here somewhere
+    // The matcher will be used for finding the relevant courses
 
     return (
         <div className="flex flex-row gap-[8px] border rounded-[10px] items-center justify-center p-[8px] pr-0 border-r-0 rounded-r-none">
-            <Button className="hover:bg-blue-200 size-[24px] ml-auto mr-[15px]" onClick={() => click("Add Course")}>
+            <Button className="hover:bg-blue-200 size-[24px] ml-auto mr-[15px]" onClick={() => click("Matcher")}>
                 <PlusIcon className="size-[24px]"></PlusIcon>
             </Button>
         </div>

@@ -4,6 +4,7 @@ import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, TextBlock } fro
 import ProgressBar from "./Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
+import MatcherBlockView from "./MatcherBlockView"
 
 function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth: number; checkbox: boolean }) {
 	// Extremely ugly, just testing understanding
@@ -67,7 +68,7 @@ function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth
 								case "Text":
 									return <p>{(inner.blockContent as TextBlock).text}</p>
 								case "MatcherGroup":
-									return <CourseBlockView course={inner.blockContent as CourseBlock} name={"Matcher"}></CourseBlockView>
+									return <MatcherBlockView matcher={inner.blockContent as MatcherGroupBlock}></MatcherBlockView>
 								case "FlagToggle":
 									return <p>{(inner.blockContent as FlagToggleBlock).flagId}</p>
 								default:

@@ -5,6 +5,65 @@ export type Course = {
     flag: string
 }
 
+export enum SemesterTerm {
+    FALL = 0,
+    SPRING = 1,
+    SUMMER = 2,
+}
+
+export type User = {
+    userID: string,
+    username: string
+    // TestCredits: TestCredit[],
+    // TransferCredits: TransferCredit[],
+    DegreePlan?: DegreePlan,
+}
+
+export type UserContextType = {
+    user: User | null,
+    fetchUser (): void,
+}
+
+export type DegreePlan = {
+    degreePlanID:      string,      
+    startSemesterTerm: SemesterTerm,
+    startSemesterYear: string,      
+    endSemesterTerm:   SemesterTerm,
+    endSemesterYear:   string,      
+    userID:            string,      
+    // User:              User,        
+    name:              string,      
+    Degree:            Degree,      
+    degreeName:        string,      
+    degreeYear:        string,      
+    DegreePlanCourses: DegreePlanCourse[],
+    // selectionOptions:  Json,       
+
+}
+
+export type DegreePlanCourse = {
+    degreePlanCourseID: string,       
+    degreePlanID: string,    
+    DegreePlan: DegreePlan,   
+    Course: Course,       
+    prefix: string,        
+    number: string,        
+    // only applicable for courses at
+    semesterYear?: string,      
+    semesterTerm?: SemesterTerm, 
+    // both test and transfer uses us
+    userID?: string,       
+    // only applicable for test credit    
+    // TestCredit         TestCredit?   
+    testComponentID?: string,       
+    // only applicable for transfer credit
+    // TransferCredit     TransferCredit
+    externalSchool?: string,       
+    externalCourseID?: string,       
+
+    // DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
+}
+
 export type Degree = {
     RootBlock: Block,
     blockId: string,
