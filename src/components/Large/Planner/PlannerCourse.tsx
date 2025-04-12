@@ -27,15 +27,15 @@ function PlannerCourse({
 
 	return (
 		<>
-			<div className="border-3 rounded-[10px] w-full h-[125px] p-[3px] flex flex-col">
+			<div className="border-3 rounded-lg w-full h-[125px] p-1 flex flex-col">
 				<div className="flex flex-row justify-between p-1">
 					<p className="">{tag}</p>
 					<div className="relative">
 						<Menu as="div" className="w-fit">
 							<MenuButton>
-								<EllipsisVerticalIcon className="size-[24px] hover:bg-blue-200"></EllipsisVerticalIcon>
+								<EllipsisVerticalIcon className="size-6 hover:bg-blue-200"></EllipsisVerticalIcon>
 							</MenuButton>
-							<MenuItems className="absolute right-0 border-2 rounded-[10px] bg-white flex flex-col z-10">
+							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
 								<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("Move")}>
 									Move Course
 								</MenuItem>

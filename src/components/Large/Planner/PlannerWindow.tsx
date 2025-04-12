@@ -93,7 +93,7 @@ function PlannerWindow() {
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
 							<span>Past Semesters</span>
-							<ChevronDownIcon className="size-[24px]" />
+							<ChevronDownIcon className="size-6" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
 							{Object.keys(pastSemesters).map((section) => {
@@ -108,7 +108,7 @@ function PlannerWindow() {
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
 							<span>Test and Transfer Credit</span>
-							<ChevronDownIcon className="size-[24px]" />
+							<ChevronDownIcon className="size-6" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
 							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={testCredits}></PlannerSection>

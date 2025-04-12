@@ -15,11 +15,11 @@ function CourseLink({name, hours, requirementList}: {name: string, hours:number,
     
     return (
         <>
-            <div className="flex flex-col items-center w-[100%-30px] border-2 rounded-[10px] p-4 gap-4">
+            <div className="flex flex-col items-center w-[100%-32px] border-2 rounded-lg p-4 gap-4">
                 <div className="flex flex-row justify-between w-full">
-                    <h1 className="h-[30px] text-xl">{name}</h1>
+                    <h1 className="h-8 text-xl">{name}</h1>
                     {name != "Future Courses" && 
-                        <div className="flex flex-row items-center gap-[8px]">
+                        <div className="flex flex-row items-center gap-2">
                             {/* Make the 12 editable inline?? */}
                             <p className="text-xl">
                                 {/* This should be passed in some way */}

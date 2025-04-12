@@ -28,9 +28,9 @@ function LargeWindow() {
 						*/}
 						<Menu as="div" className="w-fit">
 							<MenuButton className="hover:bg-blue-200">
-								<Cog6ToothIcon className="size-[32px]"></Cog6ToothIcon>
+								<Cog6ToothIcon className="size-8"></Cog6ToothIcon>
 							</MenuButton>
-							<MenuItems className="absolute right-0 border-2 rounded-[10px] bg-white flex flex-col z-10">
+							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
 								<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("One")}>
 									Setting 1
 								</MenuItem>

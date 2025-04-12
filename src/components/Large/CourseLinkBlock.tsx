@@ -12,7 +12,7 @@ function CourseLinkBlock({requirement, name}: {requirement: CourseBlock, name: s
     const planned = false
 
     return (
-        <div className="flex flex-row gap-[8px] border rounded-[10px] items-center justify-center p-[8px] w-full">
+        <div className="flex flex-row gap-2 border rounded-lg items-center justify-center p-2 w-full">
             {name == "Matcher" ? (
                 <PlusIcon className="size-[24px]"></PlusIcon>
             ) : (
@@ -22,9 +22,9 @@ function CourseLinkBlock({requirement, name}: {requirement: CourseBlock, name: s
                         {name}
                     </p>
                     {planned ? (
-                        <p className="underline ml-auto mr-[15px]">Planned</p>
+                        <p className="underline ml-auto mr-4">Planned</p>
                     ) : (
-                        <Button className="hover:bg-blue-200 size-[24px] ml-auto mr-[15px]" onClick={() => click("Add Course")}>
+                        <Button className="hover:bg-blue-200 size-6 ml-auto mr-4" onClick={() => click("Add Course")}>
                             <PlusIcon></PlusIcon>
                         </Button>
                     )}

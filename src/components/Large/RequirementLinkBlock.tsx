@@ -5,7 +5,7 @@ function RequirementLinkBlock({name, progress}: {name: string, progress: number[
 
     return (
         <>
-            <div className="border rounded-[10px] items-center p-2 w-full">
+            <div className="border rounded-lg items-center p-2 w-full">
                 <div className="flex flex-row justify-between items-center">
                     {/* Text does not truncate or turn to ellipses*/}
                     <p className="line-clamp-1 justify-self-start">{name}</p>
