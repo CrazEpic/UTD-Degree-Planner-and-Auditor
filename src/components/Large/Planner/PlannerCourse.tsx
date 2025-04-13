@@ -10,21 +10,12 @@ function click(message: string) {
 	console.log(message)
 }
 
-function linkClick(message: string) {
-	console.log(message)
-
-	// Need to define LinkContext and linkCourse()
-	const linkCourse = useContext(LinkContext)?.linkCourse
-	if (linkCourse) {
-		linkCourse()
-	}
-}
-
 function PlannerCourse({course}: {course: DegreePlanCourse}) {
 
 	// Might have an issue with the ? "could be undefined"
 	const [drop, setDrop] = useState(false)
 	const fetchUser = useContext(UserContext)?.fetchUser
+	const linkCourse = useContext(LinkContext)?.linkCourse
 
 	return (
 		<>
@@ -73,7 +64,16 @@ function PlannerCourse({course}: {course: DegreePlanCourse}) {
 									}
 								</MenuItem>
 								<hr />
-								<MenuItem as="button" className="text-xl px-2 py-3 text-nowrap relative hover:bg-gray-100" onClick={() => linkClick("Link", )}>
+								<MenuItem 
+									as="button" 
+									className="text-xl px-2 py-3 text-nowrap relative hover:bg-gray-100" 
+									onClick={() => {
+										click("Link")
+										if (linkCourse) {
+											linkCourse(course.Course)
+										}
+									}}
+								>
 									Link Course
 								</MenuItem>
 								<hr />

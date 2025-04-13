@@ -7,6 +7,7 @@ import { Block, Course } from "../../types/degreeTest"
 import { LinkContext } from "../../contexts/LinkContext"
 import { Fragment } from "react/jsx-runtime"
 import clsx from 'clsx'
+import { useState } from "react"
 
 function createDefaultBlock() {
 	return {
@@ -35,43 +36,61 @@ function click(message: string) {
 
 function LargeWindow() {
 
-	/* Implement linkCourse() and update masked and course
+	// For course linking
+	const [mask, setMask] = useState(false)
+	const [course, setCourse] = useState<Course | null>(null)
+
+	/* 	Implement linkCourse()
 	const linkCourse = async () => {
 		try {
-			// API call
-			// Update requirements
+			// Find requirements API
+		} catch (error) {
+			console.error("Error fetching requirements:", error)
+		}
+	} 
+	*/
+	const linkCourse = (c: Course) => {
+		setMask(true)
+		setCourse(c)
+	}
+
+	/* 	Implement submitLink()
+	const linkCourse = async () => {
+		try {
+			// Update degree plan API
 		} catch (error) {
 			console.error("Error linking course:", error)
 		}
 	} 
 	*/
-	const linkCourse = () => {
-
+	const submitLink = () => {
+		setMask(false)
+		setCourse(null)
 	}
-	
 
-	const masked = false
-	let course : Course = {
-		prefix: "CR",
-		number: "1234",
-		name: "Course Name",
+	/* 	Implement cancelLink()
+	Might not even need an API call just remove the mask and move on?
+	*/
+	const cancelLink = () => {
+		setMask(false)
+		setCourse(null)
 	}
 
 	return (
 		<>
-			<LinkContext.Provider value={{course: null, linkCourse: linkCourse}}>
+			<LinkContext.Provider value={{linkCourse: linkCourse, cancelLink: cancelLink, submitLink: submitLink}}>
 				<div className="w-full overflow-auto relative">
 					{/* Make sure to make this the focus or bad things happen*/}
-					{masked && 
-						<div className="absolute m-auto inset-0 w-fit  h-fit bg-white rounded-lg z-50">
+					{mask && course != null &&
+						<div className="absolute m-auto inset-0 w-fit h-fit bg-white rounded-lg z-50">
 							<CourseLink name={course.name} hours={parseInt(course.number[1])} requirementList={reqList}></CourseLink>
 						</div>
 					}
-					<div className={"w-full overflow-auto p-4 " + (masked ? "backdrop-brightness-70 brightness-70" : "")}>
+					<div className={"w-full overflow-auto p-4 " + (mask ? "backdrop-brightness-70 brightness-70" : "")}>
 						<TabGroup>
 							<div className="flex flex-row justify-between relative">
 								{/* "flex flex-row justify-between items-end bg-white w-full h-[55px] border" */}
-								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 bg-white overflow-hidden  pt-1">
+								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 overflow-hidden  pt-1">
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
 											<button className="flex flex-col items-center w-full">

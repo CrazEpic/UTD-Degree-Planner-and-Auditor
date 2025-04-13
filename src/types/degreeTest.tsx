@@ -24,8 +24,9 @@ export type UserContextType = {
 }
 
 export type LinkContextType = {
-    course: Course | null,
-    linkCourse(): void,
+    linkCourse(c: Course): void,
+    cancelLink(): void,
+    submitLink(): void,
 }
 
 export type DegreePlan = {
