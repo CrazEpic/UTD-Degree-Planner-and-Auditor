@@ -5,7 +5,7 @@ import { UserContext } from "../../../contexts/UserContext"
 import { useEffect, useContext, useState } from "react"
 import axios from "axios"
 import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
-import ChooseRequisite from "./Requisites/ChooseRequisite"
+import ChooseRequisiteWrapper from "./Requisites/ChooseRequisiteWrapper"
 
 /*
 Steps:
@@ -28,7 +28,7 @@ const FlowchartCytoscape = () => {
 	// TODO: I WILL FIX WHERE I API CALL LATER BUT I JUST NEED THE INFORMATION
 	const { user } = useContext(UserContext)
 	const [degreePlan, setDegreePlan] = useState(null)
-	const [unfulfilledRequisites, setUnfulfilledRequisites] = useState([])
+	const [unfulfilledRequisites, setUnfulfilledRequisites] = useState<{ course: string; requisites: any }[]>([])
 
 	useEffect(() => {
 		if (!user) {
@@ -104,13 +104,12 @@ const FlowchartCytoscape = () => {
 			currentAndFutureSemesters[key].forEach((degreePlanCourse) => {
 				if (!creditReceived.has(`${degreePlanCourse.prefix} ${degreePlanCourse.number}`)) {
 					const recursivelyAddSelected = (requisites) => {
-						if (Object.hasOwn(requisites, "logicalOperator") || Object.hasOwn(requisites, "type")) {
+						if (Object.hasOwn(requisites, "type")) {
 							requisites["selected"] = false
-							if (Object.hasOwn(requisites, "logicalOperator")) {
-								requisites.requisites.forEach((requisite) => {
-									recursivelyAddSelected(requisite)
-								})
-							}
+						} else if (Object.hasOwn(requisites, "logicalOperator")) {
+							requisites.requisites.forEach((requisite) => {
+								recursivelyAddSelected(requisite)
+							})
 						}
 					}
 					const prerequisites = degreePlanCourse.Course.requisites.prequisites
@@ -233,7 +232,13 @@ const FlowchartCytoscape = () => {
 						// console.log(`Prerequisites for ${course} fulfilled!`)
 					} else {
 						// console.log(`Prerequisites for ${course} not fulfilled!`)
-						setUnfulfilledRequisites((prev) => [...prev, prerequisites])
+						setUnfulfilledRequisites((prev) => [
+							...prev,
+							{
+								course: course,
+								requisites: prerequisites,
+							},
+						])
 					}
 				}
 			}
@@ -276,11 +281,16 @@ const FlowchartCytoscape = () => {
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
 				<div id="cy" className="w-full h-full"></div>
-				<div className="absolute top-0 border-black border-2 w-full h-1/2 bg-white">
+				<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
 					<p>Requisites</p>
 					{unfulfilledRequisites.map((requisite) => {
-						console.log(requisite)
-						return <ChooseRequisite requisites={requisite} />
+						return (
+							<>
+								<p>{requisite.course}</p>
+								<ChooseRequisiteWrapper requisites={requisite.requisites} />
+								<hr></hr>
+							</>
+						)
 					})}
 				</div>
 			</div>
