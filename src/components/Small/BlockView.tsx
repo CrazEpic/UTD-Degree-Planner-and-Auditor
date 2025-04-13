@@ -35,7 +35,7 @@ function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth
 					<div className="flex flex-row items-center pr-2">
 						<div className="flex flex-row items-center gap-2">
 							<DisclosureButton className="group py-2">
-								<ChevronDownIcon className="size-6"></ChevronDownIcon>
+								<ChevronDownIcon className="size-6 max-lg:size-8"></ChevronDownIcon>
 							</DisclosureButton>
 
 							{/* Text does not truncate or turn to ellipses*/}

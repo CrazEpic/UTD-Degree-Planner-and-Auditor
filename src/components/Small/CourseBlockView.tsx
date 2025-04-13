@@ -27,7 +27,7 @@ function CourseBlockView({ course, name }: { course: CourseBlock; name: string }
 				<p className="underline ml-auto mr-4">Planned</p>
 			) : (
 				<Button
-					className="hover:bg-blue-200 size-6 ml-auto mr-4"
+					className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
 					onClick={async () => {
 						// TODO: check if course is already in degree plan, should not be a thing but maybe
 						try {

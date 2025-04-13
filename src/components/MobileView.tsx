@@ -3,7 +3,6 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import clsx from 'clsx'
 import { Fragment } from "react/jsx-runtime"
 import PlannerWindow from "./Large/Planner/PlannerWindow"
-import NavBar from "./NavBar"
 import FlowchartWindow from "./Large/Flowchart/FlowchartWindow"
 import RequirementWindow from "./Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "./Small/Prerequisites/PrerequisiteWindow"
