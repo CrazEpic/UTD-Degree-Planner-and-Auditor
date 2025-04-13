@@ -3,7 +3,7 @@ export type CourseLevel = "1000" | "2000" | "3000" | "4000" | "UPPER_DIVISION"
 // match a list of predefined courses, or a core curriculum area, with prefix/level as optional conditions
 type MatcherRequisite = {
 	type: "matcher"
-	match: string[] | string
+	matchList?: string[] | string
 	condition: {
 		prefix?: string
 		level?: CourseLevel

@@ -136,6 +136,106 @@ const FlowchartCytoscape = () => {
 			try to get a neededcourse to fulfill all requisites
 		*/
 
+		const tryToFulfillBranch = (requisites) => {
+			if (Object.hasOwn(requisites, "logicalOperator")) {
+				// has branches
+				if (requisites.logicalOperator === "AND") {
+					return requisites.requisites.every((requisite) => tryToFulfillBranch(requisite))
+				} else if (requisites.logicalOperator === "OR") {
+					return requisites.requisites.some((requisite) => tryToFulfillBranch(requisite))
+				}
+			} else if (Object.hasOwn(requisites, "type")) {
+				// reached a leaf requisite, check fulfillment
+				switch (requisites.type) {
+					case "course":
+						// check if course is in credit received or current/future/has been added temporarily
+						return creditReceived.has(requisites.courseID) || Object.hasOwn(coursesNeeded, requisites.courseID)
+					case "matcher":
+						// try to fulfill with received credit before checking current/future/temporary
+						Array.from(creditReceived).find((course) => {
+							// check if course is in match list
+							if (requisites.matchList != null && Array.isArray(requisites.matchList) && !requisites.matchList.includes(course)) {
+								return false
+							} else if (requisites.matchList != null && typeof requisites.matchList === "string" && requisites.matchList !== course) {
+								return false
+							}
+							// check if course meets conditions
+							if (requisites.condition.prefix != null && requisites.condition.prefix !== course.split(" ")[0]) {
+								return false
+							}
+							if (requisites.condition.level != null) {
+								const courseLevel = course.split(" ")[1].slice(0, 1) // get first digit of course number
+								let courseLevelString = ""
+								switch (courseLevel) {
+									case "1":
+										courseLevelString = "1000"
+										break
+									case "2":
+										courseLevelString = "2000"
+										break
+									case "3":
+										courseLevelString = "3000"
+										break
+									case "4":
+										courseLevelString = "4000"
+										break
+								}
+								if (requisites.condition.level === "UPPER_DIVISION") {
+									if (courseLevelString !== "3000" && courseLevelString !== "4000") {
+										return false
+									}
+								} else if (courseLevelString !== requisites.condition.level) {
+									return false
+								}
+							}
+							// haven't check minGrade or minCreditHours yet
+							return true
+						})
+						// type: "matcher"
+						// 	matchList?: string[] | string
+						// 	condition: {
+						// 		prefix?: string
+						// 		level?: CourseLevel
+						// 		minGrade?: string
+						// 		minCreditHours?: number
+						// 	}
+						break
+					case "major":
+						break
+					case "minor":
+						break
+					case "custom":
+						break
+					default:
+						console.error("Unknown requisite type:", requisites.type)
+						return false
+				}
+			} else {
+				// empty requisite
+				return true
+			}
+		}
+
+		// try to fulfill all requisites
+
+		console.log("Trying to fulfill requisites...")
+		Object.keys(coursesNeeded).forEach((course) => {
+			const requisites = coursesNeeded[course].requisites
+			if (requisites) {
+				console.log(`Trying to fulfill requisites for ${course}...`)
+				const prerequisites = requisites.prerequisites
+				console.log("Prerequisites:", prerequisites)
+				if (prerequisites) {
+					const fulfilled = tryToFulfillBranch(prerequisites)
+					if (fulfilled) {
+						console.log(`Prerequisites for ${course} fulfilled!`)
+					} else {
+						console.log(`Prerequisites for ${course} not fulfilled!`)
+					}
+				}
+			}
+		})
+
 		// we can only try to fulfill course or matcher requisites, and check major/minor requisites
 		const major = degreePlan.degreeName
 
