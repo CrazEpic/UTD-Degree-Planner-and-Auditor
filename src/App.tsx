@@ -25,7 +25,7 @@ function App() {
 		<>
 			<UserContext.Provider value={{user, fetchUser}}>
 				<NavBar></NavBar>
-				<div className="lg:inline max-lg:hidden flex flex-row h-[calc(100vh-55px)]">
+				<div className="flex flex-row h-[calc(100vh-55px)] max-lg:hidden ">
 					<LargeWindow></LargeWindow>
 					<SmallWindow></SmallWindow>
 				</div>
