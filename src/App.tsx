@@ -24,15 +24,12 @@ function App() {
 	return (
 		<>
 			<UserContext.Provider value={{user, fetchUser}}>
-				<div className="lg:inline sm:hidden">
-					<NavBar></NavBar>
-					<div className="flex flex-row lg:h-[calc(100vh-55px)] md:h-[calc(100vh-110px)]">
-						<LargeWindow></LargeWindow>
-						<SmallWindow></SmallWindow>
-					</div>
+				<NavBar></NavBar>
+				<div className="lg:inline max-lg:hidden flex flex-row h-[calc(100vh-55px)]">
+					<LargeWindow></LargeWindow>
+					<SmallWindow></SmallWindow>
 				</div>
 				<div className="lg:hidden">
-					{/* Need a default view (far left?) */}
 					<MobileView></MobileView>
 				</div>
 			</UserContext.Provider>

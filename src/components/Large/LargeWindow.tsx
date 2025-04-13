@@ -60,7 +60,7 @@ function LargeWindow() {
 	return (
 		<>
 			<LinkContext.Provider value={{course: null, linkCourse: linkCourse}}>
-				<div className="w-full overflow-auto relative">
+				<div className="w-full min-w-[375px] overflow-auto relative">
 					{/* Make sure to make this the focus or bad things happen*/}
 					{masked && 
 						<div className="absolute m-auto inset-0 w-fit  h-fit bg-white rounded-lg z-50">

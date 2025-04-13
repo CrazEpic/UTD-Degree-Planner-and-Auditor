@@ -12,9 +12,8 @@ import PrerequisiteWindow from "./Small/Prerequisites/PrerequisiteWindow"
 function MobileView() {
     return (
         <>
-            <NavBar></NavBar>
             <TabGroup>
-                <TabList className="flex flex-row justify-between items-end bg-white w-full h-[55px] border">
+                <TabList className="flex flex-row justify-between items-end bg-white w-full h-[55px] min-w-[375px] border">
                     <Tab as={Fragment}>
                         {({ hover, selected}) => (
                             <button className="flex flex-col items-center w-full">
