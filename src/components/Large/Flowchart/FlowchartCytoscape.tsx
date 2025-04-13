@@ -5,6 +5,7 @@ import { UserContext } from "../../../contexts/UserContext"
 import { useEffect, useContext, useState } from "react"
 import axios from "axios"
 import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
+import ChooseRequisite from "./Requisites/ChooseRequisite"
 
 /*
 Steps:
@@ -27,6 +28,7 @@ const FlowchartCytoscape = () => {
 	// TODO: I WILL FIX WHERE I API CALL LATER BUT I JUST NEED THE INFORMATION
 	const { user } = useContext(UserContext)
 	const [degreePlan, setDegreePlan] = useState(null)
+	const [unfulfilledRequisites, setUnfulfilledRequisites] = useState([])
 
 	useEffect(() => {
 		if (!user) {
@@ -222,15 +224,16 @@ const FlowchartCytoscape = () => {
 		Object.keys(coursesNeeded).forEach((course) => {
 			const requisites = coursesNeeded[course].requisites
 			if (requisites) {
-				console.log(`Trying to fulfill requisites for ${course}...`)
+				// console.log(`Trying to fulfill requisites for ${course}...`)
 				const prerequisites = requisites.prerequisites
-				console.log("Prerequisites:", prerequisites)
+				// console.log("Prerequisites:", prerequisites)
 				if (prerequisites) {
 					const fulfilled = tryToFulfillBranch(prerequisites)
 					if (fulfilled) {
-						console.log(`Prerequisites for ${course} fulfilled!`)
+						// console.log(`Prerequisites for ${course} fulfilled!`)
 					} else {
-						console.log(`Prerequisites for ${course} not fulfilled!`)
+						// console.log(`Prerequisites for ${course} not fulfilled!`)
+						setUnfulfilledRequisites((prev) => [...prev, prerequisites])
 					}
 				}
 			}
@@ -273,7 +276,13 @@ const FlowchartCytoscape = () => {
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
 				<div id="cy" className="w-full h-full"></div>
-				<div className="absolute top-0 border-black border-2 w-64 h-64 bg-white">Select prereq to fulfill</div>
+				<div className="absolute top-0 border-black border-2 w-full h-1/2 bg-white">
+					<p>Requisites</p>
+					{unfulfilledRequisites.map((requisite) => {
+						console.log(requisite)
+						return <ChooseRequisite requisites={requisite} />
+					})}
+				</div>
 			</div>
 		</>
 	)
