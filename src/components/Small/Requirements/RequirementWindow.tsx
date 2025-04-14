@@ -123,6 +123,33 @@ function RequirementWindow() {
                 )}
 
                 {/* Add unrelated courses */}
+                <BlockView requirement={
+                        {
+                            blockId: '',
+                            blockName: 'Unrelated Courses',
+                            parentBlockId: '',
+                            blockPosition: 0,
+                            innerBlocks: [
+                                {
+                                    blockId: '',
+                                    blockName: '',
+                                    parentBlockId: '',
+                                    blockPosition: 0,
+                                    innerBlocks: [],
+                                    blockType: 'MatcherGroup',
+                                    blockContent: {
+                                        id: '',
+                                        conditions: {},
+                                    },
+                                }
+                            ],
+                            blockType: 'NonTerminal',
+                            blockContent: {
+                                id: '',
+                                conditions: {},
+                            },
+                        }
+                } depth={1} checkbox={false}></BlockView>
 
                 {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
                 {footnotes.map((footnote) =>

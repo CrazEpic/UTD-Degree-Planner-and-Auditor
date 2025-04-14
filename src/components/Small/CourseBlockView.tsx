@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/UserContext"
 import { useContext } from "react"
 import axios from "axios"
 
-function CourseBlockView({ course, name }: { course: CourseBlock; name: string }) {
+function CourseBlockView({ course, name, indent }: { course: CourseBlock, name: string, indent: boolean }) {
 	const user = useContext(UserContext)?.user
 	const fetchUser = useContext(UserContext)?.fetchUser
 	
@@ -16,7 +16,7 @@ function CourseBlockView({ course, name }: { course: CourseBlock; name: string }
 	const planned = false
 
 	return (
-		<div className="flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 border-r-0 rounded-r-none">
+		<div className={"flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 " + (indent && "border-r-0 rounded-r-none")}>
 			<p className="line-clamp-2 max-w-15/20">
 				<a className="text-[#037b3f]" href="">
 					{course.prefix + " " + course.number + " "}

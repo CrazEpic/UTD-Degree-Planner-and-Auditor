@@ -29,6 +29,12 @@ export type LinkContextType = {
     submitLink(): void,
 }
 
+export type MatcherContextType = {
+    conditions: {} | null,
+    search(matcher: string): void, 
+    end(): void,
+}
+
 export type DegreePlan = {
     degreePlanID:      string,      
     startSemesterTerm: SemesterTerm,
@@ -81,6 +87,7 @@ export type NonTerminalBlock = {
     conditions: {},
 }
 
+// Update b/c why does this not have a course name attached
 export type CourseBlock = {
     id: string,
     number: string,

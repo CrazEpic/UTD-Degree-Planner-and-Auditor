@@ -64,7 +64,7 @@ function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth
 								case "NonTerminal":
 									return <BlockView requirement={inner} depth={depth + 1} checkbox={checkbox}></BlockView>
 								case "Course":
-									return <CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName}></CourseBlockView>
+									return <CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
 								case "Text":
 									return <p>{(inner.blockContent as TextBlock).text}</p>
 								case "MatcherGroup":
