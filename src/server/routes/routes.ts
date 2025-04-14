@@ -15,6 +15,32 @@ router.post("/login", async (req, res) => {
 	res.send("login")
 })
 
+import { z } from "zod"
+import { StatusCodes } from "http-status-codes"
+router.get("/courses", async (req, res) => {
+	const { data, error } = z
+		.object({
+			prefix: z.string(),
+			number: z.string(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.query)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { prefix, number } = data
+	const course = await req.context.prisma.course.findUnique({
+		where: {
+			courseID: {
+				prefix: prefix,
+				number: number,
+			},
+		},
+	})
+	res.json(course)
+})
+
 // General database stuff
 
 /*

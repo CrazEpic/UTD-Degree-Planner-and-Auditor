@@ -41,7 +41,7 @@ type RequisiteGroup = {
 }
 
 export type Requisites = {
-	prequisites: RequisiteGroup
+	prerequisites: RequisiteGroup
 	corequisites: RequisiteGroup
 	prerequiresOrCorequisites: RequisiteGroup
 }
