@@ -3,3 +3,8 @@
 button {
     cursor: pointer;
 }
+
+button:disabled {
+    cursor: default;
+    opacity: 50%;
+}
