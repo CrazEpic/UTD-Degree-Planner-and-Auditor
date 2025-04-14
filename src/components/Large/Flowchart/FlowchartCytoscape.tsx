@@ -5,7 +5,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react
 import { UserContext } from "../../../contexts/UserContext"
 import { useEffect, useContext, useState } from "react"
 import axios from "axios"
-import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
+import { compareSemesters, getNextSemester, semesterFromDate, stringFromTerm } from "../../../utils/semester"
 import ChooseRequisite from "./Requisites/ChooseRequisite"
 
 /*
@@ -74,25 +74,28 @@ const FlowchartCytoscape = () => {
 			}
 		})
 
-		const startSemester = { term: degreePlan.startSemesterTerm, year: degreePlan.startSemesterYear }
-		const endSemester = { term: degreePlan.endSemesterTerm, year: degreePlan.endSemesterYear }
+		const startSemester = { term: degreePlan.startSemesterTerm, year: parseInt(degreePlan.startSemesterYear) }
+		const endSemester = { term: degreePlan.endSemesterTerm, year: parseInt(degreePlan.endSemesterYear) }
 		const currentSemester = semesterFromDate(new Date())
 
-		const pastSemesters = {}
+		const pastSemesters: any = {}
 		let semesterCounter = startSemester
 		while (compareSemesters(semesterCounter, currentSemester) < 0) {
-			pastSemesters[`${semesterCounter.term} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
-			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+			pastSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] =
+				degreePlanCourses[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 		}
-		const currentAndFutureSemesters = {}
+		let currentAndFutureSemesters: any = {}
 		currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
 		while (compareSemesters(semesterCounter, endSemester) <= 0) {
-			currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
-				degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
-			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+			currentAndFutureSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] =
+				degreePlanCourses[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 		}
 		const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
 		const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
+
+		console.log(pastSemesters)
 
 		const creditReceived = new Set(
 			testCredits
@@ -100,10 +103,15 @@ const FlowchartCytoscape = () => {
 				.concat(transferredCredits.map((course) => `${course.prefix} ${course.number}`))
 				.concat(
 					Object.keys(pastSemesters).flatMap((key) => {
-						return pastSemesters[key].map((degreePlanCourse) => `${degreePlanCourse.prefix} ${degreePlanCourse.number}`)
+						return pastSemesters[key].flatMap((degreePlanCourse) => {
+							console.log(degreePlanCourse)
+							return `${degreePlanCourse.prefix} ${degreePlanCourse.number}`
+						})
 					})
 				)
 		)
+
+		console.log(creditReceived)
 
 		const coursesRequisitesNeeded = Object.keys(currentAndFutureSemesters)
 			.flatMap((key) => {
@@ -136,11 +144,10 @@ const FlowchartCytoscape = () => {
 						case "course":
 							// check if course is in credit received or current/future/has been added temporarily
 							requisites.canBeFulfilled = creditReceived.has(requisites.courseID) || Object.hasOwn(coursesRequisitesNeeded, requisites.courseID)
-							requisites.togglable =
-								temporarilyAddedCourses.find((course) => {
-									return course.prefix == requisites.courseID.split(" ")[0] && course.number == requisites.courseID.split(" ")[1]
-								}) ||
-								!Object.keys(currentAndFutureSemesters)
+							// if this is true, set togglable to false
+							if (
+								creditReceived.has(requisites.courseID) ||
+								Object.keys(currentAndFutureSemesters)
 									.flatMap((key) => {
 										return currentAndFutureSemesters[key].map((degreePlanCourse) => {
 											return {
@@ -153,6 +160,9 @@ const FlowchartCytoscape = () => {
 									.find((course) => {
 										return course.prefix == requisites.courseID.split(" ")[0] && course.number == requisites.courseID.split(" ")[1]
 									})
+							) {
+								requisites.togglable = false
+							}
 							break
 						case "matcher":
 							// try to fulfill with received credit before checking current/future/temporary
@@ -391,7 +401,7 @@ const FlowchartCytoscape = () => {
 
 		// ranking based on critical path (kind of deepest) and then broad
 		// well, deepest is more like the node with the most predecessors
-		const rankMostImportantWithNoPrereqs = () => {
+		const rankMostImportantWithNoRequisites = () => {
 			return (
 				cy
 					.nodes()
@@ -430,8 +440,7 @@ const FlowchartCytoscape = () => {
 					.reverse()
 			)
 		}
-
-		setMostImportantCoursesThatCanBeTaken(rankMostImportantWithNoPrereqs())
+		setMostImportantCoursesThatCanBeTaken(rankMostImportantWithNoRequisites())
 	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites, canDisplayFlowchart])
 
 	return (
@@ -446,7 +455,11 @@ const FlowchartCytoscape = () => {
 							</DisclosureButton>
 							<DisclosurePanel>
 								{mostImportantCoursesThatCanBeTaken.map((course, index) => {
-									return <p key={course}>{index+1} {course}</p>
+									return (
+										<p key={course}>
+											{index + 1} {course}
+										</p>
+									)
 								})}
 							</DisclosurePanel>
 						</Disclosure>

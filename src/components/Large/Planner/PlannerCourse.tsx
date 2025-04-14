@@ -5,23 +5,28 @@ import { UserContext } from "../../../contexts/UserContext"
 import { LinkContext } from "../../../contexts/LinkContext"
 import { useContext, useState } from "react"
 import { DegreePlanCourse } from "../../../types/degreeTest"
+import { getAllSemestersFromStartToEnd } from "../../../utils/semester"
 
 function click(message: string) {
 	console.log(message)
 }
 
-function PlannerCourse({course}: {course: DegreePlanCourse}) {
-
+function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 	// Might have an issue with the ? "could be undefined"
 	const [drop, setDrop] = useState(false)
 	const fetchUser = useContext(UserContext)?.fetchUser
+	const user = useContext(UserContext)?.user
 	const linkCourse = useContext(LinkContext)?.linkCourse
+
+	const allSemestersFromStartToEnd = getAllSemestersFromStartToEnd(
+		{ term: user?.DegreePlan?.startSemesterTerm, year: parseInt(user?.DegreePlan?.startSemesterYear) },
+		{ term: user?.DegreePlan?.endSemesterTerm, year: parseInt(user?.DegreePlan?.endSemesterYear) }
+	)
 
 	return (
 		<>
 			<div className="border-3 rounded-lg w-full h-[125px] p-1 flex flex-col">
 				<div className="flex flex-row justify-between p-1">
-
 					{/* 
 						How should we represent the tags on courses
 						AP/IB/CLEP Credits or Transferables Courses
@@ -30,42 +35,78 @@ function PlannerCourse({course}: {course: DegreePlanCourse}) {
 					*/}
 					<p className="">{"Tag"}</p>
 					<div className="relative">
-
 						{/* Will not hover on mobile*/}
 						<Menu as="div" className="w-fit">
 							<MenuButton>
 								<EllipsisVerticalIcon className="size-6 hover:bg-blue-200"></EllipsisVerticalIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
-								<MenuItem 
-									as="div" 
-									className="flex flex-row items-center justify-between text-xl py-3 p-1 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100" 
-									onMouseOver={() => setDrop(true)} 
+								<MenuItem
+									as="div"
+									className="flex flex-row items-center justify-between text-xl py-3 p-1 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100"
+									onMouseOver={() => setDrop(true)}
 									onMouseLeave={() => setDrop(false)}
 								>
 									{/* Try right, if not possible go left */}
 									<p>Move Course</p>
 									<ChevronRightIcon className="size-6"></ChevronRightIcon>
-									{drop &&
+									{drop && (
 										<div className="absolute mr-[-160px] top-0 right-0 bg-white border-2 rounded-lg flex flex-col w-40 z-20">
-											<Button className="rounded-lg rounded-b-none hover:bg-gray-100" onClick={() => click("Spring 25")}>
-												<p className="text-xl px-2 py-3 text-nowrap">Spring 2025</p>
-											</Button>
-											<hr />
-											<Button className="hover:bg-gray-100" onClick={() => click("Summer 25")}>
-												<p className="text-xl py-3 text-nowrap">Summer 2025</p>	
-											</Button>
-											<hr />
-											<Button className="rounded-lg rounded-t-none hover:bg-gray-100" onClick={() => click("Fall 25")}>
-												<p className="text-xl py-3 text-nowrap">Fall 2025</p>
+											{allSemestersFromStartToEnd.map((semester) => (
+												<>
+													<Button
+														className="rounded-lg rounded-b-none hover:bg-gray-100"
+														onClick={async () => {
+															try {
+																const response = await axios.put("http://localhost:3000/api/degreePlan/updateCourseSemester", {
+																	degreePlanCourseID: course.degreePlanCourseID,
+																	semester: {
+																		semesterTerm: semester.split(" ")[0],
+																		semesterYear: semester.split(" ")[1],
+																	},
+																})
+
+																// If fetchUser is undefined this will be a problem
+																if (fetchUser) {
+																	fetchUser()
+																}
+															} catch (error) {
+																console.error("Error removing course: ", error)
+															}
+														}}
+													>
+														<p className="text-xl px-2 py-3 text-nowrap">{`${semester.split(" ")[0]} ${semester.split(" ")[1]}`}</p>
+													</Button>
+													<hr />
+												</>
+											))}
+											<Button
+												className="rounded-lg rounded-b-none hover:bg-gray-100"
+												onClick={async () => {
+													try {
+														const response = await axios.put("http://localhost:3000/api/degreePlan/updateCourseSemester", {
+															degreePlanCourseID: course.degreePlanCourseID,
+															semester: null
+														})
+
+														// If fetchUser is undefined this will be a problem
+														if (fetchUser) {
+															fetchUser()
+														}
+													} catch (error) {
+														console.error("Error removing course: ", error)
+													}
+												}}
+											>
+												<p className="text-xl px-2 py-3 text-nowrap">{"Future"}</p>
 											</Button>
 										</div>
-									}
+									)}
 								</MenuItem>
 								<hr />
-								<MenuItem 
-									as="button" 
-									className="text-xl px-2 py-3 text-nowrap relative hover:bg-gray-100" 
+								<MenuItem
+									as="button"
+									className="text-xl px-2 py-3 text-nowrap relative hover:bg-gray-100"
 									onClick={() => {
 										click("Link")
 										if (linkCourse) {

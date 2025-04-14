@@ -121,10 +121,12 @@ router.put("/updateCourseSemester", async (req, res) => {
 	const { data, error } = z
 		.object({
 			degreePlanCourseID: z.string(),
-			semester: z.object({
-				semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
-				semesterYear: z.string(),
-			}),
+			semester: z
+				.object({
+					semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
+					semesterYear: z.string(),
+				})
+				.nullable(),
 		})
 		.strict()
 		.required()
@@ -133,14 +135,25 @@ router.put("/updateCourseSemester", async (req, res) => {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
 	const { degreePlanCourseID, semester } = data
-	const degreePlanCourse = await req.context.prisma.degreePlanCourse.update({
-		where: { degreePlanCourseID: degreePlanCourseID },
-		data: {
-			semesterTerm: semester.semesterTerm,
-			semesterYear: semester.semesterYear,
-		},
-	})
-	res.json(degreePlanCourse)
+	if (!semester) {
+		const degreePlanCourse = await req.context.prisma.degreePlanCourse.update({
+			where: { degreePlanCourseID: degreePlanCourseID },
+			data: {
+				semesterTerm: null,
+				semesterYear: null,
+			},
+		})
+		res.json(degreePlanCourse)
+	} else {
+		const degreePlanCourse = await req.context.prisma.degreePlanCourse.update({
+			where: { degreePlanCourseID: degreePlanCourseID },
+			data: {
+				semesterTerm: semester.semesterTerm,
+				semesterYear: semester.semesterYear,
+			},
+		})
+		res.json(degreePlanCourse)
+	}
 })
 
 router.get("/:degreePlanID/getAllCourseToRequirementBlockLinks", async (req, res) => {
