@@ -92,7 +92,7 @@ function parseDegree(data: any) : Degree {
 
 // Need a way to differentiate in BlockView from Requirements
 function PrerequisiteWindow() {
-    const [d, setD] = useState<Degree>({RootBlock: createDefaultBlock(), blockId: "a", degreeName: "b", degreeYear: "c"})
+    const [d, setD] = useState<Degree | null>(null)
     useEffect(() => {
         async function fetchData() {
             try {
@@ -107,15 +107,8 @@ function PrerequisiteWindow() {
 
     return (
         <>
-            <div className="flex flex-col gap-[8px]">
-                <p>Prerequisite Window</p>
-                {/* 
-                {d.RootBlock.innerBlocks.map((req) => 
-                    <BlockView requirement={req} depth={1} checkbox={false}></BlockView>
-                )}
-                */}
-                
-                {d.blockId != "a" && d.RootBlock.innerBlocks.map((inner: Block) => 
+            <div className="flex flex-col gap-2 max-lg:mt-4">
+                {d?.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
             </div>

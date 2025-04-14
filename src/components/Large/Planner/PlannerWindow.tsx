@@ -4,19 +4,22 @@ import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
-import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
+import { compareSemesters, getNextSemester, semesterFromDate, stringFromTerm } from "../../../utils/semester"
+import { DegreePlan, DegreePlanCourse, UserContextType } from "../../../types/degreeTest"
 
 function PlannerWindow() {
-	const { user } = useContext(UserContext)
 
-	const [degreePlan, setDegreePlan] = useState(null)
+	// User could be undefined because of the ?
+	const user = useContext<UserContextType | null>(UserContext)?.user
+
+	const [degreePlan, setDegreePlan] = useState<DegreePlan | null>(null)
 	useEffect(() => {
 		const fetchDegreePlan = async () => {
 			try {
 				if (!user) {
 					return
 				}
-				const response = await axios.get(`http://localhost:3000/api/degreePlan/${user.DegreePlan.degreePlanID}`)
+				const response = await axios.get(`http://localhost:3000/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
 				setDegreePlan(response.data)
 			} catch (error) {
 				console.error("Error fetching degree plan:", error)
@@ -29,7 +32,7 @@ function PlannerWindow() {
 		return <></>
 	}
 
-	const degreePlanCourses = Object.groupBy(degreePlan.DegreePlanCourses, (course) => {
+	const degreePlanCourses = Object.groupBy(degreePlan.DegreePlanCourses, (course: DegreePlanCourse) => {
 		// test credit
 		if (course.testComponentID) {
 			return "Test Credits (AP/IB/CLEP/etc.)"
@@ -46,22 +49,22 @@ function PlannerWindow() {
 		}
 	})
 
-	const startSemester = { term: degreePlan.startSemesterTerm, year: degreePlan.startSemesterYear }
-	const endSemester = { term: degreePlan.endSemesterTerm, year: degreePlan.endSemesterYear }
+	const startSemester = { term: degreePlan.startSemesterTerm, year: parseInt(degreePlan.startSemesterYear) }
+	const endSemester = { term: degreePlan.endSemesterTerm, year: parseInt(degreePlan.endSemesterYear) }
 	const currentSemester = semesterFromDate(new Date())
 
-	const pastSemesters = {}
+	const pastSemesters : any = {}
 	let semesterCounter = startSemester
 	while (compareSemesters(semesterCounter, currentSemester) < 0) {
-		pastSemesters[`${semesterCounter.term} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
-		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		pastSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+		semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 	}
-	const currentAndFutureSemesters = {}
+	let currentAndFutureSemesters : any = {}
 	currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
 	while (compareSemesters(semesterCounter, endSemester) <= 0) {
-		currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
+		currentAndFutureSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] =
 			degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
-		semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 	}
 	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
 	const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
@@ -88,7 +91,7 @@ function PlannerWindow() {
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
 							<span>Past Semesters</span>
-							<ChevronDownIcon className="size-[24px]" />
+							<ChevronDownIcon className="size-6" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
 							{Object.keys(pastSemesters).map((section) => {
@@ -103,7 +106,7 @@ function PlannerWindow() {
 					<>
 						<DisclosureButton className="flex w-full justify-between rounded-lg bg-[#e87500] px-4 py-2 text-left text-sm font-medium text-white hover:bg-[#d06f00] focus:outline-none focus:ring-2 focus:ring-[#e87500] focus:ring-offset-2">
 							<span>Test and Transfer Credit</span>
-							<ChevronDownIcon className="size-[24px]" />
+							<ChevronDownIcon className="size-6" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
 							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={testCredits}></PlannerSection>

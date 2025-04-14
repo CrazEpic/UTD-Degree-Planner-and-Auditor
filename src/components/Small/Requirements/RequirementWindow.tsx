@@ -102,7 +102,7 @@ const footnotes : string[] = [
 
 // Currently does not work because of camelCase change not merged
 function RequirementWindow() {
-    const [d, setD] = useState<Degree>({RootBlock: createDefaultBlock(), blockId: "a", degreeName: "b", degreeYear: "c"})
+    const [d, setD] = useState<Degree | null>(null)
     useEffect(() => {
         async function fetchData() {
             try {
@@ -117,11 +117,39 @@ function RequirementWindow() {
     
     return (
         <> 
-            <div className="flex flex-col gap-[8px]">
-                {/* d.blockId != "a" is for the default value*/}
-                {d.blockId != "a" && d.RootBlock.innerBlocks.map((inner: Block) => 
+            <div className="flex flex-col gap-2 max-lg:mt-4">
+                {d?.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
+
+                {/* Add unrelated courses */}
+                <BlockView requirement={
+                        {
+                            blockId: '',
+                            blockName: 'Unrelated Courses',
+                            parentBlockId: '',
+                            blockPosition: 0,
+                            innerBlocks: [
+                                {
+                                    blockId: '',
+                                    blockName: '',
+                                    parentBlockId: '',
+                                    blockPosition: 0,
+                                    innerBlocks: [],
+                                    blockType: 'MatcherGroup',
+                                    blockContent: {
+                                        id: '',
+                                        conditions: {},
+                                    },
+                                }
+                            ],
+                            blockType: 'NonTerminal',
+                            blockContent: {
+                                id: '',
+                                conditions: {},
+                            },
+                        }
+                } depth={1} checkbox={false}></BlockView>
 
                 {/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
                 {footnotes.map((footnote) =>
