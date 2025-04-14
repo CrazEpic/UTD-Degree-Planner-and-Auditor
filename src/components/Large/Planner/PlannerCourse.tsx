@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon, ChevronLeftIcon } from "@heroicons/react/24/solid"
+import { EllipsisVerticalIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import { Button, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
@@ -37,18 +37,18 @@ function PlannerCourse({course}: {course: DegreePlanCourse}) {
 								<EllipsisVerticalIcon className="size-6 hover:bg-blue-200"></EllipsisVerticalIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
+								
 								<MenuItem 
 									as="div" 
 									className="flex flex-row items-center text-xl py-3 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100" 
 									onMouseOver={() => setDrop(true)} 
 									onMouseLeave={() => setDrop(false)}
 								>
-									<ChevronLeftIcon className="size-6 justify-self-start"></ChevronLeftIcon>
+									{/* Try right, if not possible go left */}
 									<p>Move Course</p>
-
-									{/* Currently hovers off of the page*/}
+									<ChevronRightIcon className="size-6 justify-self-end"></ChevronRightIcon>
 									{drop &&
-										<div className="absolute ml-[-160px] top-0 left-0 bg-white border-2 rounded-lg flex flex-col w-40 z-20">
+										<div className="absolute mr-[-160px] top-0 right-0 bg-white border-2 rounded-lg flex flex-col w-40 z-20">
 											<Button className="rounded-lg rounded-b-none hover:bg-gray-100" onClick={() => click("Spring 25")}>
 												<p className="text-xl px-2 py-3 text-nowrap">Spring 2025</p>
 											</Button>

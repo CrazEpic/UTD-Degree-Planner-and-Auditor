@@ -130,28 +130,6 @@ function LargeWindow() {
 										)}
 									</Tab> 
 								</TabList>
-								{/* Feels like text should be here? 
-										Or at least something should
-										<p className="m-[15px] text-2xl">MY DEGREE PLAN</p> 
-								*/}
-								<Menu as="div" className="w-fit max-lg:hidden">
-									<MenuButton className="hover:bg-blue-200">
-										<Cog6ToothIcon className="size-8"></Cog6ToothIcon>
-									</MenuButton>
-									<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
-										<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("One")}>
-											Setting 1
-										</MenuItem>
-										<hr />
-										<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("Two")}>
-											Setting 2
-										</MenuItem>
-										<hr />
-										<MenuItem as="button" className="text-xl mx-2 my-3 text-nowrap" onClick={() => click("Three")}>
-											Setting 3
-										</MenuItem>
-									</MenuItems>
-								</Menu>
 							</div>
 							<TabPanels>
 								<TabPanel>

@@ -2,7 +2,7 @@ import { PlusIcon } from "@heroicons/react/24/solid"
 import { CourseBlock } from "../../types/degreeTest"
 import { Button } from "@headlessui/react"
 import { UserContext } from "../../contexts/UserContext"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import axios from "axios"
 
 function CourseBlockView({ course, name, indent }: { course: CourseBlock, name: string, indent: boolean }) {
@@ -10,10 +10,9 @@ function CourseBlockView({ course, name, indent }: { course: CourseBlock, name: 
 	const fetchUser = useContext(UserContext)?.fetchUser
 	
 	// {
-		/* Replace with check in planned degree */
+		/* Need a way to toggle this on add / remove */
 	// }
-	
-	const planned = false
+	const [planned, setPlanned] = useState(false)
 
 	return (
 		<div className={"flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 " + (indent && "border-r-0 rounded-r-none")}>
@@ -40,6 +39,7 @@ function CourseBlockView({ course, name, indent }: { course: CourseBlock, name: 
 							if (fetchUser) {
 								fetchUser()
 							}
+							setPlanned(true)
 						} catch (error) {
 							console.error("Error adding course: ", error)
 						}

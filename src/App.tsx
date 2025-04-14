@@ -4,7 +4,6 @@ import SmallWindow from "./components/Small/SmallWindow"
 import { UserContext } from "./contexts/UserContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import MobileView from "./components/MobileView"
 import SearchWindow from "./components/Small/SearchWindow"
 import { MatcherContext } from "./contexts/MatcherContext"
 
