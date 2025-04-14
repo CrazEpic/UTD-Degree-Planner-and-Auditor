@@ -69,8 +69,6 @@ function PlannerWindow() {
 	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
 	const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
 
-	console.log(currentAndFutureSemesters)
-
 	return (
 		<>
 			<Disclosure as="div" defaultOpen={true} className="mt-4">

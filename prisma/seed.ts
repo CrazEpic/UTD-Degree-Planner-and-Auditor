@@ -25,7 +25,7 @@ const createCoreCurriculumAreas = async () => {
 
 const createCourses = async () => {
 	const emptyRequisites: Requisites = {
-		prequisites: { logicalOperator: "AND", requisites: [] },
+		prerequisites: { logicalOperator: "AND", requisites: [] },
 		corequisites: { logicalOperator: "AND", requisites: [] },
 		prerequisitesOrCorequisites: { logicalOperator: "AND", requisites: [] },
 	}
@@ -50,7 +50,7 @@ const createCourses = async () => {
 				number: "2413",
 				name: "Differential Calculus",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "custom", text: "ALEKS score required" },
@@ -72,7 +72,7 @@ const createCourses = async () => {
 				number: "2417",
 				name: "Calculus I",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "custom", text: "ALEKS score required" },
@@ -94,7 +94,7 @@ const createCourses = async () => {
 				number: "1100",
 				name: "Introduction to Engineering and Computer Science",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},
 				},
@@ -104,7 +104,7 @@ const createCourses = async () => {
 				number: "1200",
 				name: "Introduction to Computer Science and Software Engineering",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},
 				},
@@ -114,7 +114,7 @@ const createCourses = async () => {
 				number: "1436",
 				name: "Programming Fundamentals",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},
 				},
@@ -124,7 +124,7 @@ const createCourses = async () => {
 				number: "1337",
 				name: "Computer Science I",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: { type: "course", courseID: "CS 1436", minGrade: "C" },
 					},
@@ -137,7 +137,7 @@ const createCourses = async () => {
 				number: "2305",
 				name: "Discrete Mathematics for Computing I",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "custom", text: "ALEKS score required" },
@@ -159,7 +159,7 @@ const createCourses = async () => {
 				number: "2336",
 				name: "Computer Science II",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 1337", minGrade: "C" }],
 					},
@@ -175,7 +175,7 @@ const createCourses = async () => {
 				number: "2340",
 				name: "Computer Architecture",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 1337", minGrade: "C" },
@@ -191,7 +191,7 @@ const createCourses = async () => {
 				number: "2418",
 				name: "Linear Algebra",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "course", courseID: "MATH 2306", minGrade: "C-" },
@@ -208,7 +208,7 @@ const createCourses = async () => {
 				number: "1302",
 				name: "Rhetoric",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},
 				},
@@ -218,7 +218,7 @@ const createCourses = async () => {
 				number: "2125",
 				name: "Physics Laboratory I",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "PHYS 2325" }],
@@ -231,7 +231,7 @@ const createCourses = async () => {
 				number: "2126",
 				name: "Physics Laboratory II",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "PHYS 2326" }],
@@ -244,7 +244,7 @@ const createCourses = async () => {
 				number: "2325",
 				name: "Mechanics",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "course", courseID: "MATH 2413" },
@@ -275,7 +275,7 @@ const createCourses = async () => {
 				number: "2326",
 				name: "Electromagnetism and Waves",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "PHYS 2325" },
@@ -300,7 +300,7 @@ const createCourses = async () => {
 				number: "2414",
 				name: "Integral Calculus",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "OR",
 						requisites: [
 							{ type: "course", courseID: "MATH 2413", minGrade: "C-" },
@@ -316,7 +316,7 @@ const createCourses = async () => {
 				number: "2419",
 				name: "Calculus II",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "MATH 2417", minGrade: "C-" }],
 					},
@@ -329,7 +329,7 @@ const createCourses = async () => {
 				number: "3162",
 				name: "Professional Responsibility in Computer Science and Software Engineering",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {},
 					prerequisitesOrCorequisites: {
 						logicalOperator: "AND",
@@ -345,7 +345,7 @@ const createCourses = async () => {
 				number: "3341",
 				name: "Probability and Statistics in Computer Science and Software Engineering",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{
@@ -369,7 +369,7 @@ const createCourses = async () => {
 				number: "3345",
 				name: "Data Structures and Introduction to Algorithmic Analysis",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2336", minGrade: "C" },
@@ -388,7 +388,7 @@ const createCourses = async () => {
 				number: "3354",
 				name: "Software Engineering",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2336", minGrade: "C" },
@@ -407,7 +407,7 @@ const createCourses = async () => {
 				number: "3377",
 				name: "Systems Programming in UNIX and Other Environments",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 2336", minGrade: "C" }],
 					},
@@ -420,7 +420,7 @@ const createCourses = async () => {
 				number: "2390",
 				name: "Professional and Technical Communication",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "RHET 1302" }],
 					},
@@ -433,7 +433,7 @@ const createCourses = async () => {
 				number: "4141",
 				name: "Digital Systems Laboratory",
 				requisites: {
-					prequisites: {},
+					prerequisites: {},
 					corequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 4341" }],
@@ -446,7 +446,7 @@ const createCourses = async () => {
 				number: "4337",
 				name: "Programming Language Paradigms",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2336", minGrade: "C" },
@@ -463,7 +463,7 @@ const createCourses = async () => {
 				number: "4341",
 				name: "Digital Logic and Computer Design",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2340" },
@@ -482,7 +482,7 @@ const createCourses = async () => {
 				number: "4347",
 				name: "Database Systems",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [{ type: "course", courseID: "CS 3345" }],
 					},
@@ -495,7 +495,7 @@ const createCourses = async () => {
 				number: "4348",
 				name: "Operating Systems Concepts",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2340" },
@@ -512,7 +512,7 @@ const createCourses = async () => {
 				number: "4349",
 				name: "Advanced Algorithm Design and Analysis",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 2305", minGrade: "C" },
@@ -528,7 +528,7 @@ const createCourses = async () => {
 				number: "4384",
 				name: "Automata Theory",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: { type: "course", courseID: "CS 2305", minGrade: "C" },
 					},
@@ -536,14 +536,12 @@ const createCourses = async () => {
 					prerequisitesOrCorequisites: {},
 				},
 			},
-			// Prerequisites: (CE 3345 or CS 3345 or SE 3345), and (CE 3354 or CS 3354 or SE 3354)
-			// or equivalent and at least three CS 43XX classes.
 			{
 				prefix: "CS",
 				number: "4485",
 				name: "Computer Science Project",
 				requisites: {
-					prequisites: {
+					prerequisites: {
 						logicalOperator: "AND",
 						requisites: [
 							{ type: "course", courseID: "CS 3345" },
@@ -596,19 +594,35 @@ const createCSDegree = async () => {
 				create: {
 					blockName: "Bachelor of Science in Computer Science (2025)",
 					NonterminalBlock: {
-						create: { conditions: emptyConditions },
+						create: {
+							conditions: {
+								blockFulfillmentCondition: { blocksToFulfill: 3 },
+							},
+						},
 					},
 					InnerBlocks: {
 						create: [
 							{
 								blockName: "I. Core Curriculum",
 								blockPosition: 0,
-								NonterminalBlock: { create: { conditions: emptyConditions } },
+								NonterminalBlock: {
+									create: {
+										conditions: {
+											blockFulfillmentCondition: { blocksToFulfill: 1 },
+										},
+									},
+								},
 								InnerBlocks: {
 									create: [
 										{
 											blockName: "Mathematics",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 1 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
@@ -628,12 +642,24 @@ const createCSDegree = async () => {
 							{
 								blockName: "II. Major Requirements",
 								blockPosition: 1,
-								NonterminalBlock: { create: { conditions: emptyConditions } },
+								NonterminalBlock: {
+									create: {
+										conditions: {
+											blockFulfillmentCondition: { blocksToFulfill: 3 },
+										},
+									},
+								},
 								InnerBlocks: {
 									create: [
 										{
 											blockName: "Major Preparatory Courses",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 14 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
@@ -690,12 +716,24 @@ const createCSDegree = async () => {
 													},
 													{
 														blockName: "Math Sequence",
-														NonterminalBlock: { create: { conditions: emptyConditions } },
+														NonterminalBlock: {
+															create: {
+																conditions: {
+																	blockFulfillmentCondition: { blocksToFulfill: 1 },
+																},
+															},
+														},
 														InnerBlocks: {
 															create: [
 																{
 																	blockName: "",
-																	NonterminalBlock: { create: { conditions: emptyConditions } },
+																	NonterminalBlock: {
+																		create: {
+																			conditions: {
+																				blockFulfillmentCondition: { blocksToFulfill: 2 },
+																			},
+																		},
+																	},
 																	InnerBlocks: {
 																		create: [
 																			{
@@ -719,7 +757,13 @@ const createCSDegree = async () => {
 																},
 																{
 																	blockName: "",
-																	NonterminalBlock: { create: { conditions: emptyConditions } },
+																	NonterminalBlock: {
+																		create: {
+																			conditions: {
+																				blockFulfillmentCondition: { blocksToFulfill: 2 },
+																			},
+																		},
+																	},
 																	InnerBlocks: {
 																		create: [
 																			{
@@ -749,7 +793,13 @@ const createCSDegree = async () => {
 										},
 										{
 											blockName: "Major Core Courses",
-											NonterminalBlock: { create: { conditions: emptyConditions } },
+											NonterminalBlock: {
+												create: {
+													conditions: {
+														blockFulfillmentCondition: { blocksToFulfill: 14 },
+													},
+												},
+											},
 											InnerBlocks: {
 												create: [
 													{
@@ -870,24 +920,6 @@ const createCrazDegreePlan = async () => {
 					degreeID: {
 						degreeName: "Computer Science",
 						degreeYear: "2025",
-					},
-				},
-			},
-		},
-	})
-
-	await prisma.degreePlanCourse.create({
-		data: {
-			semesterTerm: "FALL",
-			semesterYear: "2022",
-			DegreePlan: {
-				connect: { degreePlanID: degreePlan.degreePlanID },
-			},
-			Course: {
-				connect: {
-					courseID: {
-						prefix: "CS",
-						number: "1436",
 					},
 				},
 			},

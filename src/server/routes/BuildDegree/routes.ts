@@ -167,10 +167,10 @@ router.put("/updateNonterminalBlockCondition", async (req, res) => {
 				.object({
 					blockFulfillmentCondition: z
 						.object({
-							minBlocksToFulfill: z.number().positive(),
+							blocksToFulfill: z.number().positive(),
 						})
 						.optional(),
-					blockInclusionCondition: z
+					minBlockInclusionCondition: z
 						.object({
 							minBlocksToInclude: z.number().positive(),
 						})

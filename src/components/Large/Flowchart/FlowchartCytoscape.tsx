@@ -1,94 +1,247 @@
 import cytoscape from "cytoscape"
 import dagre from "cytoscape-dagre"
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid"
-import { useEffect } from "react"
+import { UserContext } from "../../../contexts/UserContext"
+import { useEffect, useContext, useState } from "react"
+import axios from "axios"
+import { compareSemesters, getNextSemester, semesterFromDate } from "../../../utils/semester"
+import ChooseRequisite from "./Requisites/ChooseRequisite"
+
+/*
+Steps:
+Get all courses with credit received
+Get all future courses in planner
+Resolve all block ambiguity in the planner
+-> Get all courses in the degree
+Fulfill all requisites to the best of your ability
+while unresolved requisites
+	Resolve all ambiguous requisites
+	Fetch all missing requisite courses if needed 
+display flowchart
+*/
 
 cytoscape.use(dagre)
 
 let cy: cytoscape.Core
 
-const nodes = ["CS 1336", "CS 1337", "CS 2337", "CS 3354", "CS 3345", "ECS 3390", "RHET 1302", "MATH 2413", "MATH 2414", "CS 3341", "CS 2305", "CS 3162"].map(
-	(node) => {
-		return { data: { id: node } }
-	}
-)
-
-const prereqs = [
-	{ source: "CS 1336", target: "CS 1337" },
-	{ source: "CS 1337", target: "CS 2337" },
-	{ source: "CS 2337", target: "CS 3345" },
-	{ source: "MATH 2413", target: "MATH 2414" },
-	{ source: "MATH 2414", target: "CS 3341" },
-	{ source: "CS 2305", target: "CS 3345" },
-	{ source: "CS 2337", target: "CS 3354" },
-	{ source: "RHET 1302", target: "ECS 3390" },
-].map((edge) => {
-	return { data: { id: `prereq:${edge.source}-${edge.target}`, source: edge.source, target: edge.target, class: "prereq" } }
-})
-
-const coreqs = [
-	{ source: "CS 3341", target: "CS 3345" },
-	{ source: "CS 3345", target: "CS 3162" },
-	{ source: "CS 3354", target: "CS 3162" },
-	{ source: "ECS 3390", target: "CS 3354" },
-].map((edge) => {
-	return { data: { id: `coreq:${edge.source}-${edge.target}`, source: edge.source, target: edge.target, class: "coreq" } }
-})
-
 const FlowchartCytoscape = () => {
-	const setPredecessorSuccessorCounts = () => {
-		cy.nodes().forEach((ele) => {
-			const predecessorCount = ele.predecessors().nodes().length
-			const successorCount = ele.successors().nodes().length
-			ele.style({
-				label: `${ele.id()} | ${predecessorCount} ${successorCount}`,
-				"text-valign": "center",
-				"text-halign": "center",
-			})
-		})
-	}
-
-	const getDeepestNode = () => {
-		const deepestNode = cy.nodes().max((ele) => {
-			return ele.predecessors().length
-		})
-		return deepestNode
-	}
-
-	const getMostImportantWithNoPrereqs = () => {
-		const deepestNode = getDeepestNode()
-		const predecessors = deepestNode.ele.predecessors().nodes()
-		const roots = cy.nodes().roots()
-		const filteredPredecessors = predecessors.intersection(roots)
-		const mostImportant = filteredPredecessors.max((ele) => {
-			return ele.nodes().successors().length
-		})
-		return mostImportant
-	}
-
-	const animateMostImportantWithNoPrereqs = () => {
-		const mostImportant = getMostImportantWithNoPrereqs()
-		mostImportant.ele.style({
-			backgroundColor: "#00FF00",
-		})
-
-		setTimeout(() => {
-			mostImportant.ele.style({
-				backgroundColor: "#FFFFFF",
-			})
-		}, 3000)
-	}
-
-	const popMostImportantWithNoPrereqs = () => {
-		const mostImportant = getMostImportantWithNoPrereqs()
-		cy.remove(mostImportant.ele)
-		setPredecessorSuccessorCounts()
-	}
+	// TODO: I WILL FIX WHERE I API CALL LATER BUT I JUST NEED THE INFORMATION
+	const { user } = useContext(UserContext)
+	const [degreePlan, setDegreePlan] = useState(null)
+	// temporarilyAddedCourses will be affected by requisite selector
+	const [temporarilyAddedCourses, setTemporarilyAddedCourses] = useState([])
+	// temporarilySelectedCustomRequisites will be affected by requisite selector, where the value is a path to the custom requisite
+	const [temporarilySelectedCustomRequisites, setTemporarilySelectedCustomRequisites] = useState([])
+	const [coursesRequisitesNeededFinal, setCoursesRequisitesNeededFinal] = useState({})
 
 	useEffect(() => {
+		if (!user) {
+			return
+		}
+
+		const fetchDegreePlan = async () => {
+			try {
+				if (!user) {
+					return
+				}
+				const response = await axios.get(`http://localhost:3000/api/degreePlan/${user.DegreePlan.degreePlanID}`)
+				setDegreePlan(response.data)
+			} catch (error) {
+				console.error("Error fetching degree plan:", error)
+			}
+		}
+		if (!degreePlan) {
+			fetchDegreePlan()
+			return
+		}
+		const degreePlanCourses = Object.groupBy(degreePlan.DegreePlanCourses, (course) => {
+			// test credit
+			if (course.testComponentID) {
+				return "Test Credits (AP/IB/CLEP/etc.)"
+			}
+			// transferred credit
+			else if (course.externalCourseID) {
+				return "Transferred Credits"
+			}
+			// semester credit
+			else if (course.semesterTerm && course.semesterYear) {
+				return `${course.semesterTerm} ${course.semesterYear}`
+			} else {
+				return "Future"
+			}
+		})
+
+		const startSemester = { term: degreePlan.startSemesterTerm, year: degreePlan.startSemesterYear }
+		const endSemester = { term: degreePlan.endSemesterTerm, year: degreePlan.endSemesterYear }
+		const currentSemester = semesterFromDate(new Date())
+
+		const pastSemesters = {}
+		let semesterCounter = startSemester
+		while (compareSemesters(semesterCounter, currentSemester) < 0) {
+			pastSemesters[`${semesterCounter.term} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		}
+		const currentAndFutureSemesters = {}
+		currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
+		while (compareSemesters(semesterCounter, endSemester) <= 0) {
+			currentAndFutureSemesters[`${semesterCounter.term} ${semesterCounter.year}`] =
+				degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+			semesterCounter = getNextSemester(semesterCounter.term, parseInt(semesterCounter.year))
+		}
+		const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
+		const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
+
+		const creditReceived = new Set(
+			testCredits
+				.map((course) => `${course.prefix} ${course.number}`)
+				.concat(transferredCredits.map((course) => `${course.prefix} ${course.number}`))
+				.concat(
+					Object.keys(pastSemesters).flatMap((key) => {
+						return pastSemesters[key].map((degreePlanCourse) => `${degreePlanCourse.prefix} ${degreePlanCourse.number}`)
+					})
+				)
+		)
+
+		const coursesRequisitesNeeded = Object.keys(currentAndFutureSemesters)
+			.flatMap((key) => {
+				return currentAndFutureSemesters[key].map((degreePlanCourse) => {
+					return {
+						prefix: degreePlanCourse.prefix,
+						number: degreePlanCourse.number,
+						requisites: degreePlanCourse.Course.requisites,
+					}
+				})
+			})
+			.concat(temporarilyAddedCourses)
+			.reduce((acc, course) => {
+				acc[`${course.prefix} ${course.number}`] = { requisites: course.requisites }
+				return acc
+			}, {})
+
+		// add canBeFulfilled property to all requisites so we can attempt to fulfill them
+		// togglable property is for the user to select which requisites they want to fulfill
+		// untogglable means that the course is already in the planner and cannot be toggled off (not temporary)
+		const compareArrays = (a, b) => a.length === b.length && a.every((element, index) => element === b[index])
+		Object.keys(coursesRequisitesNeeded).forEach((course) => {
+			const recursivelyAddCanBeFulfilled = (requisites, path) => {
+				if (Object.hasOwn(requisites, "type")) {
+					// reached a leaf requisite, check fulfillment
+					requisites.canBeFulfilled = false
+					requisites.togglable = true
+
+					switch (requisites.type) {
+						case "course":
+							// check if course is in credit received or current/future/has been added temporarily
+							requisites.canBeFulfilled = creditReceived.has(requisites.courseID) || Object.hasOwn(coursesRequisitesNeeded, requisites.courseID)
+							requisites.togglable =
+								temporarilyAddedCourses.find((course) => {
+									return course.prefix == requisites.courseID.split(" ")[0] && course.number == requisites.courseID.split(" ")[1]
+								}) ||
+								!Object.keys(currentAndFutureSemesters)
+									.flatMap((key) => {
+										return currentAndFutureSemesters[key].map((degreePlanCourse) => {
+											return {
+												prefix: degreePlanCourse.prefix,
+												number: degreePlanCourse.number,
+												requisites: degreePlanCourse.Course.requisites,
+											}
+										})
+									})
+									.find((course) => {
+										return course.prefix == requisites.courseID.split(" ")[0] && course.number == requisites.courseID.split(" ")[1]
+									})
+							break
+						case "matcher":
+							// try to fulfill with received credit before checking current/future/temporary
+							// Array.from(creditReceived).find((course) => {
+							// 	// check if course is in match list
+							// 	if (requisites.matchList != null && Array.isArray(requisites.matchList) && !requisites.matchList.includes(course)) {
+							// 		return false
+							// 	} else if (
+							// 		requisites.matchList != null &&
+							// 		typeof requisites.matchList === "string" &&
+							// 		requisites.matchList !== course
+							// 	) {
+							// 		return false
+							// 	}
+							// 	// check if course meets conditions
+							// 	if (requisites.condition.prefix != null && requisites.condition.prefix !== course.split(" ")[0]) {
+							// 		return false
+							// 	}
+							// 	if (requisites.condition.level != null) {
+							// 		const courseLevel = course.split(" ")[1].slice(0, 1) // get first digit of course number
+							// 		let courseLevelString = ""
+							// 		switch (courseLevel) {
+							// 			case "1":
+							// 				courseLevelString = "1000"
+							// 				break
+							// 			case "2":
+							// 				courseLevelString = "2000"
+							// 				break
+							// 			case "3":
+							// 				courseLevelString = "3000"
+							// 				break
+							// 			case "4":
+							// 				courseLevelString = "4000"
+							// 				break
+							// 		}
+							// 		if (requisites.condition.level === "UPPER_DIVISION") {
+							// 			if (courseLevelString !== "3000" && courseLevelString !== "4000") {
+							// 				return false
+							// 			}
+							// 		} else if (courseLevelString !== requisites.condition.level) {
+							// 			return false
+							// 		}
+							// 	}
+							// haven't check minGrade or minCreditHours yet
+							// return true
+							// })
+							break
+						case "major":
+							break
+						case "minor":
+							break
+						case "custom":
+							if (temporarilySelectedCustomRequisites.find((elementPath) => compareArrays(elementPath, path))) {
+								requisites.canBeFulfilled = true
+							}
+							break
+						default:
+							console.error("Unknown requisite type:", requisites.type)
+							return false
+					}
+				} else if (Object.hasOwn(requisites, "logicalOperator")) {
+					requisites.requisites.forEach((requisite, index) => {
+						recursivelyAddCanBeFulfilled(requisite, [...path, "requisites", index])
+					})
+				}
+			}
+			const prerequisites = coursesRequisitesNeeded[course].requisites.prerequisites
+			const corequisites = coursesRequisitesNeeded[course].requisites.corequisites
+			const prerequisitesOrCorequisites = coursesRequisitesNeeded[course].requisites.prerequisitesOrCorequisites
+			recursivelyAddCanBeFulfilled(prerequisites, [course, "requisites", "prerequisites"])
+			recursivelyAddCanBeFulfilled(corequisites, [course, "requisites", "corequisites"])
+			recursivelyAddCanBeFulfilled(prerequisitesOrCorequisites, [course, "requisites", "prerequisitesOrCorequisites"])
+		})
+
+		setCoursesRequisitesNeededFinal(coursesRequisitesNeeded)
+
+		// TODO: pretend I fulfilled all block ambiguity :)
+
+		/*
+			try to get a neededcourse to fulfill all requisites
+		*/
+
+		// we can only try to fulfill course or matcher requisites, and check major/minor requisites
+		const major = degreePlan.degreeName
+
+		const nodes = Object.keys(coursesRequisitesNeeded).map((course) => {
+			return { data: { id: course } }
+		})
+
 		cy = cytoscape({
-			container: document.getElementById("cy"), // container to render in
-			elements: nodes.concat(prereqs).concat(coreqs),
+			container: document.getElementById("cy"),
+			elements: nodes,
 			style: [
 				// the stylesheet for the graph
 				{
@@ -103,27 +256,6 @@ const FlowchartCytoscape = () => {
 						padding: "10px",
 					},
 				},
-				{
-					selector: `edge[class="prereq"]`,
-					style: {
-						width: 3,
-						"line-color": "#000000",
-						"target-arrow-color": "#000000",
-						"target-arrow-shape": "triangle",
-						"curve-style": "bezier",
-					},
-				},
-				{
-					selector: `edge[class="coreq"]`,
-					style: {
-						width: 3,
-						"line-color": "#000000",
-						"target-arrow-color": "#000000",
-						"target-arrow-shape": "triangle",
-						"curve-style": "bezier",
-						"line-style": "dashed",
-					},
-				},
 			],
 			layout: {
 				name: "dagre",
@@ -131,21 +263,47 @@ const FlowchartCytoscape = () => {
 				nodeDimensionsIncludeLabels: true,
 			},
 		})
-
-		setPredecessorSuccessorCounts()
-	})
+	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites])
 
 	return (
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
 				<div id="cy" className="w-full h-full"></div>
-				<div className="top-10 right-10 w-min absolute flex flex-col">
-					<button onClick={animateMostImportantWithNoPrereqs} className="cursor-pointer">
-						<MagnifyingGlassIcon className="w-8 h-8"></MagnifyingGlassIcon>
-					</button>
-					<button onClick={popMostImportantWithNoPrereqs} className="cursor-pointer">
-						<PlusIcon className="w-8 h-8"></PlusIcon>
-					</button>
+				<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
+					<p>Requisites</p>
+					{Object.keys(coursesRequisitesNeededFinal).map((course) => {
+						return (
+							<>
+								<p className="bg-orange-400">{course}</p>
+								<p>Prerequisites</p>
+								<ChooseRequisite
+									requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
+									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+									pathToRequisite={[course, "requisites", "prerequisites"]}
+									parentCanBeFulfilled={false}
+								/>
+								<hr></hr>
+								<p>Corequisites</p>
+								<ChooseRequisite
+									requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
+									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+									pathToRequisite={[course, "requisites", "corequisites"]}
+									parentCanBeFulfilled={false}
+								/>
+								<hr></hr>
+								<p>Prerequisites or Corequisites</p>
+								<ChooseRequisite
+									requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}
+									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+									pathToRequisite={[course, "requisites", "prerequisitesOrCorequisites"]}
+									parentCanBeFulfilled={false}
+								/>
+							</>
+						)
+					})}
 				</div>
 			</div>
 		</>

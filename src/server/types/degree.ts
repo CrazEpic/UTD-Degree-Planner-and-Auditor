@@ -1,10 +1,10 @@
 import { CourseLevel } from "./requisites"
 
 type BlockFulfillmentCondition = {
-	minBlocksToFulfill: number
+	blocksToFulfill: number
 }
 
-type BlockInclusionCondition = {
+type MinBlockInclusionCondition = {
 	minBlocksToInclude: number
 }
 
@@ -24,7 +24,7 @@ type HourBeyondBlockCondition = {
 
 export type DegreeConditions = {
 	blockFulfillmentCondition?: BlockFulfillmentCondition
-	blockInclusionCondition?: BlockInclusionCondition
+	minBlockInclusionCondition?: MinBlockInclusionCondition
 	creditHourCondition?: CreditHourCondition
 	levelCondition?: LevelCondition
 	hourBeyondBlockCondition?: HourBeyondBlockCondition

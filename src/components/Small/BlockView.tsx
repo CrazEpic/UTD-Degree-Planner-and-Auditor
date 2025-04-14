@@ -57,6 +57,36 @@ function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">
+						{requirement.blockType === "NonTerminal" &&
+							Object.keys(requirement.blockContent.conditions)
+								.filter((key) => {
+									return key != "id"
+								})
+								.map((condition) => {
+									let message
+									switch (condition) {
+										case "blockFulfillmentCondition":
+											message = "Blocks to Fulfill: " + requirement.blockContent.conditions[condition].blocksToFulfill
+											break
+										case "minBlockInclusionCondition":
+											message = "Minimum Blocks to Include: " + requirement.blockContent.conditions[condition].minBlocksToInclude
+											break
+										case "creditHourCondition":
+											message = "Minimum Credit Hours: " + requirement.blockContent.conditions[condition].minCreditHours
+											break
+										case "levelCondition":
+											message =
+												"Level Condition: " +
+												requirement.blockContent.conditions[condition].creditHourRequirement +
+												" hours must be " +
+												requirement.blockContent.conditions[condition].level
+											break
+										case "hourBeyondBlockCondition":
+											message = "Hours Beyond Block: " + requirement.blockContent.conditions[condition].hoursBeyondBlock
+											break
+									}
+									return <p>{message}</p>
+								})}
 						{/* Conditions are not currently implemeneted */}
 						{/* Recursive Blocks */}
 						{requirement.innerBlocks.map((inner) => {
