@@ -8,7 +8,7 @@ import PrerequisiteWindow from "./Prerequisites/PrerequisiteWindow"
 function SmallWindow() {
 	return (
 		<>
-			<div className="max-w-[375px] min-w-[375px] p-4 overflow-auto border-l-2">
+			<div className="max-w-[375px] min-w-[375px] h-[calc(100vh-55px)] p-4 overflow-auto border-l-2">
 				<TabGroup className="flex flex-col gap-4">
 					<TabList className="flex flex-row justify-between items-end border-2 rounded-lg bg-white overflow-hidden pt-1">
 						<Tab as={Fragment}>

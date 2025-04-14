@@ -107,7 +107,7 @@ function PrerequisiteWindow() {
 
     return (
         <>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 max-lg:mt-4">
                 {d?.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}

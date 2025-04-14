@@ -42,7 +42,7 @@ function App() {
 		<>
 			<UserContext.Provider value={{user, fetchUser}}>
 				<NavBar></NavBar>
-				<div className="flex flex-row h-[calc(100vh-55px)] max-lg:hidden ">
+				<div className="flex flex-row h-[calc(100vh-55px)]">
 					<LargeWindow></LargeWindow>
 					<MatcherContext.Provider value={{conditions: null, search: searchCourses, end: endSearch}}>
 						<div className="max-lg:hidden">
@@ -53,11 +53,6 @@ function App() {
 							)}
 						</div>
 					</MatcherContext.Provider>
-				</div>
-
-				{/* Refactor so that mobile view is not a separate component*/}
-				<div className="lg:hidden">
-					<MobileView></MobileView>
 				</div>
 			</UserContext.Provider>
 		</>

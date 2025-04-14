@@ -1,5 +1,5 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
-import { ArrowTrendingUpIcon, BookOpenIcon, Cog6ToothIcon } from "@heroicons/react/24/outline"
+import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, Cog6ToothIcon, KeyIcon } from "@heroicons/react/24/outline"
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLink from "./CourseLink"
@@ -8,6 +8,8 @@ import { LinkContext } from "../../contexts/LinkContext"
 import { Fragment } from "react/jsx-runtime"
 import clsx from 'clsx'
 import { useState } from "react"
+import RequirementWindow from "../Small/Requirements/RequirementWindow"
+import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 
 function createDefaultBlock() {
 	return {
@@ -90,7 +92,7 @@ function LargeWindow() {
 						<TabGroup>
 							<div className="flex flex-row justify-between relative">
 								{/* "flex flex-row justify-between items-end bg-white w-full h-[55px] border" */}
-								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 overflow-hidden  pt-1">
+								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 max-lg:w-full overflow-hidden pt-1">
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
 											<button className="flex flex-col items-center w-full">
@@ -108,13 +110,31 @@ function LargeWindow() {
 												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
 											</button>
 										)}
+									</Tab>
+									<Tab as={Fragment}>
+										{({ hover, selected}) => (
+											<button className="flex flex-col items-center w-full lg:hidden">
+												<AcademicCapIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></AcademicCapIcon>
+												Degree
+												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
+											</button>
+										)}
+									</Tab> 
+									<Tab as={Fragment}>
+										{({ hover, selected}) => (
+											<button className="flex flex-col items-center w-full lg:hidden">
+												<KeyIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></KeyIcon>
+												Prereqs
+												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
+											</button>
+										)}
 									</Tab> 
 								</TabList>
 								{/* Feels like text should be here? 
 										Or at least something should
 										<p className="m-[15px] text-2xl">MY DEGREE PLAN</p> 
 								*/}
-								<Menu as="div" className="w-fit">
+								<Menu as="div" className="w-fit max-lg:hidden">
 									<MenuButton className="hover:bg-blue-200">
 										<Cog6ToothIcon className="size-8"></Cog6ToothIcon>
 									</MenuButton>
@@ -139,6 +159,12 @@ function LargeWindow() {
 								</TabPanel>
 								<TabPanel>
 									<FlowchartWindow></FlowchartWindow>
+								</TabPanel>
+								<TabPanel>
+									<RequirementWindow></RequirementWindow>
+								</TabPanel>
+								<TabPanel>
+									<PrerequisiteWindow></PrerequisiteWindow>
 								</TabPanel>
 							</TabPanels>
 						</TabGroup>
