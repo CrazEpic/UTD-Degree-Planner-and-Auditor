@@ -292,7 +292,7 @@ const FlowchartCytoscape = () => {
 				if (Object.hasOwn(requisites, "logicalOperator")) {
 					return requisites.requisites.flatMap((requisite) => getRequisiteEdges(requisite, requisiteType))
 				} else if (Object.hasOwn(requisites, "type")) {
-					if (requisites.type == "course" && requisites.canBeFulfilled && requisites.togglable) {
+					if (requisites.type == "course" && requisites.canBeFulfilled) {
 						return [
 							{
 								data: {
