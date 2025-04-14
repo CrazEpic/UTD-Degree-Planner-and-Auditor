@@ -93,9 +93,11 @@ function LargeWindow() {
 							<div className="flex flex-row justify-between relative">
 								{/* "flex flex-row justify-between items-end bg-white w-full h-[55px] border" */}
 								<TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 max-lg:w-full overflow-hidden pt-1">
+
+									{/* May have to change styling of focus:outline for accessibility */}
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
-											<button className="flex flex-col items-center w-full">
+											<button className="flex flex-col items-center w-full focus:outline-0">
 												<BookOpenIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></BookOpenIcon>
 												Planner
 												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
@@ -104,7 +106,7 @@ function LargeWindow() {
 									</Tab>
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
-											<button className="flex flex-col items-center w-full">
+											<button className="flex flex-col items-center w-full focus:outline-0">
 												<ArrowTrendingUpIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></ArrowTrendingUpIcon>
 												Flowchart
 												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
@@ -113,7 +115,7 @@ function LargeWindow() {
 									</Tab>
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
-											<button className="flex flex-col items-center w-full lg:hidden">
+											<button className="flex flex-col items-center w-full focus:outline-0 lg:hidden">
 												<AcademicCapIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></AcademicCapIcon>
 												Degree
 												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
@@ -122,7 +124,7 @@ function LargeWindow() {
 									</Tab> 
 									<Tab as={Fragment}>
 										{({ hover, selected}) => (
-											<button className="flex flex-col items-center w-full lg:hidden">
+											<button className="flex flex-col items-center w-full focus:outline-0 lg:hidden">
 												<KeyIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></KeyIcon>
 												Prereqs
 												<hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>

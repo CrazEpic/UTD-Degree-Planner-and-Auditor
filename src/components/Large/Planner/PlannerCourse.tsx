@@ -37,16 +37,15 @@ function PlannerCourse({course}: {course: DegreePlanCourse}) {
 								<EllipsisVerticalIcon className="size-6 hover:bg-blue-200"></EllipsisVerticalIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
-								
 								<MenuItem 
 									as="div" 
-									className="flex flex-row items-center text-xl py-3 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100" 
+									className="flex flex-row items-center justify-between text-xl py-3 p-1 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100" 
 									onMouseOver={() => setDrop(true)} 
 									onMouseLeave={() => setDrop(false)}
 								>
 									{/* Try right, if not possible go left */}
 									<p>Move Course</p>
-									<ChevronRightIcon className="size-6 justify-self-end"></ChevronRightIcon>
+									<ChevronRightIcon className="size-6"></ChevronRightIcon>
 									{drop &&
 										<div className="absolute mr-[-160px] top-0 right-0 bg-white border-2 rounded-lg flex flex-col w-40 z-20">
 											<Button className="rounded-lg rounded-b-none hover:bg-gray-100" onClick={() => click("Spring 25")}>

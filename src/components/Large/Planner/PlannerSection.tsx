@@ -25,9 +25,6 @@ function PlannerSection({ name, courseList }: { name: string; courseList: Degree
 						<div className="flex flex-row items-center m-4 gap-2">
 							{/* Make the 12 editable inline?? */}
 							<p className="text-xl">{currentHours(courseList) + "/" + 12}</p>
-							<Button className="hover:bg-blue-200" onClick={() => click("Lock")}>
-								<LockClosedIcon className="size-6" color="#808080"></LockClosedIcon>
-							</Button>
 						</div>
 					)}
 				</div>
