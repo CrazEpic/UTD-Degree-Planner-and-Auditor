@@ -1,6 +1,7 @@
 import cytoscape from "cytoscape"
 import dagre from "cytoscape-dagre"
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid"
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { UserContext } from "../../../contexts/UserContext"
 import { useEffect, useContext, useState } from "react"
 import axios from "axios"
@@ -34,6 +35,7 @@ const FlowchartCytoscape = () => {
 	const [temporarilySelectedCustomRequisites, setTemporarilySelectedCustomRequisites] = useState([])
 	const [coursesRequisitesNeededFinal, setCoursesRequisitesNeededFinal] = useState({})
 	const [canDisplayFlowchart, setCanDisplayFlowchart] = useState(false)
+	const [mostImportantCoursesThatCanBeTaken, setMostImportantCoursesThatCanBeTaken] = useState([])
 
 	useEffect(() => {
 		if (!user) {
@@ -123,7 +125,6 @@ const FlowchartCytoscape = () => {
 		// togglable property is for the user to select which requisites they want to fulfill
 		// untogglable means that the course is already in the planner and cannot be toggled off (not temporary)
 		const compareArrays = (a, b) => a.length === b.length && a.every((element, index) => element === b[index])
-		console.log("coursesRequisitesNeeded", coursesRequisitesNeeded)
 		Object.keys(coursesRequisitesNeeded).forEach((course) => {
 			const recursivelyAddCanBeFulfilled = (requisites, path) => {
 				if (Object.hasOwn(requisites, "type")) {
@@ -372,14 +373,84 @@ const FlowchartCytoscape = () => {
 				nodeDimensionsIncludeLabels: true,
 			},
 		})
+
+		// graph operations
+		const setPredecessorSuccessorCounts = () => {
+			cy.nodes().forEach((ele) => {
+				const predecessorCount = ele.predecessors().nodes().length
+				const successorCount = ele.successors().nodes().length
+				ele.style({
+					label: `${ele.id()} | ${predecessorCount} ${successorCount}`,
+					"text-valign": "center",
+					"text-halign": "center",
+				})
+			})
+		}
+
+		setPredecessorSuccessorCounts()
+
+		// ranking based on critical path (kind of deepest) and then broad
+		// well, deepest is more like the node with the most predecessors
+		const rankMostImportantWithNoPrereqs = () => {
+			return (
+				cy
+					.nodes()
+					.roots()
+					// sorted descending
+					.sort((a, b) => {
+						const { value: aDeepestDepth } = cy
+							.nodes()
+							.leaves()
+							.filter((ele) => {
+								return ele.predecessors().nodes().intersection(a).length > 0
+							})
+							.nodes()
+							.max((ele) => {
+								return ele.predecessors().nodes().length
+							})
+						const { value: bDeepestDepth } = cy
+							.nodes()
+							.leaves()
+							.filter((ele) => {
+								return ele.predecessors().nodes().intersection(b).length > 0
+							})
+							.nodes()
+							.max((ele) => {
+								return ele.predecessors().nodes().length
+							})
+						if (aDeepestDepth == bDeepestDepth) {
+							// if equal, get broadest (unlocks most courses)
+							return a.successors().nodes().length - b.successors().nodes().length
+						}
+						return aDeepestDepth - bDeepestDepth
+					})
+					.map((ele) => {
+						return ele.id()
+					})
+					.reverse()
+			)
+		}
+
+		setMostImportantCoursesThatCanBeTaken(rankMostImportantWithNoPrereqs())
 	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites, canDisplayFlowchart])
 
 	return (
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
-				<div id="cy" className="w-full h-full"></div>
 				{canDisplayFlowchart ? (
-					<div id="cy" className="w-full h-full"></div>
+					<>
+						<div id="cy" className="w-full h-full"></div>
+						<Disclosure as="div" className="absolute top-0 right-0 bg-white border-black border-2 overflow-y-scroll">
+							<DisclosureButton className="flex flex-row gap-2 items-center p-2 hover:cursor-pointer hover:bg-gray-200">
+								<MagnifyingGlassIcon className="h-6 w-6" /> Most Important Courses That Can Be Taken
+							</DisclosureButton>
+							<DisclosurePanel>
+								{mostImportantCoursesThatCanBeTaken.map((course, index) => {
+									return <p key={course}>{index+1} {course}</p>
+								})}
+							</DisclosurePanel>
+						</Disclosure>
+					</>
 				) : (
 					<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
 						<p>Requisites</p>

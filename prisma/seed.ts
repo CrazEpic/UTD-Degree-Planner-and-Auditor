@@ -47,6 +47,12 @@ const createCourses = async () => {
 			},
 			{
 				prefix: "MATH",
+				number: "1326",
+				name: "Applied Calculus II",
+				requisites: emptyRequisites,
+			},
+			{
+				prefix: "MATH",
 				number: "2413",
 				name: "Differential Calculus",
 				requisites: {
