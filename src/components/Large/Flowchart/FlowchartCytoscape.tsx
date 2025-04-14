@@ -33,6 +33,7 @@ const FlowchartCytoscape = () => {
 	// temporarilySelectedCustomRequisites will be affected by requisite selector, where the value is a path to the custom requisite
 	const [temporarilySelectedCustomRequisites, setTemporarilySelectedCustomRequisites] = useState([])
 	const [coursesRequisitesNeededFinal, setCoursesRequisitesNeededFinal] = useState({})
+	const [canDisplayFlowchart, setCanDisplayFlowchart] = useState(false)
 
 	useEffect(() => {
 		if (!user) {
@@ -122,6 +123,7 @@ const FlowchartCytoscape = () => {
 		// togglable property is for the user to select which requisites they want to fulfill
 		// untogglable means that the course is already in the planner and cannot be toggled off (not temporary)
 		const compareArrays = (a, b) => a.length === b.length && a.every((element, index) => element === b[index])
+		console.log("coursesRequisitesNeeded", coursesRequisitesNeeded)
 		Object.keys(coursesRequisitesNeeded).forEach((course) => {
 			const recursivelyAddCanBeFulfilled = (requisites, path) => {
 				if (Object.hasOwn(requisites, "type")) {
@@ -228,20 +230,83 @@ const FlowchartCytoscape = () => {
 
 		// TODO: pretend I fulfilled all block ambiguity :)
 
-		/*
-			try to get a neededcourse to fulfill all requisites
-		*/
-
 		// we can only try to fulfill course or matcher requisites, and check major/minor requisites
-		const major = degreePlan.degreeName
+		// const major = degreePlan.degreeName
+
+		// if all requisites are fulfilled, can display flowchart
+		const tryToFulfillBranchViaCanBeFulfilled = (requisites) => {
+			if (Object.hasOwn(requisites, "logicalOperator")) {
+				// has branches
+				if (requisites.logicalOperator === "AND") {
+					return requisites.requisites.every((requisite) => tryToFulfillBranchViaCanBeFulfilled(requisite))
+				} else if (requisites.logicalOperator === "OR") {
+					return requisites.requisites.some((requisite) => tryToFulfillBranchViaCanBeFulfilled(requisite))
+				}
+			} else if (Object.hasOwn(requisites, "type")) {
+				// reached a leaf requisite, check fulfillment
+				return requisites.canBeFulfilled
+			} else {
+				// empty requisite
+				return true
+			}
+		}
+
+		setCanDisplayFlowchart(
+			Object.keys(coursesRequisitesNeeded).every((course) => {
+				return Object.keys(coursesRequisitesNeeded[course].requisites).every((requisiteType) => {
+					return tryToFulfillBranchViaCanBeFulfilled(coursesRequisitesNeeded[course].requisites[requisiteType])
+				})
+			})
+		)
+
+		if (!canDisplayFlowchart) {
+			return
+		}
 
 		const nodes = Object.keys(coursesRequisitesNeeded).map((course) => {
-			return { data: { id: course } }
+			if (
+				temporarilyAddedCourses.find((c) => {
+					return c.prefix == course.split(" ")[0] && c.number == course.split(" ")[1]
+				})
+			) {
+				return { data: { id: course, class: "temporarilyAdded" } }
+			} else {
+				return { data: { id: course } }
+			}
+		})
+
+		const requisiteEdges = Object.keys(coursesRequisitesNeeded).flatMap((course) => {
+			// get all needed courses from requisites
+			const getRequisiteEdges = (requisites, requisiteType) => {
+				if (Object.hasOwn(requisites, "logicalOperator")) {
+					return requisites.requisites.flatMap((requisite) => getRequisiteEdges(requisite, requisiteType))
+				} else if (Object.hasOwn(requisites, "type")) {
+					if (requisites.type == "course" && requisites.canBeFulfilled && requisites.togglable) {
+						return [
+							{
+								data: {
+									id: `${requisiteType}:${requisites.courseID}-${course}`,
+									source: requisites.courseID,
+									target: course,
+									class: requisiteType,
+								},
+							},
+						]
+					} else {
+						return []
+					}
+				} else {
+					return []
+				}
+			}
+			return Object.keys(coursesRequisitesNeeded[course].requisites).flatMap((requisiteType) => {
+				return getRequisiteEdges(coursesRequisitesNeeded[course].requisites[requisiteType], requisiteType)
+			})
 		})
 
 		cy = cytoscape({
 			container: document.getElementById("cy"),
-			elements: nodes,
+			elements: nodes.concat(requisiteEdges),
 			style: [
 				// the stylesheet for the graph
 				{
@@ -256,6 +321,50 @@ const FlowchartCytoscape = () => {
 						padding: "10px",
 					},
 				},
+				{
+					selector: `node[class="temporarilyAdded"]`,
+					style: {
+						"background-color": "#000000",
+						content: "data(id)",
+						shape: "round-rectangle",
+						width: "125px",
+						backgroundColor: "#EED202",
+						"border-width": 2,
+						padding: "10px",
+					},
+				},
+				{
+					selector: `edge[class="prerequisites"]`,
+					style: {
+						width: 3,
+						"line-color": "#000000",
+						"target-arrow-color": "#000000",
+						"target-arrow-shape": "triangle",
+						"curve-style": "bezier",
+					},
+				},
+				{
+					selector: `edge[class="corequisites"]`,
+					style: {
+						width: 3,
+						"line-color": "#000000",
+						"target-arrow-color": "#000000",
+						"target-arrow-shape": "triangle",
+						"curve-style": "bezier",
+						"line-style": "dotted",
+					},
+				},
+				{
+					selector: `edge[class="prerequisitesOrCorequisites"]`,
+					style: {
+						width: 3,
+						"line-color": "#000000",
+						"target-arrow-color": "#000000",
+						"target-arrow-shape": "triangle",
+						"curve-style": "bezier",
+						"line-style": "dashed",
+					},
+				},
 			],
 			layout: {
 				name: "dagre",
@@ -263,48 +372,52 @@ const FlowchartCytoscape = () => {
 				nodeDimensionsIncludeLabels: true,
 			},
 		})
-	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites])
+	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites, canDisplayFlowchart])
 
 	return (
 		<>
 			<div className="relative h-[75vh] border-4 border-black m-10">
 				<div id="cy" className="w-full h-full"></div>
-				<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
-					<p>Requisites</p>
-					{Object.keys(coursesRequisitesNeededFinal).map((course) => {
-						return (
-							<>
-								<p className="bg-orange-400">{course}</p>
-								<p>Prerequisites</p>
-								<ChooseRequisite
-									requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
-									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-									pathToRequisite={[course, "requisites", "prerequisites"]}
-									parentCanBeFulfilled={false}
-								/>
-								<hr></hr>
-								<p>Corequisites</p>
-								<ChooseRequisite
-									requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
-									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-									pathToRequisite={[course, "requisites", "corequisites"]}
-									parentCanBeFulfilled={false}
-								/>
-								<hr></hr>
-								<p>Prerequisites or Corequisites</p>
-								<ChooseRequisite
-									requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}
-									setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-									setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-									pathToRequisite={[course, "requisites", "prerequisitesOrCorequisites"]}
-									parentCanBeFulfilled={false}
-								/>
-							</>
-						)
-					})}
-				</div>
+				{canDisplayFlowchart ? (
+					<div id="cy" className="w-full h-full"></div>
+				) : (
+					<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
+						<p>Requisites</p>
+						{Object.keys(coursesRequisitesNeededFinal).map((course) => {
+							return (
+								<>
+									<p className="bg-orange-400">{course}</p>
+									<p>Prerequisites</p>
+									<ChooseRequisite
+										requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
+										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+										pathToRequisite={[course, "requisites", "prerequisites"]}
+										parentCanBeFulfilled={false}
+									/>
+									<hr></hr>
+									<p>Corequisites</p>
+									<ChooseRequisite
+										requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
+										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+										pathToRequisite={[course, "requisites", "corequisites"]}
+										parentCanBeFulfilled={false}
+									/>
+									<hr></hr>
+									<p>Prerequisites or Corequisites</p>
+									<ChooseRequisite
+										requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}
+										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+										pathToRequisite={[course, "requisites", "prerequisitesOrCorequisites"]}
+										parentCanBeFulfilled={false}
+									/>
+								</>
+							)
+						})}
+					</div>
+				)}
 			</div>
 		</>
 	)

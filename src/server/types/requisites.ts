@@ -37,11 +37,11 @@ type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequ
 
 type RequisiteGroup = {
 	logicalOperator: "AND" | "OR"
-	requisites: RequisiteGroup[] | Requisite
+	requisites: RequisiteGroup[] | [Requisite]
 }
 
 export type Requisites = {
 	prerequisites: RequisiteGroup
 	corequisites: RequisiteGroup
-	prerequiresOrCorequisites: RequisiteGroup
+	prerequisitesOrCorequisites: RequisiteGroup
 }
