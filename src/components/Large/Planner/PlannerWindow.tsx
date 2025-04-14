@@ -8,7 +8,6 @@ import { compareSemesters, getNextSemester, semesterFromDate, stringFromTerm } f
 import { DegreePlan, DegreePlanCourse, UserContextType } from "../../../types/degreeTest"
 
 function PlannerWindow() {
-
 	// User could be undefined because of the ?
 	const user = useContext<UserContextType | null>(UserContext)?.user
 
@@ -53,17 +52,18 @@ function PlannerWindow() {
 	const endSemester = { term: degreePlan.endSemesterTerm, year: parseInt(degreePlan.endSemesterYear) }
 	const currentSemester = semesterFromDate(new Date())
 
-	const pastSemesters : any = {}
+	const pastSemesters: any = {}
 	let semesterCounter = startSemester
 	while (compareSemesters(semesterCounter, currentSemester) < 0) {
-		pastSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] = degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+		pastSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] =
+			degreePlanCourses[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] ?? []
 		semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 	}
-	let currentAndFutureSemesters : any = {}
+	let currentAndFutureSemesters: any = {}
 	currentAndFutureSemesters["Future"] = degreePlanCourses["Future"] ?? []
 	while (compareSemesters(semesterCounter, endSemester) <= 0) {
 		currentAndFutureSemesters[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] =
-			degreePlanCourses[`${semesterCounter.term} ${semesterCounter.year}`] ?? []
+			degreePlanCourses[`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`] ?? []
 		semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
 	}
 	const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []

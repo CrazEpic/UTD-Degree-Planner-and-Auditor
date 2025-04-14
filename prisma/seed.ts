@@ -47,6 +47,12 @@ const createCourses = async () => {
 			},
 			{
 				prefix: "MATH",
+				number: "1326",
+				name: "Applied Calculus II",
+				requisites: emptyRequisites,
+			},
+			{
+				prefix: "MATH",
 				number: "2413",
 				name: "Differential Calculus",
 				requisites: {
@@ -126,7 +132,7 @@ const createCourses = async () => {
 				requisites: {
 					prerequisites: {
 						logicalOperator: "AND",
-						requisites: { type: "course", courseID: "CS 1436", minGrade: "C" },
+						requisites: [{ type: "course", courseID: "CS 1436", minGrade: "C" }],
 					},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},
@@ -530,7 +536,7 @@ const createCourses = async () => {
 				requisites: {
 					prerequisites: {
 						logicalOperator: "AND",
-						requisites: { type: "course", courseID: "CS 2305", minGrade: "C" },
+						requisites: [{ type: "course", courseID: "CS 2305", minGrade: "C" }],
 					},
 					corequisites: {},
 					prerequisitesOrCorequisites: {},

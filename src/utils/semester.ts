@@ -1,4 +1,4 @@
-import { SemesterTerm } from "../types/degreeTest";
+import { SemesterTerm } from "../types/degreeTest"
 
 export const semesterFromDate = (date: Date): { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number } => {
 	const springSemesterStart = new Date(date.getFullYear(), 0)
@@ -26,6 +26,16 @@ export const getNextSemester = (currentSemester: SemesterTerm.SPRING | SemesterT
 	}
 }
 
+export const getPreviousSemester = (currentSemester: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL, currentYear: number) => {
+	if (currentSemester === SemesterTerm.FALL) {
+		return { term: SemesterTerm.SUMMER, year: currentYear }
+	} else if (currentSemester === SemesterTerm.SPRING) {
+		return { term: SemesterTerm.FALL, year: currentYear - 1 }
+	} else {
+		return { term: SemesterTerm.SPRING, year: currentYear }
+	}
+}
+
 export const compareSemesters = (
 	semester1: { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number },
 	semester2: { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number }
@@ -45,10 +55,23 @@ export const compareSemesters = (
 
 export const stringFromTerm = (term: SemesterTerm) => {
 	if (term === SemesterTerm.FALL) {
-		return "Fall"
+		return "FALL"
 	} else if (term === SemesterTerm.SPRING) {
-		return "Spring"
+		return "SPRING"
 	} else {
-		return "Summer"
+		return "SUMMER"
 	}
+}
+
+export const getAllSemestersFromStartToEnd = (
+	startSemester: { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number },
+	endSemester: { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number }
+) => {
+	const allSemesters = []
+	let semesterCounter = startSemester
+	while (compareSemesters(semesterCounter, endSemester) <= 0) {
+		allSemesters.push(`${stringFromTerm(semesterCounter.term)} ${semesterCounter.year}`)
+		semesterCounter = getNextSemester(semesterCounter.term, semesterCounter.year)
+	}
+	return allSemesters
 }
