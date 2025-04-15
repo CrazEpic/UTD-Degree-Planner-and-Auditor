@@ -27,6 +27,11 @@ router.post("/degree", async (req, res) => {
 			RootBlock: {
 				create: {
 					blockName: "Default Root Block", // Replace with appropriate default values
+					NonterminalBlock: {
+						create: {
+							conditions: {},
+						},
+					},
 				},
 			},
 		},

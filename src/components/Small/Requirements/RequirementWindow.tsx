@@ -101,24 +101,24 @@ const footnotes : string[] = [
 ]
 
 // Currently does not work because of camelCase change not merged
-function RequirementWindow() {
-    const [d, setD] = useState<Degree | null>(null)
+function RequirementWindow({degreeName, degreeYear}) {
+    const [degree, setDegree] = useState<Degree | null>(null)
     useEffect(() => {
-        async function fetchData() {
+        const fetchData = async () => {
             try {
-                const resp = await axios.get("http://localhost:3000/api/degree/Computer Science/2025");
-                setD(parseDegree(resp.data));
+                const response = await axios.get(`http://localhost:3000/api/degree/${degreeName}/${degreeYear}`);
+                setDegree(parseDegree(response.data));
             } catch (error) {
                 console.log(error)
             }
         }
         fetchData()
-    }, [])
+    }, [degreeName, degreeYear])
     
     return (
         <> 
             <div className="flex flex-col gap-2 max-lg:mt-4">
-                {d?.RootBlock.innerBlocks.map((inner: Block) => 
+                {degree?.RootBlock.innerBlocks.map((inner: Block) => 
                     <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
 

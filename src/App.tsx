@@ -7,6 +7,7 @@ import axios from "axios"
 import SearchWindow from "./components/Small/SearchWindow"
 import { MatcherContext } from "./contexts/MatcherContext"
 import { BrowserRouter, Routes, Route } from "react-router"
+import DegreeBuildingWindow from "./components/DegreeBuilding/DegreeBuildingWindow"
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -57,7 +58,7 @@ function App() {
 								</div>
 							}
 						/>
-						<Route path="/buildDegree" element={<p>hi</p>} />
+						<Route path="/buildDegree" element={<DegreeBuildingWindow></DegreeBuildingWindow>} />
 					</Routes>
 				</UserContext.Provider>
 			</BrowserRouter>
