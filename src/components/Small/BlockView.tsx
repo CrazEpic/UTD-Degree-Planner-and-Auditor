@@ -6,7 +6,7 @@ import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
 
-function BlockView({ requirement, depth, checkbox }: { requirement: Block; depth: number; checkbox: boolean }) {
+function BlockView({ requirement, depth, checkbox, editMode }: { requirement: Block; depth: number; checkbox: boolean; editMode: boolean }) {
 	// Extremely ugly, just testing understanding
 	const [selected, setSelected] = useState(false)
 	const handleClick = () => {

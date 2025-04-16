@@ -120,7 +120,7 @@ const DegreeBuildingWindow = () => {
 			</div>
 
 			{selectedDegree.degreeName !== "" && selectedDegree.degreeYear !== -1 ? (
-				<RequirementWindow degreeName={selectedDegree.degreeName} degreeYear={selectedDegree.degreeYear}></RequirementWindow>
+				<RequirementWindow degreeName={selectedDegree.degreeName} degreeYear={`${selectedDegree.degreeYear}`} editMode={true}></RequirementWindow>
 			) : (
 				<div className="flex flex-col gap-2 max-lg:mt-4">
 					<p>Please select a degree</p>

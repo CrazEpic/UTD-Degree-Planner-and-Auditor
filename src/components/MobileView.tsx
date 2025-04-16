@@ -138,7 +138,7 @@ function MobileView() {
 							<FlowchartWindow></FlowchartWindow>
 						</TabPanel>
 						<TabPanel>
-							<RequirementWindow degreeName={degreePlan.degreeName} degreeYear={degreePlan.degreeYear}></RequirementWindow>
+							<RequirementWindow degreeName={degreePlan.degreeName} degreeYear={degreePlan.degreeYear} editMode={false}></RequirementWindow>
 						</TabPanel>
 						<TabPanel>
 							<PrerequisiteWindow></PrerequisiteWindow>
