@@ -43,6 +43,8 @@ function App() {
 				<NavBar></NavBar>
 				<div className="flex flex-row h-[calc(100vh-55px)]">
 					<LargeWindow></LargeWindow>
+
+					{/* Move all matcher functionality to requirement window */}
 					<MatcherContext.Provider value={{conditions: null, search: searchCourses, end: endSearch}}>
 						<div className="max-lg:hidden">
 							{matcher ? (
