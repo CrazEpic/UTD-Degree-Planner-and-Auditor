@@ -6,7 +6,12 @@ import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
 import axios from "axios"
-import CourseSearch from "../DegreeBuilding/CourseSearch"
+import CourseSearch from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
+import DeleteBlockButton from "../DegreeBuilding/DegreeFunctionality/DeleteBlockButton"
+import InsertNonterminalButton from "../DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
+import InsertTextButton from "../DegreeBuilding/DegreeFunctionality/InsertTextButton"
+import InsertCourse from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
+import TextBlockView from "./TextBlockView"
 
 function BlockView({
 	requirement,
@@ -46,104 +51,10 @@ function BlockView({
 	// I DON'T KNOW IF I SHOULD PUT THESE IN A SEPARATE COMPONENT FILE
 	// insert nonterminal
 
-	const InsertNonterminalBlockAtPositionButton = () => {
-		return (
-			<Button
-				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
-				onClick={async () => {
-					try {
-						await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
-							parentBlockID: requirement.parentBlockID,
-							position: requirement.blockPosition,
-							blockTypeInformation: {
-								blockType: "NONTERMINAL",
-							},
-						})
-						fetchDegree()
-					} catch (error) {
-						console.log(error)
-					}
-				}}
-			>
-				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
-				<p className="text-nowrap">Insert Nonterminal Block</p>
-			</Button>
-		)
-	}
+	// only nonterminal blocks can have inner blocks for now
 
 	const InsertCourseAtPositionButton = () => {
-		return (
-			// <Button
-			// 	className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
-			// 	onClick={async () => {
-			// 		try {
-			// 			await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
-			// 				parentBlockID: requirement.parentBlockID,
-			// 				position: requirement.blockPosition,
-			// 				blockTypeInformation: {
-			// 					blockType: "COURSE",
-			// 					prefix: "MATH",
-			// 					number: "2417",
-			// 				},
-			// 			})
-			// 			fetchDegree()
-			// 		} catch (error) {
-			// 			console.log(error)
-			// 		}
-			// 	}}
-			// >
-			// 	<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
-			// 	<p className="text-nowrap">Insert Course Block</p>
-			// </Button>
-			<CourseSearch parentBlockID={requirement.parentBlockID} blockPosition={requirement.blockPosition} fetchDegree={fetchDegree}></CourseSearch>
-		)
-	}
-
-	const InsertTextAtPositionButton = () => {
-		return (
-			<Button
-				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
-				onClick={async () => {
-					try {
-						await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
-							parentBlockID: requirement.parentBlockID,
-							position: requirement.blockPosition,
-							blockTypeInformation: {
-								blockType: "TEXT",
-							},
-						})
-						fetchDegree()
-					} catch (error) {
-						console.log(error)
-					}
-				}}
-			>
-				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
-				<p className="text-nowrap">Insert Text Block</p>
-			</Button>
-		)
-	}
-
-	const DeleteBlockButton = () => {
-		return (
-			<Button
-				className="size-6 border-2 rounded-md hover:bg-red-200"
-				onClick={async () => {
-					try {
-						await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
-							data: {
-								blockID: requirement.blockID,
-							},
-						})
-						fetchDegree()
-					} catch (error) {
-						console.log(error)
-					}
-				}}
-			>
-				<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
-			</Button>
-		)
+		return <CourseSearch parentBlockID={requirement.parentBlockID} blockPosition={requirement.blockPosition} fetchDegree={fetchDegree}></CourseSearch>
 	}
 
 	// // update block name
@@ -190,9 +101,27 @@ function BlockView({
 				{editMode && (
 					<>
 						<div className="flex flex-row gap-2">
-							<InsertNonterminalBlockAtPositionButton></InsertNonterminalBlockAtPositionButton>
-							<InsertCourseAtPositionButton></InsertCourseAtPositionButton>
-							<InsertTextAtPositionButton></InsertTextAtPositionButton>
+							<InsertNonterminalButton
+								blockID={requirement.blockID}
+								insertPosition={
+									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
+							<InsertCourse
+								blockID={requirement.blockID}
+								insertPosition={
+									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
+							<InsertTextButton
+								blockID={requirement.blockID}
+								insertPosition={
+									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
 						</div>
 					</>
 				)}
@@ -219,7 +148,7 @@ function BlockView({
                                 */
 								<div className="size-6"></div>
 							)}
-							{editMode && <DeleteBlockButton></DeleteBlockButton>}
+							{editMode && <DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />}
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">
@@ -292,7 +221,34 @@ function BlockView({
 										</div>
 									)
 								case "Text":
-									return <p>{(inner.blockContent as TextBlock).text}</p>
+									return (
+										<div className="flex flex-row w-full">
+											<TextBlockView
+												textBlockID={inner.blockContent.id}
+												text={(inner.blockContent as TextBlock).text}
+												editMode={editMode}
+												fetchDegree={fetchDegree}
+											/>
+											{/* FIX THIS LATER PLEASE */}
+											<Button
+												className="border-2 rounded-md hover:bg-red-200"
+												onClick={async () => {
+													try {
+														await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+															data: {
+																blockID: inner.blockID,
+															},
+														})
+														fetchDegree()
+													} catch (error) {
+														console.log(error)
+													}
+												}}
+											>
+												<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+											</Button>
+										</div>
+									)
 								case "MatcherGroup":
 									return <MatcherBlockView matcher={inner.blockContent as MatcherGroupBlock}></MatcherBlockView>
 								case "FlagToggle":
