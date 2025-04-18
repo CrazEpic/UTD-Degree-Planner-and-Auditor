@@ -86,7 +86,6 @@ const DegreeBuildingWindow = () => {
 								event.preventDefault()
 								const form = event.target as HTMLFormElement
 								const formData = new FormData(form)
-								console.log(formData)
 								const name = formData.get("name") as string
 								const year = formData.get("year") as string
 								try {

@@ -15,7 +15,7 @@ function CourseBlockView({ course, name, indent }: { course: CourseBlock, name: 
 	const [planned, setPlanned] = useState(false)
 
 	return (
-		<div className={"flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 " + (indent && "border-r-0 rounded-r-none")}>
+		<div className={"flex flex-row gap-2 border rounded-lg items-center justify-center p-2 pr-0 w-full " + (indent && "border-r-0 rounded-r-none")}>
 			<p className="line-clamp-2 max-w-15/20">
 				<a className="text-[#037b3f]" href="">
 					{course.prefix + " " + course.number + " "}

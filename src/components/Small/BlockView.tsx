@@ -6,6 +6,7 @@ import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
 import axios from "axios"
+import CourseSearch from "../DegreeBuilding/CourseSearch"
 
 function BlockView({
 	requirement,
@@ -51,7 +52,7 @@ function BlockView({
 				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
 				onClick={async () => {
 					try {
-						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+						await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
 							parentBlockID: requirement.parentBlockID,
 							position: requirement.blockPosition,
 							blockTypeInformation: {
@@ -72,28 +73,29 @@ function BlockView({
 
 	const InsertCourseAtPositionButton = () => {
 		return (
-			<Button
-				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
-				onClick={async () => {
-					try {
-						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
-							parentBlockID: requirement.parentBlockID,
-							position: requirement.blockPosition,
-							blockTypeInformation: {
-								blockType: "COURSE",
-								prefix: "",
-								number: "",
-							},
-						})
-						fetchDegree()
-					} catch (error) {
-						console.log(error)
-					}
-				}}
-			>
-				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
-				<p className="text-nowrap">Insert Course Block</p>
-			</Button>
+			// <Button
+			// 	className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
+			// 	onClick={async () => {
+			// 		try {
+			// 			await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+			// 				parentBlockID: requirement.parentBlockID,
+			// 				position: requirement.blockPosition,
+			// 				blockTypeInformation: {
+			// 					blockType: "COURSE",
+			// 					prefix: "MATH",
+			// 					number: "2417",
+			// 				},
+			// 			})
+			// 			fetchDegree()
+			// 		} catch (error) {
+			// 			console.log(error)
+			// 		}
+			// 	}}
+			// >
+			// 	<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
+			// 	<p className="text-nowrap">Insert Course Block</p>
+			// </Button>
+			<CourseSearch parentBlockID={requirement.parentBlockID} blockPosition={requirement.blockPosition} fetchDegree={fetchDegree}></CourseSearch>
 		)
 	}
 
@@ -103,7 +105,7 @@ function BlockView({
 				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
 				onClick={async () => {
 					try {
-						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+						await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
 							parentBlockID: requirement.parentBlockID,
 							position: requirement.blockPosition,
 							blockTypeInformation: {
@@ -128,7 +130,7 @@ function BlockView({
 				className="size-6 border-2 rounded-md hover:bg-red-200"
 				onClick={async () => {
 					try {
-						axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+						await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
 							data: {
 								blockID: requirement.blockID,
 							},
@@ -181,8 +183,6 @@ function BlockView({
 	// 		},
 	// 	},
 	// })
-
-	console.log(requirement)
 
 	return (
 		<>
@@ -268,7 +268,29 @@ function BlockView({
 										></BlockView>
 									)
 								case "Course":
-									return <CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
+									return (
+										<div className="flex flex-row w-full">
+											<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
+											{/* FIX THIS LATER PLEASE */}
+											<Button
+												className="border-2 rounded-md hover:bg-red-200"
+												onClick={async () => {
+													try {
+														await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+															data: {
+																blockID: inner.blockID,
+															},
+														})
+														fetchDegree()
+													} catch (error) {
+														console.log(error)
+													}
+												}}
+											>
+												<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+											</Button>
+										</div>
+									)
 								case "Text":
 									return <p>{(inner.blockContent as TextBlock).text}</p>
 								case "MatcherGroup":

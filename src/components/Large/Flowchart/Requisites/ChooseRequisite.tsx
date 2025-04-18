@@ -79,7 +79,7 @@ const ChooseRequisite = ({ requisites, setTemporarilyAddedCourses, setTemporaril
 					// need to add course
 					try {
 						const response = await axios.get(
-							"http://localhost:3000/api/courses/?" + `prefix=${requisites.courseID.split(" ")[0]}&number=${requisites.courseID.split(" ")[1]}`
+							"http://localhost:3000/api/course?" + `prefix=${requisites.courseID.split(" ")[0]}&number=${requisites.courseID.split(" ")[1]}`
 						)
 						courseInfo = {
 							prefix: response.data.prefix,
