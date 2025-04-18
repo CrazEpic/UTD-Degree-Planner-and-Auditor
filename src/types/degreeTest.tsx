@@ -37,7 +37,8 @@ export type MatcherContextType = {
 
 export type CreditContextType = {
     credit: TestCredit | TransferCredit | null,
-    find(type: string): void,
+    findCredit(type: string): void,
+    findCourse(credit: any): void,
     end(): void,
 }
 

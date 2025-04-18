@@ -15,7 +15,7 @@ function currentHours(courseList: DegreePlanCourse[]) {
 
 function PlannerSection({ name, courseList }: { name: string; courseList: DegreePlanCourse[] }) {
 	
-	const findCredit = useContext(CreditContext)?.find
+	const findCredit = useContext(CreditContext)?.findCredit
 	
 	return (
 		<>
