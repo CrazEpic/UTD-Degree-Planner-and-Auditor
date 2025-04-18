@@ -13,9 +13,9 @@ import CourseLink from "./Large/CourseLink"
 
 function createDefaultBlock() {
 	return {
-		blockId: "id",
+		blockID: "id",
 		blockName: "Requirement Name",
-		parentBlockId: "",
+		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
 		blockType: "NonTerminal",

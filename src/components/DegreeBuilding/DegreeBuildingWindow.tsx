@@ -11,7 +11,8 @@ const DegreeBuildingWindow = () => {
 	})
 	const [query, setQuery] = useState("")
 	const [addDegreeVisible, setAddDegreeVisible] = useState(false)
-	const fetchData = async () => {
+	const [previewMode, setPreviewMode] = useState(false)
+	const fetchDegrees = async () => {
 		try {
 			const response = await axios.get("http://localhost:3000/api/degree/degrees")
 			setDegrees(response.data)
@@ -20,7 +21,7 @@ const DegreeBuildingWindow = () => {
 		}
 	}
 	useEffect(() => {
-		fetchData()
+		fetchDegrees()
 	}, [selectedDegree])
 	return (
 		<>
@@ -93,7 +94,7 @@ const DegreeBuildingWindow = () => {
 										name: name,
 										year: year,
 									})
-									fetchData()
+									fetchDegrees()
 								} catch (error) {
 									console.log(error)
 								}
@@ -118,9 +119,22 @@ const DegreeBuildingWindow = () => {
 					)}
 				</div>
 			</div>
+			<p>Preview</p>
+			<p>{selectedDegree.degreeName}</p>
 
+			<Switch
+				checked={previewMode}
+				onChange={setPreviewMode}
+				className="group inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition data-[checked]:bg-blue-600"
+			>
+				<span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-6" />
+			</Switch>
 			{selectedDegree.degreeName !== "" && selectedDegree.degreeYear !== -1 ? (
-				<RequirementWindow degreeName={selectedDegree.degreeName} degreeYear={`${selectedDegree.degreeYear}`} editMode={true}></RequirementWindow>
+				<RequirementWindow
+					degreeName={selectedDegree.degreeName}
+					degreeYear={`${selectedDegree.degreeYear}`}
+					editMode={!previewMode}
+				></RequirementWindow>
 			) : (
 				<div className="flex flex-col gap-2 max-lg:mt-4">
 					<p>Please select a degree</p>

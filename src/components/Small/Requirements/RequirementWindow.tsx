@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Block, Degree } from "../../../types/degreeTest"
 import BlockView from "../BlockView"
 import axios from "axios"
 
 function createDefaultBlock(): Block {
 	return {
-		blockId: "",
+		blockID: "",
 		blockName: "",
-		parentBlockId: "",
+		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
 		blockType: "NonTerminal",
@@ -21,9 +21,9 @@ function createDefaultBlock(): Block {
 function parseBlock(data: any): Block {
 	let block = createDefaultBlock()
 
-	block.blockId = data.blockId
+	block.blockID = data.blockID
 	block.blockName = data.blockName
-	block.parentBlockId = data.parentBlockId
+	block.parentBlockID = data.parentBlockID
 	block.blockPosition = data.blockPosition
 
 	if (data.NonTerminalBlock) {
@@ -72,13 +72,13 @@ function parseBlock(data: any): Block {
 function parseDegree(data: any): Degree {
 	let degree: Degree = {
 		RootBlock: createDefaultBlock(),
-		blockId: "",
+		blockID: "",
 		degreeName: "",
 		degreeYear: "",
 	}
 
 	degree.RootBlock = parseBlock(data.RootBlock)
-	degree.blockId = data.blockId
+	degree.blockID = data.blockID
 	degree.degreeName = data.degreeName
 	degree.degreeYear = data.degreeYear
 
@@ -98,56 +98,62 @@ const footnotes: string[] = [
 // Currently does not work because of camelCase change not merged
 const RequirementWindow = ({ degreeName, degreeYear, editMode }: { degreeName: string; degreeYear: string; editMode: boolean }) => {
 	const [degree, setDegree] = useState<Degree | null>(null)
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axios.get(`http://localhost:3000/api/degree/${degreeName}/${degreeYear}`)
-				setDegree(parseDegree(response.data))
-			} catch (error) {
-				console.log(error)
-			}
+
+	const fetchDegree = useCallback(async () => {
+		try {
+			const response = await axios.get(`http://localhost:3000/api/degree/${degreeName}/${degreeYear}`)
+			setDegree(parseDegree(response.data))
+		} catch (error) {
+			console.log(error)
 		}
-		fetchData()
 	}, [degreeName, degreeYear])
+
+	useEffect(() => {
+		fetchDegree()
+	}, [degreeName, degreeYear, fetchDegree])
 
 	return (
 		<>
 			<div className="flex flex-col gap-2 max-lg:mt-4">
 				{degree?.RootBlock.innerBlocks.map((inner: Block) => (
-					<BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false} editMode={editMode}></BlockView>
+					<BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} editMode={editMode}></BlockView>
 				))}
 
 				{/* Add unrelated courses */}
-				<BlockView
-					requirement={{
-						blockId: "",
-						blockName: "Unrelated Courses",
-						parentBlockId: "",
-						blockPosition: 0,
-						innerBlocks: [
-							{
-								blockId: "",
-								blockName: "",
-								parentBlockId: "",
-								blockPosition: 0,
-								innerBlocks: [],
-								blockType: "MatcherGroup",
-								blockContent: {
-									id: "",
-									conditions: {},
+
+				{!editMode && (
+					<BlockView
+						requirement={{
+							blockID: "",
+							blockName: "Unrelated Courses",
+							parentBlockID: "",
+							blockPosition: 0,
+							innerBlocks: [
+								{
+									blockID: "",
+									blockName: "",
+									parentBlockID: "",
+									blockPosition: 0,
+									innerBlocks: [],
+									blockType: "MatcherGroup",
+									blockContent: {
+										id: "",
+										conditions: {},
+									},
 								},
+							],
+							blockType: "NonTerminal",
+							blockContent: {
+								id: "",
+								conditions: {},
 							},
-						],
-						blockType: "NonTerminal",
-						blockContent: {
-							id: "",
-							conditions: {},
-						},
-					}}
-					depth={1}
-					checkbox={false}
-					editMode={editMode}
-				></BlockView>
+						}}
+						depth={1}
+						checkbox={false}
+						fetchDegree={fetchDegree}
+						editMode={editMode}
+					></BlockView>
+				)}
 
 				{/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
 				{footnotes.map((footnote) => (

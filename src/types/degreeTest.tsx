@@ -77,7 +77,7 @@ export type DegreePlanCourse = {
 
 export type Degree = {
     RootBlock: Block,
-    blockId: string,
+    blockID: string,
     degreeName: string,
     degreeYear: string,
 }
@@ -117,9 +117,9 @@ export type DegreeFlag = {
 }
   
 export type Block = {
-    blockId: string,
+    blockID: string,
     blockName: string,
-    parentBlockId: string,
+    parentBlockID: string,
     blockPosition: number,
     innerBlocks: Block[],
     blockType: string,

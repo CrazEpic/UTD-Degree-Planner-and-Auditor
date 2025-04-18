@@ -1,12 +1,25 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/24/solid"
+import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "./Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
+import axios from "axios"
 
-function BlockView({ requirement, depth, checkbox, editMode }: { requirement: Block; depth: number; checkbox: boolean; editMode: boolean }) {
+function BlockView({
+	requirement,
+	depth,
+	checkbox,
+	fetchDegree,
+	editMode,
+}: {
+	requirement: Block
+	depth: number
+	checkbox: boolean
+	fetchDegree: Function
+	editMode: boolean
+}) {
 	// Extremely ugly, just testing understanding
 	const [selected, setSelected] = useState(false)
 	const handleClick = () => {
@@ -28,10 +41,162 @@ function BlockView({ requirement, depth, checkbox, editMode }: { requirement: Bl
 		3, // getUnplanned()
 	]
 
+	// DEGREE BUILDING STUFF
+	// I DON'T KNOW IF I SHOULD PUT THESE IN A SEPARATE COMPONENT FILE
+	// insert nonterminal
+
+	const InsertNonterminalBlockAtPositionButton = () => {
+		return (
+			<Button
+				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
+				onClick={async () => {
+					try {
+						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+							parentBlockID: requirement.parentBlockID,
+							position: requirement.blockPosition,
+							blockTypeInformation: {
+								blockType: "NONTERMINAL",
+							},
+						})
+						fetchDegree()
+					} catch (error) {
+						console.log(error)
+					}
+				}}
+			>
+				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
+				<p className="text-nowrap">Insert Nonterminal Block</p>
+			</Button>
+		)
+	}
+
+	const InsertCourseAtPositionButton = () => {
+		return (
+			<Button
+				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
+				onClick={async () => {
+					try {
+						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+							parentBlockID: requirement.parentBlockID,
+							position: requirement.blockPosition,
+							blockTypeInformation: {
+								blockType: "COURSE",
+								prefix: "",
+								number: "",
+							},
+						})
+						fetchDegree()
+					} catch (error) {
+						console.log(error)
+					}
+				}}
+			>
+				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
+				<p className="text-nowrap">Insert Course Block</p>
+			</Button>
+		)
+	}
+
+	const InsertTextAtPositionButton = () => {
+		return (
+			<Button
+				className="size-6 border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
+				onClick={async () => {
+					try {
+						axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+							parentBlockID: requirement.parentBlockID,
+							position: requirement.blockPosition,
+							blockTypeInformation: {
+								blockType: "TEXT",
+							},
+						})
+						fetchDegree()
+					} catch (error) {
+						console.log(error)
+					}
+				}}
+			>
+				<PlusIcon className="min-w-6 min-h-6"></PlusIcon>
+				<p className="text-nowrap">Insert Text Block</p>
+			</Button>
+		)
+	}
+
+	const DeleteBlockButton = () => {
+		return (
+			<Button
+				className="size-6 border-2 rounded-md hover:bg-red-200"
+				onClick={async () => {
+					try {
+						axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+							data: {
+								blockID: requirement.blockID,
+							},
+						})
+						fetchDegree()
+					} catch (error) {
+						console.log(error)
+					}
+				}}
+			>
+				<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+			</Button>
+		)
+	}
+
+	// // update block name
+	// axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
+	// 	data: {
+	// 		blockID: requirement.blockID,
+	// 		blockName: "",
+	// 	},
+	// })
+	// axios.put("http://localhost:3000/api/buildDegree/updateTextBlock", {
+	// 	data: {
+	// 		blockID: requirement.blockContent.id,
+	// 		text: "",
+	// 	},
+	// })
+	// axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+	// 	data: {
+	// 		blockID: requirement.blockContent.id,
+	// 		conditions: {
+	// 			blockFulfillmentCondition: {
+	// 				blocksToFulfill: 1,
+	// 			},
+	// 			minBlockInclusionCondition: {
+	// 				minBlocksToInclude: 1,
+	// 			},
+	// 			creditHourCondition: {
+	// 				minCreditHours: 1,
+	// 			},
+	// 			levelCondition: {
+	// 				creditHourRequirement: 1,
+	// 				level: "4000",
+	// 			},
+	// 			hourBeyondBlockCondition: {
+	// 				blockKey: "",
+	// 				hoursBeyondBlock: 1,
+	// 			},
+	// 		},
+	// 	},
+	// })
+
+	console.log(requirement)
+
 	return (
 		<>
 			<div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
-				<Disclosure>
+				{editMode && (
+					<>
+						<div className="flex flex-row gap-2">
+							<InsertNonterminalBlockAtPositionButton></InsertNonterminalBlockAtPositionButton>
+							<InsertCourseAtPositionButton></InsertCourseAtPositionButton>
+							<InsertTextAtPositionButton></InsertTextAtPositionButton>
+						</div>
+					</>
+				)}
+				<Disclosure defaultOpen={editMode}>
 					<div className="flex flex-row items-center pr-2">
 						<div className="flex flex-row items-center gap-2">
 							<DisclosureButton className="group py-2">
@@ -54,6 +219,7 @@ function BlockView({ requirement, depth, checkbox, editMode }: { requirement: Bl
                                 */
 								<div className="size-6"></div>
 							)}
+							{editMode && <DeleteBlockButton></DeleteBlockButton>}
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">
@@ -92,7 +258,15 @@ function BlockView({ requirement, depth, checkbox, editMode }: { requirement: Bl
 						{requirement.innerBlocks.map((inner) => {
 							switch (inner.blockType) {
 								case "NonTerminal":
-									return <BlockView requirement={inner} depth={depth + 1} checkbox={checkbox}></BlockView>
+									return (
+										<BlockView
+											requirement={inner}
+											depth={depth + 1}
+											checkbox={checkbox}
+											fetchDegree={fetchDegree}
+											editMode={editMode}
+										></BlockView>
+									)
 								case "Course":
 									return <CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
 								case "Text":

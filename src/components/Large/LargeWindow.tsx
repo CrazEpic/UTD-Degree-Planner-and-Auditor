@@ -14,9 +14,9 @@ import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 
 function createDefaultBlock() {
 	return {
-		blockId: "id",
+		blockID: "id",
 		blockName: "Requirement Name",
-		parentBlockId: "",
+		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
 		blockType: "NonTerminal",
