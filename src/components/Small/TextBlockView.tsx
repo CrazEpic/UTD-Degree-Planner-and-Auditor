@@ -1,10 +1,16 @@
 import { Input } from "@headlessui/react"
 import axios from "axios"
+import { Mode } from "../../types/requirementWindow"
 
-const TextBlockView = ({ textBlockID, text, editMode, fetchDegree }) => {
+const TextBlockView = ({ textBlockID, text, mode, fetchDegree }: {
+	textBlockID: string
+	text: string
+	mode: Mode
+	fetchDegree: Function
+}) => {
 	return (
 		<>
-			{editMode ? (
+			{mode === "EDIT" ? (
 				<form
 					method="post"
 					onSubmit={async (event) => {

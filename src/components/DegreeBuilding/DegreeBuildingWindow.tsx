@@ -132,7 +132,7 @@ const DegreeBuildingWindow = () => {
 				<RequirementWindow
 					degreeName={selectedDegree.degreeName}
 					degreeYear={`${selectedDegree.degreeYear}`}
-					editMode={!previewMode}
+					mode={previewMode ? "VIEW" : "EDIT"}
 				></RequirementWindow>
 			) : (
 				<div className="flex flex-col gap-2 max-lg:mt-4">

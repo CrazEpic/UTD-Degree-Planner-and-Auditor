@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react"
 import { Block, Degree } from "../../../types/degreeTest"
 import BlockView from "../BlockView"
 import axios from "axios"
+import { Mode } from "../../../types/requirementWindow"
 
 function createDefaultBlock(): Block {
 	return {
@@ -96,7 +97,7 @@ const footnotes: string[] = [
 ]
 
 // Currently does not work because of camelCase change not merged
-const RequirementWindow = ({ degreeName, degreeYear, editMode }: { degreeName: string; degreeYear: string; editMode: boolean }) => {
+const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: string; degreeYear: string; mode: Mode }) => {
 	const [degree, setDegree] = useState<Degree | null>(null)
 
 	const fetchDegree = useCallback(async () => {
@@ -116,12 +117,12 @@ const RequirementWindow = ({ degreeName, degreeYear, editMode }: { degreeName: s
 		<>
 			<div className="flex flex-col gap-2 max-lg:mt-4">
 				{degree?.RootBlock.innerBlocks.map((inner: Block) => (
-					<BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} editMode={editMode}></BlockView>
+					<BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={mode}></BlockView>
 				))}
 
 				{/* Add unrelated courses */}
 
-				{!editMode && (
+				{mode !== "EDIT" && (
 					<BlockView
 						requirement={{
 							blockID: "",
@@ -151,7 +152,7 @@ const RequirementWindow = ({ degreeName, degreeYear, editMode }: { degreeName: s
 						depth={1}
 						checkbox={false}
 						fetchDegree={fetchDegree}
-						editMode={editMode}
+						mode={mode}
 					></BlockView>
 				)}
 

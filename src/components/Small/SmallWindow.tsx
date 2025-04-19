@@ -42,7 +42,7 @@ function SmallWindow() {
 					</TabList>
 					<TabPanels>
 						<TabPanel>
-							<RequirementWindow degreeName={degreePlan?.degreeName} degreeYear={degreePlan?.degreeYear} editMode={false}></RequirementWindow>
+							<RequirementWindow degreeName={degreePlan?.degreeName} degreeYear={degreePlan?.degreeYear} mode={"NORMAL"}></RequirementWindow>
 						</TabPanel>
 						<TabPanel>
 							<PrerequisiteWindow></PrerequisiteWindow>

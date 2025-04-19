@@ -11,19 +11,20 @@ import InsertNonterminalButton from "../DegreeBuilding/DegreeFunctionality/Inser
 import InsertTextButton from "../DegreeBuilding/DegreeFunctionality/InsertTextButton"
 import InsertCourse from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import TextBlockView from "./TextBlockView"
+import { Mode } from "../../types/requirementWindow"
 
 function BlockView({
 	requirement,
 	depth,
 	checkbox,
 	fetchDegree,
-	editMode,
+	mode,
 }: {
 	requirement: Block
 	depth: number
 	checkbox: boolean
 	fetchDegree: Function
-	editMode: boolean
+	mode: Mode
 }) {
 	// Extremely ugly, just testing understanding
 	const [selected, setSelected] = useState(false)
@@ -80,7 +81,7 @@ function BlockView({
 	return (
 		<>
 			<div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
-				{editMode && (
+				{mode === "EDIT" && (
 					<>
 						<div className="flex flex-row gap-2">
 							<InsertNonterminalButton
@@ -107,7 +108,7 @@ function BlockView({
 						</div>
 					</>
 				)}
-				<Disclosure defaultOpen={editMode}>
+				<Disclosure defaultOpen={mode === "EDIT"}>
 					<div className="flex flex-row items-center pr-2">
 						<div className="flex flex-row items-center gap-2">
 							<DisclosureButton className="group py-2">
@@ -116,7 +117,7 @@ function BlockView({
 
 							{/* Text does not truncate or turn to ellipses*/}
 							{/* block name */}
-							{editMode ? (
+							{mode === "EDIT" ? (
 								<form
 									method="post"
 									onSubmit={async (event) => {
@@ -162,7 +163,7 @@ function BlockView({
                                 */
 								<div className="size-6"></div>
 							)}
-							{editMode && <DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />}
+							{mode === "EDIT" && <DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />}
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">
@@ -202,36 +203,32 @@ function BlockView({
 							switch (inner.blockType) {
 								case "NonTerminal":
 									return (
-										<BlockView
-											requirement={inner}
-											depth={depth + 1}
-											checkbox={checkbox}
-											fetchDegree={fetchDegree}
-											editMode={editMode}
-										></BlockView>
+										<BlockView requirement={inner} depth={depth + 1} checkbox={checkbox} fetchDegree={fetchDegree} mode={mode}></BlockView>
 									)
 								case "Course":
 									return (
 										<div className="flex flex-row w-full">
 											<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
 											{/* FIX THIS LATER PLEASE */}
-											<Button
-												className="border-2 rounded-md hover:bg-red-200"
-												onClick={async () => {
-													try {
-														await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
-															data: {
-																blockID: inner.blockID,
-															},
-														})
-														fetchDegree()
-													} catch (error) {
-														console.log(error)
-													}
-												}}
-											>
-												<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
-											</Button>
+											{mode === "EDIT" && (
+												<Button
+													className="border-2 rounded-md hover:bg-red-200"
+													onClick={async () => {
+														try {
+															await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																data: {
+																	blockID: inner.blockID,
+																},
+															})
+															fetchDegree()
+														} catch (error) {
+															console.log(error)
+														}
+													}}
+												>
+													<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+												</Button>
+											)}
 										</div>
 									)
 								case "Text":
@@ -240,27 +237,29 @@ function BlockView({
 											<TextBlockView
 												textBlockID={inner.blockContent.id}
 												text={(inner.blockContent as TextBlock).text}
-												editMode={editMode}
+												mode={mode}
 												fetchDegree={fetchDegree}
 											/>
 											{/* FIX THIS LATER PLEASE */}
-											<Button
-												className="border-2 rounded-md hover:bg-red-200"
-												onClick={async () => {
-													try {
-														await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
-															data: {
-																blockID: inner.blockID,
-															},
-														})
-														fetchDegree()
-													} catch (error) {
-														console.log(error)
-													}
-												}}
-											>
-												<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
-											</Button>
+											{mode === "EDIT" && (
+												<Button
+													className="border-2 rounded-md hover:bg-red-200"
+													onClick={async () => {
+														try {
+															await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																data: {
+																	blockID: inner.blockID,
+																},
+															})
+															fetchDegree()
+														} catch (error) {
+															console.log(error)
+														}
+													}}
+												>
+													<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+												</Button>
+											)}
 										</div>
 									)
 								case "MatcherGroup":
