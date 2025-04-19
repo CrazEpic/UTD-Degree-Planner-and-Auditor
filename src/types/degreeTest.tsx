@@ -23,6 +23,11 @@ export type UserContextType = {
     fetchUser(): void,
 }
 
+export type CoursesContextType = {
+    courses: Course[],
+    fetchCourses(): void,
+}
+
 export type LinkContextType = {
     linkCourse(c: Course): void,
     cancelLink(): void,

@@ -1,7 +1,8 @@
 import { Button, Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useState } from "react"
+import { CoursesContext } from "../../../contexts/CoursesContext"
 
 const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 	const [selectedCourse, setSelectedCourse] = useState({
@@ -11,20 +12,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 	})
 	const [query, setQuery] = useState("")
 
-	const [courses, setCourses] = useState([])
-	// TODO: should probably put this in a context or something
-	const fetchCourses = async () => {
-		try {
-			const response = await axios.get("http://localhost:3000/api/courses")
-			setCourses(response.data)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-
-	useEffect(() => {
-		fetchCourses()
-	}, [])
+	const courses = useContext(CoursesContext)?.courses || []
 
 	return (
 		<>

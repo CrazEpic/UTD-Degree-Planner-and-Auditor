@@ -8,6 +8,7 @@ import SearchWindow from "./components/Small/SearchWindow"
 import { MatcherContext } from "./contexts/MatcherContext"
 import { BrowserRouter, Routes, Route } from "react-router"
 import DegreeBuildingWindow from "./components/DegreeBuilding/DegreeBuildingWindow"
+import { CoursesContext } from "./contexts/CoursesContext"
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -22,8 +23,20 @@ function App() {
 		}
 	}
 
+	const [courses, setCourses] = useState([])
+	// TODO: should probably put this in a context or something
+	const fetchCourses = async () => {
+		try {
+			const response = await axios.get("http://localhost:3000/api/courses")
+			setCourses(response.data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	useEffect(() => {
 		fetchUser()
+		fetchCourses()
 	}, [])
 
 	const conditions = {}
@@ -43,23 +56,25 @@ function App() {
 		<>
 			<BrowserRouter>
 				<UserContext.Provider value={{ user, fetchUser }}>
-					<NavBar></NavBar>
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<div className="flex flex-row h-[calc(100vh-55px)]">
-									<LargeWindow></LargeWindow>
-									<MatcherContext.Provider value={{ conditions: null, search: searchCourses, end: endSearch }}>
-										<div className="max-lg:hidden">
-											{matcher ? <SearchWindow conditions={conditions}></SearchWindow> : <SmallWindow></SmallWindow>}
-										</div>
-									</MatcherContext.Provider>
-								</div>
-							}
-						/>
-						<Route path="/buildDegree" element={<DegreeBuildingWindow></DegreeBuildingWindow>} />
-					</Routes>
+					<CoursesContext.Provider value={{ courses, fetchCourses }}>
+						<NavBar></NavBar>
+						<Routes>
+							<Route
+								path="/"
+								element={
+									<div className="flex flex-row h-[calc(100vh-55px)]">
+										<LargeWindow></LargeWindow>
+										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, end: endSearch }}>
+											<div className="max-lg:hidden">
+												{matcher ? <SearchWindow conditions={conditions}></SearchWindow> : <SmallWindow></SmallWindow>}
+											</div>
+										</MatcherContext.Provider>
+									</div>
+								}
+							/>
+							<Route path="/buildDegree" element={<DegreeBuildingWindow></DegreeBuildingWindow>} />
+						</Routes>
+					</CoursesContext.Provider>
 				</UserContext.Provider>
 			</BrowserRouter>
 		</>
