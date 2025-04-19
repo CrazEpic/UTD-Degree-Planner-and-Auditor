@@ -24,7 +24,7 @@ const TextBlockView = ({ textBlockID, text, editMode, fetchDegree }) => {
 					}}
 				>
 					<label>
-						<Input name="text" placeholder="Enter new text" type="text" defaultValue={text} className={"border-2 border-black"} onKey />
+						<Input name="text" placeholder="Enter new text" type="text" defaultValue={text} className={"border-2 border-black"} />
 					</label>
 				</form>
 			) : (

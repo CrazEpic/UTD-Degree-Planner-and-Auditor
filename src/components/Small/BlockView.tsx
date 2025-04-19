@@ -1,12 +1,11 @@
-import { Button, Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
-import { ChevronDownIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
+import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "./Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
 import axios from "axios"
-import CourseSearch from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import DeleteBlockButton from "../DegreeBuilding/DegreeFunctionality/DeleteBlockButton"
 import InsertNonterminalButton from "../DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
 import InsertTextButton from "../DegreeBuilding/DegreeFunctionality/InsertTextButton"
@@ -53,23 +52,6 @@ function BlockView({
 
 	// only nonterminal blocks can have inner blocks for now
 
-	const InsertCourseAtPositionButton = () => {
-		return <CourseSearch parentBlockID={requirement.parentBlockID} blockPosition={requirement.blockPosition} fetchDegree={fetchDegree}></CourseSearch>
-	}
-
-	// // update block name
-	// axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
-	// 	data: {
-	// 		blockID: requirement.blockID,
-	// 		blockName: "",
-	// 	},
-	// })
-	// axios.put("http://localhost:3000/api/buildDegree/updateTextBlock", {
-	// 	data: {
-	// 		blockID: requirement.blockContent.id,
-	// 		text: "",
-	// 	},
-	// })
 	// axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
 	// 	data: {
 	// 		blockID: requirement.blockContent.id,
@@ -133,7 +115,39 @@ function BlockView({
 							</DisclosureButton>
 
 							{/* Text does not truncate or turn to ellipses*/}
-							<p className="line-clamp-1 justify-self-start">{requirement.blockName}</p>
+							{/* block name */}
+							{editMode ? (
+								<form
+									method="post"
+									onSubmit={async (event) => {
+										event.preventDefault()
+										const form = event.target as HTMLFormElement
+										const formData = new FormData(form)
+										const blockName = formData.get("blockName") as string
+										try {
+											axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
+												blockID: requirement.blockID,
+												blockName: blockName,
+											})
+											fetchDegree()
+										} catch (error) {
+											console.log(error)
+										}
+									}}
+								>
+									<label>
+										<Input
+											name="blockName"
+											placeholder="Enter new block name"
+											type="text"
+											defaultValue={requirement.blockName}
+											className={"border-2 border-black"}
+										/>
+									</label>
+								</form>
+							) : (
+								<p className="line-clamp-1 justify-self-start">{requirement.blockName}</p>
+							)}
 						</div>
 						<div className="flex flex-row ml-auto items-center justify-self-end mr-2 gap-2">
 							<ProgressBar progress={progress}></ProgressBar>
