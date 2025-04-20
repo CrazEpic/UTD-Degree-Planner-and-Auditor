@@ -1,6 +1,6 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
 import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, TextBlock } from "../../types/degreeTest"
+import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "./Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
@@ -12,6 +12,8 @@ import InsertTextButton from "../DegreeBuilding/DegreeFunctionality/InsertTextBu
 import InsertCourse from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import TextBlockView from "./TextBlockView"
 import { Mode } from "../../types/requirementWindow"
+import SelectNonterminalConditions from "../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
+import NonterminalConditions from "./NonterminalConditions"
 
 function BlockView({
 	requirement,
@@ -47,37 +49,6 @@ function BlockView({
 		3, // getUnplanned()
 	]
 
-	// DEGREE BUILDING STUFF
-	// I DON'T KNOW IF I SHOULD PUT THESE IN A SEPARATE COMPONENT FILE
-	// insert nonterminal
-
-	// only nonterminal blocks can have inner blocks for now
-
-	// axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
-	// 	data: {
-	// 		blockID: requirement.blockContent.id,
-	// 		conditions: {
-	// 			blockFulfillmentCondition: {
-	// 				blocksToFulfill: 1,
-	// 			},
-	// 			minBlockInclusionCondition: {
-	// 				minBlocksToInclude: 1,
-	// 			},
-	// 			creditHourCondition: {
-	// 				minCreditHours: 1,
-	// 			},
-	// 			levelCondition: {
-	// 				creditHourRequirement: 1,
-	// 				level: "4000",
-	// 			},
-	// 			hourBeyondBlockCondition: {
-	// 				blockKey: "",
-	// 				hoursBeyondBlock: 1,
-	// 			},
-	// 		},
-	// 	},
-	// })
-
 	return (
 		<>
 			<div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
@@ -103,6 +74,11 @@ function BlockView({
 								insertPosition={
 									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
 								}
+								fetchDegree={fetchDegree}
+							/>
+							<SelectNonterminalConditions
+								nonterminalBlockID={requirement.blockContent.id}
+								conditions={(requirement.blockContent as NonTerminalBlock).conditions}
 								fetchDegree={fetchDegree}
 							/>
 						</div>
@@ -167,37 +143,14 @@ function BlockView({
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">
-						{requirement.blockType === "NonTerminal" &&
-							Object.keys(requirement.blockContent.conditions)
-								.filter((key) => {
-									return key != "id"
-								})
-								.map((condition) => {
-									let message
-									switch (condition) {
-										case "blockFulfillmentCondition":
-											message = "Blocks to Fulfill: " + requirement.blockContent.conditions[condition].blocksToFulfill
-											break
-										case "minBlockInclusionCondition":
-											message = "Minimum Blocks to Include: " + requirement.blockContent.conditions[condition].minBlocksToInclude
-											break
-										case "creditHourCondition":
-											message = "Minimum Credit Hours: " + requirement.blockContent.conditions[condition].minCreditHours
-											break
-										case "levelCondition":
-											message =
-												"Level Condition: " +
-												requirement.blockContent.conditions[condition].creditHourRequirement +
-												" hours must be " +
-												requirement.blockContent.conditions[condition].level
-											break
-										case "hourBeyondBlockCondition":
-											message = "Hours Beyond Block: " + requirement.blockContent.conditions[condition].hoursBeyondBlock
-											break
-									}
-									return <p>{message}</p>
-								})}
-						{/* Conditions are not currently implemeneted */}
+						{requirement.blockType === "NonTerminal" && (
+							<NonterminalConditions
+								nonterminalBlockID={requirement.blockContent.id}
+								conditions={(requirement.blockContent as NonTerminalBlock).conditions}
+								mode={mode}
+								fetchDegree={fetchDegree}
+							/>
+						)}
 						{/* Recursive Blocks */}
 						{requirement.innerBlocks.map((inner) => {
 							switch (inner.blockType) {
