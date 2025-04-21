@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react"
-import { Block, Degree, NonTerminalBlock } from "../../../types/degreeTest"
+import { Block, CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../../types/degreeTest"
 import BlockView from "../BlockView"
 import axios from "axios"
 import { Mode } from "../../../types/requirementWindow"
@@ -7,6 +7,12 @@ import InsertCourse from "../../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import InsertNonterminalButton from "../../DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
 import InsertTextButton from "../../DegreeBuilding/DegreeFunctionality/InsertTextButton"
 import SelectNonterminalConditions from "../../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
+import { Button } from "@headlessui/react"
+import { TrashIcon } from "@heroicons/react/24/outline"
+import CourseBlockView from "../CourseBlockView"
+import MatcherBlockView from "../MatcherBlockView"
+import TextBlockView from "../TextBlockView"
+import NonterminalConditions from "../NonterminalConditions"
 
 function createDefaultBlock(): Block {
 	return {
@@ -117,6 +123,8 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 		fetchDegree()
 	}, [degreeName, degreeYear, fetchDegree])
 
+	console.log("degree", degree)
+
 	return (
 		<>
 			<div className="flex flex-col gap-2 max-lg:mt-4 border-black border-2">
@@ -127,21 +135,27 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 							<InsertNonterminalButton
 								blockID={degree?.RootBlock.blockID}
 								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+									degree?.RootBlock.innerBlocks.length != 0
+										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+										: 0
 								}
 								fetchDegree={fetchDegree}
 							/>
 							<InsertCourse
 								blockID={degree?.RootBlock.blockID}
 								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+									degree?.RootBlock.innerBlocks.length != 0
+										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+										: 0
 								}
 								fetchDegree={fetchDegree}
 							/>
 							<InsertTextButton
 								blockID={degree?.RootBlock.blockID}
 								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+									degree?.RootBlock.innerBlocks.length != 0
+										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+										: 0
 								}
 								fetchDegree={fetchDegree}
 							/>
@@ -153,9 +167,84 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 						</div>
 					</>
 				)}
-				{degree?.RootBlock.innerBlocks.map((inner: Block) => (
-					<BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={mode}></BlockView>
-				))}
+				{degree?.RootBlock.blockType === "NonTerminal" && (
+					<NonterminalConditions
+						nonterminalBlockID={degree?.RootBlock.blockContent.id}
+						conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
+						mode={mode}
+						fetchDegree={fetchDegree}
+					/>
+				)}
+				{/* Recursive Blocks */}
+				{degree?.RootBlock.innerBlocks.map((inner) => {
+					switch (inner.blockType) {
+						case "NonTerminal":
+							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={mode}></BlockView>
+						case "Course":
+							return (
+								<div className="flex flex-row w-full">
+									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
+									{/* FIX THIS LATER PLEASE */}
+									{mode === "EDIT" && (
+										<Button
+											className="border-2 rounded-md hover:bg-red-200"
+											onClick={async () => {
+												try {
+													await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+														data: {
+															blockID: inner.blockID,
+														},
+													})
+													fetchDegree()
+												} catch (error) {
+													console.log(error)
+												}
+											}}
+										>
+											<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+										</Button>
+									)}
+								</div>
+							)
+						case "Text":
+							return (
+								<div className="flex flex-row w-full">
+									<TextBlockView
+										textBlockID={inner.blockContent.id}
+										text={(inner.blockContent as TextBlock).text}
+										mode={mode}
+										fetchDegree={fetchDegree}
+									/>
+									{/* FIX THIS LATER PLEASE */}
+									{mode === "EDIT" && (
+										<Button
+											className="border-2 rounded-md hover:bg-red-200"
+											onClick={async () => {
+												try {
+													await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+														data: {
+															blockID: inner.blockID,
+														},
+													})
+													fetchDegree()
+												} catch (error) {
+													console.log(error)
+												}
+											}}
+										>
+											<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+										</Button>
+									)}
+								</div>
+							)
+						case "MatcherGroup":
+							return <MatcherBlockView matcher={inner.blockContent as MatcherGroupBlock}></MatcherBlockView>
+						case "FlagToggle":
+							return <p>{(inner.blockContent as FlagToggleBlock).flagId}</p>
+						default:
+							return <p>Unknown Block Type</p>
+					}
+				})}
 
 				{/* Add unrelated courses */}
 

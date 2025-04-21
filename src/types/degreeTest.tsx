@@ -128,7 +128,7 @@ export type Degree = {
   
 export type NonTerminalBlock = {
     id: string,
-    conditions: {},
+    conditions: object,
 }
 
 // Update b/c why does this not have a course name attached
