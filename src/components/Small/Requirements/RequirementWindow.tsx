@@ -1,8 +1,12 @@
 import { useEffect, useState, useCallback } from "react"
-import { Block, Degree } from "../../../types/degreeTest"
+import { Block, Degree, NonTerminalBlock } from "../../../types/degreeTest"
 import BlockView from "../BlockView"
 import axios from "axios"
 import { Mode } from "../../../types/requirementWindow"
+import InsertCourse from "../../DegreeBuilding/DegreeFunctionality/InsertCourse"
+import InsertNonterminalButton from "../../DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
+import InsertTextButton from "../../DegreeBuilding/DegreeFunctionality/InsertTextButton"
+import SelectNonterminalConditions from "../../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
 
 function createDefaultBlock(): Block {
 	return {
@@ -115,7 +119,40 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 
 	return (
 		<>
-			<div className="flex flex-col gap-2 max-lg:mt-4">
+			<div className="flex flex-col gap-2 max-lg:mt-4 border-black border-2">
+				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
+				{mode === "EDIT" && degree && (
+					<>
+						<div className="flex flex-row gap-2">
+							<InsertNonterminalButton
+								blockID={degree?.RootBlock.blockID}
+								insertPosition={
+									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
+							<InsertCourse
+								blockID={degree?.RootBlock.blockID}
+								insertPosition={
+									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
+							<InsertTextButton
+								blockID={degree?.RootBlock.blockID}
+								insertPosition={
+									degree?.RootBlock.innerBlocks.length != 0 ? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1 : 0
+								}
+								fetchDegree={fetchDegree}
+							/>
+							<SelectNonterminalConditions
+								nonterminalBlockID={degree?.RootBlock.blockContent.id}
+								conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
+								fetchDegree={fetchDegree}
+							/>
+						</div>
+					</>
+				)}
 				{degree?.RootBlock.innerBlocks.map((inner: Block) => (
 					<BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={mode}></BlockView>
 				))}
