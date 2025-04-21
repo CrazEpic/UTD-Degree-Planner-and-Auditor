@@ -13,8 +13,8 @@ export enum SemesterTerm {
 export type User = {
     userID: string,
     username: string
-    // TestCredits: TestCredit[],
-    // TransferCredits: TransferCredit[],
+    TestCredits: TestCredit[],
+    TransferCredits: TransferCredit[],
     DegreePlan?: DegreePlan,
 }
 
@@ -39,6 +39,45 @@ export type MatcherContextType = {
     search(matcher: string): void, 
     end(): void,
 }
+
+export type CreditContextType = {
+    credit: TestCredit | TransferCredit | null,
+    findCredit(type: string): void,
+    findCourse(credit: any): void,
+    end(): void,
+}
+
+export type TestCredit = {
+    TestEquivalency: TestEquivalency,
+    testComponentID: string,
+    userID: string,
+    User: User,
+    DegreePlanCourse: DegreePlanCourse[],
+}
+
+type TestEquivalency = {
+    testComponentID: string,
+    courseEquivalency: JSON,
+    maxClaimableCreditHours: number,
+    TestCredit: TestCredit[],
+}
+
+export type TransferCredit = {
+    userID: string,
+    User: User,
+    TransferCourseEquivalency: TransferCourseEquivalency,
+    externalSchool: string,
+    externalCourseID: string,
+    DegreePlanCourse: DegreePlanCourse[],
+}
+
+type TransferCourseEquivalency = {
+    externalSchool: string,
+    externalCourseID: string,
+    courseEquivalency: JSON,
+    TransferCredit: TransferCredit[],
+}
+
 
 export type DegreePlan = {
     degreePlanID:      string,      
@@ -70,10 +109,10 @@ export type DegreePlanCourse = {
     // both test and transfer uses us
     userID?: string,       
     // only applicable for test credit    
-    // TestCredit?: TestCredit   
+    TestCredit?: TestCredit   
     testComponentID?: string,       
     // only applicable for transfer credit
-    // TransferCredit?: TransferCredit
+    TransferCredit?: TransferCredit
     externalSchool?: string,       
     externalCourseID?: string,       
 
