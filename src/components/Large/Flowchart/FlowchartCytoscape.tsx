@@ -95,8 +95,6 @@ const FlowchartCytoscape = () => {
 		const testCredits = degreePlanCourses["Test Credits (AP/IB/CLEP/etc.)"] ?? []
 		const transferredCredits = degreePlanCourses["Transferred Credits"] ?? []
 
-		console.log(pastSemesters)
-
 		const creditReceived = new Set(
 			testCredits
 				.map((course) => `${course.prefix} ${course.number}`)
@@ -104,14 +102,11 @@ const FlowchartCytoscape = () => {
 				.concat(
 					Object.keys(pastSemesters).flatMap((key) => {
 						return pastSemesters[key].flatMap((degreePlanCourse) => {
-							console.log(degreePlanCourse)
 							return `${degreePlanCourse.prefix} ${degreePlanCourse.number}`
 						})
 					})
 				)
 		)
-
-		console.log(creditReceived)
 
 		const coursesRequisitesNeeded = Object.keys(currentAndFutureSemesters)
 			.flatMap((key) => {

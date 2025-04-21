@@ -17,7 +17,13 @@ router.post("/login", async (req, res) => {
 
 import { z } from "zod"
 import { StatusCodes } from "http-status-codes"
+
 router.get("/courses", async (req, res) => {
+	const course = await req.context.prisma.course.findMany({})
+	res.json(course)
+})
+
+router.get("/course", async (req, res) => {
 	const { data, error } = z
 		.object({
 			prefix: z.string(),

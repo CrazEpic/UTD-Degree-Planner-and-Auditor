@@ -1,6 +1,6 @@
 import { AcademicCapIcon, BookOpenIcon, KeyIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline"
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
-import clsx from 'clsx'
+import clsx from "clsx"
 import { Fragment } from "react/jsx-runtime"
 import PlannerWindow from "./Large/Planner/PlannerWindow"
 import FlowchartWindow from "./Large/Flowchart/FlowchartWindow"
@@ -13,12 +13,12 @@ import CourseLink from "./Large/CourseLink"
 
 function createDefaultBlock() {
 	return {
-		blockId: "id",
+		blockID: "id",
 		blockName: "Requirement Name",
-		parentBlockId: "",
+		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
-		blockType: 'NonTerminal',
+		blockType: "NonTerminal",
 		blockContent: {
 			id: "",
 			conditions: {},
@@ -26,19 +26,16 @@ function createDefaultBlock() {
 	}
 }
 
-const reqList : Block[] = [
-    createDefaultBlock(),
-    createDefaultBlock(),
-    createDefaultBlock(),
-]
+const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
 function MobileView() {
+	const degreePlan = useContext(UserContext)?.user?.DegreePlan
 
-    // For course linking
-    const [mask, setMask] = useState(false)
-    const [course, setCourse] = useState<Course | null>(null)
+	// For course linking
+	const [mask, setMask] = useState(false)
+	const [course, setCourse] = useState<Course | null>(null)
 
-    /* 	Implement linkCourse()
+	/* 	Implement linkCourse()
     const linkCourse = async () => {
         try {
             // Find requirements API
@@ -47,12 +44,12 @@ function MobileView() {
         }
     } 
     */
-    const linkCourse = (c: Course) => {
-        setMask(true)
-        setCourse(c)
-    }
+	const linkCourse = (c: Course) => {
+		setMask(true)
+		setCourse(c)
+	}
 
-    /* 	Implement submitLink()
+	/* 	Implement submitLink()
     const linkCourse = async () => {
         try {
             // Update degree plan API
@@ -61,84 +58,96 @@ function MobileView() {
         }
     } 
     */
-    const submitLink = () => {
-        setMask(false)
-        setCourse(null)
-    }
+	const submitLink = () => {
+		setMask(false)
+		setCourse(null)
+	}
 
-    /* 	Implement cancelLink()
+	/* 	Implement cancelLink()
     Might not even need an API call just remove the mask and move on?
     */
-    const cancelLink = () => {
-        setMask(false)
-        setCourse(null)
-    }
+	const cancelLink = () => {
+		setMask(false)
+		setCourse(null)
+	}
 
-    return (
-        <>
-            <LinkContext.Provider value={{linkCourse: linkCourse, cancelLink: cancelLink, submitLink: submitLink}}>
-                {mask && course != null &&
-                    <div className="absolute m-auto inset-0 w-fit h-fit bg-white rounded-lg z-50">
-                        <CourseLink name={course.name} hours={parseInt(course.number[1])} requirementList={reqList}></CourseLink>
-                    </div>
-                }
-                <TabGroup as="div" className={"relative " + (mask ? "backdrop-brightness-70 brightness-70" : "")}>
-                    <TabList className="flex flex-row justify-between items-end w-full h-[55px] min-w-[375px] border">
-                        <Tab as={Fragment}>
-                            {({ hover, selected}) => (
-                                <button className="flex flex-col items-center w-full">
-                                    <BookOpenIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></BookOpenIcon>
-                                    Planner
-                                    <hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
-                                </button>
-                            )}
-                        </Tab>
-                        <Tab as={Fragment}>
-                            {({ hover, selected}) => (
-                                <button className="flex flex-col items-center w-full">
-                                    <ArrowTrendingUpIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></ArrowTrendingUpIcon>
-                                    Flowchart
-                                    <hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
-                                </button>
-                            )}
-                        </Tab> 
-                        <Tab as={Fragment}>
-                            {({ hover, selected}) => (
-                                <button className="flex flex-col items-center w-full">
-                                    <AcademicCapIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></AcademicCapIcon>
-                                    Degree
-                                    <hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
-                                </button>
-                            )}
-                        </Tab> 
-                        <Tab as={Fragment}>
-                            {({ hover, selected}) => (
-                                <button className="flex flex-col items-center w-full">
-                                    <KeyIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></KeyIcon>
-                                    Prereqs
-                                    <hr className={"size-1 w-full " + clsx((!selected && hover) ? "opacity-50" : "")} color={clsx((selected || hover) && "#e87500")}/>
-                                </button>
-                            )}
-                        </Tab> 
-                    </TabList>
-                    <TabPanels as="div" className="m-4">
-                        <TabPanel>
-                            <PlannerWindow></PlannerWindow>
-                        </TabPanel>
-                        <TabPanel>
-                            <FlowchartWindow></FlowchartWindow>
-                        </TabPanel>
-                        <TabPanel>
-                            <RequirementWindow></RequirementWindow>
-                        </TabPanel>
-                        <TabPanel>
-                            <PrerequisiteWindow></PrerequisiteWindow>
-                        </TabPanel>
-                    </TabPanels>
-                </TabGroup>
-            </LinkContext.Provider>
-        </>
-    )
+	return (
+		<>
+			<LinkContext.Provider value={{ linkCourse: linkCourse, cancelLink: cancelLink, submitLink: submitLink }}>
+				{mask && course != null && (
+					<div className="absolute m-auto inset-0 w-fit h-fit bg-white rounded-lg z-50">
+						<CourseLink name={course.name} hours={parseInt(course.number[1])} requirementList={reqList}></CourseLink>
+					</div>
+				)}
+				<TabGroup as="div" className={"relative " + (mask ? "backdrop-brightness-70 brightness-70" : "")}>
+					<TabList className="flex flex-row justify-between items-end w-full h-[55px] min-w-[375px] border">
+						<Tab as={Fragment}>
+							{({ hover, selected }) => (
+								<button className="flex flex-col items-center w-full">
+									<BookOpenIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></BookOpenIcon>
+									Planner
+									<hr
+										className={"size-1 w-full " + clsx(!selected && hover ? "opacity-50" : "")}
+										color={clsx((selected || hover) && "#e87500")}
+									/>
+								</button>
+							)}
+						</Tab>
+						<Tab as={Fragment}>
+							{({ hover, selected }) => (
+								<button className="flex flex-col items-center w-full">
+									<ArrowTrendingUpIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></ArrowTrendingUpIcon>
+									Flowchart
+									<hr
+										className={"size-1 w-full " + clsx(!selected && hover ? "opacity-50" : "")}
+										color={clsx((selected || hover) && "#e87500")}
+									/>
+								</button>
+							)}
+						</Tab>
+						<Tab as={Fragment}>
+							{({ hover, selected }) => (
+								<button className="flex flex-col items-center w-full">
+									<AcademicCapIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></AcademicCapIcon>
+									Degree
+									<hr
+										className={"size-1 w-full " + clsx(!selected && hover ? "opacity-50" : "")}
+										color={clsx((selected || hover) && "#e87500")}
+									/>
+								</button>
+							)}
+						</Tab>
+						<Tab as={Fragment}>
+							{({ hover, selected }) => (
+								<button className="flex flex-col items-center w-full">
+									<KeyIcon className={"size-6 " + clsx(selected && "stroke-[#e87500]")}></KeyIcon>
+									Prereqs
+									<hr
+										className={"size-1 w-full " + clsx(!selected && hover ? "opacity-50" : "")}
+										color={clsx((selected || hover) && "#e87500")}
+									/>
+								</button>
+							)}
+						</Tab>
+					</TabList>
+					<TabPanels as="div" className="m-4">
+						<TabPanel>
+							<PlannerWindow></PlannerWindow>
+						</TabPanel>
+						<TabPanel>
+							<FlowchartWindow></FlowchartWindow>
+						</TabPanel>
+						<TabPanel>
+							<RequirementWindow degreeName={degreePlan.degreeName} degreeYear={degreePlan.degreeYear} mode={"NORMAL"}></RequirementWindow>
+						</TabPanel>
+						<TabPanel>
+							<PrerequisiteWindow></PrerequisiteWindow>
+						</TabPanel>
+					</TabPanels>
+				</TabGroup>
+			</LinkContext.Provider>
+		</>
+	)
 }
 
 export default MobileView
