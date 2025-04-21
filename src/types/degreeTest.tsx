@@ -23,6 +23,11 @@ export type UserContextType = {
     fetchUser(): void,
 }
 
+export type CoursesContextType = {
+    courses: Course[],
+    fetchCourses(): void,
+}
+
 export type LinkContextType = {
     linkCourse(c: Course): void,
     cancelLink(): void,
@@ -116,7 +121,7 @@ export type DegreePlanCourse = {
 
 export type Degree = {
     RootBlock: Block,
-    blockId: string,
+    blockID: string,
     degreeName: string,
     degreeYear: string,
 }
@@ -156,9 +161,9 @@ export type DegreeFlag = {
 }
   
 export type Block = {
-    blockId: string,
+    blockID: string,
     blockName: string,
-    parentBlockId: string,
+    parentBlockID: string,
     blockPosition: number,
     innerBlocks: Block[],
     blockType: string,

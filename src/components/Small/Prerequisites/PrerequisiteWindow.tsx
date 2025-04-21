@@ -5,9 +5,9 @@ import axios from "axios"
 
 function createDefaultBlock(): Block {
     return {
-        blockId: '',
+        blockID: '',
         blockName: '',
-        parentBlockId: '',
+        parentBlockID: '',
         blockPosition: 0,
         innerBlocks: [],
         blockType: 'NonTerminal',
@@ -21,9 +21,9 @@ function createDefaultBlock(): Block {
 function parseBlock(data: any) : Block {
     let block = createDefaultBlock()
 
-    block.blockId = data.blockId
+    block.blockID = data.blockID
     block.blockName = data.blockName
-    block.parentBlockId = data.parentBlockId
+    block.parentBlockID = data.parentBlockID
     block.blockPosition = data.blockPosition
 
     if(data.NonTerminalBlock) {
@@ -77,13 +77,13 @@ function parseDegree(data: any) : Degree {
 
     let degree : Degree = {
         RootBlock: createDefaultBlock(),
-        blockId: "",
+        blockID: "",
         degreeName: "",
         degreeYear: "",
     }
 
     degree.RootBlock = parseBlock(data.RootBlock)
-    degree.blockId = data.blockId
+    degree.blockID = data.blockID
     degree.degreeName = data.degreeName
     degree.degreeYear = data.degreeYear
 
@@ -109,7 +109,7 @@ function PrerequisiteWindow() {
         <>
             <div className="flex flex-col gap-2 max-lg:mt-4">
                 {d?.RootBlock.innerBlocks.map((inner: Block) => 
-                    <BlockView key={inner.blockId} requirement={inner} depth={1} checkbox={false}></BlockView>
+                    <BlockView key={inner.blockID} requirement={inner} depth={1} checkbox={false}></BlockView>
                 )}
             </div>
         </>

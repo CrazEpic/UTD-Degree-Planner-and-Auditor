@@ -1,13 +1,15 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
 import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@heroicons/react/24/outline"
+
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLink from "./CourseLink"
 import { Block, Course, CreditContextType, TestCredit, TransferCredit } from "../../types/degreeTest"
 import { LinkContext } from "../../contexts/LinkContext"
+import { UserContext } from "../../contexts/UserContext"
 import { Fragment } from "react/jsx-runtime"
-import clsx from 'clsx'
-import { useState } from "react"
+import clsx from "clsx"
+import { useContext, useState } from "react"
 import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 import { CreditContext } from "../../contexts/CreditContext"
@@ -15,12 +17,12 @@ import CreditModal from "./CreditModal"
 
 function createDefaultBlock() {
 	return {
-		blockId: "id",
+		blockID: "id",
 		blockName: "Requirement Name",
-		parentBlockId: "",
+		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
-		blockType: 'NonTerminal',
+		blockType: "NonTerminal",
 		blockContent: {
 			id: "",
 			conditions: {},
@@ -28,13 +30,10 @@ function createDefaultBlock() {
 	}
 }
 
-const reqList : Block[] = [
-	createDefaultBlock(),
-	createDefaultBlock(),
-	createDefaultBlock(),
-]
+const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
 function LargeWindow() {
+	const degreePlan = useContext(UserContext)?.user?.DegreePlan
 
 
 	// May want to take the course linking functions into a util (if possible)
@@ -193,7 +192,7 @@ function LargeWindow() {
 										<FlowchartWindow></FlowchartWindow>
 									</TabPanel>
 									<TabPanel>
-										<RequirementWindow></RequirementWindow>
+										<RequirementWindow degreeName={degreePlan?.degreeName} degreeYear={degreePlan?.degreeYear} mode={"NORMAL"}></RequirementWindow>
 									</TabPanel>
 									<TabPanel>
 										<PrerequisiteWindow></PrerequisiteWindow>
