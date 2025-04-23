@@ -41,7 +41,7 @@ function SearchWindow({conditions}: {conditions: any}) {
     const [input, setInput] = useState('')
     const [courses, setCourses] = useState<CourseBlock[]>([])
 
-    const endSearch = useContext(MatcherContext)?.end
+    const closeModal = useContext(MatcherContext)?.close
 
     // Add a timeout for search to not search on every keystroke
     // This is called debouncing?
@@ -67,8 +67,8 @@ function SearchWindow({conditions}: {conditions: any}) {
                     <Button 
                         className="size-8"
                         onClick={() => {
-                            console.log("End Search")
-                            if (endSearch) endSearch()
+                            console.log("Close Modal")
+                            if (closeModal) closeModal()
                         }}
                     >
                         <ChevronLeftIcon></ChevronLeftIcon>

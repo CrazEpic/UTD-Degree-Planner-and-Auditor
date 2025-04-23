@@ -37,14 +37,14 @@ export type LinkContextType = {
 export type MatcherContextType = {
     conditions: {} | null,
     search(matcher: string): void, 
-    end(): void,
+    close(): void,
 }
 
 export type CreditContextType = {
     credit: TestCredit | TransferCredit | null,
     findCredit(type: string): void,
     findCourse(credit: any): void,
-    end(): void,
+    close(): void,
 }
 
 export type TestCredit = {
