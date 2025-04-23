@@ -16,7 +16,38 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 
 	return (
 		<>
-			<div className="flex flex-row">
+			<div className="flex flex-row items-center border-black border-2 rounded-md h-10 p-1">
+				<Button
+					onClick={async () => {
+						if (selectedCourse.prefix === "" || selectedCourse.number === "" || selectedCourse.name === "") {
+							return
+						}
+						try {
+							await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+								parentBlockID: blockID,
+								position: insertPosition,
+								blockTypeInformation: {
+									blockType: "COURSE",
+									prefix: selectedCourse.prefix,
+									number: selectedCourse.number,
+								},
+							})
+							fetchDegree()
+
+							// Resets the value of the combobox
+							setSelectedCourse({
+								prefix: "",
+								number: "",
+								name: "",
+							})
+						} catch (error) {
+							console.log(error)
+						}
+					}}
+					className="hover:bg-blue-200 size-6 max-lg:size-8"
+				>
+					<PlusIcon className="w-6 h-6"></PlusIcon>
+				</Button>
 				<Combobox
 					value={selectedCourse}
 					onChange={(value) => {
@@ -40,7 +71,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 							}}
 							onChange={(event) => setQuery(event.target.value)}
 							placeholder="Search for course"
-							className="border-2 border-black rounded-md p-2"
+							className="p-2"
 						/>
 						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-10">
 							{courses
@@ -65,30 +96,6 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 						</ComboboxOptions>
 					</div>
 				</Combobox>
-				<Button
-					onClick={async () => {
-						if (selectedCourse.prefix === "" || selectedCourse.number === "" || selectedCourse.name === "") {
-							return
-						}
-						try {
-							await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
-								parentBlockID: blockID,
-								position: insertPosition,
-								blockTypeInformation: {
-									blockType: "COURSE",
-									prefix: selectedCourse.prefix,
-									number: selectedCourse.number,
-								},
-							})
-							fetchDegree()
-						} catch (error) {
-							console.log(error)
-						}
-					}}
-					className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
-				>
-					<PlusIcon className="w-6 h-6"></PlusIcon>
-				</Button>
 			</div>
 		</>
 	)

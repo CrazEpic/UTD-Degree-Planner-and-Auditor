@@ -118,7 +118,7 @@ function BlockView({
 											placeholder="Enter new block name"
 											type="text"
 											defaultValue={requirement.blockName}
-											className={"border-2 border-black"}
+											className={"border-2 border-black h-8 rounded-md w-60 px-1"}
 										/>
 									</label>
 								</form>
@@ -127,19 +127,24 @@ function BlockView({
 							)}
 						</div>
 						<div className="flex flex-row ml-auto items-center justify-self-end mr-2 gap-2">
-							<ProgressBar progress={progress}></ProgressBar>
-							{checkbox ? (
-								<MyButton></MyButton>
+							{mode === "EDIT" ? (
+								<DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />
 							) : (
-								/* 
-                                Headless UI Button
-                                Trying to understand how to use 
-                                the data-active and data-hover props
-                                <Button></Button> 
-                                */
-								<div className="size-6"></div>
+								<>
+									<ProgressBar progress={progress}></ProgressBar>
+									{checkbox ? (
+										<MyButton></MyButton>
+									) : (
+										/* 
+										Headless UI Button
+										Trying to understand how to use 
+										the data-active and data-hover props
+										<Button></Button> 
+										*/
+										<div className="size-6"></div>
+									)}
+								</>
 							)}
-							{mode === "EDIT" && <DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />}
 						</div>
 					</div>
 					<DisclosurePanel className="flex flex-col gap-3 col-span-6">

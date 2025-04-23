@@ -2,6 +2,7 @@ import axios from "axios"
 import { DegreeConditions } from "../../server/types/degree"
 import { Mode } from "../../types/requirementWindow"
 import { Input } from "@headlessui/react"
+import { PlusIcon } from "@heroicons/react/24/outline"
 
 const NonterminalConditions = ({
 	nonterminalBlockID,
@@ -41,7 +42,7 @@ const NonterminalConditions = ({
 									}
 								}}
 							>
-								<div className="flex flex-row">
+								<div className="flex flex-row gap-2">
 									<p>Blocks to Fulfill: </p>
 									<label>
 										<Input
@@ -49,7 +50,7 @@ const NonterminalConditions = ({
 											type="number"
 											min={1}
 											defaultValue={conditions[condition].blocksToFulfill}
-											className={"border-2 border-black"}
+											className={"border-2 border-black rounded-md px-1 w-15"}
 										/>
 									</label>
 								</div>
@@ -84,7 +85,7 @@ const NonterminalConditions = ({
 									}
 								}}
 							>
-								<div className="flex flex-row">
+								<div className="flex flex-row gap-2">
 									<p>Minimum Blocks to Include: </p>
 									<label>
 										<Input
@@ -92,7 +93,7 @@ const NonterminalConditions = ({
 											type="number"
 											min={1}
 											defaultValue={conditions[condition].minBlocksToInclude}
-											className={"border-2 border-black"}
+											className={"border-2 border-black rounded-md px-1 w-15"}
 										/>
 									</label>
 								</div>
@@ -127,7 +128,7 @@ const NonterminalConditions = ({
 									}
 								}}
 							>
-								<div className="flex flex-row">
+								<div className="flex flex-row gap-2">
 									<p>Minimum Credit Hours: </p>
 									<label>
 										<Input
@@ -135,7 +136,7 @@ const NonterminalConditions = ({
 											type="number"
 											min={1}
 											defaultValue={conditions[condition].minCreditHours}
-											className={"border-2 border-black"}
+											className={"border-2 border-black rounded-md px-1 w-15"}
 										/>
 									</label>
 								</div>
@@ -171,10 +172,15 @@ const NonterminalConditions = ({
 									}
 								}}
 							>
-								<div className="flex flex-row">
+								<div className="flex flex-row gap-2">
 									<p>Level: </p>
 									<label>
-										<Input name="level" type="text" defaultValue={conditions[condition].level} className={"border-2 border-black"} />
+										<Input 
+											name="level" 
+											type="text" 
+											defaultValue={conditions[condition].level} 
+											className={"border-2 border-black rounded-md px-1 w-15"} 
+										/>
 									</label>
 									<p>Credit Hour Requirement: </p>
 									<label>
@@ -183,10 +189,12 @@ const NonterminalConditions = ({
 											type="number"
 											min={1}
 											defaultValue={conditions[condition].creditHourRequirement}
-											className={"border-2 border-black"}
+											className={"border-2 border-black rounded-md px-1 w-15"}
 										/>
 									</label>
-                                    <input type="submit" name="submit" value="Submit"/>
+									<button type="submit" name="submit" value="Submit" className="size-6">
+										<PlusIcon></PlusIcon>
+									</button>
 								</div>
 							</form>
 						) : (
@@ -220,10 +228,15 @@ const NonterminalConditions = ({
 									}
 								}}
 							>
-								<div className="flex flex-row">
+								<div className="flex flex-row gap-2">
 									<p>Block Key: </p>
 									<label>
-										<Input name="blockKey" type="text" defaultValue={conditions[condition].blockKey} className={"border-2 border-black"} />
+										<Input 
+											name="blockKey" 
+											type="text" 
+											defaultValue={conditions[condition].blockKey} 
+											className={"border-2 border-black rounded-md px-1 w-60"} 
+										/>
 									</label>
 									<p>Hours Beyond Block: </p>
 									<label>
@@ -232,10 +245,12 @@ const NonterminalConditions = ({
 											type="number"
 											min={1}
 											defaultValue={conditions[condition].hoursBeyondBlock}
-											className={"border-2 border-black"}
+											className={"border-2 border-black rounded-md px-1 w-15"}
 										/>
 									</label>
-                                    <input type="submit" name="submit" value="Submit"/>
+									<button type="submit" name="submit" value="Submit" className="size-6">
+										<PlusIcon></PlusIcon>
+									</button>
 								</div>
 							</form>
 						) : (

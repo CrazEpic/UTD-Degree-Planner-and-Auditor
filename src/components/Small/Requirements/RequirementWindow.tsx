@@ -14,6 +14,7 @@ import MatcherBlockView from "../MatcherBlockView"
 import TextBlockView from "../TextBlockView"
 import NonterminalConditions from "../NonterminalConditions"
 
+// Create a parsing util file
 function createDefaultBlock(): Block {
 	return {
 		blockID: "",
@@ -96,6 +97,7 @@ function parseDegree(data: any): Degree {
 	return degree
 }
 
+// Get footnotes some other way
 const footnotes: string[] = [
 	"1. Curriculum Requirements can be fulfilled by other approved courses. The courses listed are recommended as the most efficient way to satisfy both Core Curriculum and Major Requirements at UT Dallas.",
 	"2. Semester credit hours fulfill the communication component of the Core Curriculum.",
@@ -127,11 +129,11 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 
 	return (
 		<>
-			<div className="flex flex-col gap-2 max-lg:mt-4 border-black border-2">
+			<div className="flex flex-col gap-2 max-lg:mt-4">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
 				{mode === "EDIT" && degree && (
 					<>
-						<div className="flex flex-row gap-2">
+						<div className="flex flex-row gap-2 items-center">
 							<InsertNonterminalButton
 								blockID={degree?.RootBlock.blockID}
 								insertPosition={

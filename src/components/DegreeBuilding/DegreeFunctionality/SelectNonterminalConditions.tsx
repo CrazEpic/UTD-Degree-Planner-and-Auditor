@@ -85,7 +85,7 @@ const SelectNonterminalConditions = ({
 	return (
 		<>
 			<Listbox value={selectedConditions} onChange={handleConditionChange} multiple>
-				<ListboxButton className="border-2 rounded-md hover:bg-green-200">{"Select Conditions"}</ListboxButton>
+				<ListboxButton className="border-2 rounded-md h-10 p-1 hover:bg-green-200">{"Select Conditions"}</ListboxButton>
 				<ListboxOptions className="border-black border-2 bg-white" anchor="bottom">
 					{possibleConditions.map((condition) => (
 						<ListboxOption className="cursor-pointer" key={condition} value={condition}>

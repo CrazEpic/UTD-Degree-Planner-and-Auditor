@@ -5,7 +5,7 @@ import axios from "axios"
 const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree }) => {
 	return (
 		<Button
-			className="border-2 rounded-md hover:bg-green-200 w-min flex flex-row"
+			className="flex flex-row border-2 rounded-md h-10 p-1 items-center hover:bg-green-200 w-min"
 			onClick={async () => {
 				try {
 					await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
