@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Block, Degree } from "../../../types/degreeTest"
-import BlockView from "../BlockView"
+import BlockView from "../../BlockViews/BlockView"
 import axios from "axios"
 
 function createDefaultBlock(): Block {

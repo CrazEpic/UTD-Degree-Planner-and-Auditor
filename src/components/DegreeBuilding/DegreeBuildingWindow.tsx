@@ -3,6 +3,7 @@ import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch } from "@headlessui/react"
 import axios from "axios"
 import { DivideIcon, PlusIcon } from "@heroicons/react/24/outline"
+import EditDegreeView from "../EditDegreeView"
 
 
 /* 
@@ -10,6 +11,9 @@ import { DivideIcon, PlusIcon } from "@heroicons/react/24/outline"
 	This is probably due to the amount of components that
 	are refreshing on every key press in the input as well
 	as the page resizing with the combobox
+
+	Also, when switching into preview mode sometimes an,
+	undefined undefined degree will appear momentarily
 */
 const DegreeBuildingWindow = () => {
 	const [degrees, setDegrees] = useState([])
@@ -161,11 +165,20 @@ const DegreeBuildingWindow = () => {
 
 				{selectedDegree.degreeName !== "" && selectedDegree.degreeYear !== -1 ? (
 					<div className="border-black border-2 rounded-lg p-4">
-						<RequirementWindow
-							degreeName={selectedDegree.degreeName}
-							degreeYear={`${selectedDegree.degreeYear}`}
-							mode={previewMode ? "VIEW" : "EDIT"}
-						></RequirementWindow>
+						{previewMode ? (
+							<RequirementWindow
+								degreeName={selectedDegree.degreeName}
+								degreeYear={`${selectedDegree.degreeYear}`}
+								mode={"VIEW"}
+							></RequirementWindow>
+						) : (
+							<EditDegreeView
+								degreeName={selectedDegree.degreeName}
+								degreeYear={`${selectedDegree.degreeYear}`}
+								mode={"EDIT"}
+							></EditDegreeView>
+						)}
+
 					</div>
 				) : (
 					<div className="flex flex-col gap-2 max-lg:mt-4">

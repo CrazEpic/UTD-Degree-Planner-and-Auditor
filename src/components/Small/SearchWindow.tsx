@@ -1,6 +1,6 @@
 import { CourseBlock } from "../../types/degreeTest"
 import { Button, Input } from "@headlessui/react"
-import CourseBlockView from "./CourseBlockView"
+import CourseBlockView from "../BlockViews/CourseBlockView"
 import { useContext, useState } from "react"
 import { XMarkIcon, ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { MatcherContext } from "../../contexts/MatcherContext"

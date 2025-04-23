@@ -1,7 +1,7 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
 import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
-import ProgressBar from "./Requirements/ProgressBar"
+import ProgressBar from "../Small/Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
 import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
@@ -13,7 +13,7 @@ import InsertCourse from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import TextBlockView from "./TextBlockView"
 import { Mode } from "../../types/requirementWindow"
 import SelectNonterminalConditions from "../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
-import NonterminalConditions from "./NonterminalConditions"
+import NonterminalConditions from "../Small/NonterminalConditions"
 
 function BlockView({
 	requirement,
