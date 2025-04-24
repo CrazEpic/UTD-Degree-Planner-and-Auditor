@@ -44,6 +44,7 @@ export type CreditContextType = {
     credit: TestCredit | TransferCredit | null,
     findCredit(type: string): void,
     findCourse(credit: any): void,
+    back(): void,
     close(): void,
 }
 

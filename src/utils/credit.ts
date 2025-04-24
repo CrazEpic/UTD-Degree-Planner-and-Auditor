@@ -68,23 +68,26 @@ const getEquivalentCourses = () : DegreePlanCourse[] => {
     return []
 }
 
-// Converts Transfer -> TransferCredit and Test -> TestCredit
-export const convertCredit = (credit: Test | Transfer | null, user: User) : TestCredit | TransferCredit | null => {
+// Converts Transfer -> TransferCredit
+export const convertTransferCredit = (credit: Transfer | null, user: User) : TransferCredit | null => {
     if (credit) {
-        if ((credit as Transfer).course) {
-            let transferCredit = createNewTransferCredit()
-            transferCredit.User = user
-            transferCredit.TransferCourseEquivalency = getTransferCredit(credit as Transfer)
-            transferCredit.DegreePlanCourse = getEquivalentCourses()
-            return transferCredit
-        }
-        else {
-            let testCredit = createNewTestCredit()
-            testCredit.User = user
-            testCredit.TestEquivalency = getTestCredit(credit as Test)
-            testCredit.DegreePlanCourse = getEquivalentCourses()
-            return testCredit
-        }
+        let transferCredit = createNewTransferCredit()
+        transferCredit.User = user
+        transferCredit.TransferCourseEquivalency = getTransferCredit(credit)
+        transferCredit.DegreePlanCourse = getEquivalentCourses()
+        return transferCredit
+    }
+    return null
+}
+
+// Converts Test -> TestCredit
+export const convertTestCredit = (credit: Test | null, user: User) : TestCredit | null => {
+    if (credit) {
+        let testCredit = createNewTestCredit()
+        testCredit.User = user
+        testCredit.TestEquivalency = getTestCredit(credit)
+        testCredit.DegreePlanCourse = getEquivalentCourses()
+        return testCredit
     }
     return null
 }

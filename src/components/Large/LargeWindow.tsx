@@ -1,9 +1,9 @@
-import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@heroicons/react/24/outline"
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLink from "./CourseLink"
-import { Block, Course, CreditContextType, DegreePlan, DegreePlanCourse, Test, TestCredit, TestEquivalency, Transfer, TransferCourseEquivalency, TransferCredit, User, UserContextType } from "../../types/degreeTest"
+import { Block, Course, CreditContextType, User, UserContextType } from "../../types/degreeTest"
 import { LinkContext } from "../../contexts/LinkContext"
 import { UserContext } from "../../contexts/UserContext"
 import { Fragment } from "react/jsx-runtime"
@@ -14,7 +14,8 @@ import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 import { CreditContext } from "../../contexts/CreditContext"
 import CreditModal from "./CreditModal"
 import { createDefaultBlock } from "../../utils/degreeParsing"
-import { convertCredit } from "../../utils/credit"
+import { convertTestCredit, convertTransferCredit } from "../../utils/credit"
+import CreditModal2 from "./CreditModalTest/CreditModal2"
 
 const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
@@ -86,6 +87,11 @@ function LargeWindow() {
 		setCredit(credit)
 	}
 
+	// Back button function
+	const goBack = () => {
+		setCredit(null)
+	}
+
 	// Cleanup after search
 	const completeCreditSearch = () => {
 		setMask(false)
@@ -93,11 +99,17 @@ function LargeWindow() {
 		setCredit(null)
 	}
 
-	const creditContext = {
-		credit: convertCredit(credit, (user as User)),
+	const creditContext : CreditContextType = {
+		credit: null,
 		findCredit: findCredit,
 		findCourse: findCourse,
+		back: goBack,
 		close: completeCreditSearch,
+	}
+
+	if (credit) {
+		if (creditType === "Test") creditContext.credit = convertTestCredit(credit, user as User)
+		else creditContext.credit = convertTransferCredit(credit, user as User)
 	}
 
 	return (
@@ -106,7 +118,7 @@ function LargeWindow() {
 				<CreditContext.Provider value={creditContext}>
 					<div className={"relative w-full " + (mask ? "overflow-hidden" : "overflow-auto")}>
 						{/* Please put these modals in focus when they appear */}
-						{mask && 
+						{mask &&
 							<div className="absolute w-fit">
 								{course != null ? (
 									// Course linking window
@@ -117,6 +129,7 @@ function LargeWindow() {
 									// Test and transfer credit window
 									<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
 										<CreditModal type={creditType}></CreditModal>
+										{/* <CreditModal2 type={creditType}></CreditModal2> */}
 									</div>
 								)}
 							</div>
