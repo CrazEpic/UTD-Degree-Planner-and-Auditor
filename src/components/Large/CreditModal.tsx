@@ -1,23 +1,10 @@
 import { Button, Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { useContext, useState } from "react"
 import { CreditContext } from "../../contexts/CreditContext"
-import { Course, CreditContextType, DegreePlanCourse, TestCredit, TransferCredit } from "../../types/degreeTest"
+import { Course, CreditContextType, DegreePlan, DegreePlanCourse, Test, TestCredit, Transfer, TransferCredit } from "../../types/degreeTest"
 import PlannerCourse from "./Planner/PlannerCourse"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { UserContext } from '../../contexts/UserContext'
-
-
-type Transfer = {
-    school: string,
-    course: string,
-}
-
-
-type Test = {
-    type: string,
-    name: string,
-}
-
 
 // Template values
 const schools = ["Collin College", "Grayson College", "Dallas College"]
@@ -37,6 +24,8 @@ const tests = [
 ]
 
 
+
+
 function createDefaultCourse() : Course  {
     return {
         prefix: "CR",
@@ -48,15 +37,29 @@ function createDefaultCourse() : Course  {
 
 function CreditModal({type}: {type: string}) {
 
+    const creditContext = useContext(CreditContext)
+    const plan = useContext(UserContext)?.user?.DegreePlan
 
-    // Some function to update credit with the credit type
+    const createDegreePlanCourse = () : DegreePlanCourse => {
+        return {
+            degreePlanCourseID: "",      
+            degreePlanID: "",    
+            DegreePlan: (plan as DegreePlan),  
+            Course: createDefaultCourse(),    
+            prefix: "CR",        
+            number: "1234",
+        }
+    }
 
+    const degreePlanCourses : DegreePlanCourse[] = [
+        createDegreePlanCourse(),
+        createDegreePlanCourse(),
+        createDegreePlanCourse(),
+        createDegreePlanCourse(),
+    ]
 
     // Currently just reverts the mask
     // Needs to be implemented
-
-
-    const creditContext = useContext(CreditContext)
 
     const [transfer, setTransfer] = useState<Transfer>({
         school: "",
@@ -68,20 +71,11 @@ function CreditModal({type}: {type: string}) {
     })
 
 
+    // If the first and second field are filled and accurate, the form is complete
     const isComplete = () => {
-
-
         const transferCredit = schools.indexOf(transfer.school) >= 0
-
-
-        // First one is complete
         const first = transferCredit ? schools.indexOf(transfer.school) : types.indexOf(test.type)
-
-
-        // Second one is complete
         const second = transferCredit ? courses.at(first)?.indexOf(transfer.course) : tests.at(first)?.indexOf(test.type)
-
-
         return first >= 0 && second >= 0
     }
 
@@ -102,15 +96,10 @@ function CreditModal({type}: {type: string}) {
     }
 
 
-    const plan = useContext(UserContext)?.user?.DegreePlan
-
-
-
-
-
+    
 
    
-    if (CreditContext.credit == null) {
+    if (creditContext?.credit == null) {
 
 
         // Credit selection
@@ -127,19 +116,17 @@ function CreditModal({type}: {type: string}) {
                         <>
                             <div className="flex flex-row gap-2 items-center w-full">
                                 <p>School: </p>
-                                <Combobox as="div" className= "border" value={transfer} onChange={handleTransferChange}>
+                                <Combobox as="div" value={transfer} onChange={handleTransferChange}>
                                     <ComboboxInput
                                         type="text"
                                         name="school"
                                         onChange={handleTransferChange}
                                         displayValue={(transfer: Transfer) => transfer.school}
                                         placeholder="Search for a school"
-                                        className=""/>
-
-
-                                    {/* Redo the styling */}
-                                    <ComboboxOptions className="relative empty:invisible">
-                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2">
+                                        className="border-black border rounded-md px-1"
+                                    />
+                                    <ComboboxOptions className="relative mt-1">
+                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2 rounded-md empty:invisible">
                                             {schools.filter((school) => {
                                                 if (transfer.school === "" || transfer.school === null) {
                                                     return true
@@ -148,7 +135,7 @@ function CreditModal({type}: {type: string}) {
                                             }).map((school) => (
                                                 <ComboboxOption
                                                     value={school}
-                                                    className="hover:bg-gray-200 h-5 w-full  cursor-pointer"
+                                                    className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
                                                     onClick={() => setTransfer({
                                                         ...transfer,
                                                         school: school,
@@ -163,16 +150,17 @@ function CreditModal({type}: {type: string}) {
                             </div>
                             <div className="flex flex-row gap-2 items-center w-full">
                                 <p>Course: </p>
-                                <Combobox as="div" className= "border" value={transfer} onChange={handleTransferChange} disabled={!schools.includes(transfer.school)}>
+                                <Combobox as="div" value={transfer} onChange={handleTransferChange} disabled={!schools.includes(transfer.school)}>
                                     <ComboboxInput
                                         type="text"
                                         name="course"
                                         onChange={handleTransferChange}
                                         displayValue={(transfer: Transfer) => transfer.course}
                                         placeholder="Search for a course"
-                                        className=""/>
-                                    <ComboboxOptions className="relative empty:invisible">
-                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2">
+                                        className="border-black border rounded-md px-1"
+                                    />
+                                    <ComboboxOptions className="relative mt-1">
+                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2 rounded-md empty:invisible">
                                             {
                                                 schools.indexOf(transfer.school) >= 0 &&
                                                 courses.at(schools.indexOf(transfer.school)).filter((course) => {
@@ -183,7 +171,7 @@ function CreditModal({type}: {type: string}) {
                                                 }).map((course) => (
                                                     <ComboboxOption
                                                         value={course}
-                                                        className="hover:bg-gray-200 h-5 w-full cursor-pointer"
+                                                        className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
                                                         onClick={() => setTransfer({
                                                             ...transfer,
                                                             course: course,
@@ -199,20 +187,23 @@ function CreditModal({type}: {type: string}) {
                             </div>
                         </>
                     ) : (
+                        // CURRENTLY BROKEN FOR SOME REASON
+                        
                         // Test Credit
                         <>
                             <div className="flex flex-row gap-2 items-center w-full">
                                 <p>Type: </p>
-                                <Combobox as="div" className= "border" value={transfer} onChange={handleTestChange}>
+                                <Combobox as="div" value={transfer} onChange={handleTestChange}>
                                 <ComboboxInput
                                         type="text"
                                         name="type"
                                         onChange={handleTestChange}
                                         displayValue={(test: Test) => test.type}
                                         placeholder="Search for a test type"
-                                        className=""/>
-                                    <ComboboxOptions className="relative empty:invisible">
-                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2">
+                                        className="border-black border rounded-md px-1"
+                                    />
+                                    <ComboboxOptions className="relative mt-1">
+                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2 rounded-md empty:invisible">
                                             {types.filter((type) => {
                                                 if (test.type === "" || test.type === null) {
                                                     return true
@@ -221,7 +212,7 @@ function CreditModal({type}: {type: string}) {
                                             }).map((type) => (
                                                 <ComboboxOption
                                                     value={type}
-                                                    className="hover:bg-gray-200 h-5 w-full cursor-pointer"
+                                                    className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
                                                     onClick={() => setTest({
                                                         ...test,
                                                         type: type,
@@ -236,16 +227,17 @@ function CreditModal({type}: {type: string}) {
                             </div>
                             <div className="flex flex-row gap-2 items-center w-full">
                                 <p>Test: </p>
-                                <Combobox as="div" className= "border" value={transfer} onChange={handleTestChange} disabled={!types.includes(test.type)}>
+                                <Combobox as="div" value={transfer} onChange={handleTestChange} disabled={!types.includes(test.type)}>
                                     <ComboboxInput
                                         type="text"
                                         name="name"
                                         onChange={handleTestChange}
                                         displayValue={(test: Test) => test.name}
                                         placeholder="Search for a test"
-                                        className=""/>
-                                    <ComboboxOptions className="relative empty:invisible">
-                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2">
+                                        className="border-black border rounded-md px-1"
+                                    />
+                                    <ComboboxOptions className="relative mt-1">
+                                        <div className="absolute flex flex-col bg-white w-full h-fit border-2 rounded-md empty:invisible">
                                             {
                                                 types.indexOf(test.type) >= 0 &&
                                                 tests.at(types.indexOf(test.type)).filter((testName) => {
@@ -256,7 +248,7 @@ function CreditModal({type}: {type: string}) {
                                                 }).map((testName) => (
                                                     <ComboboxOption
                                                         value={testName}
-                                                        className="hover:bg-gray-200 h-5 w-full cursor-pointer"
+                                                        className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
                                                         onClick={() => setTest({
                                                             ...test,
                                                             name: testName,
@@ -284,16 +276,18 @@ function CreditModal({type}: {type: string}) {
                         </button>
 
 
-                        {/* Gray out when not all hours are linked */}
+                        {/* Gray out until the credit is defined */}
                         <button
                             className={"flex flex-row justify-end w-fit border p-1 rounded-lg " + (isComplete() && "bg-green-100")}
                             onClick={() => {
-                                console.log("Submit Credit")
+                                console.log("Find Course")
                                 if (creditContext?.findCourse) {
                                     if (transfer) {
+                                        console.log("Find Transfer")
                                         creditContext.findCourse(transfer)
                                     }
                                     else {
+                                        console.log("Find Test")
                                         creditContext.findCourse(test)
                                     }
                                 }
@@ -317,34 +311,12 @@ function CreditModal({type}: {type: string}) {
                     <h1 className="h-8 text-xl max-w-100 line-clamp-1">Matching Courses</h1>
                     <hr className="w-full" />
                     <div className="flex flex-col gap-4 w-full px-2">
-                        {plan &&
+                        {plan && 
                             <>
-                                <PlannerCourse course={{
-                                    degreePlanCourseID: "",      
-                                    degreePlanID: "",    
-                                    DegreePlan: plan,  
-                                    Course: createDefaultCourse(),    
-                                    prefix: "CR",        
-                                    number: "1234",
-                                }}></PlannerCourse>
-                                <PlannerCourse course={{
-                                    degreePlanCourseID: "",      
-                                    degreePlanID: "",    
-                                    DegreePlan: plan,  
-                                    Course: createDefaultCourse(),    
-                                    prefix: "CR",        
-                                    number: "1234",
-                                }}></PlannerCourse>
-                                <PlannerCourse course={{
-                                    degreePlanCourseID: "",      
-                                    degreePlanID: "",    
-                                    DegreePlan: plan,  
-                                    Course: createDefaultCourse(),    
-                                    prefix: "CR",        
-                                    number: "1234",
-                                }}></PlannerCourse>
+                                {degreePlanCourses.map((course) => {
+                                    <PlannerCourse course={course}></PlannerCourse>
+                                })}
                             </>
-                           
                         }
                     </div>
                     <div className="flex flex-row justify-between w-full">

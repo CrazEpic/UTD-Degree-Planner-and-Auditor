@@ -47,15 +47,23 @@ export type CreditContextType = {
     close(): void,
 }
 
+export type Transfer = {
+    school: string,
+    course: string,
+}
+
+export type Test = {
+    type: string,
+    name: string,
+}
+
 export type TestCredit = {
-    TestEquivalency: TestEquivalency,
-    testComponentID: string,
-    userID: string,
     User: User,
+    TestEquivalency: TestEquivalency,
     DegreePlanCourse: DegreePlanCourse[],
 }
 
-type TestEquivalency = {
+export type TestEquivalency = {
     testComponentID: string,
     courseEquivalency: JSON,
     maxClaimableCreditHours: number,
@@ -63,15 +71,12 @@ type TestEquivalency = {
 }
 
 export type TransferCredit = {
-    userID: string,
     User: User,
     TransferCourseEquivalency: TransferCourseEquivalency,
-    externalSchool: string,
-    externalCourseID: string,
     DegreePlanCourse: DegreePlanCourse[],
 }
 
-type TransferCourseEquivalency = {
+export type TransferCourseEquivalency = {
     externalSchool: string,
     externalCourseID: string,
     courseEquivalency: JSON,
@@ -169,3 +174,4 @@ export type Block = {
     blockType: string,
     blockContent: NonTerminalBlock | CourseBlock | TextBlock | MatcherGroupBlock | FlagToggleBlock,
 }
+

@@ -6,7 +6,7 @@ import CourseBlockView from "../../BlockViews/CourseBlockView"
 import MatcherBlockView from "../../BlockViews/MatcherBlockView"
 import TextBlockView from "../../BlockViews/TextBlockView"
 import NonterminalConditions from "../NonterminalConditions"
-import { parseDegree } from "../../../utils/parsing"
+import { parseDegree } from "../../../utils/degreeParsing"
 
 // Get footnotes some other way
 const footnotes: string[] = [

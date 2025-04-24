@@ -1,10 +1,9 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels, Menu, MenuButton, MenuItem, MenuItems  } from "@headlessui/react"
 import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@heroicons/react/24/outline"
-
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLink from "./CourseLink"
-import { Block, Course, CreditContextType, TestCredit, TransferCredit } from "../../types/degreeTest"
+import { Block, Course, CreditContextType, DegreePlan, DegreePlanCourse, Test, TestCredit, TestEquivalency, Transfer, TransferCourseEquivalency, TransferCredit, User, UserContextType } from "../../types/degreeTest"
 import { LinkContext } from "../../contexts/LinkContext"
 import { UserContext } from "../../contexts/UserContext"
 import { Fragment } from "react/jsx-runtime"
@@ -14,27 +13,15 @@ import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 import { CreditContext } from "../../contexts/CreditContext"
 import CreditModal from "./CreditModal"
-
-function createDefaultBlock() {
-	return {
-		blockID: "id",
-		blockName: "Requirement Name",
-		parentBlockID: "",
-		blockPosition: 0,
-		innerBlocks: [],
-		blockType: "NonTerminal",
-		blockContent: {
-			id: "",
-			conditions: {},
-		},
-	}
-}
+import { createDefaultBlock } from "../../utils/degreeParsing"
+import { convertCredit } from "../../utils/credit"
 
 const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
-function LargeWindow() {
-	const degreePlan = useContext(UserContext)?.user?.DegreePlan
 
+function LargeWindow() {
+
+	const user = (useContext(UserContext) as UserContextType).user
 
 	// May want to take the course linking functions into a util (if possible)
 
@@ -107,10 +94,10 @@ function LargeWindow() {
 	}
 
 	const creditContext = {
-		credit: credit,
+		credit: convertCredit(credit, (user as User)),
 		findCredit: findCredit,
 		findCourse: findCourse,
-		end: completeCreditSearch,
+		close: completeCreditSearch,
 	}
 
 	return (
@@ -118,24 +105,19 @@ function LargeWindow() {
 			<LinkContext.Provider value={linkContext}>
 				<CreditContext.Provider value={creditContext}>
 					<div className={"relative w-full " + (mask ? "overflow-hidden" : "overflow-auto")}>
-
 						{/* Please put these modals in focus when they appear */}
 						{mask && 
 							<div className="absolute w-fit">
 								{course != null ? (
 									// Course linking window
-									<>
-										<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-											<CourseLink name={course.name} hours={parseInt(course.number[1])} requirementList={reqList}></CourseLink>
-										</div>
-									</>
+									<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
+										<CourseLink name={course.name} hours={parseInt(course.number[1])} requirementList={reqList}></CourseLink>
+									</div>
 								) : (
 									// Test and transfer credit window
-									<>
-										<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-											<CreditModal type={creditType}></CreditModal>
-										</div>
-									</>
+									<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
+										<CreditModal type={creditType}></CreditModal>
+									</div>
 								)}
 							</div>
 						}
@@ -192,7 +174,7 @@ function LargeWindow() {
 										<FlowchartWindow></FlowchartWindow>
 									</TabPanel>
 									<TabPanel>
-										<RequirementWindow degreeName={degreePlan?.degreeName} degreeYear={degreePlan?.degreeYear} mode={"NORMAL"}></RequirementWindow>
+										<RequirementWindow degreeName={user?.DegreePlan?.degreeName} degreeYear={user?.DegreePlan?.degreeYear}></RequirementWindow>
 									</TabPanel>
 									<TabPanel>
 										<PrerequisiteWindow></PrerequisiteWindow>
