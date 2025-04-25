@@ -56,13 +56,13 @@ const FindCourseModal = ({type} : {type: string}) => {
                             {degreePlanCourses.map((course) => {
                                 <>
                                     <PlannerCourse course={course}></PlannerCourse>
-                                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false}></CourseBlockView>
+                                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false} mode={"VIEW"}></CourseBlockView>
                                 </>
                             })}
                         </>
                     }
                     <PlannerCourse course={createDegreePlanCourse()}></PlannerCourse>
-                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false}></CourseBlockView>
+                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false} mode={"VIEW"}></CourseBlockView>
                 </div>
                 <div className="flex flex-row justify-between w-full">
                     <button

@@ -16,7 +16,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 
 	return (
 		<>
-			<div className="flex flex-row items-center border-black border-2 rounded-md h-10 p-1">
+			<div className="flex flex-row gap-1 items-center border-black border-2 rounded-md h-10 p-1 lg:w-min max-lg:w-full">
 				<Button
 					onClick={async () => {
 						if (selectedCourse.prefix === "" || selectedCourse.number === "" || selectedCourse.name === "") {
@@ -46,7 +46,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 					}}
 					className="hover:bg-blue-200 size-6 max-lg:size-8"
 				>
-					<PlusIcon className="w-6 h-6"></PlusIcon>
+					<PlusIcon className="size-6 max-lg:size-8"></PlusIcon>
 				</Button>
 				<Combobox
 					value={selectedCourse}
@@ -71,7 +71,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 							}}
 							onChange={(event) => setQuery(event.target.value)}
 							placeholder="Search for course"
-							className="p-2"
+							className=""
 						/>
 						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-10">
 							{courses

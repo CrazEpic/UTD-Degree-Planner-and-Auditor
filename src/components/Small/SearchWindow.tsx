@@ -100,7 +100,7 @@ function SearchWindow({conditions}: {conditions: any}) {
                             (
                                 <>
                                     {courses.map((course: CourseBlock) => 
-                                        <CourseBlockView course={course} name={"Course Name"} indent={false}></CourseBlockView>
+                                        <CourseBlockView course={course} name={"Course Name"} indent={false} mode={"VIEW"}></CourseBlockView>
                                     )}
                                 </>
                             ) : (
