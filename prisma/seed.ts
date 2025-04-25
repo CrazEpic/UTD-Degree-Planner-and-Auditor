@@ -30,6 +30,32 @@ const createCourses = async () => {
 	})
 }
 
+const createTransferCourses = async () => {
+	const transferInfo = JSON.parse(fs.readFileSync("./prisma/seedData/transferInfo.json", "utf-8"))
+	const transferSchools = Object.keys(transferInfo).map((schoolID) => ({
+		schoolID: schoolID,
+		schoolName: transferInfo[schoolID].schoolName ?? "",
+		schoolCity: transferInfo[schoolID].schoolCity ?? "",
+		schoolState: transferInfo[schoolID].schoolState ?? "",
+		schoolCountry: transferInfo[schoolID].schoolCountry ?? "",
+	}))
+	await prisma.transferSchool.createMany({
+		data: transferSchools,
+	})
+	const transferCourseEquivalencies = Object.keys(transferInfo).flatMap((schoolID) => {
+		return transferInfo[schoolID].TransferCourseEquivalencies.map((equivalency) => ({
+			transferCourseID: equivalency.transferCourseID,
+			transferCourseName: equivalency.transferCourseName,
+			utdCourseEquivalency: equivalency.utdCourseEquivalency,
+			utdCourseEquivalencyName: equivalency.utdCourseEquivalencyName,
+			transferSchoolSchoolID: equivalency.transferSchoolSchoolID,
+		}))
+	})
+	await prisma.transferCourseEquivalency.createMany({
+		data: transferCourseEquivalencies,
+	})
+}
+
 const createCSDegree = async () => {
 	const emptyConditions: DegreeConditions = {}
 
@@ -377,6 +403,7 @@ const createCrazDegreePlan = async () => {
 const main = async () => {
 	await createCoreCurriculumAreas()
 	await createCourses()
+	await createTransferCourses()
 	await createCSDegree()
 	await createUsers()
 	await createCrazDegreePlan()
