@@ -8,10 +8,15 @@ datasource db {
 }
 
 model TestEquivalency {
-    testComponentID         String       @id @map("test_component_id")
-    courseEquivalency       Json         @map("course_equivalency")
-    maxClaimableCreditHours Int          @map("max_claimable_credit_hours")
-    TestCredit              TestCredit[]
+    testComponentID       String @id @map("test_component_id")
+    testType              String @map("test_type")
+    examName              String @map("exam_name")
+    minScore              Int    @map("min_score")
+    maxScore              Int    @map("max_score")
+    maxClaimableHours     Int    @map("max_claimable_hours")
+    utdEquivalencyCourses String @map("utd_equivalency_courses")
+
+    TestCredit TestCredit[]
 
     @@map("test_equivalency")
 }

@@ -1,0 +1,1258 @@
+{
+    "BIOAS": {
+        "testType": "A & AS Level",
+        "examName": "Biology AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "BIOL 2---"
+    },
+    "BIOA": {
+        "testType": "A & AS Level",
+        "examName": "Biology A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2311, BIOL 2111, BIOL 2312, BIOL 2112"
+    },
+    "BIAAS": {
+        "testType": "A & AS Level",
+        "examName": "Biology A - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "BIOL 2---"
+    },
+    "BIAA": {
+        "testType": "A & AS Level",
+        "examName": "Biology A - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2---"
+    },
+    "BIBAS": {
+        "testType": "A & AS Level",
+        "examName": "Biology B Advancing - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "BIOL 2---"
+    },
+    "BIBA": {
+        "testType": "A & AS Level",
+        "examName": "Biology B Advancing - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2---"
+    },
+    "BUSSA": {
+        "testType": "A & AS Level",
+        "examName": "Business AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "IMS 2---"
+    },
+    "BUSA": {
+        "testType": "A & AS Level",
+        "examName": "Business A Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "IMS 3310"
+    },
+    "CHMAS": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "CHEM 1---"
+    },
+    "CHEMA": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1311, CHEM 1111, CHEM 1312, CHEM 1112"
+    },
+    "CHAAS": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry A - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "CHEM 1---"
+    },
+    "CHAA": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry A - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1---"
+    },
+    "CHBAS": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry B Salters - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "CHEM 1---"
+    },
+    "CHBA": {
+        "testType": "A & AS Level",
+        "examName": "Chemistry B Salters - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1---"
+    },
+    "CMPSA": {
+        "testType": "A & AS Level",
+        "examName": "Computer Science AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "CS 1---"
+    },
+    "CMPA": {
+        "testType": "A & AS Level",
+        "examName": "Computer Science A Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 2,
+        "utdEquivalencyCourses": "CS 1200"
+    },
+    "ECNAS": {
+        "testType": "A & AS Level",
+        "examName": "Economics AS Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2301"
+    },
+    "ECNA": {
+        "testType": "A & AS Level",
+        "examName": "Economics A Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "ECON 2301, ECON 2302"
+    },
+    "ENVSA": {
+        "testType": "A & AS Level",
+        "examName": "Environmental Mgmt AS Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GEOS 2302"
+    },
+    "MTHSA": {
+        "testType": "A & AS Level",
+        "examName": "Mathematics AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTHA": {
+        "testType": "A & AS Level",
+        "examName": "Mathematics A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 1325, MATH 1326"
+    },
+    "MTAAS": {
+        "testType": "A & AS Level",
+        "examName": "Mathematics A - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTAA": {
+        "testType": "A & AS Level",
+        "examName": "Mathematics A - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTFAS": {
+        "testType": "A & AS Level",
+        "examName": "Math A Further - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTFA": {
+        "testType": "A & AS Level",
+        "examName": "Math A Further - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTBAS": {
+        "testType": "A & AS Level",
+        "examName": "Math B (MEI) - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MTBA": {
+        "testType": "A & AS Level",
+        "examName": "Math B (MEI) - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MFBAS": {
+        "testType": "A & AS Level",
+        "examName": "Math B Further (MEI)- AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "MFBA": {
+        "testType": "A & AS Level",
+        "examName": "Math B Further (MEI)- A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 1---"
+    },
+    "PHYSA": {
+        "testType": "A & AS Level",
+        "examName": "Physics AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 2---"
+    },
+    "PHYA": {
+        "testType": "A & AS Level",
+        "examName": "Physics A Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "PHYS 2325, PHYS 2125, PHYS 2326, PHYS 2126"
+    },
+    "PHAAS": {
+        "testType": "A & AS Level",
+        "examName": "Physics A - AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 2---"
+    },
+    "PHAA": {
+        "testType": "A & AS Level",
+        "examName": "Physics A - A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "PHYS 2---"
+    },
+    "PHBAS": {
+        "testType": "A & AS Level",
+        "examName": "Physics B Adv Physics AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 2---"
+    },
+    "PHBA": {
+        "testType": "A & AS Level",
+        "examName": "Physics B Adv Physics A Level",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "PHYS 2---"
+    },
+    "PSYAS": {
+        "testType": "A & AS Level",
+        "examName": "Psychology AS Level",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 1---"
+    },
+    "PSYA": {
+        "testType": "A & AS Level",
+        "examName": "Psychology A Level",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 2301"
+    },
+    "ARH": {
+        "testType": "AP",
+        "examName": "Art: History",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "AHST 2331"
+    },
+    "AS2": {
+        "testType": "AP",
+        "examName": "Art: Studio-Art 2D Design",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ARTS 2380"
+    },
+    "AS3": {
+        "testType": "AP",
+        "examName": "Art: Studio-Art 3D Design",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ARTS 2381"
+    },
+    "ASD": {
+        "testType": "AP",
+        "examName": "Art: Studio-Drawing Portfolio",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ARTS 1316"
+    },
+    "BY": {
+        "testType": "AP",
+        "examName": "Biology",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 10,
+        "utdEquivalencyCourses": "BIOL 2311, BIOL 2111, BIOL 2312, BIOL 2112, BIOL 2281"
+    },
+    "CH": {
+        "testType": "AP",
+        "examName": "Chemistry",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1311, CHEM 1111, CHEM 1312, CHEM 1112"
+    },
+    "CLC": {
+        "testType": "AP",
+        "examName": "Chinese Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "CHIN 1311, CHIN 1312, CHIN 2311, CHIN 2312"
+    },
+    "CSA": {
+        "testType": "AP",
+        "examName": "Computer Science A",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 7,
+        "utdEquivalencyCourses": "CS 1436, CS 1337"
+    },
+    "EMA": {
+        "testType": "AP",
+        "examName": "Economics: Macroeconomics",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2301"
+    },
+    "EMI": {
+        "testType": "AP",
+        "examName": "Economics: Microeconomics",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2302"
+    },
+    "ENGLI": {
+        "testType": "AP",
+        "examName": "English Literature^",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "LIT 2331"
+    },
+    "ENGC": {
+        "testType": "AP",
+        "examName": "English Language & Composition",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "RHET 1301, RHET 1302"
+    },
+    "ELC": {
+        "testType": "AP",
+        "examName": "English Literature & Composition",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "RHET 1301, RHET 1302"
+    },
+    "ENV": {
+        "testType": "AP",
+        "examName": "Environmental Science",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GEOS 2302"
+    },
+    "EURH": {
+        "testType": "AP",
+        "examName": "European History",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "HIST 2360"
+    },
+    "FRA": {
+        "testType": "AP",
+        "examName": "French Language^",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "FREN 1311, FREN 1312, FREN 2311"
+    },
+    "FLC": {
+        "testType": "AP",
+        "examName": "French Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "FREN 1311, FREN 1312, FREN 2311, FREN 2312"
+    },
+    "GLN": {
+        "testType": "AP",
+        "examName": "German Language^",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "GERM 1311, GERM 1312, GERM 2311"
+    },
+    "GLC": {
+        "testType": "AP",
+        "examName": "German Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "GERM 1311, GERM 1312, GERM 2311, GERM 2312"
+    },
+    "GPC": {
+        "testType": "AP",
+        "examName": "Government & Politics: Comparative",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GOVT 1---"
+    },
+    "GPU": {
+        "testType": "AP",
+        "examName": "Government & Politics: U.S.",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GOVT 2305"
+    },
+    "HUG": {
+        "testType": "AP",
+        "examName": "Human Geography",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GEOG 2303"
+    },
+    "ILC": {
+        "testType": "AP",
+        "examName": "Italian Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "LANG 1311, LANG 1312, LANG 2---"
+    },
+    "JLC": {
+        "testType": "AP",
+        "examName": "Japanese Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "JAPN 1311, JAPN 1312, JAPN 2311, JAPN 2312"
+    },
+    "LT": {
+        "testType": "AP",
+        "examName": "Latin",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "LANG 1311, LANG 1312, LANG 2---"
+    },
+    "PC": {
+        "testType": "AP",
+        "examName": "Precalculus",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1306 OR 1314 OR 1316 OR 2312"
+    },
+    "MAB": {
+        "testType": "AP",
+        "examName": "Mathematics: Calculus AB^^",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 7,
+        "utdEquivalencyCourses": "MATH 2312 AND 1325 OR MATH 2312 AND 2413"
+    },
+    "MBC": {
+        "testType": "AP",
+        "examName": "Mathematics: Calculus BC^^",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "MATH 2312 AND 2417 OR MATH 1325 AND 1326 OR MATH 2413 AND 2414"
+    },
+    "MST": {
+        "testType": "AP",
+        "examName": "Music: Theory",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 2328"
+    },
+    "PH1": {
+        "testType": "AP",
+        "examName": "Physics 1: Algebra-Based",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 1301, PHYS 1101"
+    },
+    "PH2": {
+        "testType": "AP",
+        "examName": "Physics 2: Algebra-Based",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 1302, PHYS 1102"
+    },
+    "PHB": {
+        "testType": "AP",
+        "examName": "Physics B^",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 1301, PHYS 1101"
+    },
+    "PHCM": {
+        "testType": "AP",
+        "examName": "Physics C - Mechanics",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 2325, PHYS 2125"
+    },
+    "PHCE": {
+        "testType": "AP",
+        "examName": "Physics C - Electricity & Magnetism",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "PHYS 2326, PHYS 2126"
+    },
+    "PY": {
+        "testType": "AP",
+        "examName": "Psychology",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 2301"
+    },
+    "SPL": {
+        "testType": "AP",
+        "examName": "Spanish Language^",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311"
+    },
+    "SPLC": {
+        "testType": "AP",
+        "examName": "Spanish Language & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311, SPAN 2312"
+    },
+    "SLTC, SPTC": {
+        "testType": "AP",
+        "examName": "Spanish Literature & Culture",
+        "minScore": 5,
+        "maxScore": 5,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311, SPAN 2312"
+    },
+    "STAT": {
+        "testType": "AP",
+        "examName": "Statistics",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "STAT 1342"
+    },
+    "UH": {
+        "testType": "AP",
+        "examName": "U.S. History",
+        "minScore": 4,
+        "maxScore": 5,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 1301, HIST 1302"
+    },
+    "WH": {
+        "testType": "AP",
+        "examName": "World History",
+        "minScore": 3,
+        "maxScore": 5,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GNED 1040"
+    },
+    "CGOVT": {
+        "testType": "CLEP",
+        "examName": "American Government",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GOVT 2305"
+    },
+    "CBIOL": {
+        "testType": "CLEP",
+        "examName": "Biology",
+        "minScore": 56,
+        "maxScore": 80,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2311, BIOL 2111, BIOL 2312, BIOL 2112"
+    },
+    "CCALC": {
+        "testType": "CLEP",
+        "examName": "Calculus",
+        "minScore": 61,
+        "maxScore": 80,
+        "maxClaimableHours": 7,
+        "utdEquivalencyCourses": "MATH 2312 AND 2417"
+    },
+    "CCHEM": {
+        "testType": "CLEP",
+        "examName": "Chemistry",
+        "minScore": 70,
+        "maxScore": 80,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1311, CHEM 1111, CHEM 1312, CHEM 1112"
+    },
+    "CALGB": {
+        "testType": "CLEP",
+        "examName": "College Algebra",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1314"
+    },
+    "CFREN": {
+        "testType": "CLEP",
+        "examName": "French Language",
+        "minScore": 58,
+        "maxScore": 80,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "FREN 1311, FREN 1312, FREN 2311, FREN 2312"
+    },
+    "CGERM": {
+        "testType": "CLEP",
+        "examName": "German Language",
+        "minScore": 58,
+        "maxScore": 80,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "GERM 1311, GERM 1312, GERM 2311, GERM 2312"
+    },
+    "CHUGD": {
+        "testType": "CLEP",
+        "examName": "Human Growth & Development",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 2314"
+    },
+    "CINSY": {
+        "testType": "CLEP",
+        "examName": "Info Systems & Computer App",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "BCIS 1---"
+    },
+    "CEPSY": {
+        "testType": "CLEP",
+        "examName": "Intro to Educational Psychology",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 1---"
+    },
+    "CPSY": {
+        "testType": "CLEP",
+        "examName": "Intro to Psychology",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 2301"
+    },
+    "CPCAL": {
+        "testType": "CLEP",
+        "examName": "Precalculus",
+        "minScore": 58,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 2312"
+    },
+    "CMACE": {
+        "testType": "CLEP",
+        "examName": "Principles of Macroeconomics",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2301"
+    },
+    "CMICE": {
+        "testType": "CLEP",
+        "examName": "Principles of Microeconomics",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2302"
+    },
+    "CSPAN": {
+        "testType": "CLEP",
+        "examName": "Spanish Language",
+        "minScore": 60,
+        "maxScore": 80,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311"
+    },
+    "SPNWR": {
+        "testType": "CLEP",
+        "examName": "Spanish Language with Writing",
+        "minScore": 65,
+        "maxScore": 80,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311, SPAN 2312"
+    },
+    "CHIS1": {
+        "testType": "CLEP",
+        "examName": "US History I",
+        "minScore": 60,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "HIST 1301"
+    },
+    "CHIS2": {
+        "testType": "CLEP",
+        "examName": "US History II",
+        "minScore": 60,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "HIST 1302"
+    },
+    "CWCV1": {
+        "testType": "CLEP",
+        "examName": "Western Civilization I",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "HUMA 1301"
+    },
+    "CWCV2": {
+        "testType": "CLEP",
+        "examName": "Western Civilization II",
+        "minScore": 50,
+        "maxScore": 80,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "HUMA 1301"
+    },
+    "ARBSL": {
+        "testType": "IB",
+        "examName": "Arabic Language B Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ARAB 1---"
+    },
+    "ARBHL": {
+        "testType": "IB",
+        "examName": "Arabic Language B Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "ARAB 1311, ARAB 1312"
+    },
+    "BYSL": {
+        "testType": "IB",
+        "examName": "Biology Standard Level",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2311, BIOL 2111, BIOL 2312, BIOL 2112"
+    },
+    "BYHL": {
+        "testType": "IB",
+        "examName": "Biology Higher Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "BIOL 2311, BIOL 2111, BIOL 2312, BIOL 2112"
+    },
+    "CHSL": {
+        "testType": "IB",
+        "examName": "Chemistry Standard Level",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1311, CHEM 1111, CHEM 1312, CHEM 1112"
+    },
+    "CHHL": {
+        "testType": "IB",
+        "examName": "Chemistry Higher Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "CHEM 1311, CHEM 1111, CHEM 1312, CHEM 1112"
+    },
+    "CHBSL": {
+        "testType": "IB",
+        "examName": "Chinese B Cantonese Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "CHIN 1---"
+    },
+    "CHBHL": {
+        "testType": "IB",
+        "examName": "Chinese B Cantonese Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "CHIN 1311, CHIN 1312"
+    },
+    "CHBMS": {
+        "testType": "IB",
+        "examName": "Chinese B Mandarin Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "CHIN 1---"
+    },
+    "CHBMH": {
+        "testType": "IB",
+        "examName": "Chinese B Mandarin Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "CHIN 1311, CHIN 1312"
+    },
+    "CSSL": {
+        "testType": "IB",
+        "examName": "Computer Science Standard Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "CS 1334, CS 1134"
+    },
+    "CSHL": {
+        "testType": "IB",
+        "examName": "Computer Science Higher Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "CS 1436"
+    },
+    "ECSL": {
+        "testType": "IB",
+        "examName": "Economics Standard Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "ECON 2301"
+    },
+    "ECHL": {
+        "testType": "IB",
+        "examName": "Economics Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "ECON 2301, ECON 2302"
+    },
+    "ENLAS": {
+        "testType": "IB",
+        "examName": "English Language A Literature Standard Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "LIT 1301, RHET 1302"
+    },
+    "ENLAH": {
+        "testType": "IB",
+        "examName": "English Language A Literature Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "LIT 1301, RHET 1302"
+    },
+    "ENALL": {
+        "testType": "IB",
+        "examName": "English Language A Language and Literature",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "LIT 1301, RHET 1302"
+    },
+    "ENVSS": {
+        "testType": "IB",
+        "examName": "Environmental Systems & Society Standard Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GEOS 2302"
+    },
+    "FILM": {
+        "testType": "IB",
+        "examName": "Film",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "FILM 2332"
+    },
+    "FRBSL": {
+        "testType": "IB",
+        "examName": "French Language B Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "FREN 1---"
+    },
+    "FRBHL": {
+        "testType": "IB",
+        "examName": "French Language B Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "FREN 1311, FREN 1312"
+    },
+    "GYHL": {
+        "testType": "IB",
+        "examName": "Geography Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "GEOG 2303"
+    },
+    "AFHS": {
+        "testType": "IB",
+        "examName": "History - African",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "AMHS": {
+        "testType": "IB",
+        "examName": "History - Americas",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "HISA": {
+        "testType": "IB",
+        "examName": "History - Asia",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "EURH, HISEU": {
+        "testType": "IB",
+        "examName": "History - Europe",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "HISI": {
+        "testType": "IB",
+        "examName": "History - Islamic",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "HISE": {
+        "testType": "IB",
+        "examName": "History - Middle East",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "HIAOC": {
+        "testType": "IB",
+        "examName": "History of Asia & Oceania",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "EMEHS": {
+        "testType": "IB",
+        "examName": "History of Europe & Middle East",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "HIST 2---"
+    },
+    "MAASL": {
+        "testType": "IB",
+        "examName": "Math Analysis & Approaches Standard Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1325"
+    },
+    "MAAHL": {
+        "testType": "IB",
+        "examName": "Math Analysis & Approaches Higher Level",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 4,
+        "utdEquivalencyCourses": "MATH 2417"
+    },
+    "MAISL": {
+        "testType": "IB",
+        "examName": "Math Application & Interpret Standard Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1314"
+    },
+    "MAIHL": {
+        "testType": "IB",
+        "examName": "Math Application & Interpret Higher Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MATH 1314 OR 1316"
+    },
+    "MFM": {
+        "testType": "IB",
+        "examName": "Math with Further Mathematics^",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 16,
+        "utdEquivalencyCourses": "MATH 2312, STAT 2333, STAT 2413, STAT 1342, STAT 2332"
+    },
+    "MATSL": {
+        "testType": "IB",
+        "examName": "Mathematics Standard Level^",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 6,
+        "utdEquivalencyCourses": "MATH 2312, STAT 1342"
+    },
+    "MATHL": {
+        "testType": "IB",
+        "examName": "Mathematics Higher Level^",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "MATH 1325, MATH 1326, STAT 1342"
+    },
+    "MS": {
+        "testType": "IB",
+        "examName": "Music^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "MSSL": {
+        "testType": "IB",
+        "examName": "Music Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "MSHL": {
+        "testType": "IB",
+        "examName": "Music Higher Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "MSCRT": {
+        "testType": "IB",
+        "examName": "Music Creating Standard Level^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "MSGPF": {
+        "testType": "IB",
+        "examName": "Music Group Perform Standard Level^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "MSSPF": {
+        "testType": "IB",
+        "examName": "Music Solo Perform Standard Level^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "MUSI 1306"
+    },
+    "PHIL": {
+        "testType": "IB",
+        "examName": "Philosophy^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PHIL 1301"
+    },
+    "PHILS": {
+        "testType": "IB",
+        "examName": "Philosophy Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PHIL 1301"
+    },
+    "PHILH": {
+        "testType": "IB",
+        "examName": "Philosophy Higher Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PHIL 1301"
+    },
+    "PHSL": {
+        "testType": "IB",
+        "examName": "Physics Standard Level",
+        "minScore": 7,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "PHYS 1301, PHYS 1302, PHYS 2125, PHYS 2126"
+    },
+    "PHHL": {
+        "testType": "IB",
+        "examName": "Physics Higher Level",
+        "minScore": 6,
+        "maxScore": 7,
+        "maxClaimableHours": 8,
+        "utdEquivalencyCourses": "PHYS 1301, PHYS 1302, PHYS 2125, PHYS 2126"
+    },
+    "PYHL": {
+        "testType": "IB",
+        "examName": "Psychology Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "PSY 2301"
+    },
+    "SPASL": {
+        "testType": "IB",
+        "examName": "Spanish Language A Standard Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311"
+    },
+    "SPAHL": {
+        "testType": "IB",
+        "examName": "Spanish Language A Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311, SPAN 2312"
+    },
+    "SPBSL": {
+        "testType": "IB",
+        "examName": "Spanish Language B Standard Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 9,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311"
+    },
+    "SPBHL": {
+        "testType": "IB",
+        "examName": "Spanish Language B Higher Level",
+        "minScore": 5,
+        "maxScore": 7,
+        "maxClaimableHours": 12,
+        "utdEquivalencyCourses": "SPAN 1311, SPAN 1312, SPAN 2311, SPAN 2312"
+    },
+    "THAR": {
+        "testType": "IB",
+        "examName": "Theatre Arts^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "THEA 1310"
+    },
+    "THARH": {
+        "testType": "IB",
+        "examName": "Theatre Arts Higher Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "THEA 1310"
+    },
+    "THARS": {
+        "testType": "IB",
+        "examName": "Theatre Arts Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "THEA 1310"
+    },
+    "VSAR": {
+        "testType": "IB",
+        "examName": "Visual Arts^",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "AHST 2331"
+    },
+    "VSARH": {
+        "testType": "IB",
+        "examName": "Visual Arts Higher Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "AHST 2331"
+    },
+    "VSARS": {
+        "testType": "IB",
+        "examName": "Visual Arts Standard Level",
+        "minScore": 4,
+        "maxScore": 7,
+        "maxClaimableHours": 3,
+        "utdEquivalencyCourses": "AHST 2331"
+    }
+}

@@ -30,6 +30,23 @@ const createCourses = async () => {
 	})
 }
 
+const createTestCredits = async () => {
+	let testCredits = JSON.parse(fs.readFileSync("./prisma/seedData/testCreditInfo.json", "utf-8"))
+	testCredits = Object.keys(testCredits).map((testComponentID) => ({
+		testComponentID: testComponentID,
+		testType: testCredits[testComponentID].testType,
+		examName: testCredits[testComponentID].examName,
+		minScore: testCredits[testComponentID].minScore,
+		maxScore: testCredits[testComponentID].maxScore,
+		maxClaimableHours: testCredits[testComponentID].maxClaimableHours,
+		utdEquivalencyCourses: testCredits[testComponentID].utdEquivalencyCourses,
+	}))
+
+	await prisma.testEquivalency.createMany({
+		data: testCredits,
+	})
+}
+
 const createTransferCourses = async () => {
 	const transferInfo = JSON.parse(fs.readFileSync("./prisma/seedData/transferInfo.json", "utf-8"))
 	const transferSchools = Object.keys(transferInfo).map((schoolID) => ({
@@ -403,6 +420,7 @@ const createCrazDegreePlan = async () => {
 const main = async () => {
 	await createCoreCurriculumAreas()
 	await createCourses()
+	await createTestCredits()
 	await createTransferCourses()
 	await createCSDegree()
 	await createUsers()
