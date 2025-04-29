@@ -30,10 +30,6 @@ export type CoursesContextType = {
     fetchCourses(): void,
 }
 
-export type MaskContextType = {
-    closeModal(): void,
-}
-
 export type ModalContextType = {
     linkCourse?(c: Course): void,
     findCredit?(type: string): void,

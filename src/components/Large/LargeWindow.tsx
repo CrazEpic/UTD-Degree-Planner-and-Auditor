@@ -12,7 +12,6 @@ import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 import { createDefaultBlock } from "../../utils/degreeParsing"
 import CreditModal from "./CreditModalTest/CreditModal" // Update back to CreditModal
-import { MaskContext } from "../../contexts/MaskContext"
 import { ModalContext } from "../../contexts/ModalContext"
 
 const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
@@ -24,7 +23,10 @@ function LargeWindow() {
 	// 	Mask information for modals
 	const [mask, setMask] = useState(false)
 	const [modalType, setModalType] = useState<string | null>(null)
-
+	const openModal = (type: string) => {
+		setMask(true)
+		setModalType(type)
+	}
 	const closeModal = () => {
 		setMask(false)
 		setModalType(null)
@@ -40,17 +42,15 @@ function LargeWindow() {
 	} 
 	*/
 	const [course, setCourse] = useState<Course>()
-	const linkCourse = (c: Course) => {
-		setMask(true)
-		setModalType("LINK")
-		setCourse(c)
+	const linkCourse = (course: Course) => {
+		openModal("LINK")
+		setCourse(course)
 	}
 
 	// May want to take the test and transfer credit functions to a util
 	const [creditType, setCreditType] = useState("")
 	const findCredit = (type: string) => {
-		setMask(true)
-		setModalType("CREDIT")
+		openModal("CREDIT")
 		setCreditType(type)
 	}
 
@@ -59,21 +59,19 @@ function LargeWindow() {
 			<div className={"relative w-full " + (mask ? "overflow-hidden" : "overflow-auto")}>
 				{/* Please put these modals in focus when they appear */}
 				{mask &&
-					<MaskContext.Provider value={{closeModal: closeModal}}>
-						<div className="absolute w-fit">
-							{modalType === "LINK" ? (
-								// Course linking window
-								<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-									<CourseLinkModal name={course.name} hours={parseInt(course.number[1])} requirementList={reqList} close={closeModal}></CourseLinkModal>
-								</div>
-							) : (
-								// Test and transfer credit window
-								<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-									<CreditModal type={creditType} close={closeModal}></CreditModal>
-								</div>
-							)}
-						</div>
-					</MaskContext.Provider>
+					<div className="absolute w-fit">
+						{modalType === "LINK" ? (
+							// Course linking window
+							<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
+								<CourseLinkModal name={course.name} hours={parseInt(course.number[1])} requirementList={reqList} close={closeModal}></CourseLinkModal>
+							</div>
+						) : (
+							// Test and transfer credit window
+							<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
+								<CreditModal type={creditType} close={closeModal}></CreditModal>
+							</div>
+						)}
+					</div>
 				}
 				<div className={"w-full overflow-auto p-4 " + (mask ? "backdrop-brightness-70 brightness-70" : "")}>
 					<TabGroup>
