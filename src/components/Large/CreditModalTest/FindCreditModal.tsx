@@ -33,11 +33,12 @@ function createDefaultCourse() : Course  {
 const FindCreditModal = ({
     credit,
     updateCredit,
-    type
+    type,
 } : {
     credit: Transfer | Test,
-    updateCredit: any,
-    type: string}) => {
+    updateCredit: (credit: Transfer | Test) => void,
+    type: string,
+}) => {
 
     const creditContext = useContext(CreditContext)
     const plan = useContext(UserContext)?.user?.DegreePlan
@@ -47,6 +48,7 @@ const FindCreditModal = ({
         let first = -1
         let second = -1
         if (type === "Transfer") {
+            transfer = creditContext?.credit
             first = schools.indexOf(transfer.school)
             second = (courses.at(first)?.indexOf(transfer.course) as number)
         }

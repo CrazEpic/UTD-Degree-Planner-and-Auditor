@@ -47,6 +47,8 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 		<>
 			<div className="flex flex-col gap-2">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
+
+				{/* TODO: Move the rest of the buttons back up here */}
 				{degree && degree.RootBlock.innerBlocks.length > 0 && (
 					<div className="max-lg:w-60">
 						<SelectNonterminalConditions

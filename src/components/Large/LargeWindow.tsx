@@ -26,7 +26,9 @@ function LargeWindow() {
 
 	// May want to take the course linking functions into a util (if possible)
 
-	// For course linking
+	/* 	TODO: Update contexts to have a mask context and preferably 
+		move down the other contexts outside of this window
+	*/
 	const [mask, setMask] = useState(false)
 	const [course, setCourse] = useState<Course | null>(null)
 
@@ -128,8 +130,8 @@ function LargeWindow() {
 								) : (
 									// Test and transfer credit window
 									<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-										<CreditModal type={creditType}></CreditModal>
-										{/* <CreditModal2 type={creditType}></CreditModal2> */}
+										{/* <CreditModal type={creditType}></CreditModal> */}
+										<CreditModal2 type={creditType}></CreditModal2>
 									</div>
 								)}
 							</div>

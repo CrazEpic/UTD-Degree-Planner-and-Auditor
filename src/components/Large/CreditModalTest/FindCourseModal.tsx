@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { Dispatch, SetStateAction, useContext } from "react"
 import { Course, DegreePlan, DegreePlanCourse } from "../../../types/degreeTest"
 import PlannerCourse from "../Planner/PlannerCourse"
 import { CreditContext } from "../../../contexts/CreditContext"
@@ -14,7 +14,7 @@ const createDefaultCourse = () : Course =>  {
     }
 }
 
-const FindCourseModal = ({type} : {type: string}) => {
+const FindCourseModal = ({type, back} : {type: string, back: Dispatch<SetStateAction<null>>}) => {
 
     const creditContext = useContext(CreditContext)
     const plan = useContext(UserContext)?.user?.DegreePlan
@@ -49,12 +49,15 @@ const FindCourseModal = ({type} : {type: string}) => {
                 <h1 className="h-8 text-xl max-w-100 line-clamp-1">Matching Courses</h1>
                 <hr className="w-full" />
                 <div className="flex flex-col gap-4 w-full px-2">
-                    {plan &&
+
+                    {/* TODO: Make the courses selectable */}
+                    {degreePlanCourses.length > 0 &&
 
                         // TODO: Accurately display this information
                         <>
                             {degreePlanCourses.map((course) => {
                                 <>
+                                    
                                     <PlannerCourse course={course}></PlannerCourse>
                                     <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false} mode={"VIEW"}></CourseBlockView>
                                 </>
@@ -69,7 +72,7 @@ const FindCourseModal = ({type} : {type: string}) => {
                         className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
                         onClick={() => {
                             console.log("Back to credit")
-                            if (creditContext?.back) creditContext.back()
+                            back(null)
                         }}
                     >
                         <ChevronLeftIcon className="size-6 max-lg:size-8"></ChevronLeftIcon>
