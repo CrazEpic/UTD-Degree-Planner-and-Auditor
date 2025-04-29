@@ -64,7 +64,7 @@ function App() {
 								element={
 									<div className="flex flex-row h-[calc(100vh-55px)]">
 										<LargeWindow></LargeWindow>
-										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, end: endSearch }}>
+										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, close: endSearch }}>
 											<div className="max-lg:hidden">
 												{matcher ? <SearchWindow conditions={conditions}></SearchWindow> : <SmallWindow></SmallWindow>}
 											</div>

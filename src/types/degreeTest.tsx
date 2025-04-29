@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react"
+
 export type Course = {
     prefix: string,
     number: string,
@@ -28,34 +30,34 @@ export type CoursesContextType = {
     fetchCourses(): void,
 }
 
-export type LinkContextType = {
-    linkCourse(c: Course): void,
-    cancelLink(): void,
-    submitLink(): void,
+export type ModalContextType = {
+    linkCourse?(c: Course): void,
+    findCredit?(type: string): void,
 }
 
 export type MatcherContextType = {
     conditions: {} | null,
-    search(matcher: string): void, 
-    end(): void,
+    search(matcher: string): void,
+    close(): void,
 }
 
-export type CreditContextType = {
-    credit: TestCredit | TransferCredit | null,
-    findCredit(type: string): void,
-    findCourse(credit: any): void,
-    end(): void,
+export type Transfer = {
+    school: string,
+    course: string,
+}
+
+export type Test = {
+    type: string,
+    name: string,
 }
 
 export type TestCredit = {
-    TestEquivalency: TestEquivalency,
-    testComponentID: string,
-    userID: string,
     User: User,
+    TestEquivalency: TestEquivalency,
     DegreePlanCourse: DegreePlanCourse[],
 }
 
-type TestEquivalency = {
+export type TestEquivalency = {
     testComponentID: string,
     courseEquivalency: JSON,
     maxClaimableCreditHours: number,
@@ -63,15 +65,12 @@ type TestEquivalency = {
 }
 
 export type TransferCredit = {
-    userID: string,
     User: User,
     TransferCourseEquivalency: TransferCourseEquivalency,
-    externalSchool: string,
-    externalCourseID: string,
     DegreePlanCourse: DegreePlanCourse[],
 }
 
-type TransferCourseEquivalency = {
+export type TransferCourseEquivalency = {
     externalSchool: string,
     externalCourseID: string,
     courseEquivalency: JSON,
@@ -169,3 +168,4 @@ export type Block = {
     blockType: string,
     blockContent: NonTerminalBlock | CourseBlock | TextBlock | MatcherGroupBlock | FlagToggleBlock,
 }
+
