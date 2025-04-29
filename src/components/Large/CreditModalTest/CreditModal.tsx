@@ -1,15 +1,14 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react"
-import { CreditContext } from "../../../contexts/CreditContext"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Test, Transfer } from "../../../types/degreeTest"
 import FindCourseModal from './FindCourseModal'
 import FindTransferCredit from "./FindTransferCredit"
 import FindTestCredit from "./FindTestCredit"
 
 // TODO: Finish separating the modals
-const CreditModal2 = ({type} : {type: string}) => {
+const CreditModal = ({ type, close } : { type: string, close(): void }) => {
 
     // TODO: Define where these functions need to be accessible to finish this
-    const creditContext = useContext(CreditContext)
+    // const creditContext = useContext(CreditContext)
 
     // Figure how to pass credit
     const [credit, setCredit] = useState<Transfer | Test | null>(null)
@@ -18,15 +17,15 @@ const CreditModal2 = ({type} : {type: string}) => {
         <>
             {credit ? (
                 // If a credit has been found, search by equivalent course
-                <FindCourseModal type={type} back={setCredit as Dispatch<SetStateAction<null>>}></FindCourseModal>
+                <FindCourseModal type={type} back={setCredit as Dispatch<SetStateAction<null>>} closeModal={close}></FindCourseModal>
             ) : (
 
                 // If a credit has not been found, search for a credit
                 <>
                     {type === "Transfer" ? (
-                        <FindTransferCredit foundCredit={setCredit as Dispatch<SetStateAction<Transfer>>}/>
+                        <FindTransferCredit foundCredit={setCredit as Dispatch<SetStateAction<Transfer>>} closeModal={close}/>
                     ) : (
-                        <FindTestCredit foundCredit={setCredit as Dispatch<SetStateAction<Test>>}></FindTestCredit>
+                        <FindTestCredit foundCredit={setCredit as Dispatch<SetStateAction<Test>>} closeModal={close}></FindTestCredit>
                     )}
                 </>
             )}
@@ -34,5 +33,5 @@ const CreditModal2 = ({type} : {type: string}) => {
     )
 }
 
-export default CreditModal2
+export default CreditModal
 

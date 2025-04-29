@@ -1,6 +1,6 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { Transfer } from "../../../types/degreeTest"
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 const schools = ["Collin College", "Grayson College", "Dallas College"]
@@ -10,7 +10,7 @@ const courses = [
     ["GEOG 2304", "GEOG 2305"],
 ]
 
-const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateAction<Transfer>>, }) => {
+const FindTransferCredit = ({ foundCredit, closeModal } : { foundCredit: Dispatch<SetStateAction<Transfer>>, closeModal(): void }) => {
 
     const [credit, setCredit] = useState<Transfer>({school: "", course: "",})
 
@@ -104,10 +104,6 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                                         <ComboboxOption
                                             value={course}
                                             className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
-                                            onClick={() => setCredit({
-                                                ...credit,
-                                                course: course,
-                                            })}
                                         >
                                             {course}
                                         </ComboboxOption>
@@ -123,7 +119,7 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                         className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
                         onClick={() => {
                             console.log("Cancel Credit")
-                            // TODO: Implement the cancel function and redo the mask
+                            closeModal()
                         }}
                     >
                         Cancel

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useContext } from "react"
 import { Course, DegreePlan, DegreePlanCourse } from "../../../types/degreeTest"
 import PlannerCourse from "../Planner/PlannerCourse"
-import { CreditContext } from "../../../contexts/CreditContext"
 import { UserContext } from "../../../contexts/UserContext"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import CourseBlockView from "../../BlockViews/CourseBlockView"
@@ -14,9 +13,8 @@ const createDefaultCourse = () : Course =>  {
     }
 }
 
-const FindCourseModal = ({type, back} : {type: string, back: Dispatch<SetStateAction<null>>}) => {
+const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Dispatch<SetStateAction<null>>, closeModal(): void }) => {
 
-    const creditContext = useContext(CreditContext)
     const plan = useContext(UserContext)?.user?.DegreePlan
 
     const createDegreePlanCourse = () : DegreePlanCourse => {
@@ -84,13 +82,13 @@ const FindCourseModal = ({type, back} : {type: string, back: Dispatch<SetStateAc
                         className={"flex flex-row justify-end w-fit border p-1 rounded-lg " + (isComplete() && "bg-green-100")}
                         onClick={() => {
                             console.log("Submit Credit")
-                            if (creditContext?.close) {
-                                if (type === "Transfer") {
-                                    creditContext.close()
-                                }
-                                else {
-                                    creditContext.close()
-                                }
+                            if (type === "Transfer") {
+                                // Update the degree plan with API
+                                closeModal()
+                            }
+                            else {
+                                // Update the degree plan with API
+                                closeModal()
                             }
                         }}
                         disabled={!isComplete()}

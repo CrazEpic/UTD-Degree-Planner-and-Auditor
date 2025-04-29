@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react"
+
 export type Course = {
     prefix: string,
     number: string,
@@ -28,23 +30,18 @@ export type CoursesContextType = {
     fetchCourses(): void,
 }
 
-export type LinkContextType = {
-    linkCourse(c: Course): void,
-    cancelLink(): void,
-    submitLink(): void,
+export type MaskContextType = {
+    closeModal(): void,
+}
+
+export type ModalContextType = {
+    linkCourse?(c: Course): void,
+    findCredit?(type: string): void,
 }
 
 export type MatcherContextType = {
     conditions: {} | null,
-    search(matcher: string): void, 
-    close(): void,
-}
-
-export type CreditContextType = {
-    credit: TestCredit | TransferCredit | null,
-    findCredit(type: string): void,
-    findCourse(credit: any): void,
-    back(): void,
+    search(matcher: string): void,
     close(): void,
 }
 

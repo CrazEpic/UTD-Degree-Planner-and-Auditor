@@ -3,7 +3,7 @@ import PlannerCourse from "./PlannerCourse"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { Button } from "@headlessui/react"
 import { useContext } from "react"
-import { CreditContext } from "../../../contexts/CreditContext"
+import { ModalContext } from "../../../contexts/ModalContext"
 
 // TODO: Make sure this works with non-standard courses (4V95, etc.)
 function currentHours(courseList: DegreePlanCourse[]) {
@@ -13,8 +13,8 @@ function currentHours(courseList: DegreePlanCourse[]) {
 }
 
 function PlannerSection({ name, courseList }: { name: string; courseList: DegreePlanCourse[] }) {
-	
-	const findCredit = useContext(CreditContext)?.findCredit
+
+	const findCredit = useContext(ModalContext)?.findCredit
 	
 	return (
 		<>

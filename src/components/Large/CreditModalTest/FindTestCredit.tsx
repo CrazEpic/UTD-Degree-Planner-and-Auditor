@@ -1,6 +1,6 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { Test } from "../../../types/degreeTest"
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 const types = ["AP", "IB", "CLEP", "A & AS Level"]
@@ -11,7 +11,7 @@ const tests = [
     ["Biology AS Level"],
 ]
 
-const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateAction<Test>>, }) => {
+const FindTransferCredit = ({ foundCredit, closeModal } : { foundCredit: Dispatch<SetStateAction<Test>>, closeModal(): void }) => {
 
     const [credit, setCredit] = useState<Test>({type: "", name: ""})
 
@@ -41,12 +41,12 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                     >
                         <ComboboxInput
                             type="text"
-                            name="school"
+                            name="type"
                             onChange={(e) => setCredit({
                                 ...credit,
                                 [e.target.name]: e.target.value,
                             })}
-                            placeholder="Search for a school"
+                            placeholder="Search for a test type"
                             className="border-black border rounded-md px-1"
                         />
                         <ComboboxOptions className="relative mt-1">
@@ -77,19 +77,19 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                             setCredit((prev) => (
                                 { 
                                     ...prev, 
-                                    course: value ?? ""
+                                    name: value ?? ""
                                 }
                             ))
                         }}
                         disabled={!types.includes(credit.type)}>
                         <ComboboxInput
                             type="text"
-                            name="course"
+                            name="name"
                             onChange={(e) => setCredit({
                                 ...credit,
                                 [e.target.name]: e.target.value,
                             })}
-                            placeholder="Search for a course"
+                            placeholder="Search for a test"
                             className="border-black border rounded-md px-1"
                         />
                         <ComboboxOptions className="relative mt-1">
@@ -105,10 +105,6 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                                         <ComboboxOption
                                             value={testName}
                                             className="hover:bg-gray-200 h-5 w-full cursor-pointer px-1 rounded-md"
-                                            onClick={() => setCredit({
-                                                ...credit,
-                                                name: testName,
-                                            })}
                                         >
                                             {testName}
                                         </ComboboxOption>
@@ -124,7 +120,7 @@ const FindTransferCredit = ({ foundCredit, } : { foundCredit: Dispatch<SetStateA
                         className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
                         onClick={() => {
                             console.log("Cancel Credit")
-                            // TODO: Implement the cancel function and redo the mask
+                            closeModal()
                         }}
                     >
                         Cancel

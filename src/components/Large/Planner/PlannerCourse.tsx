@@ -2,10 +2,10 @@ import { EllipsisVerticalIcon, ChevronRightIcon } from "@heroicons/react/24/soli
 import { Button, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
-import { LinkContext } from "../../../contexts/LinkContext"
 import { useContext, useState } from "react"
 import { DegreePlanCourse } from "../../../types/degreeTest"
 import { getAllSemestersFromStartToEnd } from "../../../utils/semester"
+import { ModalContext } from "../../../contexts/ModalContext"
 
 function click(message: string) {
 	console.log(message)
@@ -16,7 +16,8 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 	const [drop, setDrop] = useState(false)
 	const fetchUser = useContext(UserContext)?.fetchUser
 	const user = useContext(UserContext)?.user
-	const linkCourse = useContext(LinkContext)?.linkCourse
+
+	const linkCourse = useContext(ModalContext)?.linkCourse
 
 	const allSemestersFromStartToEnd = getAllSemestersFromStartToEnd(
 		{ term: user?.DegreePlan?.startSemesterTerm, year: parseInt(user?.DegreePlan?.startSemesterYear) },
