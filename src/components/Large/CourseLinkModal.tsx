@@ -1,27 +1,59 @@
 import { useState } from "react"
-import { Block } from "../../types/degreeTest"
+import { Block, Course } from "../../types/degreeTest"
 import RequirementLinkBlock from "./RequirementLinkBlock"
+import axios from "axios"
+import { createDefaultBlock } from "../../utils/degreeParsing"
 
 // Needs to be implemented properly
 function getProgress() {
     return [1, 2, 3]
 }
 
-function CourseLinkModal({name, hours, requirementList, close}: {name: string, hours: number, requirementList: Block[], close(): void}) {
+const requirementList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
+
+function CourseLinkModal({course, close}: {course: Course, close(): void}) {
+
+    // Create a util function for this b/c it does not account for xVxx courses
+    const hours = parseInt(course.number[1])
     
+
+
+
+    // All of this is only necessary if there is no "default" link
+    // If a default link exists, we should do that instead
+
     const [appliedHours, setAppliedHours] = useState(0)
 
-    /* 	Implement submitLink()
-    const linkCourse = async () => {
-        try {
-            // Update degree plan API
-        } catch (error) {
-            console.error("Error linking course:", error)
+
+    // TODO: Generate the requirement list here
+
+
+    // Need to have the number of hours set in each requirement for the submission
+    const [hoursAllocation, setHoursAllocation] = useState([])
+
+
+    // Need CourseID, RequirementID, and numHours for each requirement to be linked
+    const linkRequirement = (courseID: string, reqID: string, hours: number) => {
+        async () => {
+            try {
+                const response = await axios.put("http://localhost:3000/api/degreePlan/linkCourseToRequirementBlock", {
+                    degreePlanCourseID: courseID,
+                    blockID: reqID,
+                    credit: hours,
+                })
+            } catch (error) {
+                console.error("Error removing course: ", error)
+            }
         }
-    } 
-    */
+    }
+
+    // TODO: Pass more course information for the courseID
     const submitLink = () => {
-        // Update degree plan with API
+        hoursAllocation
+            .filter(hours => hours > 0)
+            .map((hours, i) =>
+                linkRequirement(course.id, requirementList[i].blockID, hours)
+            )
 
         // Cleanup
         close()
@@ -48,12 +80,12 @@ function CourseLinkModal({name, hours, requirementList, close}: {name: string, h
     }
     
 
-    // SET FOCUS ON THIS WINDOW
+    // TODO: SET FOCUS ON THIS WINDOW
     return (
         <>
             <div className="flex flex-col items-center w-full border-2 rounded-lg p-4 gap-4">
                 <div className="flex flex-row justify-between w-full gap-2">
-                    <h1 className="h-8 text-xl max-w-100 line-clamp-1">{name}</h1>
+                    <h1 className="h-8 text-xl max-w-100 line-clamp-1">{course.name}</h1>
                     <p className="text-xl">
                         {appliedHours + "/" + hours}
                     </p>

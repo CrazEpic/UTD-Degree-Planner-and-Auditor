@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction } from "react"
-
 export type Course = {
+    id: string,
     prefix: string,
     number: string,
     name: string,

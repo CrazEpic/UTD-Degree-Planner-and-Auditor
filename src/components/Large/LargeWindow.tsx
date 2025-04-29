@@ -3,18 +3,15 @@ import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@he
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLinkModal from "./CourseLinkModal"
-import { Block, Course, UserContextType } from "../../types/degreeTest"
+import { Course, UserContextType } from "../../types/degreeTest"
 import { UserContext } from "../../contexts/UserContext"
 import { Fragment } from "react/jsx-runtime"
 import clsx from "clsx"
 import { useContext, useState } from "react"
 import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
-import { createDefaultBlock } from "../../utils/degreeParsing"
 import CreditModal from "./CreditModal/CreditModal"
 import { ModalContext } from "../../contexts/ModalContext"
-
-const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
 function LargeWindow() {
 
@@ -57,13 +54,13 @@ function LargeWindow() {
 	return (
 		<>
 			<div className={"relative w-full " + (mask ? "overflow-hidden" : "overflow-auto")}>
-				{/* Please put these modals in focus when they appear */}
+				{/* TODO: Put modals in focus when they appear */}
 				{mask &&
 					<div className="absolute w-fit">
 						{modalType === "LINK" ? (
 							// Course linking window
 							<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-								<CourseLinkModal name={course.name} hours={parseInt(course.number[1])} requirementList={reqList} close={closeModal}></CourseLinkModal>
+								<CourseLinkModal course={course} close={closeModal}></CourseLinkModal>
 							</div>
 						) : (
 							// Test and transfer credit window
