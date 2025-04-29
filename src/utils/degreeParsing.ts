@@ -1,6 +1,6 @@
 import { Block, Degree } from "../types/degreeTest";
 
-const createDefaultBlock = () : Block => {
+export const createDefaultBlock = () : Block => {
 	return {
 		blockID: "",
 		blockName: "",

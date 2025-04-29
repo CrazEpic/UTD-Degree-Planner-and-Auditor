@@ -6,7 +6,7 @@ import CourseBlockView from "../../BlockViews/CourseBlockView"
 import MatcherBlockView from "../../BlockViews/MatcherBlockView"
 import TextBlockView from "../../BlockViews/TextBlockView"
 import NonterminalConditions from "../NonterminalConditions"
-import { parseDegree } from "../../../utils/parsing"
+import { parseDegree } from "../../../utils/degreeParsing"
 
 // Get footnotes some other way
 const footnotes: string[] = [
@@ -57,7 +57,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
-									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
+									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={"REQUIREMENT"}></CourseBlockView>
 								</div>
 							)
 						case "Text":

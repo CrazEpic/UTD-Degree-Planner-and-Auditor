@@ -12,7 +12,7 @@ import CourseBlockView from "./BlockViews/CourseBlockView"
 import MatcherBlockView from "./BlockViews/MatcherBlockView"
 import TextBlockView from "./BlockViews/TextBlockView"
 import NonterminalConditions from "./Small/NonterminalConditions"
-import { parseDegree } from "../utils/parsing"
+import { parseDegree } from "../utils/degreeParsing"
 
 // Get footnotes some other way
 const footnotes: string[] = [
@@ -45,45 +45,18 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 
 	return (
 		<>
-			<div className="flex flex-col gap-2 max-lg:mt-4">
+			<div className="flex flex-col gap-2">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
-				{degree && (
-					<>
-						<div className="flex flex-row gap-2 items-center">
-							<InsertNonterminalButton
-								blockID={degree?.RootBlock.blockID}
-								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0
-										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-										: 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-							<InsertCourse
-								blockID={degree?.RootBlock.blockID}
-								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0
-										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-										: 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-							<InsertTextButton
-								blockID={degree?.RootBlock.blockID}
-								insertPosition={
-									degree?.RootBlock.innerBlocks.length != 0
-										? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-										: 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-							<SelectNonterminalConditions
-								nonterminalBlockID={degree?.RootBlock.blockContent.id}
-								conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
-								fetchDegree={fetchDegree}
-							/>
-						</div>
-					</>
+
+				{/* TODO: Move the rest of the buttons back up here */}
+				{degree && degree.RootBlock.innerBlocks.length > 0 && (
+					<div className="max-lg:w-60">
+						<SelectNonterminalConditions
+							nonterminalBlockID={degree?.RootBlock.blockContent.id}
+							conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
+							fetchDegree={fetchDegree}
+						/>
+					</div>
 				)}
 				{degree?.RootBlock.blockType === "NonTerminal" && (
 					<NonterminalConditions
@@ -101,10 +74,10 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
-									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true}></CourseBlockView>
+									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={"EDIT"}></CourseBlockView>
 									{/* FIX THIS LATER PLEASE */}
                                     <Button
-                                        className="border-2 rounded-md hover:bg-red-200"
+                                        className="border-2 rounded-md hover:bg-red-200 size-fit"
                                         onClick={async () => {
                                             try {
                                                 await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
@@ -118,7 +91,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
                                             }
                                         }}
                                     >
-                                        <TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+                                        <TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
                                     </Button>
 								</div>
 							)
@@ -147,7 +120,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
                                             }
                                         }}
                                     >
-                                        <TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+                                        <TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
                                     </Button>
 								</div>
 							)
@@ -159,11 +132,45 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 							return <p>Unknown Block Type</p>
 					}
 				})}
+				{degree &&
+					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
+						<InsertNonterminalButton
+							blockID={degree?.RootBlock.blockID}
+							insertPosition={
+								degree?.RootBlock.innerBlocks.length != 0
+									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+									: 0
+							}
+							fetchDegree={fetchDegree}
+						/>
+						<InsertCourse
+							blockID={degree?.RootBlock.blockID}
+							insertPosition={
+								degree?.RootBlock.innerBlocks.length != 0
+									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+									: 0
+							}
+							fetchDegree={fetchDegree}
+						/>
+						<InsertTextButton
+							blockID={degree?.RootBlock.blockID}
+							insertPosition={
+								degree?.RootBlock.innerBlocks.length != 0
+									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+									: 0
+							}
+							fetchDegree={fetchDegree}
+						/>
+					</div>
+				}
 
-				{/* Add a disclosure tag just for the footnotes to hide them when unwanted*/}
+				{/* Add a disclosure tag just for the footnotes to hide them when unwanted 
+
 				{footnotes.map((footnote) => (
 					<p>{footnote}</p>
 				))}
+
+				*/}
 			</div>
 		</>
 	)
