@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction, useContext } from "react"
+import { Dispatch, SetStateAction, useContext, useState } from "react"
 import { Course, DegreePlan, DegreePlanCourse } from "../../../types/degreeTest"
-import PlannerCourse from "../Planner/PlannerCourse"
 import { UserContext } from "../../../contexts/UserContext"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
-import CourseBlockView from "../../BlockViews/CourseBlockView"
+import MatchingCourseView from "./MatchingCourseView"
 
 const createDefaultCourse = () : Course =>  {
     return {
@@ -17,9 +16,13 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
 
     const plan = useContext(UserContext)?.user?.DegreePlan
 
+    // Template courses for modal
+    let count = 0;
     const createDegreePlanCourse = () : DegreePlanCourse => {
+        count += 1
+
         return {
-            degreePlanCourseID: "",
+            degreePlanCourseID: count.toString(),
             degreePlanID: "",
             DegreePlan: (plan as DegreePlan),
             Course: createDefaultCourse(),
@@ -27,7 +30,6 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
             number: "1234",
         }
     }
-
     const degreePlanCourses : DegreePlanCourse[] = [
         createDegreePlanCourse(),
         createDegreePlanCourse(),
@@ -35,12 +37,31 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
         createDegreePlanCourse(),
     ]
 
-    // Should be replaced with course selection confirmation
-    const isComplete = () : boolean => {
-        return false
+    const [selectedCourse, setSelectedCourse] = useState<DegreePlanCourse | null>(null)
+
+    const update = (action: string, courseID: string) => {
+        if (action === "ADD") {
+            try {
+                setSelectedCourse(
+                    degreePlanCourses.find(course => course.degreePlanCourseID === courseID),
+                )
+            } catch (error) {
+                console.error("Course not found in course list")
+            }
+        }
+        else {
+            setSelectedCourse(null)
+        }
     }
 
-    // Course selection for a particular credit
+    // Check to see if equivalency is valid
+    // may change the courses to requirement blocks -> 2 courses for equivalence
+    // example: AP: BC Calculus -> 2 different calculus courses
+    const isComplete = () : boolean => {
+        return !!selectedCourse
+    }
+
+
     return (
         <>
             <div className="flex flex-col items-center w-full border-2 rounded-lg p-4 gap-4 min-w-80">
@@ -48,22 +69,16 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
                 <hr className="w-full" />
                 <div className="flex flex-col gap-4 w-full px-2">
 
-                    {/* TODO: Make the courses selectable */}
                     {degreePlanCourses.length > 0 &&
-
-                        // TODO: Accurately display this information
                         <>
-                            {degreePlanCourses.map((course) => {
+                            {degreePlanCourses.map((course) =>
                                 <>
-                                    
-                                    <PlannerCourse course={course}></PlannerCourse>
-                                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false} mode={"VIEW"}></CourseBlockView>
+                                    <MatchingCourseView course={{id: course.degreePlanCourseID, number: course.number, prefix: course.prefix}} name={"Course"} selected={!!(selectedCourse?.degreePlanCourseID === course.degreePlanCourseID)} updateCourse={update}></MatchingCourseView>
                                 </>
-                            })}
+                            )}
                         </>
+                        
                     }
-                    <PlannerCourse course={createDegreePlanCourse()}></PlannerCourse>
-                    <CourseBlockView course={{id: "", prefix: "", number: ""}} name={""} indent={false} mode={"VIEW"}></CourseBlockView>
                 </div>
                 <div className="flex flex-row justify-between w-full">
                     <button

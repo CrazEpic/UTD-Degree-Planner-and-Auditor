@@ -11,7 +11,7 @@ import { useContext, useState } from "react"
 import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import PrerequisiteWindow from "../Small/Prerequisites/PrerequisiteWindow"
 import { createDefaultBlock } from "../../utils/degreeParsing"
-import CreditModal from "./CreditModalTest/CreditModal" // Update back to CreditModal
+import CreditModal from "./CreditModal/CreditModal"
 import { ModalContext } from "../../contexts/ModalContext"
 
 const reqList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]

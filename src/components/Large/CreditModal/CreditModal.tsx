@@ -4,11 +4,7 @@ import FindCourseModal from './FindCourseModal'
 import FindTransferCredit from "./FindTransferCredit"
 import FindTestCredit from "./FindTestCredit"
 
-// TODO: Finish separating the modals
 const CreditModal = ({ type, close } : { type: string, close(): void }) => {
-
-    // TODO: Define where these functions need to be accessible to finish this
-    // const creditContext = useContext(CreditContext)
 
     // Figure how to pass credit
     const [credit, setCredit] = useState<Transfer | Test | null>(null)

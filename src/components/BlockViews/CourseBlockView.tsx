@@ -5,7 +5,17 @@ import { UserContext } from "../../contexts/UserContext"
 import { useContext, useState } from "react"
 import axios from "axios"
 
-function CourseBlockView({ course, name, indent, mode }: { course: CourseBlock, name: string, indent: boolean, mode: string }) {
+const CourseBlockView = ({
+	course,
+	name,
+	indent,
+	mode,
+}: {
+	course: CourseBlock,
+	name: string,
+	indent: boolean,
+	mode: string,
+}) => {
 	const user = useContext(UserContext)?.user
 	const fetchUser = useContext(UserContext)?.fetchUser
 	
@@ -28,31 +38,29 @@ function CourseBlockView({ course, name, indent, mode }: { course: CourseBlock, 
 			{planned ? (
 				<p className="underline ml-auto mr-4">Planned</p>
 			) : (
-				(mode as string) !== "EDIT" ? (
-					<>
-						<Button
-							className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
-							onClick={async () => {
-								// TODO: check if course is already in degree plan, should not be a thing but maybe
-								try {
-									const response = await axios.post("http://localhost:3000/api/degreePlan/addCourse", {
-										degreePlanID: user?.DegreePlan?.degreePlanID,
-										course: { prefix: course.prefix, number: course.number },
-									})
+				(mode as string) === "REQUIREMENT" ? (
+					<Button
+						className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
+						onClick={async () => {
+							// TODO: check if course is already in degree plan, should not be a thing but maybe
+							try {
+								const response = await axios.post("http://localhost:3000/api/degreePlan/addCourse", {
+									degreePlanID: user?.DegreePlan?.degreePlanID,
+									course: { prefix: course.prefix, number: course.number },
+								})
 
-									// potential undefined fetchUser error
-									if (fetchUser) {
-										fetchUser()
-									}
-									setPlanned(true)
-								} catch (error) {
-									console.error("Error adding course: ", error)
+								// potential undefined fetchUser error
+								if (fetchUser) {
+									fetchUser()
 								}
-							}}
-						>
-							<PlusIcon></PlusIcon>
-						</Button>
-					</>
+								setPlanned(true)
+							} catch (error) {
+								console.error("Error adding course: ", error)
+							}
+						}}
+					>
+						<PlusIcon></PlusIcon>
+					</Button>
 				) : (
 					<div className="lg:size-6 max-lg:size-8"></div>
 				)
