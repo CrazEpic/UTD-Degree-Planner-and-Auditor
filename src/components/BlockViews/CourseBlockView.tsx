@@ -38,7 +38,7 @@ const CourseBlockView = ({
 			{planned ? (
 				<p className="underline ml-auto mr-4">Planned</p>
 			) : (
-				(mode as string) === "REQUIREMENT" ? (
+				(mode as string) === "NORMAL" ? (
 					<Button
 						className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
 						onClick={async () => {

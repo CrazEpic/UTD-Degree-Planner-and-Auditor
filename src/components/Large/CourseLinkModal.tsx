@@ -1,26 +1,52 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Block, Course } from "../../types/degreeTest"
 import RequirementLinkBlock from "./RequirementLinkBlock"
 import axios from "axios"
 import { createDefaultBlock } from "../../utils/degreeParsing"
+import { UserContext } from "../../contexts/UserContext"
 
 // Needs to be implemented properly
 function getProgress() {
     return [1, 2, 3]
 }
 
+const parseRequirements = (data: any) : Block[] => {
+    console.log(data)
+    return []
+}
+
 const requirementList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
 
 function CourseLinkModal({course, close}: {course: Course, close(): void}) {
 
-    // Create a util function for this b/c it does not account for xVxx courses
+    // TODO: Create a util function for this b/c it does not account for xVxx courses
     const hours = parseInt(course.number[1])
+
+    // TODO: Find a default link, and then show that instead.
     
-
-
 
     // All of this is only necessary if there is no "default" link
     // If a default link exists, we should do that instead
+
+    const planID = useContext(UserContext)?.user?.DegreePlan?.degreePlanID
+
+    const getRequirements = (planID: string) : Block[] => {
+        let requirements : Block[] = []
+        async () => {
+            try {
+                const response = await axios.put("http://localhost:3000/api/degreePlan/getAllCourseToRequirementBlockLinks", {
+                    degreePlanID: planID,
+                })
+                requirements = parseRequirements(response)
+            } catch (error) {
+                console.error("Error getting matching requirements: ", error)
+            }
+        }
+
+        return requirements
+    }
+
+    const reqList = getRequirements(planID)
 
     const [appliedHours, setAppliedHours] = useState(0)
 
@@ -29,6 +55,7 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
 
 
     // Need to have the number of hours set in each requirement for the submission
+    // Actually have this default with an array of zeroes + updates with button presses
     const [hoursAllocation, setHoursAllocation] = useState([])
 
 
@@ -42,12 +69,13 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
                     credit: hours,
                 })
             } catch (error) {
-                console.error("Error removing course: ", error)
+                console.error("Error linking course: ", error)
             }
         }
     }
 
-    // TODO: Pass more course information for the courseID
+
+
     const submitLink = () => {
         hoursAllocation
             .filter(hours => hours > 0)

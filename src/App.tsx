@@ -63,6 +63,8 @@ function App() {
 								path="/"
 								element={
 									<div className="flex flex-row h-[calc(100vh-55px)]">
+
+										{/* TODO: Refactor for everything to be inside "LargeWindow" -> rename StudentView? */}
 										<LargeWindow></LargeWindow>
 										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, close: endSearch }}>
 											<div className="max-lg:hidden">

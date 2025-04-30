@@ -22,7 +22,7 @@ const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree }) => {
 			}}
 		>
 			<PlusIcon className="size-6 max-lg:size-8"></PlusIcon>
-			<p className="text-nowrap pr-1">Insert Nonterminal Block</p>
+			<p className="text-nowrap pr-1">Nonterminal Block</p>
 		</Button>
 	)
 }
