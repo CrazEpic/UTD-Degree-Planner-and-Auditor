@@ -5,7 +5,7 @@ import axios from "axios"
 import { createDefaultBlock } from "../../utils/degreeParsing"
 import { UserContext } from "../../contexts/UserContext"
 
-// Needs to be implemented properly
+// TODO: Implement progress updates
 function getProgress() {
     return [1, 2, 3]
 }
@@ -15,7 +15,7 @@ const parseRequirements = (data: any) : Block[] => {
     return []
 }
 
-const requirementList: Block[] = [createDefaultBlock(), createDefaultBlock(), createDefaultBlock()]
+const requirementList: Block[] = [createDefaultBlock(1), createDefaultBlock(2), createDefaultBlock(3)]
 
 function CourseLinkModal({course, close}: {course: Course, close(): void}) {
 
@@ -56,11 +56,12 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
 
     // Need to have the number of hours set in each requirement for the submission
     // Actually have this default with an array of zeroes + updates with button presses
-    const [hoursAllocation, setHoursAllocation] = useState([])
+    const [hoursAllocation, setHoursAllocation] = useState(new Array(requirementList.length).fill(0))
 
 
     // Need CourseID, RequirementID, and numHours for each requirement to be linked
     const linkRequirement = (courseID: string, reqID: string, hours: number) => {
+        console.log("Attempt to link course " + courseID + " with requirement " + reqID)
         async () => {
             try {
                 const response = await axios.put("http://localhost:3000/api/degreePlan/linkCourseToRequirementBlock", {
@@ -74,8 +75,7 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
         }
     }
 
-
-
+    // TODO: Get this to work
     const submitLink = () => {
         hoursAllocation
             .filter(hours => hours > 0)
@@ -87,17 +87,22 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
         close()
     }
 
-    const applyHour = () => {
+    const applyHour = (id: string) => {
         if (appliedHours != hours) {
             setAppliedHours(appliedHours + 1)
+            setHoursAllocation((prev) => [
+                ...prev,
+                hoursAllocation[requirementList.findIndex((req) => req.blockID === id)] += 1
+            ])
             return true
         }
         return false
     }
 
-    const removeHour = () => {
+    const removeHour = (id: string) => {
         if (appliedHours != 0) {
             setAppliedHours(appliedHours - 1)
+            hoursAllocation[requirementList.findIndex((req) => req.blockID === id)] -= 1
             return true
         }
         return false
@@ -122,7 +127,7 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
                 <hr className="w-full" />
                 <div className="flex flex-col gap-4 w-full px-2">
                     {requirementList.map((requirement) => 
-                        <RequirementLinkBlock name={requirement.blockName} progress={getProgress()} add={applyHour} remove={removeHour} full={isFull}></RequirementLinkBlock>
+                        <RequirementLinkBlock req={requirement} progress={getProgress()} add={applyHour} remove={removeHour} full={isFull}></RequirementLinkBlock>
                     )}
                 </div>
                 <div className="flex flex-row justify-between w-full">

@@ -1,9 +1,9 @@
 import { Block, Degree } from "../types/degreeTest";
 
-export const createDefaultBlock = () : Block => {
+export const createDefaultBlock = (id: number) : Block => {
 	return {
-		blockID: "",
-		blockName: "",
+		blockID: id.toString(),
+		blockName: "Requirement",
 		parentBlockID: "",
 		blockPosition: 0,
 		innerBlocks: [],
@@ -16,7 +16,7 @@ export const createDefaultBlock = () : Block => {
 }
 
 const parseBlock = (data:any) : Block => {
-	let block = createDefaultBlock()
+	let block = createDefaultBlock(0)
 
 	block.blockID = data.blockID
 	block.blockName = data.blockName
@@ -68,7 +68,7 @@ const parseBlock = (data:any) : Block => {
 
 export const parseDegree = (data: any) : Degree => {
 	let degree: Degree = {
-		RootBlock: createDefaultBlock(),
+		RootBlock: createDefaultBlock(0),
 		blockID: "",
 		degreeName: "",
 		degreeYear: "",
