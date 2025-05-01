@@ -438,6 +438,8 @@ const FlowchartCytoscape = () => {
 		setMostImportantCoursesThatCanBeTaken(rankMostImportantWithNoRequisites())
 	}, [degreePlan, user, temporarilyAddedCourses, temporarilySelectedCustomRequisites, canDisplayFlowchart])
 
+	const boxes = false
+
 	return (
 		<>
 			<div className="relative h-[75vh] border-4 border-black rounded-md lg:m-10 max-lg:m-2 p-5">
@@ -447,7 +449,7 @@ const FlowchartCytoscape = () => {
 						<Disclosure as="div" className="absolute top-0 right-0 m-2 bg-white border-2 border-black rounded-md max-lg:w-fit overflow-auto">
 							<DisclosureButton className="flex flex-row gap-2 items-center p-2 hover:cursor-pointer hover:bg-gray-200">
 								Most Important Courses That Can Be Taken
-								<MagnifyingGlassIcon className="lg:size-6 max-lg:size-8" />
+								<MagnifyingGlassIcon className="size-8" />
 							</DisclosureButton>
 							<DisclosurePanel className="pl-2 pb-1">
 								{mostImportantCoursesThatCanBeTaken.map((course, index) => {
@@ -461,38 +463,50 @@ const FlowchartCytoscape = () => {
 						</Disclosure>
 					</>
 				) : (
-					<div className="top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
-						<p>Requisites</p>
+					<div className="flex flex-col gap-2 border-2 border-black rounded-md p-2 w-full h-full bg-white overflow-auto">
+						<h1 className="text-xl">Requisites</h1>
 						{Object.keys(coursesRequisitesNeededFinal).map((course) => {
 							return (
 								<>
-									<p className="bg-orange-400">{course}</p>
-									<p>Prerequisites</p>
-									<ChooseRequisite
-										requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
-										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-										pathToRequisite={[course, "requisites", "prerequisites"]}
-										parentCanBeFulfilled={false}
-									/>
-									<hr></hr>
-									<p>Corequisites</p>
-									<ChooseRequisite
-										requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
-										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-										pathToRequisite={[course, "requisites", "corequisites"]}
-										parentCanBeFulfilled={false}
-									/>
-									<hr></hr>
-									<p>Prerequisites or Corequisites</p>
-									<ChooseRequisite
-										requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}
-										setTemporarilyAddedCourses={setTemporarilyAddedCourses}
-										setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
-										pathToRequisite={[course, "requisites", "prerequisitesOrCorequisites"]}
-										parentCanBeFulfilled={false}
-									/>
+									<div className="flex flex-col gap-2 border-2 border-black rounded-md p-2">
+										<h2 className="px-2 text-lg w-fit bg-orange-400 rounded-md">{course}</h2>
+
+										{/* May conditionally remove these sections if they are empty 
+											This may need type checking in the useEffect to work?
+										*/}
+										<div className={boxes && "border rounded-md p-2"}>
+											<h3 className="">Prerequisites</h3>
+											<ChooseRequisite
+												requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
+												setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+												setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+												pathToRequisite={[course, "requisites", "prerequisites"]}
+												parentCanBeFulfilled={false}
+											/>
+										</div>
+										<hr></hr>
+										<div className={boxes && "border rounded-md p-2"}>
+											<p>Corequisites</p>
+											<ChooseRequisite
+												requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
+												setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+												setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+												pathToRequisite={[course, "requisites", "corequisites"]}
+												parentCanBeFulfilled={false}
+											/>
+										</div>
+										<hr></hr>
+										<div className={boxes && "border rounded-md p-2"}>
+											<p>Prerequisites or Corequisites</p>
+											<ChooseRequisite
+												requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}
+												setTemporarilyAddedCourses={setTemporarilyAddedCourses}
+												setTemporarilySelectedCustomRequisites={setTemporarilySelectedCustomRequisites}
+												pathToRequisite={[course, "requisites", "prerequisitesOrCorequisites"]}
+												parentCanBeFulfilled={false}
+											/>
+										</div>
+									</div>
 								</>
 							)
 						})}

@@ -22,21 +22,23 @@ const ChooseRequisite = ({ requisites, setTemporarilyAddedCourses, setTemporaril
 	if (Object.hasOwn(requisites, "logicalOperator")) {
 		return (
 			<>
-				<Disclosure defaultOpen={true}>
-					<span className="flex flex-row gap-2">
-						<DisclosureButton className="group py-2">
-							<ChevronDownIcon className="size-[24px]"></ChevronDownIcon>
-						</DisclosureButton>
-						{requisites.logicalOperator === "AND" ? <p>AND</p> : <p>OR</p>}
+				<Disclosure as="div" className="border border-black rounded-md p-2" defaultOpen={true}>
+					<span className="flex flex-row items-center justify-between">
+						<div className="flex flex-row gap-1 items-center">
+							<DisclosureButton className="group">
+								<ChevronDownIcon className="size-8"></ChevronDownIcon>
+							</DisclosureButton>
+							{requisites.logicalOperator === "AND" ? <p>AND</p> : <p>OR</p>}
+						</div>
 
 						{!parentCanBeFulfilled &&
 							(tryToFulfillBranchViaCanBeFulfilled(requisites) ? (
-								<CheckCircleIcon className="w-6 h-6" />
+								<CheckCircleIcon className="size-6" />
 							) : (
-								<ExclamationCircleIcon className="w-6 h-6 fill-yellow-400"></ExclamationCircleIcon>
+								<ExclamationCircleIcon className="size-6 fill-yellow-400"></ExclamationCircleIcon>
 							))}
 					</span>
-					<DisclosurePanel className="flex flex-col gap-y-4 pl-4">
+					<DisclosurePanel className="flex flex-col gap-y-2 mt-2">
 						{requisites.requisites.map((requisite, index) => {
 							return (
 								<ChooseRequisite
@@ -57,16 +59,16 @@ const ChooseRequisite = ({ requisites, setTemporarilyAddedCourses, setTemporaril
 		const renderSwitch = () => {
 			switch (requisites.type) {
 				case "course":
-					return <p>{requisites.courseID}</p>
+					return requisites.courseID
 				case "matcher":
 					// TODO: implement matcher requisites
-					return <p>{requisites.matchList}</p>
+					return requisites.matchList
 				case "major":
-					return <p>{requisites.major}</p>
+					return requisites.major
 				case "minor":
-					return <p>{requisites.minor}</p>
+					return requisites.minor
 				case "custom":
-					return <p>{requisites.text}</p>
+					return requisites.text
 			}
 		}
 
@@ -117,18 +119,18 @@ const ChooseRequisite = ({ requisites, setTemporarilyAddedCourses, setTemporaril
 
 		return (
 			<>
-				<span className="flex flex-row gap-2">
+				<span className="flex flex-row items-center border border-black rounded-md p-1 justify-between">
+					<p className="text-[#037b3f] pl-1">{renderSwitch()}</p>
 					<Checkbox
 						disabled={!requisites.togglable}
 						checked={requisites.canBeFulfilled}
 						onChange={(value) => updateTemporarilyRequisiteSelections(value)}
-						className="border-black border-2 block size-8 bg-white hover:cursor-pointer data-[checked]:bg-blue-500 data-[disabled]:bg-gray-600"
+						className="border-black border-2 rounded-md block size-8 bg-white hover:cursor-pointer data-[checked]:bg-blue-500 data-[disabled]:bg-gray-600"
 					>
 						{({ checked }) => {
 							return checked && <CheckIcon className="fill-white w-full h-full m-auto" />
 						}}
 					</Checkbox>
-					{renderSwitch()}
 				</span>
 			</>
 		)

@@ -125,7 +125,7 @@ function LargeWindow() {
 								<FlowchartWindow></FlowchartWindow>
 							</TabPanel>
 							<TabPanel>
-								<RequirementWindow degreeName={user?.DegreePlan?.degreeName} degreeYear={user?.DegreePlan?.degreeYear}></RequirementWindow>
+								<RequirementWindow degreeName={user?.DegreePlan?.degreeName} degreeYear={user?.DegreePlan?.degreeYear} mode={"NORMAL"}></RequirementWindow>
 							</TabPanel>
 							<TabPanel>
 								<PrerequisiteWindow></PrerequisiteWindow>
