@@ -440,19 +440,20 @@ const FlowchartCytoscape = () => {
 
 	return (
 		<>
-			<div className="relative h-[75vh] border-4 border-black m-10">
+			<div className="relative h-[75vh] border-4 border-black rounded-md lg:m-10 max-lg:m-2 p-5">
 				{canDisplayFlowchart ? (
 					<>
 						<div id="cy" className="w-full h-full"></div>
-						<Disclosure as="div" className="absolute top-0 right-0 bg-white border-black border-2 overflow-y-scroll">
+						<Disclosure as="div" className="absolute top-0 right-0 m-2 bg-white border-2 border-black rounded-md max-lg:w-fit overflow-auto">
 							<DisclosureButton className="flex flex-row gap-2 items-center p-2 hover:cursor-pointer hover:bg-gray-200">
-								<MagnifyingGlassIcon className="h-6 w-6" /> Most Important Courses That Can Be Taken
+								Most Important Courses That Can Be Taken
+								<MagnifyingGlassIcon className="lg:size-6 max-lg:size-8" />
 							</DisclosureButton>
-							<DisclosurePanel>
+							<DisclosurePanel className="pl-2 pb-1">
 								{mostImportantCoursesThatCanBeTaken.map((course, index) => {
 									return (
 										<p key={course}>
-											{index + 1} {course}
+											{index + 1}. {course}
 										</p>
 									)
 								})}
@@ -460,7 +461,7 @@ const FlowchartCytoscape = () => {
 						</Disclosure>
 					</>
 				) : (
-					<div className="absolute top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
+					<div className="top-0 border-black border-2 w-full h-full bg-white overflow-y-scroll">
 						<p>Requisites</p>
 						{Object.keys(coursesRequisitesNeededFinal).map((course) => {
 							return (
