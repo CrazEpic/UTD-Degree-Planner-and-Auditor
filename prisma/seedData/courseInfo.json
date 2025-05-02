@@ -53,20 +53,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ],
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    },
                     {
                         "type": "course",
                         "courseID": "ITSS 3300"
@@ -85,20 +81,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -130,20 +122,16 @@
                             }
                         ]
                     },
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -158,13 +146,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -179,20 +165,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -211,20 +193,16 @@
                         "type": "course",
                         "courseID": "BLAW 2301"
                     },
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -239,20 +217,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -267,20 +241,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ],
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    },
                     {
                         "type": "course",
                         "courseID": "ITSS 3300"
@@ -316,13 +286,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -345,13 +313,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -366,13 +332,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -387,13 +351,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ],
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    },
                     {
                         "type": "course",
                         "courseID": "FIN 3320"
@@ -412,13 +374,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -437,13 +397,11 @@
                         "type": "course",
                         "courseID": "ACCT 3312"
                     },
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1336,13 +1294,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1357,13 +1313,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1378,13 +1332,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1399,13 +1351,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1420,13 +1370,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1441,13 +1389,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1479,13 +1425,11 @@
                             }
                         ]
                     },
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1518,13 +1462,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1539,13 +1481,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1601,13 +1541,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1622,13 +1560,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1697,13 +1633,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1749,13 +1683,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1773,13 +1705,11 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "type": "course",
-                                    "courseID": "ANGM 2310",
-                                    "minGrade": "B"
-                                }
-                            ],
+                            {
+                                "type": "course",
+                                "courseID": "ANGM 2310",
+                                "minGrade": "B"
+                            },
                             {
                                 "type": "custom",
                                 "text": "INSTRUCTOR CONSENT REQUIRED"
@@ -1890,13 +1820,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1918,13 +1846,11 @@
                                 "type": "course",
                                 "courseID": "ANGM 3304"
                             },
-                            [
-                                {
-                                    "type": "course",
-                                    "courseID": "ANGM 3314",
-                                    "minGrade": "B"
-                                }
-                            ]
+                            {
+                                "type": "course",
+                                "courseID": "ANGM 3314",
+                                "minGrade": "B"
+                            }
                         ]
                     }
                 ]
@@ -1941,13 +1867,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3305",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3305",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1962,13 +1886,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3306",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3306",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -1983,13 +1905,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3307",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3307",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2004,13 +1924,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3308",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3308",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2025,13 +1943,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2081,13 +1997,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3306",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3306",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2121,13 +2035,11 @@
                                 "type": "course",
                                 "courseID": "ANGM 3308"
                             },
-                            [
-                                {
-                                    "type": "course",
-                                    "courseID": "ANGM 3310",
-                                    "minGrade": "B"
-                                }
-                            ]
+                            {
+                                "type": "course",
+                                "courseID": "ANGM 3310",
+                                "minGrade": "B"
+                            }
                         ]
                     }
                 ]
@@ -2179,13 +2091,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 4305",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 4305",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2240,20 +2150,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2309",
-                            "minGrade": "B"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3313",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2309",
+                        "minGrade": "B"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3313",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2268,13 +2174,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3306",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3306",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2317,13 +2221,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3338",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3338",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2457,13 +2359,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3367",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3367",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2478,13 +2378,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3368",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3368",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2517,13 +2415,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3370",
-                            "minGrade": "B"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3370",
+                        "minGrade": "B"
+                    }
                 ]
             },
             "corequisites": {},
@@ -2556,13 +2452,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 3368",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 3368",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -4955,13 +4849,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ANGM 2310",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ANGM 2310",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -7232,13 +7124,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "BIOL 3401",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "BIOL 3401",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -10070,13 +9960,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "CS 1436",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "CS 1436",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -10120,23 +10008,21 @@
                                 "type": "custom",
                                 "text": "ALEKS SCORE REQUIRED"
                             },
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "MATH 2413",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "MATH 2417",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ]
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "MATH 2413",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "MATH 2417",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            }
                         ]
                     }
                 ]
@@ -10163,23 +10049,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 1337",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 1337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 1337",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 1337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -10189,23 +10073,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -10436,23 +10318,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -10468,28 +10348,26 @@
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -10541,51 +10419,47 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2337",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2337",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "type": "course",
                                 "courseID": "CS 3333"
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -10816,51 +10690,47 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2337",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2337",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "type": "course",
                                 "courseID": "CS 3333"
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -15335,13 +15205,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "CS 1334",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "CS 1334",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -15374,13 +15242,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "CS 1436",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "CS 1436",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -15412,23 +15278,21 @@
                                 "type": "custom",
                                 "text": "ALEKS SCORE REQUIRED"
                             },
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "MATH 2413",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "MATH 2417",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ]
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "MATH 2413",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "MATH 2417",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            }
                         ]
                     }
                 ]
@@ -15476,23 +15340,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 1337",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 1337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 1337",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 1337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -15502,23 +15364,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -15559,23 +15419,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -15603,40 +15461,36 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 1337",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 1337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 1337",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 1337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -15661,35 +15515,31 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "CS 3305",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "CS 3305",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -15726,23 +15576,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -15788,52 +15636,46 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 1326",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2414",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2419",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "MATH 2418",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "MATH 1326",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2414",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2419",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "MATH 2418",
+                        "minGrade": "C"
+                    },
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -15851,23 +15693,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -15883,28 +15723,26 @@
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -15959,67 +15797,61 @@
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
-                                    [
-                                        {
-                                            "logicalOperator": "OR",
-                                            "requisites": [
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CE 2336",
-                                                    "minGrade": "B"
-                                                },
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CS 2336",
-                                                    "minGrade": "B"
-                                                },
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CS 2337",
-                                                    "minGrade": "B"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    [
-                                        {
-                                            "logicalOperator": "OR",
-                                            "requisites": [
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CE 2305",
-                                                    "minGrade": "B"
-                                                },
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CS 2305",
-                                                    "minGrade": "B"
-                                                }
-                                            ]
-                                        }
-                                    ],
-                                    [
-                                        {
-                                            "logicalOperator": "OR",
-                                            "requisites": [
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CE 3345",
-                                                    "minGrade": "B"
-                                                },
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "CS 3345",
-                                                    "minGrade": "B"
-                                                },
-                                                {
-                                                    "type": "course",
-                                                    "courseID": "SE 3345",
-                                                    "minGrade": "B"
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    {
+                                        "logicalOperator": "OR",
+                                        "requisites": [
+                                            {
+                                                "type": "course",
+                                                "courseID": "CE 2336",
+                                                "minGrade": "B"
+                                            },
+                                            {
+                                                "type": "course",
+                                                "courseID": "CS 2336",
+                                                "minGrade": "B"
+                                            },
+                                            {
+                                                "type": "course",
+                                                "courseID": "CS 2337",
+                                                "minGrade": "B"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "logicalOperator": "OR",
+                                        "requisites": [
+                                            {
+                                                "type": "course",
+                                                "courseID": "CE 2305",
+                                                "minGrade": "B"
+                                            },
+                                            {
+                                                "type": "course",
+                                                "courseID": "CS 2305",
+                                                "minGrade": "B"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "logicalOperator": "OR",
+                                        "requisites": [
+                                            {
+                                                "type": "course",
+                                                "courseID": "CE 3345",
+                                                "minGrade": "B"
+                                            },
+                                            {
+                                                "type": "course",
+                                                "courseID": "CS 3345",
+                                                "minGrade": "B"
+                                            },
+                                            {
+                                                "type": "course",
+                                                "courseID": "SE 3345",
+                                                "minGrade": "B"
+                                            }
+                                        ]
+                                    }
                                 ]
                             },
                             {
@@ -16045,51 +15877,47 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2337",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2337",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "type": "course",
                                 "courseID": "CS 3333"
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -16130,28 +15958,26 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -16446,51 +16272,47 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2337",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2337",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "type": "course",
                                 "courseID": "CS 3333"
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -16671,23 +16493,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -16918,28 +16738,26 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -16971,23 +16789,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -22656,13 +22472,11 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ],
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    },
                     {
                         "type": "course",
                         "courseID": "FIN 3320"
@@ -28108,12 +27922,10 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "custom",
-                            "text": "MUST HAVE COMPLETED THE RELEVANT COURSE"
-                        }
-                    ],
+                    {
+                        "type": "custom",
+                        "text": "MUST HAVE COMPLETED THE RELEVANT COURSE"
+                    },
                     {
                         "type": "custom",
                         "text": "HAVE A UT DALLAS GRADE POINT AVERAGE OF AT LEAST 3"
@@ -28430,20 +28242,16 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2301",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 2302",
-                            "minGrade": "C"
-                        }
-                    ],
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2301",
+                        "minGrade": "C"
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 2302",
+                        "minGrade": "C"
+                    },
                     {
                         "type": "course",
                         "courseID": "ITSS 3300"
@@ -28665,13 +28473,11 @@
                         "type": "course",
                         "courseID": "ACCT 3312"
                     },
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "ACCT 3331",
-                            "minGrade": "C"
-                        }
-                    ]
+                    {
+                        "type": "course",
+                        "courseID": "ACCT 3331",
+                        "minGrade": "C"
+                    }
                 ]
             },
             "corequisites": {},
@@ -43200,40 +43006,36 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 1337",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 1337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 1337",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 1337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43280,23 +43082,21 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43311,52 +43111,46 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 1326",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2414",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2419",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "MATH 2418",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "MATH 1326",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2414",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2419",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "MATH 2418",
+                        "minGrade": "C"
+                    },
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43374,23 +43168,21 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2305",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2305",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2305",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2305",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "logicalOperator": "AND",
                                 "requisites": [
@@ -43406,28 +43198,26 @@
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43479,51 +43269,47 @@
                     {
                         "logicalOperator": "OR",
                         "requisites": [
-                            [
-                                {
-                                    "logicalOperator": "OR",
-                                    "requisites": [
-                                        {
-                                            "type": "course",
-                                            "courseID": "CE 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2336",
-                                            "minGrade": "C"
-                                        },
-                                        {
-                                            "type": "course",
-                                            "courseID": "CS 2337",
-                                            "minGrade": "C"
-                                        }
-                                    ]
-                                }
-                            ],
+                            {
+                                "logicalOperator": "OR",
+                                "requisites": [
+                                    {
+                                        "type": "course",
+                                        "courseID": "CE 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2336",
+                                        "minGrade": "C"
+                                    },
+                                    {
+                                        "type": "course",
+                                        "courseID": "CS 2337",
+                                        "minGrade": "C"
+                                    }
+                                ]
+                            },
                             {
                                 "type": "course",
                                 "courseID": "CS 3333"
                             }
                         ]
                     },
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43546,28 +43332,26 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
@@ -43827,28 +43611,26 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2336",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2337",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2336",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2337",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
                     {
                         "logicalOperator": "OR",
                         "requisites": [
@@ -45785,52 +45567,46 @@
             "prerequisites": {
                 "logicalOperator": "AND",
                 "requisites": [
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 1326",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2414",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "MATH 2419",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ],
-                    [
-                        {
-                            "type": "course",
-                            "courseID": "MATH 2418",
-                            "minGrade": "C"
-                        }
-                    ],
-                    [
-                        {
-                            "logicalOperator": "OR",
-                            "requisites": [
-                                {
-                                    "type": "course",
-                                    "courseID": "CE 2305",
-                                    "minGrade": "C"
-                                },
-                                {
-                                    "type": "course",
-                                    "courseID": "CS 2305",
-                                    "minGrade": "C"
-                                }
-                            ]
-                        }
-                    ]
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "MATH 1326",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2414",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "MATH 2419",
+                                "minGrade": "C"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "course",
+                        "courseID": "MATH 2418",
+                        "minGrade": "C"
+                    },
+                    {
+                        "logicalOperator": "OR",
+                        "requisites": [
+                            {
+                                "type": "course",
+                                "courseID": "CE 2305",
+                                "minGrade": "C"
+                            },
+                            {
+                                "type": "course",
+                                "courseID": "CS 2305",
+                                "minGrade": "C"
+                            }
+                        ]
+                    }
                 ]
             },
             "corequisites": {},
