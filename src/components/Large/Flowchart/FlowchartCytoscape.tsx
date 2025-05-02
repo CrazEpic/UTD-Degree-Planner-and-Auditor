@@ -474,7 +474,7 @@ const FlowchartCytoscape = () => {
 										{/* May conditionally remove these sections if they are empty 
 											This may need type checking in the useEffect to work?
 										*/}
-										<div className={boxes && "border rounded-md p-2"}>
+										<div className={boxes ? "border rounded-md p-2" : ""}>
 											<h3 className="">Prerequisites</h3>
 											<ChooseRequisite
 												requisites={coursesRequisitesNeededFinal[course].requisites.prerequisites}
@@ -485,7 +485,7 @@ const FlowchartCytoscape = () => {
 											/>
 										</div>
 										<hr></hr>
-										<div className={boxes && "border rounded-md p-2"}>
+										<div className={boxes ? "border rounded-md p-2" : ""}>
 											<p>Corequisites</p>
 											<ChooseRequisite
 												requisites={coursesRequisitesNeededFinal[course].requisites.corequisites}
@@ -496,7 +496,7 @@ const FlowchartCytoscape = () => {
 											/>
 										</div>
 										<hr></hr>
-										<div className={boxes && "border rounded-md p-2"}>
+										<div className={boxes ? "border rounded-md p-2" : ""}>
 											<p>Prerequisites or Corequisites</p>
 											<ChooseRequisite
 												requisites={coursesRequisitesNeededFinal[course].requisites.prerequisitesOrCorequisites}

@@ -2,18 +2,12 @@ import { useState, useEffect } from "react"
 import RequirementWindow from "../Small/Requirements/RequirementWindow"
 import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch } from "@headlessui/react"
 import axios from "axios"
-import { DivideIcon, PlusIcon } from "@heroicons/react/24/outline"
-import EditDegreeView from "../EditDegreeView"
+import { PlusIcon } from "@heroicons/react/24/outline"
+import EditDegreeView from "./EditDegreeView"
 
 
 /* 
-	This page is incredibly slow to update while typing
-	This is probably due to the amount of components that
-	are refreshing on every key press in the input as well
-	as the page resizing with the combobox
-
-	Also, when switching into preview mode sometimes an,
-	undefined undefined degree will appear momentarily
+	TODO: REACT IS SLOW
 */
 const DegreeBuildingWindow = () => {
 	const [degrees, setDegrees] = useState([])
@@ -24,6 +18,8 @@ const DegreeBuildingWindow = () => {
 	const [query, setQuery] = useState("")
 	const [addDegreeVisible, setAddDegreeVisible] = useState(false)
 	const [previewMode, setPreviewMode] = useState(false)
+
+	// Undefined Undefined
 	const fetchDegrees = async () => {
 		try {
 			const response = await axios.get("http://localhost:3000/api/degree/degrees")

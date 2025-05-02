@@ -1,18 +1,18 @@
 import { useEffect, useState, useCallback } from "react"
-import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../types/degreeTest"
-import BlockView from "./BlockViews/BlockView"
+import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
+import BlockView from "../BlockViews/BlockView"
 import axios from "axios"
-import InsertCourse from "./DegreeBuilding/DegreeFunctionality/InsertCourse"
-import InsertNonterminalButton from "./DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
-import InsertTextButton from "./DegreeBuilding/DegreeFunctionality/InsertTextButton"
-import SelectNonterminalConditions from "./DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
+import InsertCourse from "./DegreeFunctionality/InsertCourse"
+import InsertNonterminalButton from "./DegreeFunctionality/InsertNonterminalButton"
+import InsertTextButton from "./DegreeFunctionality/InsertTextButton"
+import SelectNonterminalConditions from "./DegreeFunctionality/SelectNonterminalConditions"
 import { Button } from "@headlessui/react"
 import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
-import CourseBlockView from "./BlockViews/CourseBlockView"
-import MatcherBlockView from "./BlockViews/MatcherBlockView"
-import TextBlockView from "./BlockViews/TextBlockView"
-import NonterminalConditions from "./Small/NonterminalConditions"
-import { parseDegree } from "../utils/degreeParsing"
+import CourseBlockView from "../BlockViews/CourseBlockView"
+import MatcherBlockView from "../BlockViews/MatcherBlockView"
+import TextBlockView from "../BlockViews/TextBlockView"
+import NonterminalConditions from "../Small/NonterminalConditions"
+import { parseDegree } from "../../utils/degreeParsing"
 
 // TODO: Add footnotes
 
@@ -40,7 +40,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 		<>
 			<div className="flex flex-col gap-2">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
-				{degree && degree.RootBlock.innerBlocks.length > 0 && (
+				{degree && (
 					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
 						
 						{/* Convert this to a disclosure */}

@@ -11,7 +11,6 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 		name: "",
 	})
 	const [query, setQuery] = useState("")
-
 	const courses = useContext(CoursesContext)?.courses || []
 
 	return (
@@ -74,6 +73,8 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 							className=""
 						/>
 						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-10">
+
+							{/* TODO: Sort based on prefix, number, name */}
 							{courses
 								.filter((course) => {
 									if (query === "" || query === null) {
@@ -81,6 +82,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 									}
 									return `${course.prefix} ${course.number} ${course.name}`.toLowerCase().includes(query.toLowerCase())
 								})
+								.slice(0, 100)
 								.map((course) => (
 									<>
 										<ComboboxOption
