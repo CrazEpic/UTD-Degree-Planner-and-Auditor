@@ -22,7 +22,6 @@ const MatchingCourseView = ({
                 {name}
             </p>
             <div className="mr-2">
-                {/* Place a checkbox here */}
                 <Checkbox
                     checked={selected}
                     onChange={() => {

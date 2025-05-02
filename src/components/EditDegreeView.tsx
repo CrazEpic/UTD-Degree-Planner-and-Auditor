@@ -7,23 +7,14 @@ import InsertNonterminalButton from "./DegreeBuilding/DegreeFunctionality/Insert
 import InsertTextButton from "./DegreeBuilding/DegreeFunctionality/InsertTextButton"
 import SelectNonterminalConditions from "./DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
 import { Button } from "@headlessui/react"
-import { TrashIcon } from "@heroicons/react/24/outline"
+import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import CourseBlockView from "./BlockViews/CourseBlockView"
 import MatcherBlockView from "./BlockViews/MatcherBlockView"
 import TextBlockView from "./BlockViews/TextBlockView"
 import NonterminalConditions from "./Small/NonterminalConditions"
 import { parseDegree } from "../utils/degreeParsing"
 
-// Get footnotes some other way
-const footnotes: string[] = [
-	"1. Curriculum Requirements can be fulfilled by other approved courses. The courses listed are recommended as the most efficient way to satisfy both Core Curriculum and Major Requirements at UT Dallas.",
-	"2. Semester credit hours fulfill the communication component of the Core Curriculum.",
-	"3. Three semester credit hours of Calculus are counted under Mathematics Core, and five semester credit hours of Calculus are counted as Component Area Option Core.",
-	"4. Six semester credit hours of Physics are counted under Science core, and one semester credit hour of Physics (PHYS 2125) is counted as Component Area Option Core.",
-	"5. Transfer students with sufficient background may petition to substitute upper-division semester credit hours in the major for this class.",
-	"6. BS in Data Science students can substitute MATH 3315 for CS 2305.",
-	"7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
-]
+// TODO: Add footnotes
 
 const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degreeYear: string; }) => {
 	const [degree, setDegree] = useState<Degree | null>(null)
@@ -43,19 +34,66 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 
 	console.log("degree", degree)
 
+	const [modifiersVisible, setModifiersVisible] = useState(false)
+
 	return (
 		<>
 			<div className="flex flex-col gap-2">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
-
-				{/* TODO: Move the rest of the buttons back up here */}
 				{degree && degree.RootBlock.innerBlocks.length > 0 && (
-					<div className="max-lg:w-60">
-						<SelectNonterminalConditions
-							nonterminalBlockID={degree?.RootBlock.blockContent.id}
-							conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
-							fetchDegree={fetchDegree}
-						/>
+					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
+						
+						{/* Convert this to a disclosure */}
+						<Button className="flex flex-row items-center border-2 border-black rounded-md h-10 p-1" onClick={() => setModifiersVisible(!modifiersVisible)}>
+							<p className="pl-1">Insert </p>
+
+							{/* TODO: Animate this instead of swapping icon */}
+							{modifiersVisible ? (
+								<ChevronLeftIcon className="lg:size-6 max-lg:size-8"></ChevronLeftIcon>
+							) : (
+								<ChevronRightIcon className="lg:size-6 max-lg:size-8"></ChevronRightIcon>
+							)}
+							
+						</Button>
+
+						{/* TODO: Add a transition for these options */}
+						{modifiersVisible && 
+							<>
+								<InsertNonterminalButton
+									blockID={degree?.RootBlock.blockID}
+									insertPosition={
+										degree?.RootBlock.innerBlocks.length != 0
+											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+											: 0
+									}
+									fetchDegree={fetchDegree}
+								/>
+								<InsertCourse
+									blockID={degree?.RootBlock.blockID}
+									insertPosition={
+										degree?.RootBlock.innerBlocks.length != 0
+											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+											: 0
+									}
+									fetchDegree={fetchDegree}
+								/>
+								<InsertTextButton
+									blockID={degree?.RootBlock.blockID}
+									insertPosition={
+										degree?.RootBlock.innerBlocks.length != 0
+											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+											: 0
+									}
+									fetchDegree={fetchDegree}
+								/>
+								<SelectNonterminalConditions
+									nonterminalBlockID={degree?.RootBlock.blockContent.id}
+									conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
+									fetchDegree={fetchDegree}
+								/>
+							</>
+						}
+						
 					</div>
 				)}
 				{degree?.RootBlock.blockType === "NonTerminal" && (
@@ -132,37 +170,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 							return <p>Unknown Block Type</p>
 					}
 				})}
-				{degree &&
-					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
-						<InsertNonterminalButton
-							blockID={degree?.RootBlock.blockID}
-							insertPosition={
-								degree?.RootBlock.innerBlocks.length != 0
-									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-									: 0
-							}
-							fetchDegree={fetchDegree}
-						/>
-						<InsertCourse
-							blockID={degree?.RootBlock.blockID}
-							insertPosition={
-								degree?.RootBlock.innerBlocks.length != 0
-									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-									: 0
-							}
-							fetchDegree={fetchDegree}
-						/>
-						<InsertTextButton
-							blockID={degree?.RootBlock.blockID}
-							insertPosition={
-								degree?.RootBlock.innerBlocks.length != 0
-									? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-									: 0
-							}
-							fetchDegree={fetchDegree}
-						/>
-					</div>
-				}
+
 
 				{/* Add a disclosure tag just for the footnotes to hide them when unwanted 
 

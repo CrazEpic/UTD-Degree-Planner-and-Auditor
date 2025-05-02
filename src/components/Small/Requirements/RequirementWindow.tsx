@@ -7,6 +7,7 @@ import MatcherBlockView from "../../BlockViews/MatcherBlockView"
 import TextBlockView from "../../BlockViews/TextBlockView"
 import NonterminalConditions from "../NonterminalConditions"
 import { parseDegree } from "../../../utils/degreeParsing"
+import { Mode } from "../../../types/requirementWindow"
 
 // Get footnotes some other way
 const footnotes: string[] = [
@@ -19,7 +20,7 @@ const footnotes: string[] = [
 	"7. BS in Data Science students can substitute STAT 3355 for CS 3341.",
 ]
 
-const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degreeYear: string;}) => {
+const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: string; degreeYear: string; mode: Mode; }) => {
 	const [degree, setDegree] = useState<Degree | null>(null)
 
 	const fetchDegree = useCallback(async () => {
@@ -53,11 +54,11 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 				{degree?.RootBlock.innerBlocks.map((inner) => {
 					switch (inner.blockType) {
 						case "NonTerminal":
-							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={"VIEW"}></BlockView>
+							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={mode}></BlockView>
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
-									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={"REQUIREMENT"}></CourseBlockView>
+									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={mode}></CourseBlockView>
 								</div>
 							)
 						case "Text":
@@ -66,7 +67,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 									<TextBlockView
 										textBlockID={inner.blockContent.id}
 										text={(inner.blockContent as TextBlock).text}
-										mode={"VIEW"}
+										mode={mode}
 										fetchDegree={fetchDegree}
 									/>
 								</div>

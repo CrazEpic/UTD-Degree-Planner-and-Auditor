@@ -4,8 +4,13 @@ import { UserContext } from "../../../contexts/UserContext"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import MatchingCourseView from "./MatchingCourseView"
 
+let count = 0
+
 const createDefaultCourse = () : Course =>  {
+    count += 1
+
     return {
+        id: count.toString(),
         prefix: "CR",
         number: "1234",
         name: "Course Name",
@@ -23,7 +28,7 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
 
         return {
             degreePlanCourseID: count.toString(),
-            degreePlanID: "",
+            degreePlanID: (plan?.degreePlanID as string),
             DegreePlan: (plan as DegreePlan),
             Course: createDefaultCourse(),
             prefix: "CR",

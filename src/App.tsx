@@ -9,6 +9,7 @@ import { MatcherContext } from "./contexts/MatcherContext"
 import { BrowserRouter, Routes, Route } from "react-router"
 import DegreeBuildingWindow from "./components/DegreeBuilding/DegreeBuildingWindow"
 import { CoursesContext } from "./contexts/CoursesContext"
+import CourseBuildingWindow from "./components/CourseBuilding/CourseBuildingWindow"
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -63,6 +64,8 @@ function App() {
 								path="/"
 								element={
 									<div className="flex flex-row h-[calc(100vh-55px)]">
+
+										{/* TODO: Refactor for everything to be inside "LargeWindow" -> rename StudentView? */}
 										<LargeWindow></LargeWindow>
 										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, close: endSearch }}>
 											<div className="max-lg:hidden">
@@ -73,6 +76,7 @@ function App() {
 								}
 							/>
 							<Route path="/buildDegree" element={<DegreeBuildingWindow></DegreeBuildingWindow>} />
+							<Route path="/buildCourse" element={<CourseBuildingWindow></CourseBuildingWindow>}></Route>
 						</Routes>
 					</CoursesContext.Provider>
 				</UserContext.Provider>

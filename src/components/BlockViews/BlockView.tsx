@@ -1,5 +1,5 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
-import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "../Small/Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
@@ -28,38 +28,65 @@ function BlockView({
 	fetchDegree: Function
 	mode: Mode
 }) {
-	// Extremely ugly, just testing understanding
-	const [selected, setSelected] = useState(false)
-	const handleClick = () => {
-		setSelected(!selected)
-	}
-	const MyButton = () => {
-		return (
-			<button className={"size-6 border-2 rounded-md hover:bg-green-200" + (selected ? " bg-[#154734]" : " bg-[#ffffff]")} onClick={handleClick}>
-				{" "}
-			</button>
-		)
-	}
 
-	const borderStyle = "border rounded-lg items-center p-2 pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "")
-
+	// TODO: Implement real progress
 	const progress: number[] = [
 		1, // getCompleted()
 		2, // getPlanned()
 		3, // getUnplanned()
 	]
 
+	const [modifiersVisible, setModifiersVisible] = useState(false)
+
 	return (
 		<>
-			<div className={borderStyle + (selected && " bg-orange-300 overflow-hidden")}>
+			<div className={"border rounded-lg items-center p-2 pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "")}>
 				<div className="flex flex-col gap-2">
 					{mode === "EDIT" && (
-						<div className="max-lg:w-60">
-							<SelectNonterminalConditions
-								nonterminalBlockID={requirement.blockContent.id}
-								conditions={(requirement.blockContent as NonTerminalBlock).conditions}
-								fetchDegree={fetchDegree}
-							/>
+						<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
+							<Button className="flex flex-row items-center border-2 border-black rounded-md h-10 p-1" onClick={() => setModifiersVisible(!modifiersVisible)}>
+								<p className="pl-1">Insert </p>
+
+								{/* TODO: Animate this instead of swapping icon */}
+								{modifiersVisible ? (
+									<ChevronLeftIcon className="lg:size-6 max-lg:size-8"></ChevronLeftIcon>
+								) : (
+									<ChevronRightIcon className="lg:size-6 max-lg:size-8"></ChevronRightIcon>
+								)}
+							</Button>
+
+							{/* TODO: Add a transition for these options */}
+							{modifiersVisible &&
+								<>
+									<InsertNonterminalButton
+										blockID={requirement.blockID}
+										insertPosition={
+											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+										}
+										fetchDegree={fetchDegree}
+									/>
+									<InsertCourse
+										blockID={requirement.blockID}
+										insertPosition={
+											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+										}
+										fetchDegree={fetchDegree}
+									/>
+									<InsertTextButton
+										blockID={requirement.blockID}
+										insertPosition={
+											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+										}
+										fetchDegree={fetchDegree}
+									/>
+									<SelectNonterminalConditions
+										nonterminalBlockID={requirement.blockContent.id}
+										conditions={(requirement.blockContent as NonTerminalBlock).conditions}
+										fetchDegree={fetchDegree}
+									/>
+								</>
+							}
+							
 						</div>
 					)}
 					<Disclosure defaultOpen={mode === "EDIT"}>
@@ -111,7 +138,9 @@ function BlockView({
 									<>
 										<ProgressBar progress={progress}></ProgressBar>
 										{checkbox ? (
-											<MyButton></MyButton>
+											<Button>
+												{/* TODO: MATH SEQUENCE selection? */}
+											</Button>
 										) : (
 											/*
 											Headless UI Button
@@ -208,31 +237,6 @@ function BlockView({
 							})}
 						</DisclosurePanel>
 					</Disclosure>
-					{mode === "EDIT" &&
-						<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
-							<InsertNonterminalButton
-								blockID={requirement.blockID}
-								insertPosition={
-									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-							<InsertCourse
-								blockID={requirement.blockID}
-								insertPosition={
-									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-							<InsertTextButton
-								blockID={requirement.blockID}
-								insertPosition={
-									requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-								}
-								fetchDegree={fetchDegree}
-							/>
-						</div>
-					}
 				</div>
 			</div>
 		</>

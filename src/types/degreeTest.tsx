@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from "react"
+// TODO: Break up type file into multiple files
 
 export type Course = {
+    id: string,
     prefix: string,
     number: string,
     name: string,
@@ -92,7 +93,6 @@ export type DegreePlan = {
     degreeYear:        string,      
     DegreePlanCourses: DegreePlanCourse[],
     // selectionOptions:  Json,       
-
 }
 
 export type DegreePlanCourse = {
@@ -130,11 +130,13 @@ export type NonTerminalBlock = {
     conditions: object,
 }
 
-// Update b/c why does this not have a course name attached
-export type CourseBlock = {
+// TODO: Simplify this type
+export type CourseBlock = {     
     id: string,
-    number: string,
+    Block: BlockRequirement,
+    Course: Course,
     prefix: string,
+    number: string,
 }
 
 export type TextBlock = {
@@ -167,5 +169,29 @@ export type Block = {
     innerBlocks: Block[],
     blockType: string,
     blockContent: NonTerminalBlock | CourseBlock | TextBlock | MatcherGroupBlock | FlagToggleBlock,
+}
+
+export type BlockRequirement = {
+    blockID: string,
+    blockName: string,
+    parentBlockID?: string,
+    ParentBlock?: BlockRequirement,
+    InnerBlocks: BlockRequirement[],
+
+    // TODO: use lexoranking for ordering
+    blockPosition: number,
+
+    // PLEASE ONLY USE ONE AND ONLY ONE OF THE BLOCKS BELOW
+    NonterminalBlock?: NonTerminalBlock,
+    CourseBlock?: CourseBlock,
+    TextBlock?: TextBlock,
+    MatcherGroupBlock?: MatcherGroupBlock,
+    FlagToggleBlock?: FlagToggleBlock,
+
+    // should only be true for the root block
+    Degree?: Degree,
+
+    // DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
+
 }
 
