@@ -5,11 +5,23 @@ import { useContext, useState } from "react"
 import { XMarkIcon, ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { MatcherContext } from "../../contexts/MatcherContext"
 
-function createDefaultCourseBlock() {
+const createDefaultCourseBlock = () => {
     return {
         id: "id",
-        number: "1337",
+        Block: {
+            blockID: "id",
+            blockName: "Computer Science I",
+            InnerBlocks: [],
+            blockPosition: 0,
+        },
+        Course: {
+            id: "id",
+            prefix: "CS",
+            number: "1337",
+            name: "Computer Science I",
+        },
         prefix: "CS",
+        number: "1337",
     }
 }
 
@@ -36,7 +48,7 @@ const cList : CourseBlock[] = [
     createDefaultCourseBlock(),
 ]
 
-function SearchWindow({conditions}: {conditions: any}) {
+const SearchWindow = ({conditions}: {conditions: any}) => {
 
     const [input, setInput] = useState('')
     const [courses, setCourses] = useState<CourseBlock[]>([])
@@ -100,7 +112,7 @@ function SearchWindow({conditions}: {conditions: any}) {
                             (
                                 <>
                                     {courses.map((course: CourseBlock) => 
-                                        <CourseBlockView course={course} name={"Course Name"} indent={false} mode={"NORMAL"}></CourseBlockView>
+                                        <CourseBlockView course={course} name={course.Course.name} indent={false} mode={"NORMAL"}></CourseBlockView>
                                     )}
                                 </>
                             ) : (

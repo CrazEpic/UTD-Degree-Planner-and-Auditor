@@ -28,7 +28,7 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
 
         return {
             degreePlanCourseID: count.toString(),
-            degreePlanID: "",
+            degreePlanID: (plan?.degreePlanID as string),
             DegreePlan: (plan as DegreePlan),
             Course: createDefaultCourse(),
             prefix: "CR",

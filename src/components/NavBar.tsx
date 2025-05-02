@@ -12,6 +12,9 @@ function NavBar() {
 					<NavLink to="/buildDegree" end className="text-white text-2xl font-bold">
 						Build Degree
 					</NavLink>
+					<NavLink to="/buildCourse" end className="text-white text-2xl font-bold">
+						Build Course
+					</NavLink>
 				</nav>
 				<UserCircleIcon className="ml-auto hover:bg-red-300 size-8" color="white"></UserCircleIcon>
 			</div>

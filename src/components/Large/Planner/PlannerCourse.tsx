@@ -48,7 +48,7 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 									onMouseOver={() => setDrop(true)}
 									onMouseLeave={() => setDrop(false)}
 								>
-									{/* Try right, if not possible go left */}
+									{/* TODO: Do not allow dropdown to be clipped */}
 									<p>Move Course</p>
 									<ChevronRightIcon className="size-6"></ChevronRightIcon>
 									{drop && (
