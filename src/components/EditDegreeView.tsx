@@ -42,6 +42,8 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
 				{degree && degree.RootBlock.innerBlocks.length > 0 && (
 					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
+						
+						{/* Convert this to a disclosure */}
 						<Button className="flex flex-row items-center border-2 border-black rounded-md h-10 p-1" onClick={() => setModifiersVisible(!modifiersVisible)}>
 							<p className="pl-1">Insert </p>
 

@@ -1,6 +1,6 @@
 import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch } from "@headlessui/react"
 import { useState, useEffect, useContext } from "react"
-import { CourseBlock, DegreePlan, DegreePlanCourse } from "../../types/degreeTest"
+import { Course, CourseBlock, DegreePlan, DegreePlanCourse } from "../../types/degreeTest"
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline"
 import { UserContext } from "../../contexts/UserContext"
 import BuildCourse from "./BuildCourse"
@@ -11,7 +11,7 @@ let num = 1300
 
 const createDefaultCourseBlock = () => {
     id += 1
-    num += 1
+    num += Math.ceil(Math.random() * 7)
 
     return {
         id: id.toString(),
@@ -32,34 +32,73 @@ const createDefaultCourseBlock = () => {
     }
 }
 
-let courseList2024 : CourseBlock[] = [
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-]
+const createCourseBlock = (course: Course) => {
+    return {
+        id: course.id,
+        Block: {
+            blockID: course.id,
+            blockName: course.name,
+            InnerBlocks: [],
+            blockPosition: 0,
+        },
+        Course: course,
+        prefix: course.prefix,
+        number: course.number,
+    }
+}
 
-let courseList2025 : CourseBlock[] = [
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-    createDefaultCourseBlock(),
-]
+const updateCourse = (course: Course, field: string, value: string) : CourseBlock => {
+    const newCourse = createCourseBlock(course)
+
+    switch (field) {
+        case "prefix":
+            newCourse.Course.prefix = value
+            newCourse.prefix = value
+            break
+        case "name":
+            newCourse.Course.name = value
+            break
+        case "number":
+            newCourse.Course.number = value
+            newCourse.number = value
+            break
+        default:
+            console.log("Wrong field")
+    }
+    return newCourse
+}
 
 const years = [2024, 2025]
 
 const CourseBuildingWindow = () => {
 
+    // Template course lists
+    const [courses24, setCourses24] = useState<CourseBlock[]>([
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+    ])
+
+    const [courses25, setCourses25] = useState<CourseBlock[]>([
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+        createDefaultCourseBlock(),
+    ])
+
+
+    // Could create an object for all of these states rather than having 7 of them
     // Years
     const [catalogueYears, setCatalogueYears] = useState<number[]>([])
     const [selectedYear, setSelectedYear] = useState(0)
@@ -103,10 +142,10 @@ const CourseBuildingWindow = () => {
             course.prefix = prefix
             course.number = number
             if (selectedYear === 2024) {
-                courseList2024 = [...courseList2024, course]
+                setCourses24([...courses24, course])
             }
             else {
-                courseList2025 = [...courseList2025, course]
+                setCourses25([...courses25, course])
             }
 
             // API call to add the course to the course catalogue
@@ -134,18 +173,40 @@ const CourseBuildingWindow = () => {
             })
     }
 
+    const updateCourses = (id:string, field: string, value: string) => {
+        switch (selectedYear) {
+            case 2024:
+                const newCourses24 = courses24
+                                        .map(course => {
+                                            if (course.id === id) {
+                                                return updateCourse(course.Course, field, value)
+                                            }
+                                            else {
+                                                return course
+                                            }
+                                        })
+                setCourses24(newCourses24)
+                break
+            case 2025:
+                const newCourses25 = courses25
+                                        .map(course => {
+                                            if (course.id === id) {
+                                                return updateCourse(course.Course, field, value)
+                                            }
+                                            else {
+                                                return course
+                                            }
+                                        })
+                setCourses25(newCourses25)
+                break
+            default:
+                console.log("Wrong year")
+        }
+            
+    }
+
     // Template code
     const plan = useContext(UserContext)?.user?.DegreePlan
-    const convertCourse = (course: CourseBlock) : DegreePlanCourse => {
-        return {
-            degreePlanCourseID: course.id,       
-            degreePlanID: (plan?.degreePlanID as string),    
-            DegreePlan: (plan as DegreePlan),   
-            Course: course.Course,       
-            prefix: course.prefix,        
-            number: course.number,            
-        }
-    }
 
     // Copied over from degree building window
     useEffect(() => {
@@ -237,12 +298,12 @@ const CourseBuildingWindow = () => {
                                     <ComboboxOptions static className="border-black border-2 rounded-md min-w-50 w-fit empty:invisible">
 
                                         {/* TODO: Replace with actual state once its integrated */}
-                                        {selectedYear === 2024 ? renderCourses(courseList2024) : renderCourses(courseList2025)}
+                                        {selectedYear === 2024 ? renderCourses(courses24) : renderCourses(courses25)}
                                     </ComboboxOptions>
                                 </div>
                             </Combobox>
 
-                            {/* Add a new course (similar) */}
+                            {/* Add a new course (move this to the other corner when small) */}
                             <div className="flex flex-col gap-2 h-fit">
                                 <div className="flex flex-col items-center w-fit">
                                     <p>Add New Course</p>
@@ -302,24 +363,9 @@ const CourseBuildingWindow = () => {
                     }
                 </div>
 
-
+                {/* Course building */}
                 {selectedYear !== 0 && selectedCourse !== null ? (
-                    <div className="flex flex-col gap-2 items-center border-black border-2 rounded-lg w-80 p-4">
-                        <div className="w-full">
-                            {/* Course View */}
-                                <BuildCourse course={convertCourse(selectedCourse)}></BuildCourse>
-                                
-                            {/* End View */}
-                        </div>
-
-                        {/* Requisites (probably some object keys idea) */}
-                        <div className="flex flex-row gap-2 border border-black rounded-md p-2 w-full">
-
-                            {/* Hook up the dropdown */}
-                            <ChevronDownIcon className="size-8"></ChevronDownIcon>
-                            <h1 className="text-lg">Requisites</h1>
-                        </div>
-                    </div>
+                    <BuildCourse course={selectedCourse} update={updateCourses}></BuildCourse>
                 ) : (
                     <div className="flex flex-col gap-2 max-lg:mt-4">
                         {selectedYear === 0 && <p>Please select a year</p>}
