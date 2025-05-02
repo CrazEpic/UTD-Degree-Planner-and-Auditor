@@ -3,6 +3,7 @@ import DegreeRouter from "./Degree/routes"
 import DegreePlanRouter from "./DegreePlan/routes"
 import BuildDegreeRouter from "./BuildDegree/routes"
 import UserRouter from "./User/routes"
+import TestAndTransferCreditsRouter from "./TestAndTransferCredits/routes"
 
 const router = Router()
 
@@ -10,6 +11,7 @@ router.use("/degree", DegreeRouter)
 router.use("/degreePlan", DegreePlanRouter)
 router.use("/buildDegree", BuildDegreeRouter)
 router.use("/user", UserRouter)
+router.use("/testAndTransferCredits", TestAndTransferCreditsRouter)
 
 router.post("/login", async (req, res) => {
 	res.send("login")

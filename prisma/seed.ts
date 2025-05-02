@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { Requisites } from "../src/server/types/requisites"
 import { DegreeConditions } from "../src/server/types/degree"
+import fs from "fs"
 
 const prisma = new PrismaClient()
 
@@ -24,568 +24,52 @@ const createCoreCurriculumAreas = async () => {
 }
 
 const createCourses = async () => {
-	const emptyRequisites: Requisites = {
-		prerequisites: { logicalOperator: "AND", requisites: [] },
-		corequisites: { logicalOperator: "AND", requisites: [] },
-		prerequisitesOrCorequisites: { logicalOperator: "AND", requisites: [] },
-	}
-
+	const courses = Object.values(JSON.parse(fs.readFileSync("./prisma/seedData/courseInfo.json", "utf-8")))
 	await prisma.course.createMany({
-		data: [
-			// not the actual prerequisites, just a placeholder for data
-			{
-				prefix: "MATH",
-				number: "2306",
-				name: "Analytic Geometry",
-				requisites: emptyRequisites,
-			},
-			{
-				prefix: "MATH",
-				number: "2312",
-				name: "Precalculus",
-				requisites: emptyRequisites,
-			},
-			{
-				prefix: "MATH",
-				number: "1326",
-				name: "Applied Calculus II",
-				requisites: emptyRequisites,
-			},
-			{
-				prefix: "MATH",
-				number: "2413",
-				name: "Differential Calculus",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "custom", text: "ALEKS score required" },
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 2306", minGrade: "C-" },
-									{ type: "course", courseID: "MATH 2312", minGrade: "C-" },
-								],
-							},
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "MATH",
-				number: "2417",
-				name: "Calculus I",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "custom", text: "ALEKS score required" },
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 2306", minGrade: "C-" },
-									{ type: "course", courseID: "MATH 2312", minGrade: "C-" },
-								],
-							},
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "ECS",
-				number: "1100",
-				name: "Introduction to Engineering and Computer Science",
-				requisites: {
-					prerequisites: {},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "1200",
-				name: "Introduction to Computer Science and Software Engineering",
-				requisites: {
-					prerequisites: {},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "1436",
-				name: "Programming Fundamentals",
-				requisites: {
-					prerequisites: {},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "1337",
-				name: "Computer Science I",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 1436", minGrade: "C" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "2305",
-				name: "Discrete Mathematics for Computing I",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "custom", text: "ALEKS score required" },
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 2413", minGrade: "C" },
-									{ type: "course", courseID: "MATH 2417", minGrade: "C" },
-								],
-							},
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "2336",
-				name: "Computer Science II",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 1337", minGrade: "C" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 2305", minGrade: "C" }],
-					},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "2340",
-				name: "Computer Architecture",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 1337", minGrade: "C" },
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "MATH",
-				number: "2418",
-				name: "Linear Algebra",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "course", courseID: "MATH 2306", minGrade: "C-" },
-							{ type: "course", courseID: "MATH 2413", minGrade: "C-" },
-							{ type: "course", courseID: "MATH 2417", minGrade: "C-" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "RHET",
-				number: "1302",
-				name: "Rhetoric",
-				requisites: {
-					prerequisites: {},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "PHYS",
-				number: "2125",
-				name: "Physics Laboratory I",
-				requisites: {
-					prerequisites: {},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "PHYS 2325" }],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "PHYS",
-				number: "2126",
-				name: "Physics Laboratory II",
-				requisites: {
-					prerequisites: {},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "PHYS 2326" }],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "PHYS",
-				number: "2325",
-				name: "Mechanics",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "course", courseID: "MATH 2413" },
-							{ type: "course", courseID: "MATH 2417" },
-						],
-					},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 2414" },
-									{ type: "course", courseID: "MATH 2419" },
-								],
-							},
-							{
-								logicalOperator: "AND",
-								requisites: [{ type: "course", courseID: "PHYS 2125" }],
-							},
-						],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "PHYS",
-				number: "2326",
-				name: "Electromagnetism and Waves",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "PHYS 2325" },
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 2414" },
-									{ type: "course", courseID: "MATH 2419" },
-								],
-							},
-						],
-					},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "PHYS 2126" }],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "MATH",
-				number: "2414",
-				name: "Integral Calculus",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "OR",
-						requisites: [
-							{ type: "course", courseID: "MATH 2413", minGrade: "C-" },
-							{ type: "course", courseID: "MATH 2417", minGrade: "C-" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "MATH",
-				number: "2419",
-				name: "Calculus II",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "MATH 2417", minGrade: "C-" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "3162",
-				name: "Professional Responsibility in Computer Science and Software Engineering",
-				requisites: {
-					prerequisites: {},
-					corequisites: {},
-					prerequisitesOrCorequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 3345" },
-							{ type: "course", courseID: "CS 3354" },
-						],
-					},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "3341",
-				name: "Probability and Statistics in Computer Science and Software Engineering",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{
-								logicalOperator: "OR",
-								requisites: [
-									{ type: "course", courseID: "MATH 1326", minGrade: "C" },
-									{ type: "course", courseID: "MATH 2414", minGrade: "C" },
-									{ type: "course", courseID: "MATH 2419", minGrade: "C" },
-								],
-							},
-							{ type: "course", courseID: "MATH 2418", minGrade: "C" },
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "3345",
-				name: "Data Structures and Introduction to Algorithmic Analysis",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2336", minGrade: "C" },
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 3341" }],
-					},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "3354",
-				name: "Software Engineering",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2336", minGrade: "C" },
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "ECS 2390" }],
-					},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "3377",
-				name: "Systems Programming in UNIX and Other Environments",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 2336", minGrade: "C" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "ECS",
-				number: "2390",
-				name: "Professional and Technical Communication",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "RHET 1302" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4141",
-				name: "Digital Systems Laboratory",
-				requisites: {
-					prerequisites: {},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 4341" }],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4337",
-				name: "Programming Language Paradigms",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2336", minGrade: "C" },
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-							{ type: "course", courseID: "CS 2340" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4341",
-				name: "Digital Logic and Computer Design",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2340" },
-							{ type: "course", courseID: "PHYS 2326" },
-						],
-					},
-					corequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 4141" }],
-					},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4347",
-				name: "Database Systems",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 3345" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4348",
-				name: "Operating Systems Concepts",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2340" },
-							{ type: "course", courseID: "CS 3377" },
-							{ type: "course", courseID: "CS 3345" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4349",
-				name: "Advanced Algorithm Design and Analysis",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 2305", minGrade: "C" },
-							{ type: "course", courseID: "CS 3345" },
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4384",
-				name: "Automata Theory",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [{ type: "course", courseID: "CS 2305", minGrade: "C" }],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-			{
-				prefix: "CS",
-				number: "4485",
-				name: "Computer Science Project",
-				requisites: {
-					prerequisites: {
-						logicalOperator: "AND",
-						requisites: [
-							{ type: "course", courseID: "CS 3345" },
-							{ type: "course", courseID: "CS 3354" },
-							{
-								type: "matcher",
-								match: "",
-								condition: {
-									prefix: "CS",
-									level: "4000",
-									minCreditHours: 3,
-								},
-							},
-							{
-								type: "matcher",
-								match: "",
-								condition: {
-									prefix: "CS",
-									level: "4000",
-									minCreditHours: 3,
-								},
-							},
-							{
-								type: "matcher",
-								match: "",
-								condition: {
-									prefix: "CS",
-									level: "4000",
-									minCreditHours: 3,
-								},
-							},
-						],
-					},
-					corequisites: {},
-					prerequisitesOrCorequisites: {},
-				},
-			},
-		],
+		data: courses,
+	})
+}
+
+const createTestCredits = async () => {
+	let testCredits = JSON.parse(fs.readFileSync("./prisma/seedData/testCreditInfo.json", "utf-8"))
+	testCredits = Object.keys(testCredits).map((testComponentID) => ({
+		testComponentID: testComponentID,
+		testType: testCredits[testComponentID].testType,
+		examName: testCredits[testComponentID].examName,
+		minScore: testCredits[testComponentID].minScore,
+		maxScore: testCredits[testComponentID].maxScore,
+		maxClaimableHours: testCredits[testComponentID].maxClaimableHours,
+		utdEquivalencyCourses: testCredits[testComponentID].utdEquivalencyCourses,
+	}))
+
+	await prisma.testEquivalency.createMany({
+		data: testCredits,
+	})
+}
+
+const createTransferCourses = async () => {
+	const transferInfo = JSON.parse(fs.readFileSync("./prisma/seedData/transferInfo.json", "utf-8"))
+	const transferSchools = Object.keys(transferInfo).map((schoolID) => ({
+		schoolID: schoolID,
+		schoolName: transferInfo[schoolID].schoolName ?? "",
+		schoolCity: transferInfo[schoolID].schoolCity ?? "",
+		schoolState: transferInfo[schoolID].schoolState ?? "",
+		schoolCountry: transferInfo[schoolID].schoolCountry ?? "",
+	}))
+	await prisma.transferSchool.createMany({
+		data: transferSchools,
+	})
+	const transferCourseEquivalencies = Object.keys(transferInfo).flatMap((schoolID) => {
+		return transferInfo[schoolID].TransferCourseEquivalencies.map((equivalency) => ({
+			transferCourseID: equivalency.transferCourseID,
+			transferCourseName: equivalency.transferCourseName,
+			utdCourseEquivalency: equivalency.utdCourseEquivalency,
+			utdCourseEquivalencyName: equivalency.utdCourseEquivalencyName,
+			transferSchoolSchoolID: equivalency.transferSchoolSchoolID,
+		}))
+	})
+	await prisma.transferCourseEquivalency.createMany({
+		data: transferCourseEquivalencies,
 	})
 }
 
@@ -936,6 +420,8 @@ const createCrazDegreePlan = async () => {
 const main = async () => {
 	await createCoreCurriculumAreas()
 	await createCourses()
+	await createTestCredits()
+	await createTransferCourses()
 	await createCSDegree()
 	await createUsers()
 	await createCrazDegreePlan()

@@ -8,21 +8,42 @@ datasource db {
 }
 
 model TestEquivalency {
-    testComponentID         String       @id @map("test_component_id")
-    courseEquivalency       Json         @map("course_equivalency")
-    maxClaimableCreditHours Int          @map("max_claimable_credit_hours")
-    TestCredit              TestCredit[]
+    testComponentID       String @id @map("test_component_id")
+    testType              String @map("test_type")
+    examName              String @map("exam_name")
+    minScore              Int    @map("min_score")
+    maxScore              Int    @map("max_score")
+    maxClaimableHours     Int    @map("max_claimable_hours")
+    utdEquivalencyCourses String @map("utd_equivalency_courses")
+
+    TestCredit TestCredit[]
 
     @@map("test_equivalency")
 }
 
-model TransferCourseEquivalency {
-    externalSchool    String           @map("external_school")
-    externalCourseID  String           @map("external_course_id")
-    courseEquivalency Json             @map("course_equivalency")
-    TransferCredit    TransferCredit[]
+model TransferSchool {
+    schoolID                    String                      @id @map("school_id")
+    schoolName                  String                      @map("school_name")
+    schoolCity                  String                      @map("school_city")
+    schoolState                 String                      @map("school_state")
+    schoolCountry               String                      @map("school_country")
+    TransferCourseEquivalencies TransferCourseEquivalency[]
 
-    @@id(name: "transferCourseEquivalencyID", [externalSchool, externalCourseID])
+    @@map("transfer_school")
+}
+
+model TransferCourseEquivalency {
+    // separate ID because you can have multiple courses for the same transfer course
+    transferCourseEquivalencyID String           @id @default(cuid()) @map("transfer_course_equivalency_id")
+    transferCourseID            String           @map("transfer_course_id")
+    transferCourseName          String           @map("transfer_course_name")
+    utdCourseEquivalency        String           @map("utd_course_equivalency")
+    utdCourseEquivalencyName    String           @map("utd_course_equivalency_name")
+    TransferSchool              TransferSchool   @relation(fields: [transferSchoolSchoolID], references: [schoolID])
+    transferSchoolSchoolID      String           @map("transfer_school_id")
+    TransferCredits             TransferCredit[]
+
+    @@index(fields: [utdCourseEquivalency])
     @@map("transfer_course_equivalency")
 }
 
@@ -161,14 +182,13 @@ model TestCredit {
 }
 
 model TransferCredit {
-    userID                    String                    @map("user_id")
-    User                      User                      @relation(fields: [userID], references: [userID])
-    TransferCourseEquivalency TransferCourseEquivalency @relation(fields: [externalSchool, externalCourseID], references: [externalSchool, externalCourseID])
-    externalSchool            String                    @map("external_school")
-    externalCourseID          String                    @map("external_course_id")
-    DegreePlanCourse          DegreePlanCourse[]
+    userID                      String                    @map("user_id")
+    User                        User                      @relation(fields: [userID], references: [userID])
+    TransferCourseEquivalency   TransferCourseEquivalency @relation(fields: [transferCourseEquivalencyID], references: [transferCourseEquivalencyID])
+    transferCourseEquivalencyID String                    @map("transfer_course_equivalency_id")
+    DegreePlanCourse            DegreePlanCourse[]
 
-    @@id(name: "transferCreditID", [userID, externalSchool, externalCourseID])
+    @@id(name: "transferCreditID", [userID, transferCourseEquivalencyID])
     @@map("transfer_credit")
 }
 
@@ -198,24 +218,23 @@ enum SemesterTerm {
 
 // has its own id because you can repeat a course for credit
 model DegreePlanCourse {
-    degreePlanCourseID String          @id @default(cuid()) @map("degree_plan_course_id")
-    degreePlanID       String          @map("degree_id")
-    DegreePlan         DegreePlan      @relation(fields: [degreePlanID], references: [degreePlanID])
-    Course             Course          @relation(fields: [prefix, number], references: [prefix, number])
-    prefix             String          @map("prefix")
-    number             String          @map("number")
+    degreePlanCourseID          String          @id @default(cuid()) @map("degree_plan_course_id")
+    degreePlanID                String          @map("degree_id")
+    DegreePlan                  DegreePlan      @relation(fields: [degreePlanID], references: [degreePlanID])
+    Course                      Course          @relation(fields: [prefix, number], references: [prefix, number])
+    prefix                      String          @map("prefix")
+    number                      String          @map("number")
     // only applicable for courses at utd
-    semesterYear       String?         @map("semester")
-    semesterTerm       SemesterTerm?   @map("term")
+    semesterYear                String?         @map("semester")
+    semesterTerm                SemesterTerm?   @map("term")
     // both test and transfer uses userID
-    userID             String?         @map("user_id")
+    userID                      String?         @map("user_id")
     // only applicable for test credits
-    TestCredit         TestCredit?     @relation(fields: [testComponentID, userID], references: [testComponentID, userID])
-    testComponentID    String?         @map("test_component_id")
+    TestCredit                  TestCredit?     @relation(fields: [testComponentID, userID], references: [testComponentID, userID])
+    testComponentID             String?         @map("test_component_id")
     // only applicable for transfer credits
-    TransferCredit     TransferCredit? @relation(fields: [externalSchool, externalCourseID, userID], references: [externalSchool, externalCourseID, userID])
-    externalSchool     String?         @map("external_school")
-    externalCourseID   String?         @map("external_course_id")
+    TransferCredit              TransferCredit? @relation(fields: [transferCourseEquivalencyID, userID], references: [transferCourseEquivalencyID, userID])
+    transferCourseEquivalencyID String?         @map("transfer_course_equivalency_id")
 
     DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
 
