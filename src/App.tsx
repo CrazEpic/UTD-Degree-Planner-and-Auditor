@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router"
 import DegreeBuildingWindow from "./components/DegreeBuilding/DegreeBuildingWindow"
 import { CoursesContext } from "./contexts/CoursesContext"
 import CourseBuildingWindow from "./components/CourseBuilding/CourseBuildingWindow"
+import LoginWindow from "./components/LoginWindow"
 
 function App() {
 	const [user, setUser] = useState(null)
@@ -36,7 +37,12 @@ function App() {
 	}
 
 	useEffect(() => {
+
+		// Replace fetch user with the userlogin
+		// Let user select a degree plan
 		fetchUser()
+
+
 		fetchCourses()
 	}, [])
 
@@ -76,7 +82,10 @@ function App() {
 								}
 							/>
 							<Route path="/buildDegree" element={<DegreeBuildingWindow></DegreeBuildingWindow>} />
-							<Route path="/buildCourse" element={<CourseBuildingWindow></CourseBuildingWindow>}></Route>
+							<Route path="/buildCourse" element={<CourseBuildingWindow></CourseBuildingWindow>} />
+
+							{/* Route here if user is not logged in */}
+							<Route path="/login" element={<LoginWindow></LoginWindow>} />
 						</Routes>
 					</CoursesContext.Provider>
 				</UserContext.Provider>
