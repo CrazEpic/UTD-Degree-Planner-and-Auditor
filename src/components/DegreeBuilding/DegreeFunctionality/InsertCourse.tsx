@@ -3,8 +3,22 @@ import { PlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 import { useContext, useState } from "react"
 import { CoursesContext } from "../../../contexts/CoursesContext"
+import { Course } from "../../../types/degreeTest"
 
-const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
+const getRelevance = (course: Course, query: string) => {
+	const prefix = course.prefix.toLowerCase();
+	const number = course.number.toLowerCase();
+	const name = course.name.toLowerCase();
+	
+	const fullCode = `${prefix} ${number}`;
+
+	if (fullCode === query || name === query) return 3;
+	if (fullCode.startsWith(query) || name.startsWith(query)) return 2;
+	if (fullCode.includes(query) || name.includes(query)) return 1;
+	return 0;
+}
+
+const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: string, insertPosition: number, fetchDegree: Function }) => {
 	const [selectedCourse, setSelectedCourse] = useState({
 		prefix: "",
 		number: "",
@@ -61,7 +75,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 				>
 					<div className="relative">
 						<ComboboxInput
-							displayValue={(course) => {
+							displayValue={(course: Course) => {
 								if (course.prefix === "" && course.number === "" && course.name === "") {
 									return ""
 								}
@@ -73,14 +87,30 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree }) => {
 							className=""
 						/>
 						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-10">
-
-							{/* TODO: Sort based on prefix, number, name */}
 							{courses
 								.filter((course) => {
 									if (query === "" || query === null) {
 										return true
 									}
 									return `${course.prefix} ${course.number} ${course.name}`.toLowerCase().includes(query.toLowerCase())
+								})
+								.sort((courseA, courseB) => {
+									const lowerQuery = query.toLowerCase()
+
+									const relevanceA = getRelevance(courseA, lowerQuery)
+									const relevanceB = getRelevance(courseB, lowerQuery)
+
+									if (relevanceA !== relevanceB) return relevanceB - relevanceA;
+
+									const prefixComp = courseA.prefix.localeCompare(courseB.prefix)
+									if (prefixComp !== 0) return prefixComp
+
+									const numberComp = parseInt(courseA.number) - parseInt(courseB.number)
+									if (numberComp !== 0) return numberComp;
+
+									return courseA.name.localeCompare(courseB.name)
+
+									
 								})
 								.slice(0, 100)
 								.map((course) => (
