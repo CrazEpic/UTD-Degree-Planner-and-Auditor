@@ -18,6 +18,7 @@ const getRelevance = (course: Course, query: string) => {
 	return 0;
 }
 
+// TODO: Style this properly
 const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: string, insertPosition: number, fetchDegree: Function }) => {
 	const [selectedCourse, setSelectedCourse] = useState({
 		prefix: "",

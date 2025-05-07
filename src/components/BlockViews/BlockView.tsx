@@ -1,9 +1,8 @@
-import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input, Transition } from "@headlessui/react"
+import { ChevronDownIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "../Small/Requirements/ProgressBar"
 import CourseBlockView from "./CourseBlockView"
-import { useState } from "react"
 import MatcherBlockView from "./MatcherBlockView"
 import axios from "axios"
 import DeleteBlockButton from "../DegreeBuilding/DegreeFunctionality/DeleteBlockButton"
@@ -21,12 +20,14 @@ function BlockView({
 	checkbox,
 	fetchDegree,
 	mode,
+	width,
 }: {
 	requirement: Block
 	depth: number
 	checkbox: boolean
 	fetchDegree: Function
 	mode: Mode
+	width: number
 }) {
 
 	// TODO: Implement real progress
@@ -36,208 +37,225 @@ function BlockView({
 		3, // getUnplanned()
 	]
 
-	const [modifiersVisible, setModifiersVisible] = useState(false)
-
 	return (
 		<>
 			<div className={"border rounded-lg items-center p-2 pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "")}>
-				<div className="flex flex-col gap-2">
-					{mode === "EDIT" && (
-						<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
-							<Button className="flex flex-row items-center border-2 border-black rounded-md h-10 p-1" onClick={() => setModifiersVisible(!modifiersVisible)}>
-								<p className="pl-1">Insert </p>
-
-								{/* TODO: Animate this instead of swapping icon */}
-								{modifiersVisible ? (
-									<ChevronLeftIcon className="lg:size-6 max-lg:size-8"></ChevronLeftIcon>
-								) : (
-									<ChevronRightIcon className="lg:size-6 max-lg:size-8"></ChevronRightIcon>
-								)}
-							</Button>
-
-							{/* TODO: Add a transition for these options */}
-							{modifiersVisible &&
+				{mode === "EDIT" && (
+					<div className="relative max-lg:w-60">
+						<Disclosure as="div" className="flex flex-col gap-1">
+							{({ open }) => (
 								<>
-									<InsertNonterminalButton
-										blockID={requirement.blockID}
-										insertPosition={
-											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-										}
-										fetchDegree={fetchDegree}
-									/>
-									<InsertCourse
-										blockID={requirement.blockID}
-										insertPosition={
-											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-										}
-										fetchDegree={fetchDegree}
-									/>
-									<InsertTextButton
-										blockID={requirement.blockID}
-										insertPosition={
-											requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-										}
-										fetchDegree={fetchDegree}
-									/>
-									<SelectNonterminalConditions
-										nonterminalBlockID={requirement.blockContent.id}
-										conditions={(requirement.blockContent as NonTerminalBlock).conditions}
-										fetchDegree={fetchDegree}
-									/>
-								</>
-							}
-							
-						</div>
-					)}
-					<Disclosure defaultOpen={mode === "EDIT"}>
-						<div className="flex flex-row items-center pr-2">
-							<div className="flex flex-row items-center gap-2">
-								<DisclosureButton className="group py-2" disabled={requirement.innerBlocks.length === 0}>
-									<ChevronDownIcon className="size-6 max-lg:size-8"></ChevronDownIcon>
-								</DisclosureButton>
+									<div className="relative z-10">
+										<DisclosureButton className="border-2 border-black rounded-md w-fit h-10 px-1">
+											{width > 1024 ? (
+												<div className="flex flex-row items-center">
+													<p className="pl-1">Insert</p>
+													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+												</div>
+											) : (
+												<div className="flex flex-row items-center">
+													<p className="pl-1">Insert</p>
+													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+												</div>
+											)}
+										</DisclosureButton>
+									</div>
 
-								{/* Text does not truncate or turn to ellipses*/}
-								{/* block name */}
-								{mode === "EDIT" ? (
-									<form
-										method="post"
-										onSubmit={async (event) => {
-											event.preventDefault()
-											const form = event.target as HTMLFormElement
-											const formData = new FormData(form)
-											const blockName = formData.get("blockName") as string
-											try {
-												axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
-													blockID: requirement.blockID,
-													blockName: blockName,
-												})
-												fetchDegree()
-											} catch (error) {
-												console.log(error)
-											}
-										}}
-									>
-										<label>
-											<Input
-												name="blockName"
-												placeholder="Enter new block name"
-												type="text"
-												defaultValue={requirement.blockName}
-												className={"border-2 border-black h-8 rounded-md w-60 px-1"}
-											/>
-										</label>
-									</form>
-								) : (
-									<p className="line-clamp-1 justify-self-start">{requirement.blockName}</p>
-								)}
-							</div>
-							<div className="flex flex-row ml-auto items-center justify-self-end mr-2 gap-2">
-								{mode === "EDIT" ? (
-									<DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />
-								) : (
-									<>
-										<ProgressBar progress={progress}></ProgressBar>
-										{checkbox ? (
-											<Button>
-												{/* TODO: MATH SEQUENCE selection? */}
-											</Button>
-										) : (
-											/*
-											Headless UI Button
-											Trying to understand how to use
-											the data-active and data-hover props
-											<Button></Button>
-											*/
-											<div className="size-6"></div>
-										)}
-									</>
-								)}
-							</div>
-						</div>
-						<DisclosurePanel className="flex flex-col gap-3 col-span-6">
-							{requirement.blockType === "NonTerminal" && (
-								<NonterminalConditions
-									nonterminalBlockID={requirement.blockContent.id}
-									conditions={(requirement.blockContent as NonTerminalBlock).conditions}
-									mode={mode}
-									fetchDegree={fetchDegree}
-								/>
-							)}
-							{/* Recursive Blocks */}
-							{requirement.innerBlocks.map((inner) => {
-								switch (inner.blockType) {
-									case "NonTerminal":
-										return (
-											<BlockView requirement={inner} depth={depth + 1} checkbox={checkbox} fetchDegree={fetchDegree} mode={mode}></BlockView>
-										)
-									case "Course":
-										return (
-											<div className="flex flex-row items-center w-full">
-												<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={mode !== "EDIT" ? true : false} mode={mode}></CourseBlockView>
-												{/* FIX THIS LATER PLEASE */}
-												{mode === "EDIT" && (
-													<Button
-														className="border-2 rounded-md hover:bg-red-200 m-1 size-fit"
-														onClick={async () => {
-															try {
-																await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
-																	data: {
-																		blockID: inner.blockID,
-																	},
-																})
-																fetchDegree()
-															} catch (error) {
-																console.log(error)
-															}
-														}}
-													>
-														<TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
-													</Button>
-												)}
-											</div>
-										)
-									case "Text":
-										return (
-											<div className="flex flex-row w-full">
-												<TextBlockView
-													textBlockID={inner.blockContent.id}
-													text={(inner.blockContent as TextBlock).text}
-													mode={mode}
+									<div className="lg:absolute lg:top-0 lg:ml-22 w-fit overflow-hidden">
+										<Transition
+											as="div"
+											show={open}
+											enter="transition-all duration-300 ease-in-out"
+											enterFrom="lg:-translate-x-full max-lg:max-h-0 opacity-0"
+											enterTo="lg:translate-x-0 max-lg:max-h-50 opacity-100"
+											leave="transition-all duration-300 ease-in-out"
+											leaveFrom="lg:translate-x-0 max-lg:max-h-50 opacity-100"
+											leaveTo="lg:-translate-x-full max-lg:max-h-0 opacity-0"
+										>
+											<DisclosurePanel
+												className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60 overflow-hidden"
+											>
+												<InsertNonterminalButton
+													blockID={requirement.blockID}
+													insertPosition={
+														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+													}
 													fetchDegree={fetchDegree}
 												/>
-												{/* FIX THIS LATER PLEASE */}
-												{mode === "EDIT" && (
-													<Button
-														className="border-2 rounded-md hover:bg-red-200"
-														onClick={async () => {
-															try {
-																await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
-																	data: {
-																		blockID: inner.blockID,
-																	},
-																})
-																fetchDegree()
-															} catch (error) {
-																console.log(error)
-															}
-														}}
-													>
-														<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
-													</Button>
-												)}
-											</div>
-										)
-									case "MatcherGroup":
-										return <MatcherBlockView matcher={inner.blockContent as MatcherGroupBlock}></MatcherBlockView>
-									case "FlagToggle":
-										return <p>{(inner.blockContent as FlagToggleBlock).flagId}</p>
-									default:
-										return <p>Unknown Block Type</p>
-								}
-							})}
-						</DisclosurePanel>
-					</Disclosure>
-				</div>
+												<InsertCourse
+													blockID={requirement.blockID}
+													insertPosition={
+														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+													}
+													fetchDegree={fetchDegree}
+												/>
+												<InsertTextButton
+													blockID={requirement.blockID}
+													insertPosition={
+														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+													}
+													fetchDegree={fetchDegree}
+												/>
+												<SelectNonterminalConditions
+													nonterminalBlockID={requirement.blockContent.id}
+													conditions={(requirement.blockContent as NonTerminalBlock).conditions}
+													fetchDegree={fetchDegree}
+												/>
+											</DisclosurePanel>
+										</Transition>
+									</div>
+								</>
+							)}
+						</Disclosure>	
+					</div>
+				)}
+				<Disclosure as="div" defaultOpen={mode === "EDIT"}>
+					{({ open }) => (
+						<>
+							<div className="flex flex-row items-center pr-2">
+								<div className="flex flex-row items-center gap-2">
+									<DisclosureButton className="group py-2">
+										<ChevronDownIcon className={"size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`}></ChevronDownIcon>
+									</DisclosureButton>
+
+									{/* Text does not truncate or turn to ellipses*/}
+									{/* block name */}
+									{mode === "EDIT" ? (
+										<form
+											method="post"
+											onSubmit={async (event) => {
+												event.preventDefault()
+												const form = event.target as HTMLFormElement
+												const formData = new FormData(form)
+												const blockName = formData.get("blockName") as string
+												try {
+													axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
+														blockID: requirement.blockID,
+														blockName: blockName,
+													})
+													fetchDegree()
+												} catch (error) {
+													console.log(error)
+												}
+											}}
+										>
+											<label>
+												<Input
+													name="blockName"
+													placeholder="Enter new block name"
+													type="text"
+													defaultValue={requirement.blockName}
+													className={"border-2 border-black h-8 rounded-md w-60 px-1"}
+												/>
+											</label>
+										</form>
+									) : (
+										<p className="line-clamp-1 justify-self-start">{requirement.blockName}</p>
+									)}
+								</div>
+								<div className="flex flex-row ml-auto items-center justify-self-end mr-2 gap-2">
+									{mode === "EDIT" ? (
+										<DeleteBlockButton blockID={requirement.blockID} fetchDegree={fetchDegree} />
+									) : (
+										<>
+											<ProgressBar progress={progress}></ProgressBar>
+											{checkbox ? (
+												<Button>
+													{/* TODO: Block Selection */}
+												</Button>
+											) : (
+												// Place holder for block selection
+												<div className="size-6"></div>
+											)}
+										</>
+									)}
+								</div>
+							</div>
+							<DisclosurePanel className="flex flex-col gap-3 col-span-6">
+								{requirement.blockType === "NonTerminal" && (
+									<NonterminalConditions
+										nonterminalBlockID={requirement.blockContent.id}
+										conditions={(requirement.blockContent as NonTerminalBlock).conditions}
+										mode={mode}
+										fetchDegree={fetchDegree}
+									/>
+								)}
+								{/* Recursive Blocks */}
+								{requirement.innerBlocks.map((inner) => {
+									switch (inner.blockType) {
+										case "NonTerminal":
+											return (
+												<BlockView requirement={inner} depth={depth + 1} checkbox={checkbox} fetchDegree={fetchDegree} mode={mode} width={width}></BlockView>
+											)
+										case "Course":
+											return (
+												<div className="flex flex-row items-center w-full">
+													<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={mode !== "EDIT" ? true : false} mode={mode}></CourseBlockView>
+													{/* FIX THIS LATER PLEASE */}
+													{mode === "EDIT" && (
+														<Button
+															className="border-2 rounded-md hover:bg-red-200 m-1 size-fit"
+															onClick={async () => {
+																try {
+																	await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																		data: {
+																			blockID: inner.blockID,
+																		},
+																	})
+																	fetchDegree()
+																} catch (error) {
+																	console.log(error)
+																}
+															}}
+														>
+															<TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
+														</Button>
+													)}
+												</div>
+											)
+										case "Text":
+											return (
+												<div className="flex flex-row w-full">
+													<TextBlockView
+														textBlockID={inner.blockContent.id}
+														text={(inner.blockContent as TextBlock).text}
+														mode={mode}
+														fetchDegree={fetchDegree}
+													/>
+													{/* FIX THIS LATER PLEASE */}
+													{mode === "EDIT" && (
+														<Button
+															className="border-2 rounded-md hover:bg-red-200"
+															onClick={async () => {
+																try {
+																	await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																		data: {
+																			blockID: inner.blockID,
+																		},
+																	})
+																	fetchDegree()
+																} catch (error) {
+																	console.log(error)
+																}
+															}}
+														>
+															<TrashIcon className="min-w-6 min-h-6"></TrashIcon>
+														</Button>
+													)}
+												</div>
+											)
+										case "MatcherGroup":
+											return <MatcherBlockView matcher={inner.blockContent as MatcherGroupBlock}></MatcherBlockView>
+										case "FlagToggle":
+											return <p>{(inner.blockContent as FlagToggleBlock).flagId}</p>
+										default:
+											return <p>Unknown Block Type</p>
+									}
+								})}
+							</DisclosurePanel>
+						</>
+					)}
+				</Disclosure>
 			</div>
 		</>
 	)

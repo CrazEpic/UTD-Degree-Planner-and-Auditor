@@ -6,8 +6,8 @@ import InsertCourse from "./DegreeFunctionality/InsertCourse"
 import InsertNonterminalButton from "./DegreeFunctionality/InsertNonterminalButton"
 import InsertTextButton from "./DegreeFunctionality/InsertTextButton"
 import SelectNonterminalConditions from "./DegreeFunctionality/SelectNonterminalConditions"
-import { Button } from "@headlessui/react"
-import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { Button, Disclosure, DisclosureButton, DisclosurePanel, Transition } from "@headlessui/react"
+import { ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import CourseBlockView from "../BlockViews/CourseBlockView"
 import MatcherBlockView from "../BlockViews/MatcherBlockView"
 import TextBlockView from "../BlockViews/TextBlockView"
@@ -28,72 +28,111 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 		}
 	}, [degreeName, degreeYear])
 
+	const [width, setWidth] = useState(window.innerWidth)
+
+	// Will update the width value 200ms after window resizing is finished
+	useEffect(() => {
+		let timeoutId: ReturnType<typeof setTimeout>
+	
+		const handleResize = () => {
+			clearTimeout(timeoutId)
+			timeoutId = setTimeout(() => {
+				setWidth(window.innerWidth)
+			}, 200)
+		}
+	
+		window.addEventListener('resize', handleResize)
+		return () => {
+			clearTimeout(timeoutId)
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
+
 	useEffect(() => {
 		fetchDegree()
 	}, [degreeName, degreeYear, fetchDegree])
-
-	console.log("degree", degree)
-
-	const [modifiersVisible, setModifiersVisible] = useState(false)
 
 	return (
 		<>
 			<div className="flex flex-col gap-2">
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
 				{degree && (
-					<div className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60">
-						
-						{/* Convert this to a disclosure */}
-						<Button className="flex flex-row items-center border-2 border-black rounded-md h-10 p-1" onClick={() => setModifiersVisible(!modifiersVisible)}>
-							<p className="pl-1">Insert </p>
+					<div className="relative max-lg:w-60">
+						<Disclosure as="div" className="flex flex-col gap-1">
+							{({ open }) => (
+								<>
+									<div className="relative z-10">
+										<DisclosureButton className="border-2 border-black rounded-md w-fit h-10 px-1">
+											{width > 1024 ? (
+												<div className="flex flex-row items-center">
+													<p className="pl-1">Insert</p>
+													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+												</div>
+											) : (
+												<div className="flex flex-row items-center">
+													<p className="pl-1">Insert</p>
+													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+												</div>
+											)}
+										</DisclosureButton>
+									</div>
 
-							{/* TODO: Animate this instead of swapping icon */}
-							{modifiersVisible ? (
-								<ChevronLeftIcon className="lg:size-6 max-lg:size-8"></ChevronLeftIcon>
-							) : (
-								<ChevronRightIcon className="lg:size-6 max-lg:size-8"></ChevronRightIcon>
+									<div className="lg:absolute lg:top-0 lg:ml-22 w-fit overflow-hidden">
+										<Transition
+											as="div"
+											show={open}
+											enter="transition-all duration-300 ease-in-out"
+											enterFrom="lg:-translate-x-full max-lg:max-h-0 opacity-0"
+											enterTo="lg:translate-x-0 max-lg:max-h-50 opacity-100"
+											leave="transition-all duration-300 ease-in-out"
+											leaveFrom="lg:translate-x-0 max-lg:max-h-50 opacity-100"
+											leaveTo="lg:-translate-x-full max-lg:max-h-0 opacity-0"
+										>
+											<div>
+												<DisclosurePanel
+													className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
+												>
+													<InsertNonterminalButton
+														blockID={degree?.RootBlock.blockID}
+														insertPosition={
+															degree?.RootBlock.innerBlocks.length != 0
+																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+																: 0
+														}
+														fetchDegree={fetchDegree}
+													/>
+													<InsertCourse
+														blockID={degree?.RootBlock.blockID}
+														insertPosition={
+															degree?.RootBlock.innerBlocks.length != 0
+																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+																: 0
+														}
+														fetchDegree={fetchDegree}
+													/>
+													<InsertTextButton
+														blockID={degree?.RootBlock.blockID}
+														insertPosition={
+															degree?.RootBlock.innerBlocks.length != 0
+																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
+																: 0
+														}
+														fetchDegree={fetchDegree}
+													/>
+													<SelectNonterminalConditions
+														nonterminalBlockID={degree?.RootBlock.blockContent.id}
+														conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
+														fetchDegree={fetchDegree}
+													/>
+												</DisclosurePanel>
+											</div>
+											
+										</Transition>
+									</div>
+
+								</>
 							)}
-							
-						</Button>
-
-						{/* TODO: Add a transition for these options */}
-						{modifiersVisible && 
-							<>
-								<InsertNonterminalButton
-									blockID={degree?.RootBlock.blockID}
-									insertPosition={
-										degree?.RootBlock.innerBlocks.length != 0
-											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-											: 0
-									}
-									fetchDegree={fetchDegree}
-								/>
-								<InsertCourse
-									blockID={degree?.RootBlock.blockID}
-									insertPosition={
-										degree?.RootBlock.innerBlocks.length != 0
-											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-											: 0
-									}
-									fetchDegree={fetchDegree}
-								/>
-								<InsertTextButton
-									blockID={degree?.RootBlock.blockID}
-									insertPosition={
-										degree?.RootBlock.innerBlocks.length != 0
-											? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-											: 0
-									}
-									fetchDegree={fetchDegree}
-								/>
-								<SelectNonterminalConditions
-									nonterminalBlockID={degree?.RootBlock.blockContent.id}
-									conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
-									fetchDegree={fetchDegree}
-								/>
-							</>
-						}
-						
+						</Disclosure>	
 					</div>
 				)}
 				{degree?.RootBlock.blockType === "NonTerminal" && (
@@ -108,7 +147,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 				{degree?.RootBlock.innerBlocks.map((inner) => {
 					switch (inner.blockType) {
 						case "NonTerminal":
-							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={"EDIT"}></BlockView>
+							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={"EDIT"} width={width}></BlockView>
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
