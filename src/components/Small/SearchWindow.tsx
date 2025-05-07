@@ -112,7 +112,7 @@ const SearchWindow = ({conditions}: {conditions: any}) => {
                             (
                                 <>
                                     {courses.map((course: CourseBlock) => 
-                                        <CourseBlockView course={course} name={course.Course.name} indent={false} mode={"NORMAL"}></CourseBlockView>
+                                        <CourseBlockView course={course} indent={false} mode={"NORMAL"}></CourseBlockView>
                                     )}
                                 </>
                             ) : (

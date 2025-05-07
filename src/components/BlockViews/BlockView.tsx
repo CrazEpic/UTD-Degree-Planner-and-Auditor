@@ -182,7 +182,7 @@ function BlockView({
 									)}
 								</div>
 							</div>
-							<DisclosurePanel className="flex flex-col gap-3 col-span-6">
+							<DisclosurePanel className="flex flex-col gap-2">
 								{requirement.blockType === "NonTerminal" && (
 									<NonterminalConditions
 										nonterminalBlockID={requirement.blockContent.id}
@@ -201,7 +201,7 @@ function BlockView({
 										case "Course":
 											return (
 												<div className="flex flex-row items-center w-full">
-													<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={mode !== "EDIT" ? true : false} mode={mode}></CourseBlockView>
+													<CourseBlockView course={inner.blockContent as CourseBlock} indent={mode !== "EDIT" ? true : false} mode={mode}></CourseBlockView>
 													{/* FIX THIS LATER PLEASE */}
 													{mode === "EDIT" && (
 														<Button

@@ -7,12 +7,10 @@ import axios from "axios"
 
 const CourseBlockView = ({
 	course,
-	name,
 	indent,
 	mode,
 }: {
 	course: CourseBlock,
-	name: string,
 	indent: boolean,
 	mode: string,
 }) => {
@@ -30,10 +28,12 @@ const CourseBlockView = ({
 	return (
 		<div className={"flex flex-row gap-2 border rounded-lg items-center justify-between p-2 pr-0 w-full " + (indent && "border-r-0 rounded-r-none")}>
 			<p className="line-clamp-2 max-w-15/20">
-				<a className="text-[#037b3f]" href="">
+
+				{/* Currently has the assumption of the catalog year as 2024 */}
+				<a className="text-[#037b3f]" href={`https://catalog.utdallas.edu/2024/undergraduate/courses/${course.prefix.toLowerCase() + course.number}`}>
 					{course.prefix + " " + course.number + " "}
 				</a>
-				{name}
+				{course.Course.name}
 			</p>
 			{planned ? (
 				<p className="underline ml-auto mr-4">Planned</p>

@@ -12,6 +12,7 @@ const getRelevance = (course: Course, query: string) => {
 	
 	const fullCode = `${prefix} ${number}`;
 
+	// TODO: Prefix is weighted improperly
 	if (fullCode === query || name === query) return 3;
 	if (fullCode.startsWith(query) || name.startsWith(query)) return 2;
 	if (fullCode.includes(query) || name.includes(query)) return 1;

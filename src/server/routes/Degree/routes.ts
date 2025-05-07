@@ -42,8 +42,8 @@ router.get("/:name/:year", async (req, res) => {
 		where: { id: { in: blockIDs } },
 	})
 	const courseBlocks = await req.context.prisma.courseBlock.findMany({
-		where: { id: { in: blockIDs } },
-	})
+        where: { id: { in: blockIDs } }, include: {Course: true}
+    })
 	const textBlocks = await req.context.prisma.textBlock.findMany({
 		where: { id: { in: blockIDs } },
 	})

@@ -142,7 +142,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
-									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={"EDIT"}></CourseBlockView>
+									<CourseBlockView course={inner.blockContent as CourseBlock} indent={true} mode={"EDIT"}></CourseBlockView>
 									{/* FIX THIS LATER PLEASE */}
                                     <Button
                                         className="border-2 rounded-md hover:bg-red-200 size-fit"

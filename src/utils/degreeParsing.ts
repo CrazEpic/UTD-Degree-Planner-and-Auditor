@@ -39,6 +39,12 @@ const parseBlock = (data:any) : Block => {
 		block.blockType = "Course"
 		block.blockContent = {
 			id: data.CourseBlock.id,
+			Course: {
+				id: data.CourseBlock.id,
+				prefix: data.CourseBlock.prefix,
+				number: data.CourseBlock.number,
+				name: data.CourseBlock.Course.name,
+			},
 			number: data.CourseBlock.number,
 			prefix: data.CourseBlock.prefix,
 		}

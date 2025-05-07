@@ -130,7 +130,8 @@ export type NonTerminalBlock = {
     conditions: object,
 }
 
-// TODO: Simplify this type
+// TODO: Simplify this type (preferably remove Course)
+// Block is not currently being parsed
 export type CourseBlock = {     
     id: string,
     Block: BlockRequirement,

@@ -58,7 +58,7 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">
-									<CourseBlockView course={inner.blockContent as CourseBlock} name={inner.blockName} indent={true} mode={mode}></CourseBlockView>
+									<CourseBlockView course={inner.blockContent as CourseBlock} indent={true} mode={mode}></CourseBlockView>
 								</div>
 							)
 						case "Text":
