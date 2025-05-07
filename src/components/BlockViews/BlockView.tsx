@@ -13,6 +13,7 @@ import TextBlockView from "./TextBlockView"
 import { Mode } from "../../types/requirementWindow"
 import SelectNonterminalConditions from "../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
 import NonterminalConditions from "../Small/NonterminalConditions"
+import { useState, useEffect } from "react"
 
 function BlockView({
 	requirement,
@@ -37,31 +38,48 @@ function BlockView({
 		3, // getUnplanned()
 	]
 
+	const [inTransition, setInTransition] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setInTransition(false)
+		}, 300)
+	
+		return () => clearTimeout(timeout)
+		}, [isOpen])
+
 	return (
 		<>
 			<div className={"border rounded-lg items-center p-2 pr-0 " + (depth > 1 ? "border-r-0 rounded-r-none " : "")}>
 				{mode === "EDIT" && (
 					<div className="relative max-lg:w-60">
-						<Disclosure as="div" className="flex flex-col gap-1">
+						<Disclosure as="div" className="flex lg:flex-row max-lg:flex-col max-lg:gap-2">
 							{({ open }) => (
 								<>
-									<div className="relative z-10">
-										<DisclosureButton className="border-2 border-black rounded-md w-fit h-10 px-1">
+									<div className="relative z-10 lg:pr-2">
+										<DisclosureButton 
+											className="border-2 border-black rounded-md w-fit h-10 px-1"
+											onClick={() => {
+												setInTransition(true)
+												setIsOpen(open)
+											}}
+										>
 											{width > 1024 ? (
 												<div className="flex flex-row items-center">
 													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
 												</div>
 											) : (
 												<div className="flex flex-row items-center">
 													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
 												</div>
 											)}
 										</DisclosureButton>
 									</div>
 
-									<div className="lg:absolute lg:top-0 lg:ml-22 w-fit overflow-hidden">
+									<div className={"w-fit " + (inTransition && "overflow-hidden")}>
 										<Transition
 											as="div"
 											show={open}
@@ -115,7 +133,7 @@ function BlockView({
 							<div className="flex flex-row items-center pr-2">
 								<div className="flex flex-row items-center gap-2">
 									<DisclosureButton className="group py-2">
-										<ChevronDownIcon className={"size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`}></ChevronDownIcon>
+										<ChevronDownIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`}></ChevronDownIcon>
 									</DisclosureButton>
 
 									{/* Text does not truncate or turn to ellipses*/}
@@ -165,7 +183,7 @@ function BlockView({
 												</Button>
 											) : (
 												// Place holder for block selection
-												<div className="size-6"></div>
+												<div className="size-8"></div>
 											)}
 										</>
 									)}
@@ -208,7 +226,7 @@ function BlockView({
 																}
 															}}
 														>
-															<TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
+															<TrashIcon className="size-8"></TrashIcon>
 														</Button>
 													)}
 												</div>

@@ -15,8 +15,7 @@ import NonterminalConditions from "../Small/NonterminalConditions"
 import { parseDegree } from "../../utils/degreeParsing"
 
 // TODO: Add footnotes
-
-const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degreeYear: string; }) => {
+const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeYear: string; }) => {
 	const [degree, setDegree] = useState<Degree | null>(null)
 
 	const fetchDegree = useCallback(async () => {
@@ -48,6 +47,17 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 		}
 	}, [])
 
+	const [inTransition, setInTransition] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
+
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+		  setInTransition(false)
+		}, 300)
+	
+		return () => clearTimeout(timeout)
+	  }, [isOpen])
+
 	useEffect(() => {
 		fetchDegree()
 	}, [degreeName, degreeYear, fetchDegree])
@@ -58,26 +68,32 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 				<h1 className="text-2xl text-center">{`${degree?.degreeName} ${degree?.degreeYear}`}</h1>
 				{degree && (
 					<div className="relative max-lg:w-60">
-						<Disclosure as="div" className="flex flex-col gap-1">
+						<Disclosure as="div" className="flex lg:flex-row max-lg:flex-col max-lg:gap-2">
 							{({ open }) => (
 								<>
-									<div className="relative z-10">
-										<DisclosureButton className="border-2 border-black rounded-md w-fit h-10 px-1">
+									<div className="relative z-10 lg:pr-2">
+										<DisclosureButton 
+											className="border-2 border-black rounded-md w-fit h-10 px-1"
+											onClick={() => {
+												setInTransition(true)
+												setIsOpen(open)
+											}}
+										>
 											{width > 1024 ? (
 												<div className="flex flex-row items-center">
 													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
 												</div>
 											) : (
 												<div className="flex flex-row items-center">
 													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"lg:size-6 max-lg:size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
+													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
 												</div>
 											)}
 										</DisclosureButton>
 									</div>
 
-									<div className="lg:absolute lg:top-0 lg:ml-22 w-fit overflow-hidden">
+									<div className={"w-fit " + (inTransition && "overflow-hidden")}>
 										<Transition
 											as="div"
 											show={open}
@@ -168,7 +184,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
                                             }
                                         }}
                                     >
-                                        <TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
+                                        <TrashIcon className="size-8"></TrashIcon>
                                     </Button>
 								</div>
 							)
@@ -197,7 +213,7 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
                                             }
                                         }}
                                     >
-                                        <TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
+                                        <TrashIcon className="size-8"></TrashIcon>
                                     </Button>
 								</div>
 							)
@@ -223,4 +239,4 @@ const RequirementWindow = ({ degreeName, degreeYear}: { degreeName: string; degr
 	)
 }
 
-export default RequirementWindow
+export default EditDegreeView
