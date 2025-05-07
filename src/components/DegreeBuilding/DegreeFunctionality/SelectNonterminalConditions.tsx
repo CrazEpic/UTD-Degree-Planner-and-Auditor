@@ -86,7 +86,7 @@ const SelectNonterminalConditions = ({
 		<>
 			<Listbox value={selectedConditions} onChange={handleConditionChange} multiple>
 				<ListboxButton className="flex flex-row gap-1 items-center border-2 rounded-md h-10 p-1 hover:bg-green-200 line-clamp-1">
-					<ChevronDownIcon className="size-6 max-lg:size-8"></ChevronDownIcon>
+					<ChevronDownIcon className="size-8"></ChevronDownIcon>
 					<p className="text-nowrap pr-1">Select Conditions</p>
 				</ListboxButton>
 				<ListboxOptions className="border-black border-2 rounded-md mt-1 bg-white" anchor="bottom">

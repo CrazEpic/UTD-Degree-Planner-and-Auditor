@@ -40,7 +40,7 @@ const CourseBlockView = ({
 			) : (
 				(mode as string) === "NORMAL" ? (
 					<Button
-						className="hover:bg-blue-200 ml-auto mr-4 size-6 max-lg:size-8"
+						className="hover:bg-blue-200 ml-auto mr-4 size-8"
 						onClick={async () => {
 							// TODO: check if course is already in degree plan, should not be a thing but maybe
 							try {

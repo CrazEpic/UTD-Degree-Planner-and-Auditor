@@ -19,7 +19,7 @@ const DeleteBlockButton = ({ blockID, fetchDegree }) => {
 				}
 			}}
 		>
-			<TrashIcon className="lg:size-6 max-lg:size-8"></TrashIcon>
+			<TrashIcon className="size-8"></TrashIcon>
 		</Button>
 	)
 }

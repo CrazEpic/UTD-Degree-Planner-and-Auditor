@@ -58,9 +58,9 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: stri
 							console.log(error)
 						}
 					}}
-					className="hover:bg-blue-200 size-6 max-lg:size-8"
+					className="hover:bg-blue-200 size-8"
 				>
-					<PlusIcon className="size-6 max-lg:size-8"></PlusIcon>
+					<PlusIcon className="size-8"></PlusIcon>
 				</Button>
 				<Combobox
 					value={selectedCourse}
@@ -87,7 +87,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: stri
 							placeholder="Search for course"
 							className=""
 						/>
-						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-10">
+						<ComboboxOptions className="absolute bg-white border-black border-2 max-h-60 overflow-y-auto z-20">
 							{courses
 								.filter((course) => {
 									if (query === "" || query === null) {

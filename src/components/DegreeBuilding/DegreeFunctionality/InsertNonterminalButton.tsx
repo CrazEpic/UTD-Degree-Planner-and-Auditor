@@ -2,7 +2,7 @@ import { Button } from "@headlessui/react"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 
-const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree }) => {
+const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree } : { blockID: string, insertPosition: number, fetchDegree: Function }) => {
 	return (
 		<Button
 			className="flex flex-row gap-1 border-2 rounded-md h-10 p-1 items-center hover:bg-green-200 lg:w-min max-lg:w-full"
@@ -21,7 +21,7 @@ const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree }) => {
 				}
 			}}
 		>
-			<PlusIcon className="size-6 max-lg:size-8"></PlusIcon>
+			<PlusIcon className="size-8"></PlusIcon>
 			<p className="text-nowrap pr-1">Nonterminal Block</p>
 		</Button>
 	)

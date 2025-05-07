@@ -32,7 +32,7 @@ const MatchingCourseView = ({
                             updateCourse("REMOVE", course.id)
                         }
                     }}
-                    className="group block lg:size-6 max-lg:size-8 rounded border bg-white"
+                    className="group block size-8 rounded border bg-white"
                 >
                     {selected && <CheckIcon></CheckIcon>}
                 </Checkbox>
