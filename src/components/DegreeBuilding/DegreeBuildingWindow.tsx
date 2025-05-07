@@ -6,9 +6,7 @@ import { PlusIcon } from "@heroicons/react/24/outline"
 import EditDegreeView from "./EditDegreeView"
 
 
-/* 
-	TODO: REACT IS SLOW
-*/
+/* TODO: REACT IS SLOW */
 const DegreeBuildingWindow = () => {
 	const [degrees, setDegrees] = useState([])
 	const [selectedDegree, setSelectedDegree] = useState({
@@ -19,7 +17,7 @@ const DegreeBuildingWindow = () => {
 	const [addDegreeVisible, setAddDegreeVisible] = useState(false)
 	const [previewMode, setPreviewMode] = useState(false)
 
-	// Undefined Undefined
+	// Undefined Undefined (can be fixed with timeout + placeholder info)
 	const fetchDegrees = async () => {
 		try {
 			const response = await axios.get("http://localhost:3000/api/degree/degrees")

@@ -42,7 +42,7 @@ const CourseBlockView = ({
 					<Button
 						className="hover:bg-blue-200 ml-auto mr-4 size-8"
 						onClick={async () => {
-							// TODO: check if course is already in degree plan, should not be a thing but maybe
+							// TODO: Implement planned courses
 							try {
 								const response = await axios.post("http://localhost:3000/api/degreePlan/addCourse", {
 									degreePlanID: user?.DegreePlan?.degreePlanID,
