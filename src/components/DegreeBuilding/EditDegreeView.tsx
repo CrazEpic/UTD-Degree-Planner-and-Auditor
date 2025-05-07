@@ -27,26 +27,6 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 		}
 	}, [degreeName, degreeYear])
 
-	const [width, setWidth] = useState(window.innerWidth)
-
-	// Will update the width value 200ms after window resizing is finished
-	useEffect(() => {
-		let timeoutId: ReturnType<typeof setTimeout>
-	
-		const handleResize = () => {
-			clearTimeout(timeoutId)
-			timeoutId = setTimeout(() => {
-				setWidth(window.innerWidth)
-			}, 200)
-		}
-	
-		window.addEventListener('resize', handleResize)
-		return () => {
-			clearTimeout(timeoutId)
-			window.removeEventListener('resize', handleResize)
-		}
-	}, [])
-
 	const [inTransition, setInTransition] = useState(false)
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -76,20 +56,14 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 											className="border-2 border-black rounded-md w-fit h-10 px-1"
 											onClick={() => {
 												setInTransition(true)
-												setIsOpen(open)
+												setIsOpen(prev => !prev)
 											}}
 										>
-											{width > 1024 ? (
-												<div className="flex flex-row items-center">
-													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
-												</div>
-											) : (
-												<div className="flex flex-row items-center">
-													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
-												</div>
-											)}
+											{/* I would want the arrow to move left on smaller screen */}
+											<div className="flex flex-row items-center">
+												<p className="pl-1">Insert</p>
+												<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'} ${open ? 'lg:rotate-180' : 'lg:rotate-0'}`}/>
+											</div>
 										</DisclosureButton>
 									</div>
 
@@ -125,6 +99,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 																: 0
 														}
 														fetchDegree={fetchDegree}
+														transitioning={inTransition}
 													/>
 													<InsertTextButton
 														blockID={degree?.RootBlock.blockID}
@@ -163,7 +138,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 				{degree?.RootBlock.innerBlocks.map((inner) => {
 					switch (inner.blockType) {
 						case "NonTerminal":
-							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={"EDIT"} width={width}></BlockView>
+							return <BlockView requirement={inner} depth={1} checkbox={false} fetchDegree={fetchDegree} mode={"EDIT"}></BlockView>
 						case "Course":
 							return (
 								<div className="flex flex-row w-full">

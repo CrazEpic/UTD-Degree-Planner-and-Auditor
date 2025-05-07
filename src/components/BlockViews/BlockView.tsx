@@ -21,14 +21,12 @@ function BlockView({
 	checkbox,
 	fetchDegree,
 	mode,
-	width,
 }: {
 	requirement: Block
 	depth: number
 	checkbox: boolean
 	fetchDegree: Function
 	mode: Mode
-	width: number
 }) {
 
 	// TODO: Implement real progress
@@ -43,11 +41,11 @@ function BlockView({
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setInTransition(false)
+		  setInTransition(false)
 		}, 300)
 	
 		return () => clearTimeout(timeout)
-		}, [isOpen])
+	  }, [isOpen])
 
 	return (
 		<>
@@ -62,20 +60,14 @@ function BlockView({
 											className="border-2 border-black rounded-md w-fit h-10 px-1"
 											onClick={() => {
 												setInTransition(true)
-												setIsOpen(open)
+												setIsOpen(prev => !prev)
 											}}
 										>
-											{width > 1024 ? (
-												<div className="flex flex-row items-center">
-													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
-												</div>
-											) : (
-												<div className="flex flex-row items-center">
-													<p className="pl-1">Insert</p>
-													<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'} ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
-												</div>
-											)}
+											{/* I would want the arrow to move left on smaller screen */}
+											<div className="flex flex-row items-center">
+												<p className="pl-1">Insert</p>
+												<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'} ${open ? 'lg:rotate-180' : 'lg:rotate-0'}`}/>
+											</div>
 										</DisclosureButton>
 									</div>
 
@@ -91,7 +83,7 @@ function BlockView({
 											leaveTo="lg:-translate-x-full max-lg:max-h-0 opacity-0"
 										>
 											<DisclosurePanel
-												className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60 overflow-hidden"
+												className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
 											>
 												<InsertNonterminalButton
 													blockID={requirement.blockID}
@@ -106,6 +98,7 @@ function BlockView({
 														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
 													}
 													fetchDegree={fetchDegree}
+													transitioning={inTransition}
 												/>
 												<InsertTextButton
 													blockID={requirement.blockID}
@@ -203,7 +196,7 @@ function BlockView({
 									switch (inner.blockType) {
 										case "NonTerminal":
 											return (
-												<BlockView requirement={inner} depth={depth + 1} checkbox={checkbox} fetchDegree={fetchDegree} mode={mode} width={width}></BlockView>
+												<BlockView requirement={inner} depth={depth + 1} checkbox={checkbox} fetchDegree={fetchDegree} mode={mode}></BlockView>
 											)
 										case "Course":
 											return (

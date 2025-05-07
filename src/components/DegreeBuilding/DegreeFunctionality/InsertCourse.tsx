@@ -19,7 +19,17 @@ const getRelevance = (course: Course, query: string) => {
 }
 
 // TODO: Style this properly
-const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: string, insertPosition: number, fetchDegree: Function }) => {
+const CourseSearch = ({ 
+	blockID, 
+	insertPosition, 
+	fetchDegree, 
+	transitioning, 
+} : { 
+	blockID: string,
+	insertPosition: number, 
+	fetchDegree: Function, 
+	transitioning: boolean, 
+}) => {
 	const [selectedCourse, setSelectedCourse] = useState({
 		prefix: "",
 		number: "",
@@ -28,12 +38,14 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: stri
 	const [query, setQuery] = useState("")
 	const courses = useContext(CoursesContext)?.courses || []
 
+	const selected = selectedCourse.prefix === "" || selectedCourse.number === "" || selectedCourse.name === ""
+
 	return (
 		<>
 			<div className="flex flex-row gap-1 items-center border-black border-2 rounded-md h-10 p-1 lg:w-min max-lg:w-full">
 				<Button
 					onClick={async () => {
-						if (selectedCourse.prefix === "" || selectedCourse.number === "" || selectedCourse.name === "") {
+						if (selected) {
 							return
 						}
 						try {
@@ -58,7 +70,8 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: stri
 							console.log(error)
 						}
 					}}
-					className="hover:bg-blue-200 size-8"
+					disabled={selected}
+					className="size-8"
 				>
 					<PlusIcon className="size-8"></PlusIcon>
 				</Button>
@@ -73,6 +86,7 @@ const CourseSearch = ({ blockID, insertPosition, fetchDegree } : { blockID: stri
 						return courseA.prefix === courseB.prefix && courseA.number === courseB.number && courseA.name === courseB.name
 					}}
 					immediate
+					disabled={transitioning}
 				>
 					<div className="relative">
 						<ComboboxInput
