@@ -13,11 +13,11 @@ const SlideTransition = ({
             as="div"
             show={show}
             enter="transition-all duration-300 ease-in-out"
-            enterFrom="-translate-x-full opacity-0"
-            enterTo="translate-x-0 opacity-100"
+            enterFrom="max-h-0 opacity-0"
+            enterTo="max-h-50 opacity-100"
             leave="transition-all duration-300 ease-in-out"
-            leaveFrom="translate-x-0 opacity-100"
-            leaveTo="-translate-x-full opacity-0"
+            leaveFrom="max-h-50 opacity-100"
+            leaveTo="max-h-0 opacity-0"
         >
             <div>{children}</div>
         </Transition>

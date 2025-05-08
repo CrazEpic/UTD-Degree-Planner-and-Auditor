@@ -60,10 +60,10 @@ function BlockView({
 												setIsOpen(prev => !prev)
 											}}
 										>
-											{/* I would want the arrow to move left on smaller screen */}
 											<div className="flex flex-row items-center">
+												<ChevronRightIcon className={"lg:hidden size-8 " + `transition-transform duration-300 ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'}`}/>
 												<p className="pl-1">Insert</p>
-												<ChevronRightIcon className={"size-8 " + `transition-transform duration-300 ${open ? 'max-lg:rotate-270' : 'max-lg:rotate-90'} ${open ? 'lg:rotate-180' : 'lg:rotate-0'}`}/>
+												<ChevronRightIcon className={"max-lg:hidden size-8 " + `transition-transform duration-300 ${open ? 'lg:rotate-180' : 'lg:rotate-0'}`}/>
 											</div>
 										</DisclosureButton>
 									</div>

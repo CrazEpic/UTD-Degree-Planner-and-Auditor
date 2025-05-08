@@ -5,6 +5,7 @@ import { Block, NonTerminalBlock } from "../../../types/degreeTest"
 import InsertTextButton from "./InsertTextButton"
 import SelectNonterminalConditions from "./SelectNonterminalConditions"
 import SlideTransition from "../../Shared/SlideTransition"
+import DropTransition from "../../Shared/DropTransition"
 
 const InsertPanel = ({
     show,
@@ -17,47 +18,58 @@ const InsertPanel = ({
     transition: boolean,
     fetchDegree: Function
 }) => {
+
+    const renderContent = () => {
+        return (
+            <DisclosurePanel
+                className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
+            >
+                <InsertNonterminalButton
+                    blockID={requirement.blockID}
+                    insertPosition={
+                        requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+                    }
+                    fetchDegree={fetchDegree}
+                />
+                <InsertCourse
+                    blockID={requirement.blockID}
+                    insertPosition={
+                        requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+                    }
+                    fetchDegree={fetchDegree}
+                    transitioning={transition}
+                />
+                <InsertTextButton
+                    blockID={requirement.blockID}
+                    insertPosition={
+                        requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
+                    }
+                    fetchDegree={fetchDegree}
+                />
+                <SelectNonterminalConditions
+                    nonterminalBlockID={requirement.blockContent.id}
+                    conditions={(requirement.blockContent as NonTerminalBlock).conditions}
+                    fetchDegree={fetchDegree}
+                />
+            </DisclosurePanel>
+        )   
+    }
+
     return (
         <>
             <div className={"w-fit " + (transition && "overflow-hidden")}>
-                <SlideTransition show={show}>
-                    <DisclosurePanel
-                        className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
-                    >
-                        <InsertNonterminalButton
-                            blockID={requirement.blockID}
-                            insertPosition={
-                                requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-                            }
-                            fetchDegree={fetchDegree}
-                        />
-                        <InsertCourse
-                            blockID={requirement.blockID}
-                            insertPosition={
-                                requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-                            }
-                            fetchDegree={fetchDegree}
-                            transitioning={transition}
-                        />
-                        <InsertTextButton
-                            blockID={requirement.blockID}
-                            insertPosition={
-                                requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-                            }
-                            fetchDegree={fetchDegree}
-                        />
-                        <SelectNonterminalConditions
-                            nonterminalBlockID={requirement.blockContent.id}
-                            conditions={(requirement.blockContent as NonTerminalBlock).conditions}
-                            fetchDegree={fetchDegree}
-                        />
-                    </DisclosurePanel>
-                </SlideTransition>
+                <div className="block lg:hidden">
+                    <DropTransition show={show}>
+                        {renderContent()}
+                    </DropTransition>
+                </div>
+                <div className="hidden lg:block">
+                    <SlideTransition show={show}>
+                        {renderContent()}
+                    </SlideTransition>
+                </div>
             </div>
         </>
-        
-
-        
     )
 }
 
