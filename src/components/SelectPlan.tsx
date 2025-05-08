@@ -68,13 +68,13 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
         }
     }
 
-    const renderDegreeSelect = (option: string, select: Function) => {
+    const renderDegreeSelect = (option: string, selected: Degree, update: Function) => {
         return (
             <Combobox
-                value={selectedDegree}
+                value={selected}
                 onChange={(value) => {
                     if (value) {
-                        select(value)
+                        update(value)
                     }
                 }}
                 by={(degreeA, degreeB) => {
@@ -130,7 +130,7 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                         <div className="flex flex-row gap-2">
 
                             {/* Select a degree plan (work on wording) */}
-                            {renderDegreeSelect("PLANNED", setSelectedDegree)}
+                            {renderDegreeSelect("PLANNED", selectedDegree, setSelectedDegree)}
 
                             {/* Arrow appears next to selection */}
                             {selectedDegree.degreeName !== "" && selectedDegree.degreeYear !== "" &&
@@ -154,7 +154,7 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                         <div className="flex flex-row gap-2">
 
                             {/* Start a new plan */}
-                            {renderDegreeSelect("UNPLANNED", setNewSelectedDegree)}
+                            {renderDegreeSelect("UNPLANNED", newSelectedDegree, setNewSelectedDegree)}
 
                             {/* Arrow appears next to selection */}
                             {newSelectedDegree.degreeName !== "" && newSelectedDegree.degreeYear !== "" &&
@@ -177,7 +177,7 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                         <div className="flex flex-col gap-2">
 
                             {/* Start a new plan */}
-                            {renderDegreeSelect("ALL", setNewSelectedDegree)}
+                            {renderDegreeSelect("ALL", newSelectedDegree, setNewSelectedDegree)}
 
                             {/* Start Planning */}
                             {newSelectedDegree.degreeName !== "" && newSelectedDegree.degreeYear !== "" &&
