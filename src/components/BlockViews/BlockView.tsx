@@ -1,4 +1,4 @@
-import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input, Transition } from "@headlessui/react"
+import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
 import { ChevronDownIcon, ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Block, CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
 import ProgressBar from "../Small/Requirements/ProgressBar"
@@ -6,14 +6,11 @@ import CourseBlockView from "./CourseBlockView"
 import MatcherBlockView from "./MatcherBlockView"
 import axios from "axios"
 import DeleteBlockButton from "../DegreeBuilding/DegreeFunctionality/DeleteBlockButton"
-import InsertNonterminalButton from "../DegreeBuilding/DegreeFunctionality/InsertNonterminalButton"
-import InsertTextButton from "../DegreeBuilding/DegreeFunctionality/InsertTextButton"
-import InsertCourse from "../DegreeBuilding/DegreeFunctionality/InsertCourse"
 import TextBlockView from "./TextBlockView"
 import { Mode } from "../../types/requirementWindow"
-import SelectNonterminalConditions from "../DegreeBuilding/DegreeFunctionality/SelectNonterminalConditions"
 import NonterminalConditions from "../Small/NonterminalConditions"
 import { useState, useEffect } from "react"
+import InsertPanel from "../DegreeBuilding/DegreeFunctionality/InsertPanel"
 
 function BlockView({
 	requirement,
@@ -70,51 +67,7 @@ function BlockView({
 											</div>
 										</DisclosureButton>
 									</div>
-
-									<div className={"w-fit " + (inTransition && "overflow-hidden")}>
-										<Transition
-											as="div"
-											show={open}
-											enter="transition-all duration-300 ease-in-out"
-											enterFrom="lg:-translate-x-full max-lg:max-h-0 opacity-0"
-											enterTo="lg:translate-x-0 max-lg:max-h-50 opacity-100"
-											leave="transition-all duration-300 ease-in-out"
-											leaveFrom="lg:translate-x-0 max-lg:max-h-50 opacity-100"
-											leaveTo="lg:-translate-x-full max-lg:max-h-0 opacity-0"
-										>
-											<DisclosurePanel
-												className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
-											>
-												<InsertNonterminalButton
-													blockID={requirement.blockID}
-													insertPosition={
-														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-													}
-													fetchDegree={fetchDegree}
-												/>
-												<InsertCourse
-													blockID={requirement.blockID}
-													insertPosition={
-														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-													}
-													fetchDegree={fetchDegree}
-													transitioning={inTransition}
-												/>
-												<InsertTextButton
-													blockID={requirement.blockID}
-													insertPosition={
-														requirement.innerBlocks.length != 0 ? requirement.innerBlocks[requirement.innerBlocks.length - 1].blockPosition + 1 : 0
-													}
-													fetchDegree={fetchDegree}
-												/>
-												<SelectNonterminalConditions
-													nonterminalBlockID={requirement.blockContent.id}
-													conditions={(requirement.blockContent as NonTerminalBlock).conditions}
-													fetchDegree={fetchDegree}
-												/>
-											</DisclosurePanel>
-										</Transition>
-									</div>
+									<InsertPanel show={open} requirement={requirement} transition={inTransition} fetchDegree={fetchDegree}/>
 								</>
 							)}
 						</Disclosure>	

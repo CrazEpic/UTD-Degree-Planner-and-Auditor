@@ -2,17 +2,14 @@ import { useEffect, useState, useCallback } from "react"
 import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
 import BlockView from "../BlockViews/BlockView"
 import axios from "axios"
-import InsertCourse from "./DegreeFunctionality/InsertCourse"
-import InsertNonterminalButton from "./DegreeFunctionality/InsertNonterminalButton"
-import InsertTextButton from "./DegreeFunctionality/InsertTextButton"
-import SelectNonterminalConditions from "./DegreeFunctionality/SelectNonterminalConditions"
-import { Button, Disclosure, DisclosureButton, DisclosurePanel, Transition } from "@headlessui/react"
+import { Button, Disclosure, DisclosureButton } from "@headlessui/react"
 import { ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import CourseBlockView from "../BlockViews/CourseBlockView"
 import MatcherBlockView from "../BlockViews/MatcherBlockView"
 import TextBlockView from "../BlockViews/TextBlockView"
 import NonterminalConditions from "../Small/NonterminalConditions"
 import { parseDegree } from "../../utils/degreeParsing"
+import InsertPanel from "./DegreeFunctionality/InsertPanel"
 
 // TODO: Add footnotes
 const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeYear: string; }) => {
@@ -66,61 +63,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 											</div>
 										</DisclosureButton>
 									</div>
-
-									<div className={"w-fit " + (inTransition && "overflow-hidden")}>
-										<Transition
-											as="div"
-											show={open}
-											enter="transition-all duration-300 ease-in-out"
-											enterFrom="lg:-translate-x-full max-lg:max-h-0 opacity-0"
-											enterTo="lg:translate-x-0 max-lg:max-h-50 opacity-100"
-											leave="transition-all duration-300 ease-in-out"
-											leaveFrom="lg:translate-x-0 max-lg:max-h-50 opacity-100"
-											leaveTo="lg:-translate-x-full max-lg:max-h-0 opacity-0"
-										>
-											<div>
-												<DisclosurePanel
-													className="flex lg:flex-row max-lg:flex-col gap-2 lg:items-center max-lg:w-60"
-												>
-													<InsertNonterminalButton
-														blockID={degree?.RootBlock.blockID}
-														insertPosition={
-															degree?.RootBlock.innerBlocks.length != 0
-																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-																: 0
-														}
-														fetchDegree={fetchDegree}
-													/>
-													<InsertCourse
-														blockID={degree?.RootBlock.blockID}
-														insertPosition={
-															degree?.RootBlock.innerBlocks.length != 0
-																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-																: 0
-														}
-														fetchDegree={fetchDegree}
-														transitioning={inTransition}
-													/>
-													<InsertTextButton
-														blockID={degree?.RootBlock.blockID}
-														insertPosition={
-															degree?.RootBlock.innerBlocks.length != 0
-																? degree?.RootBlock.innerBlocks[degree?.RootBlock.innerBlocks.length - 1].blockPosition + 1
-																: 0
-														}
-														fetchDegree={fetchDegree}
-													/>
-													<SelectNonterminalConditions
-														nonterminalBlockID={degree?.RootBlock.blockContent.id}
-														conditions={(degree?.RootBlock.blockContent as NonTerminalBlock).conditions}
-														fetchDegree={fetchDegree}
-													/>
-												</DisclosurePanel>
-											</div>
-											
-										</Transition>
-									</div>
-
+									<InsertPanel show={open} requirement={degree?.RootBlock} transition={inTransition} fetchDegree={fetchDegree}/>
 								</>
 							)}
 						</Disclosure>	

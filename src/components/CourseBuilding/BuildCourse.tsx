@@ -1,5 +1,5 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
-import { ChevronDownIcon } from "@heroicons/react/24/outline"
+import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline"
 import { CourseBlock, Test, Transfer } from "../../types/degreeTest"
 
 const transferCourses : Transfer[] = [
@@ -118,7 +118,6 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 				</div>
 
 				{/* Test and Transfer Equivalencies? */}
-					{/* Can just be the first part of test/transfer link */}
 				<div className="border-2 border-black rounded-md p-2 w-full">
 					<Disclosure as="div" className="flex flex-col ">
 						<DisclosureButton className="flex flex-row gap-2">
@@ -129,11 +128,16 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 							<div className="flex flex-col gap-2">
 								{/* Add Transfer Credit */}
 								<div className="border border-black rounded-md h-fit w-full p-2">
-									<Disclosure as="div" className="flex flex-col ">
-										<DisclosureButton className="flex flex-row gap-2">
-											<ChevronDownIcon className="size-8"></ChevronDownIcon>
-											<h1 className="text-lg">Transfer Credits</h1>
-										</DisclosureButton>
+									<Disclosure as="div" className="flex flex-col gap-2">
+										<div className="flex flex-row justify-between items-center">
+											<DisclosureButton className="flex flex-row gap-2">
+												<ChevronDownIcon className="size-8"></ChevronDownIcon>
+												<h1 className="text-lg">Transfer Credits</h1>
+											</DisclosureButton>
+											<Button>
+												<PlusIcon className="size-8"></PlusIcon>
+											</Button>
+										</div>
 										<DisclosurePanel className="flex flex-col gap-2">
 											{transferCourses.map((transfer) => (
 													<div className="border border-black rounded-md h-fit w-full p-2">
@@ -147,11 +151,14 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 
 								{/* Add Test Credit */}
 								<div className="border border-black rounded-md h-fit w-full p-2">
-									<Disclosure as="div" className="flex flex-col ">
-										<DisclosureButton className="flex flex-row gap-2">
-											<ChevronDownIcon className="size-8"></ChevronDownIcon>
-											<h1 className="text-lg">Test Credits</h1>
-										</DisclosureButton>
+									<Disclosure as="div" className="flex flex-col gap-2">
+										<div className="flex flex-row justify-between items-center">
+											<DisclosureButton className="flex flex-row gap-2">
+												<ChevronDownIcon className="size-8"></ChevronDownIcon>
+												<h1 className="text-lg">Transfer Credits</h1>
+											</DisclosureButton>
+											<PlusIcon className="size-8"></PlusIcon>
+										</div>
 										<DisclosurePanel className="flex flex-col gap-2">
 											{testCourses.map((test) => (
 													<div className="border border-black rounded-md h-fit w-full p-2">
