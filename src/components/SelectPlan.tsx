@@ -47,16 +47,78 @@ const degrees : Degree[] = [
 const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
 
     const [selectedDegree, setSelectedDegree] = useState<Degree>({degreeName: "", degreeYear: ""})
-    const [query, setQuery] = useState("")
-
     const [newSelectedDegree, setNewSelectedDegree] = useState<Degree>({degreeName: "", degreeYear: ""})
-    const [newQuery, setNewQuery] = useState("")
+    const [query, setQuery] = useState("")
  
     const loadNewPlan = () => {
         // API Call
     }
     const loadExisitingPlan = () => {
 
+    }
+
+    const filterDegree = (degree: Degree, option: string) => {
+        switch(option) {
+            case "PLANNED":
+                return degree.planned
+            case "UNPLANNED":
+                return !degree.planned
+            default:
+                return true
+        }
+    }
+
+    const renderDegreeSelect = (option: string, select: Function) => {
+        return (
+            <Combobox
+                value={selectedDegree}
+                onChange={(value) => {
+                    if (value) {
+                        select(value)
+                    }
+                }}
+                by={(degreeA, degreeB) => {
+                    return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
+                }}
+                as="div"
+                className="w-fit"
+            >
+                <div>
+                    <ComboboxInput
+                        onChange={(event) => {
+                            setQuery(event.target.value)
+                        }}
+                        displayValue={(degree: Degree) => {
+                            if (degree.degreeName === "" && degree.degreeYear === "") {
+                                return ""
+                            }
+                            return degree.degreeName + " " + degree.degreeYear
+                        }}
+                        placeholder="Select a degree plan"
+                        className="border-2 border-black rounded-md p-2 h-10 w-full mb-1"
+                    />
+                    <ComboboxOptions static className="border-black border-2 rounded-md w-fit empty:invisible">
+                        {degrees
+                            .filter(degree => filterDegree(degree, option))
+                            .filter((degree) => {
+                                return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(query.toLowerCase())
+                            })
+                            .map((degree) => {
+                                return (
+                                    <ComboboxOption
+                                        key={degree.degreeName + " " + degree.degreeYear}
+                                        value={degree}
+                                        className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
+                                    >
+                                        {degree.degreeName + " " + degree.degreeYear}
+                                    </ComboboxOption>
+                                )
+                            })
+                        }
+                    </ComboboxOptions>
+                </div>
+            </Combobox>
+        )
     }
 
     return (
@@ -66,54 +128,9 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                     <> 
                         <p className="text-xl">Select an active plan</p>
                         <div className="flex flex-row gap-2">
+
                             {/* Select a degree plan (work on wording) */}
-                            <Combobox
-                                value={selectedDegree}
-                                onChange={(value) => {
-                                    if (value) {
-                                        setSelectedDegree(value)
-                                    }
-                                }}
-                                by={(degreeA, degreeB) => {
-                                    return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
-                                }}
-                                as="div"
-                                className="w-fit"
-                            >
-                                <div>
-                                    <ComboboxInput
-                                        onChange={(event) => {
-                                            setQuery(event.target.value)
-                                        }}
-                                        displayValue={(degree: Degree) => {
-                                            if (degree.degreeName === "" && degree.degreeYear === "") {
-                                                return ""
-                                            }
-                                            return degree.degreeName + " " + degree.degreeYear
-                                        }}
-                                        placeholder="Select a degree plan"
-                                        className="border-2 border-black rounded-md p-2 h-10 w-full mb-1"
-                                    ></ComboboxInput>
-                                    <ComboboxOptions static className="border-black border-2 rounded-md w-fit empty:invisible">
-                                        {degrees
-                                            .filter(degree => degree.planned)
-                                            .filter((degree) => {
-                                                return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(query.toLowerCase())
-                                            })
-                                            .map((degree) => {
-                                                return (
-                                                    <ComboboxOption
-                                                        key={degree.degreeName + " " + degree.degreeYear}
-                                                        value={degree}
-                                                        className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
-                                                    >
-                                                        {degree.degreeName + " " + degree.degreeYear}
-                                                    </ComboboxOption>
-                                                )
-                                            })}
-                                    </ComboboxOptions>
-                                </div>
-                            </Combobox>
+                            {renderDegreeSelect("PLANNED", setSelectedDegree)}
 
                             {/* Arrow appears next to selection */}
                             {selectedDegree.degreeName !== "" && selectedDegree.degreeYear !== "" &&
@@ -135,54 +152,9 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                         
                         <p className="text-xl">Create a new plan</p>
                         <div className="flex flex-row gap-2">
+
                             {/* Start a new plan */}
-                            <Combobox
-                                value={newSelectedDegree}
-                                onChange={(value) => {
-                                    if (value) {
-                                        setNewSelectedDegree(value)
-                                    }
-                                }}
-                                by={(degreeA, degreeB) => {
-                                    return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
-                                }}
-                                as="div"
-                                className="w-fit"
-                            >
-                                <div>
-                                    <ComboboxInput
-                                        onChange={(event) => {
-                                            setNewQuery(event.target.value)
-                                        }}
-                                        displayValue={(degree: Degree) => {
-                                            if (degree.degreeName === "" && degree.degreeYear === "") {
-                                                return ""
-                                            }
-                                            return degree.degreeName + " " + degree.degreeYear
-                                        }}
-                                        placeholder="Select a degree plan"
-                                        className="border-2 border-black rounded-md p-2 h-10 w-full mb-1"
-                                    ></ComboboxInput>
-                                    <ComboboxOptions static className="border-black border-2 rounded-md w-fit empty:invisible">
-                                        {degrees
-                                            .filter(degree => !degree.planned)
-                                            .filter((degree) => {
-                                                return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(query.toLowerCase())
-                                            })
-                                            .map((degree) => {
-                                                return (
-                                                    <ComboboxOption
-                                                        key={degree.degreeName + " " + degree.degreeYear}
-                                                        value={degree}
-                                                        className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
-                                                    >
-                                                        {degree.degreeName + " " + degree.degreeYear}
-                                                    </ComboboxOption>
-                                                )
-                                            })}
-                                    </ComboboxOptions>
-                                </div>
-                            </Combobox>
+                            {renderDegreeSelect("UNPLANNED", setNewSelectedDegree)}
 
                             {/* Arrow appears next to selection */}
                             {newSelectedDegree.degreeName !== "" && newSelectedDegree.degreeYear !== "" &&
@@ -202,55 +174,10 @@ const SelectPlan = ({existingUser}: {existingUser: boolean}) => {
                     </>
                 ) : (
                     <>
-                        {/* Start a new plan */}
                         <div className="flex flex-col gap-2">
+
                             {/* Start a new plan */}
-                            <Combobox
-                                value={newSelectedDegree}
-                                onChange={(value) => {
-                                    if (value) {
-                                        setNewSelectedDegree(value)
-                                    }
-                                }}
-                                by={(degreeA, degreeB) => {
-                                    return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
-                                }}
-                                as="div"
-                                className="w-fit"
-                            >
-                                <div>
-                                    <ComboboxInput
-                                        onChange={(event) => {
-                                            setNewQuery(event.target.value)
-                                        }}
-                                        displayValue={(degree: Degree) => {
-                                            if (degree.degreeName === "" && degree.degreeYear === "") {
-                                                return ""
-                                            }
-                                            return degree.degreeName + " " + degree.degreeYear
-                                        }}
-                                        placeholder="Select a degree plan"
-                                        className="border-2 border-black rounded-md p-2 h-10 w-full mb-1"
-                                    ></ComboboxInput>
-                                    <ComboboxOptions static className="border-black border-2 rounded-md w-fit empty:invisible">
-                                        {degrees
-                                            .filter((degree) => {
-                                                return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(newQuery.toLowerCase())
-                                            })
-                                            .map((degree) => {
-                                                return (
-                                                    <ComboboxOption
-                                                        key={degree.degreeName + " " + degree.degreeYear}
-                                                        value={degree}
-                                                        className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
-                                                    >
-                                                        {degree.degreeName + " " + degree.degreeYear}
-                                                    </ComboboxOption>
-                                                )
-                                            })}
-                                    </ComboboxOptions>
-                                </div>
-                            </Combobox>
+                            {renderDegreeSelect("ALL", setNewSelectedDegree)}
 
                             {/* Start Planning */}
                             {newSelectedDegree.degreeName !== "" && newSelectedDegree.degreeYear !== "" &&
