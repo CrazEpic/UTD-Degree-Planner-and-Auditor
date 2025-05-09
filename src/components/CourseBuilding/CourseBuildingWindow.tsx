@@ -1,7 +1,6 @@
 import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch } from "@headlessui/react"
 import { useState, useEffect, useContext } from "react"
-import { Course, CourseBlock, DegreePlan, DegreePlanCourse } from "../../types/degreeTest"
-import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline"
+import { Course, CourseBlock } from "../../types/degreeTest"
 import { UserContext } from "../../contexts/UserContext"
 import BuildCourse from "./BuildCourse"
 
@@ -217,59 +216,58 @@ const CourseBuildingWindow = () => {
     return (
         <>
             <div className="flex flex-col gap-2 p-4">
-                <div className="flex lg:flex-row max-lg:flex-col gap-2">
-                    {/* Catalogue year dropdown (copy degree dropdown) */}
-                    <Combobox
-                        value={selectedYear}
-                        onChange={(value) => {
-                            if (value) {
-                                setSelectedYear(value)
-                            }
-                        }}
-                        by={(yearA, yearB) => {
-                            return yearA === yearB
-                        }}
-                    >
-                        <div>
-                            <ComboboxInput
-                                onChange={(event) => {
-                                    setYearQuery(event.target.value)
-                                }}
-                                displayValue={(year: number) => {
-                                    if (year <= 0) {
-                                        return ""
-                                    }
-                                    return year.toString()
-                                }}
-                                placeholder="Search for a year"
-                                className="border-2 border-black rounded-md p-2 h-10 mb-1"
-                            ></ComboboxInput>
-                            <ComboboxOptions static className="border-black border-2 rounded-md min-w-50 w-fit empty:invisible">
+                <div className="flex lg:flex-row max-lg:flex-col gap-2 w-full">
+                    <div className="flex lg:flex-row max-lg:flex-col gap-2 w-full">
+                        {/* Catalogue year dropdown (copy degree dropdown) */}
+                        <Combobox
+                            value={selectedYear}
+                            onChange={(value) => {
+                                if (value) {
+                                    setSelectedYear(value)
+                                }
+                            }}
+                            by={(yearA, yearB) => {
+                                return yearA === yearB
+                            }}
+                        >
+                            <div>
+                                <ComboboxInput
+                                    onChange={(event) => {
+                                        setYearQuery(event.target.value)
+                                    }}
+                                    displayValue={(year: number) => {
+                                        if (year <= 0) {
+                                            return ""
+                                        }
+                                        return year.toString()
+                                    }}
+                                    placeholder="Search for a year"
+                                    className="border-2 border-black rounded-md p-2 h-10 mb-1"
+                                ></ComboboxInput>
+                                <ComboboxOptions static className="border-black border-2 rounded-md min-w-50 w-fit empty:invisible">
 
-                                {/* TODO: Replace with actual state once its integrated */}
-                                {years
-                                    .filter((year) => {
-                                        return year.toString().toLowerCase().includes(yearQuery.toLowerCase())
-                                    })
-                                    .map((year) => {
-                                        return (
-                                            <ComboboxOption
-                                                key={year}
-                                                value={year}
-                                                className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
-                                            >
-                                                {year}
-                                            </ComboboxOption>
-                                        )
-                                    })}
-                            </ComboboxOptions>
-                        </div>
-                    </Combobox>
+                                    {/* TODO: Replace with actual state once its integrated */}
+                                    {years
+                                        .filter((year) => {
+                                            return year.toString().toLowerCase().includes(yearQuery.toLowerCase())
+                                        })
+                                        .map((year) => {
+                                            return (
+                                                <ComboboxOption
+                                                    key={year}
+                                                    value={year}
+                                                    className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
+                                                >
+                                                    {year}
+                                                </ComboboxOption>
+                                            )
+                                        })}
+                                </ComboboxOptions>
+                            </div>
+                        </Combobox>
 
-                    {/* Course selection and addition */}
-                    {selectedYear !== 0 &&
-                        <>
-                            {/* Course Selection dropdown (need to lock down the max number of shown courses and allow scroll) */}
+                        {/* Course selection */}
+                        {selectedYear !== 0 &&
                             <Combobox
                                 value={selectedCourse}
                                 onChange={(value) => {
@@ -295,77 +293,79 @@ const CourseBuildingWindow = () => {
                                         placeholder="Search for a course"
                                         className="border-2 border-black rounded-md p-2 h-10 mb-1"
                                     ></ComboboxInput>
-                                    <ComboboxOptions static className="border-black border-2 rounded-md min-w-50 w-fit empty:invisible">
+                                    <ComboboxOptions static className="border-black border-2 rounded-md min-w-50 w-fit h-50 overflow-y-auto empty:invisible">
 
                                         {/* TODO: Replace with actual state once its integrated */}
                                         {selectedYear === 2024 ? renderCourses(courses24) : renderCourses(courses25)}
                                     </ComboboxOptions>
                                 </div>
                             </Combobox>
+                        }
+                    </div>
 
-                            {/* Add a new course (move this to the other corner when small) */}
-                            <div className="flex flex-col gap-2 h-fit">
-                                <div className="flex flex-col items-center w-fit">
-                                    <p>Add New Course</p>
-                                    <Switch
-                                        checked={addDegreeVisible}
-                                        onChange={setAddDegreeVisible}
-                                        className="group inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition data-[checked]:bg-blue-600"
-                                    >
-                                        <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-6" />
-                                    </Switch>
-                                </div>
-                                {addDegreeVisible && (
-                                    <form
-                                        method="post"
-                                        onSubmit={async (event) => {
-                                            event.preventDefault()
-                                            const form = event.target as HTMLFormElement
-                                            const formData = new FormData(form)
-                                            const name = formData.get("name") as string
-                                            const prefix = formData.get("prefix") as string
-                                            const number = formData.get("number") as string
-                                            addNewCourse(name, prefix, number)
-                                            setAddDegreeVisible(false)
-                                        }}
-                                        className="flex flex-col gap-2"
-                                    >
-                                        <label>
-                                            <Input
-                                                name="prefix"
-                                                placeholder="Enter course prefix"
-                                                type="text"
-                                                className={"border-2 border-black rounded-md px-2 h-10 w-50"}
-                                            ></Input>
-                                        </label>
-                                        <label>
-                                            <Input
-                                                name="number"
-                                                placeholder="Enter course number"
-                                                type="text"
-                                                className={"border-2 border-black rounded-md px-2 h-10 w-50"}
-                                            ></Input>
-                                        </label>
-                                        <label>
-                                            <Input 
-                                                name="name" 
-                                                placeholder="Enter course name" 
-                                                type="text" 
-                                                className={"border-2 border-black rounded-md px-2 h-10"}></Input>
-                                        </label>
-                                        <button type="submit" name="submit" value="Submit" className="size-8">
-                                            <PlusIcon></PlusIcon>
-                                        </button>
-                                    </form>
-                                )}
+                    {/* Course addition */}
+                    {selectedYear !== 0 && 
+                        <div className="flex flex-col gap-2 lg:items-end h-fit">
+                            <div className="flex flex-col items-center w-fit">
+                                <p className=" w-30">Add New Course</p>
+                                <Switch
+                                    checked={addDegreeVisible}
+                                    onChange={setAddDegreeVisible}
+                                    className="group inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition data-[checked]:bg-blue-600"
+                                >
+                                    <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-6" />
+                                </Switch>
                             </div>
-                        </>
+                            {addDegreeVisible && (
+                                <form
+                                    method="post"
+                                    onSubmit={async (event) => {
+                                        event.preventDefault()
+                                        const form = event.target as HTMLFormElement
+                                        const formData = new FormData(form)
+                                        const name = formData.get("name") as string
+                                        const prefix = formData.get("prefix") as string
+                                        const number = formData.get("number") as string
+                                        addNewCourse(name, prefix, number)
+                                        setAddDegreeVisible(false)
+                                    }}
+                                    className="flex flex-col gap-2 w-fit"
+                                >
+                                    <label>
+                                        <Input
+                                            name="prefix"
+                                            placeholder="Enter course prefix"
+                                            type="text"
+                                            className={"border-2 border-black rounded-md px-2 h-10 w-50"}
+                                        ></Input>
+                                    </label>
+                                    <label>
+                                        <Input
+                                            name="number"
+                                            placeholder="Enter course number"
+                                            type="text"
+                                            className={"border-2 border-black rounded-md px-2 h-10 w-50"}
+                                        ></Input>
+                                    </label>
+                                    <label>
+                                        <Input 
+                                            name="name" 
+                                            placeholder="Enter course name" 
+                                            type="text" 
+                                            className={"border-2 border-black rounded-md px-2 h-10"}></Input>
+                                    </label>
+                                    <button type="submit" name="submit" value="Submit" className="border border-black rounded-md w-full">
+                                        <p>Add Course</p>
+                                    </button>
+                                </form>
+                            )}
+                        </div>
                     }
                 </div>
 
                 {/* Course building */}
                 {selectedYear !== 0 && selectedCourse !== null ? (
-                    <BuildCourse course={selectedCourse} update={updateCourses}></BuildCourse>
+                    <BuildCourse key={selectedCourse.Course.id} course={selectedCourse} update={updateCourses}></BuildCourse>
                 ) : (
                     <div className="flex flex-col gap-2 max-lg:mt-4">
                         {selectedYear === 0 && <p>Please select a year</p>}

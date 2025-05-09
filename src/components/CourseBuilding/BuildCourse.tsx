@@ -1,8 +1,9 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline"
 import { CourseBlock, Test, Transfer } from "../../types/degreeTest"
+import { useState } from "react"
 
-const transferCourses : Transfer[] = [
+let transferDefault : Transfer[] = [
 	{
 		school: "Collin College",
 		course: "HIST 1301",
@@ -17,7 +18,7 @@ const transferCourses : Transfer[] = [
 	},
 ]
 
-const testCourses : Test[] = [
+let testCourses : Test[] = [
 	{
 		type: "AP",
 		name: "Art: History",
@@ -32,11 +33,64 @@ const testCourses : Test[] = [
 	},
 ]
 
+let requisiteList : Requisite[] = [
+	{
+		name: "Req 1",
+	},
+	{
+		name: "Req 2",
+	},
+	{
+		name: "Req 3",
+	},
+	{
+		name: "Req 4",
+	},
+]
+
+type Requisite = {
+	name: string
+}
+
+const renderRequisites = (requisites: Requisite[], name: string) => {
+	return (
+		<div className="border border-black rounded-md h-fit w-full p-2">
+			<Disclosure as="div" className="flex flex-col gap-2">
+				<div className="flex flex-row justify-between items-center">
+					<DisclosureButton className="flex flex-row gap-2 items-center">
+						<ChevronDownIcon className="size-8"></ChevronDownIcon>
+						<h1 className="text-md">{name}</h1>
+					</DisclosureButton>
+
+					{/* Add Requirement -> Search for course */}
+					<Button>
+						<PlusIcon className="size-8"></PlusIcon>
+					</Button>
+				</div>
+				<DisclosurePanel className="flex flex-col gap-2">
+
+					{/* Add Grade requirement (somewhere?) / Add Custom (somewhere?) */}
+					{requisites.map((req) => (
+							<div className="border border-black rounded-md h-fit w-full p-2">
+								<p>{req.name}</p>
+							</div>
+						))
+					}
+				</DisclosurePanel>
+			</Disclosure>
+		</div>
+	)
+}
+
+
 const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function }) => {
+
+	const [transferCourses, setTransferCourses] = useState<Transfer[]>(transferDefault)
+
 	return (
 		<>
 			{/* May center this after the fact */}
-			<div className="flex flex-col gap-2 items-center w-80 m-auto p-4">
+			<div className="flex flex-col gap-2 items-center min-w-80 m-auto p-4">
 
 				{/* Course View */}
 				<div className="flex flex-col border-2 rounded-lg w-full h-fit p-2">
@@ -52,6 +106,7 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 						<div className="flex flex-row gap-2 px-3">
 							{/* Input Prefix */}
 							<form
+								id="prefix-form"
 								method="post"
 								onSubmit={async (event) => {
 									event.preventDefault()
@@ -67,7 +122,7 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 										placeholder="Prefix"
 										type="text"
 										defaultValue={course.prefix}
-										className={"border-2 border-black text-center h-8 rounded-md w-full"}
+										className={"border-2 border-black text-center text-xl h-12 rounded-md w-full"}
 									/>
 								</label>
 							</form>
@@ -88,7 +143,7 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 										placeholder="Number"
 										type="text"
 										defaultValue={course.number}
-										className={"border-2 border-black text-center h-8 rounded-md w-full"}
+										className={"border-2 border-black text-center text-xl h-12 rounded-md w-full"}
 									/>
 								</label>
 							</form>
@@ -103,6 +158,7 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 								const courseName = formData.get("courseName") as string
 								update(course.id, "name", courseName)
 							}}
+							className="w-full px-3"
 						>
 							<label>
 								<Input
@@ -110,7 +166,7 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 									placeholder="Name"
 									type="text"
 									defaultValue={course.Course.name}
-									className={"border-2 border-black text-center h-8 rounded-md w-60"}
+									className={"border-2 border-black text-center text-xl h-24 rounded-md w-full"}
 								/>
 							</label>
 						</form>
@@ -126,15 +182,28 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 						</DisclosureButton>
 						<DisclosurePanel>
 							<div className="flex flex-col gap-2">
+								
 								{/* Add Transfer Credit */}
 								<div className="border border-black rounded-md h-fit w-full p-2">
 									<Disclosure as="div" className="flex flex-col gap-2">
 										<div className="flex flex-row justify-between items-center">
-											<DisclosureButton className="flex flex-row gap-2">
+											<DisclosureButton className="flex flex-row gap-2 items-center">
 												<ChevronDownIcon className="size-8"></ChevronDownIcon>
-												<h1 className="text-lg">Transfer Credits</h1>
+												<h1 className="text-md">Transfer Credits</h1>
 											</DisclosureButton>
-											<Button>
+
+											{/* Add New -> Search for school + search for course inline */}
+											<Button
+												onClick={() => {
+													setTransferCourses([
+														...transferCourses, 
+														{
+															school: "",
+															course: "",
+														},
+													])
+												}}
+												>
 												<PlusIcon className="size-8"></PlusIcon>
 											</Button>
 										</div>
@@ -153,11 +222,15 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 								<div className="border border-black rounded-md h-fit w-full p-2">
 									<Disclosure as="div" className="flex flex-col gap-2">
 										<div className="flex flex-row justify-between items-center">
-											<DisclosureButton className="flex flex-row gap-2">
+											<DisclosureButton className="flex flex-row gap-2 items-center">
 												<ChevronDownIcon className="size-8"></ChevronDownIcon>
-												<h1 className="text-lg">Transfer Credits</h1>
+												<h1 className="text-md">Test Credits</h1>
 											</DisclosureButton>
-											<PlusIcon className="size-8"></PlusIcon>
+
+											{/* Add New, pop up find test credit modal */}
+											<Button>
+												<PlusIcon className="size-8"></PlusIcon>
+											</Button>
 										</div>
 										<DisclosurePanel className="flex flex-col gap-2">
 											{testCourses.map((test) => (
@@ -182,32 +255,31 @@ const BuildCourse = ({ course, update }: { course: CourseBlock, update: Function
 							<h1 className="text-lg">Requisites</h1>
 						</DisclosureButton>
 						<DisclosurePanel>
-							<p>Panel Open</p>
+							<div className="flex flex-col gap-2">
+								{renderRequisites(requisiteList, "Prerequisites")}
+								{renderRequisites(requisiteList, "Corequisites")}
+								{renderRequisites(requisiteList, "Prerequisites or Corequisites")}
 
-							{/* These should be nearly identical */}
+								{/* Add Custom (Text field for now?) */}
+								<div className="border border-black rounded-md h-fit w-full p-2">
+									<Disclosure as="div" className="flex flex-col gap-2">
+										<div className="flex flex-row justify-between items-center">
+											<DisclosureButton className="flex flex-row gap-2 items-center">
+												<ChevronDownIcon className="size-8"></ChevronDownIcon>
+												<h1 className="text-md text-left">Custom</h1>
+											</DisclosureButton>
 
-							{/* Prerequisities */}
-								{/* Add Requirement */}
-									{/* Grade requirement */}
-								{/* Add Custom */}
-
-
-							{/* Corequisities */}
-								{/* Add Requirement */}
-									{/* Grade requirement */}
-								{/* Add Custom */}
-
-
-							{/* Prerequisities or Corequisities */}
-								{/* Add Requirement */}
-									{/* Grade requirement */}
-								{/* Add Custom */}
-
-							{/* Add Custom (Text field for now?) */}
-								{/* Advisor */}
-								{/* Major */}
-								{/* ALEKS requirement */}
-								{/* Standing (Junior?) */}
+											{/* Add new custom requisite */}
+											<Button>
+												<PlusIcon className="size-8"></PlusIcon>
+											</Button>
+										</div>
+										<DisclosurePanel className="flex flex-col gap-2">
+											<p>Text input field should appear here</p>
+										</DisclosurePanel>
+									</Disclosure>
+								</div>
+							</div>
 						</DisclosurePanel>
 					</Disclosure>
 

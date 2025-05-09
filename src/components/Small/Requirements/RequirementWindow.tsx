@@ -68,7 +68,8 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 										textBlockID={inner.blockContent.id}
 										text={(inner.blockContent as TextBlock).text}
 										mode={mode}
-										fetchDegree={fetchDegree}
+										type={"DEGREE"}
+										update={fetchDegree}
 									/>
 								</div>
 							)

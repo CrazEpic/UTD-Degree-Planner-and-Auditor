@@ -4,9 +4,8 @@ import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch
 import axios from "axios"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import EditDegreeView from "./EditDegreeView"
+import { Degree } from "../../types/degreeTest"
 
-
-/* TODO: REACT IS SLOW */
 const DegreeBuildingWindow = () => {
 	const [degrees, setDegrees] = useState([])
 	const [selectedDegree, setSelectedDegree] = useState({
@@ -52,8 +51,8 @@ const DegreeBuildingWindow = () => {
 									onChange={(event) => {
 										setQuery(event.target.value)
 									}}
-									displayValue={(degree) => {
-										if (degree.degreeName === "" && degree.degreeYear === -1) {
+									displayValue={(degree: Degree) => {
+										if (degree.degreeName === "" && parseInt(degree.degreeYear) === -1) {
 											return ""
 										}
 										return degree.degreeName + " " + degree.degreeYear
@@ -63,10 +62,10 @@ const DegreeBuildingWindow = () => {
 								></ComboboxInput>
 								<ComboboxOptions static className="border-black border-2 rounded-md">
 									{degrees
-										.filter((degree) => {
+										.filter((degree: Degree) => {
 											return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(query.toLowerCase())
 										})
-										.map((degree) => {
+										.map((degree: Degree) => {
 											return (
 												<ComboboxOption
 													key={degree.degreeName + " " + degree.degreeYear}
@@ -169,7 +168,6 @@ const DegreeBuildingWindow = () => {
 							<EditDegreeView
 								degreeName={selectedDegree.degreeName}
 								degreeYear={`${selectedDegree.degreeYear}`}
-								mode={"EDIT"}
 							></EditDegreeView>
 						)}
 

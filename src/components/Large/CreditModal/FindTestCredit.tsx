@@ -22,8 +22,8 @@ const FindTransferCredit = ({ foundCredit, closeModal } : { foundCredit: Dispatc
 
     return (
         <>
-            <div className="flex flex-col items-center w-100 border-2 rounded-lg p-4 gap-4">
-                <h1 className="h-8 text-2xl max-w-100 line-clamp-1 justify-self-start">Transfer Credit Selection</h1>
+            <div className="flex flex-col items-center w-80 border-2 rounded-lg p-4 gap-4">
+                <h1 className="h-8 text-2xl max-w-80 line-clamp-1 justify-self-start">Transfer Credit Selection</h1>
                 <hr className="w-full" />
                 <div className="flex flex-row gap-2 items-center w-full">
                     <p>Type: </p>

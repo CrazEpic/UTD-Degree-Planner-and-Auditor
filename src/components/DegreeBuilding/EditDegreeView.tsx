@@ -108,12 +108,13 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 							)
 						case "Text":
 							return (
-								<div className="flex flex-row w-full">
+								<div className="flex flex-row items-center gap-2 w-full">
 									<TextBlockView
 										textBlockID={inner.blockContent.id}
 										text={(inner.blockContent as TextBlock).text}
 										mode={"EDIT"}
-										fetchDegree={fetchDegree}
+										type={"DEGREE"}
+										update={fetchDegree}
 									/>
 									{/* FIX THIS LATER PLEASE */}
                                     <Button

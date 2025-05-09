@@ -1,13 +1,15 @@
 import { Transition } from "@headlessui/react"
 import { ReactNode } from "react"
 
-const SlideTransition = ({
+const DropTransition = ({
     show,
     children
 }: {
     show: boolean,
     children: ReactNode,
 }) => {
+
+    // Convert height to dynamic to apply more broadly
     return (
         <Transition
             as="div"
@@ -24,4 +26,4 @@ const SlideTransition = ({
     )
 }
 
-export default SlideTransition
+export default DropTransition

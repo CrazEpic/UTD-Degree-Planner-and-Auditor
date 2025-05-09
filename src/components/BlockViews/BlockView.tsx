@@ -184,7 +184,8 @@ function BlockView({
 														textBlockID={inner.blockContent.id}
 														text={(inner.blockContent as TextBlock).text}
 														mode={mode}
-														fetchDegree={fetchDegree}
+														type={"DEGREE"}
+														update={fetchDegree}
 													/>
 													{/* FIX THIS LATER PLEASE */}
 													{mode === "EDIT" && (
