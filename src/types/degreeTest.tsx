@@ -72,9 +72,8 @@ export type TransferCredit = {
 }
 
 export type TransferCourseEquivalency = {
-    externalSchool: string,
-    externalCourseID: string,
-    courseEquivalency: JSON,
+    transferCourseEquivalencyID: string,
+    courseEquivalency: string,
     TransferCredit: TransferCredit[],
 }
 
@@ -112,8 +111,7 @@ export type DegreePlanCourse = {
     testComponentID?: string,       
     // only applicable for transfer credit
     TransferCredit?: TransferCredit
-    externalSchool?: string,       
-    externalCourseID?: string,       
+    transferCourseEquivalencyID?: string,       
 
     // DegreePlanCourseCreditHourClaims DegreePlanCourseCreditHourClaim[]
 }

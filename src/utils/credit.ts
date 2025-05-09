@@ -2,9 +2,8 @@ import { DegreePlanCourse, Test, TestCredit, TestEquivalency, Transfer, Transfer
 
 const createTransferEquivalency = () : TransferCourseEquivalency => {
     return {
-        externalSchool: "",
-        externalCourseID: "",
-        courseEquivalency: JSON,
+        transferCourseEquivalencyID: "",
+        courseEquivalency: "",
         TransferCredit: [],
     }
 }

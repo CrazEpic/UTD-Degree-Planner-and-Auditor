@@ -37,7 +37,7 @@ function PlannerWindow() {
 			return "Test Credits (AP/IB/CLEP/etc.)"
 		}
 		// transferred credit
-		else if (course.externalCourseID) {
+		else if (course.transferCourseEquivalencyID) {
 			return "Transferred Credits"
 		}
 		// semester credit
