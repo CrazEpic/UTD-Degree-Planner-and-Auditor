@@ -246,4 +246,88 @@ router.delete("/unlinkCourseFromRequirementBlock", async (req, res) => {
 	res.json(degreePlanCourseCreditHourClaim)
 })
 
+router.post("/addTransferCredit", async (req, res) => {
+	const { data, error } = z
+		.object({
+			userID: z.string(),
+			transferCourseEquivalencyID: z.string(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { userID, transferCourseEquivalencyID } = data
+	const transferCredit = await req.context.prisma.transferCredit.create({
+		data: {
+			User: {
+				connect: { userID: userID },
+			},
+			TransferCourseEquivalency: {
+				connect: { transferCourseEquivalencyID: transferCourseEquivalencyID },
+			},
+		},
+	})
+	res.json(transferCredit)
+})
+
+router.post("/applyTransferCredit", async (req, res) => {
+	const { data, error } = z
+		.object({
+			userID: z.string(),
+			degreePlanID: z.string(),
+			prefix: z.string(),
+			number: z.string(),
+			transferCourseEquivalencyID: z.string(),
+		})
+		.strict()
+		.required()
+		.safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { userID, degreePlanID, prefix, number, transferCourseEquivalencyID } = data
+
+	// check if given course fulfills the equivalency
+	// TODO: account for other cases like GNED and LLUC from https://transfercredit.utdallas.edu/search-by-utd-course/
+	const transferCourseEquivalency = await req.context.prisma.transferCourseEquivalency.findUnique({
+		where: { transferCourseEquivalencyID: transferCourseEquivalencyID },
+	})
+	const { utdCourseEquivalency } = transferCourseEquivalency
+
+	if (utdCourseEquivalency == "UTD 9998") {
+		return res.status(StatusCodes.BAD_REQUEST).send("Not Acceptable Transfer Credit")
+	}
+
+	if (utdCourseEquivalency != `${prefix} ${number}` && utdCourseEquivalency != `${prefix} ${number[0]}---`) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course does not fulfill equivalency " + utdCourseEquivalency)
+	}
+
+	const degreePlanCourse = await req.context.prisma.degreePlanCourse.create({
+		data: {
+			Course: {
+				connect: {
+					courseID: {
+						prefix: prefix,
+						number: number,
+					},
+				},
+			},
+			DegreePlan: {
+				connect: { degreePlanID: degreePlanID },
+			},
+			TransferCredit: {
+				connect: {
+					transferCreditID: {
+						userID: userID,
+						transferCourseEquivalencyID: transferCourseEquivalencyID,
+					},
+				},
+			},
+		},
+	})
+	res.json(degreePlanCourse)
+})
+
 export default router
