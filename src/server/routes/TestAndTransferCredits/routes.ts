@@ -9,7 +9,7 @@ router.get("/transferCreditSchools", async (req, res) => {
 })
 
 // table is excpected to be big, so we need to paginate results later
-router.get("/transferCreditEquivalencies", async (req, res) => {
+router.get("/transferCreditEquivalenciesByUTDCourse", async (req, res) => {
 	const { data, error } = z
 		.object({
 			prefix: z.string().nonempty().toUpperCase(),
@@ -104,6 +104,26 @@ router.get("/transferCreditEquivalencies", async (req, res) => {
 			},
 		})
 	}
+	res.json(credits)
+})
+
+router.get("/transferCreditEquivalenciesByTransferSchool", async (req, res) => {
+	const { data, error } = z
+		.object({
+			transferSchoolSchoolID: z.string().nonempty().toUpperCase(),
+		})
+		.strict()
+		.safeParse(req.query)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { transferSchoolSchoolID } = data
+
+	const credits = await req.context.prisma.transferCourseEquivalency.findMany({
+		where: {
+			transferSchoolSchoolID: transferSchoolSchoolID,
+		},
+	})
 	res.json(credits)
 })
 
