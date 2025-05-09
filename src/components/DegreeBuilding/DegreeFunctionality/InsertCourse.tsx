@@ -4,20 +4,7 @@ import axios from "axios"
 import { useContext, useState } from "react"
 import { CoursesContext } from "../../../contexts/CoursesContext"
 import { Course } from "../../../types/degreeTest"
-
-const getRelevance = (course: Course, query: string) => {
-	const prefix = course.prefix.toLowerCase();
-	const number = course.number.toLowerCase();
-	const name = course.name.toLowerCase();
-	
-	const fullCode = `${prefix} ${number}`;
-
-	// TODO: Prefix is weighted improperly
-	if (fullCode === query || name === query) return 3;
-	if (fullCode.startsWith(query) || name.startsWith(query)) return 2;
-	if (fullCode.includes(query) || name.includes(query)) return 1;
-	return 0;
-}
+import { courseSearchSort } from "../../../utils/course"
 
 // TODO: Style this properly
 const CourseSearch = ({ 
@@ -110,24 +97,7 @@ const CourseSearch = ({
 									}
 									return `${course.prefix} ${course.number} ${course.name}`.toLowerCase().includes(query.toLowerCase())
 								})
-								.sort((courseA, courseB) => {
-									const lowerQuery = query.toLowerCase()
-
-									const relevanceA = getRelevance(courseA, lowerQuery)
-									const relevanceB = getRelevance(courseB, lowerQuery)
-
-									if (relevanceA !== relevanceB) return relevanceB - relevanceA;
-
-									const prefixComp = courseA.prefix.localeCompare(courseB.prefix)
-									if (prefixComp !== 0) return prefixComp
-
-									const numberComp = parseInt(courseA.number) - parseInt(courseB.number)
-									if (numberComp !== 0) return numberComp;
-
-									return courseA.name.localeCompare(courseB.name)
-
-									
-								})
+								.sort((a, b) => courseSearchSort(a, b, query))
 								.slice(0, 100)
 								.map((course) => (
 									<>

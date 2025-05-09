@@ -12,7 +12,7 @@ type MatcherRequisite = {
 	}
 }
 
-type CourseRequisite = {
+export type CourseRequisite = {
 	type: "course"
 	courseID: string
 	minGrade?: string
@@ -28,12 +28,12 @@ type MinorRequisite = {
 	minor: string
 }
 
-type CustomRequisite = {
+export type CustomRequisite = {
 	type: "custom"
 	text: string
 }
 
-type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequisite | CustomRequisite
+export type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequisite | CustomRequisite
 
 type RequisiteGroup = {
 	logicalOperator: "AND" | "OR"
