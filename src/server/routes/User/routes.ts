@@ -18,7 +18,11 @@ router.get("/:username", async (req, res) => {
 	const { username } = data
 	const user = await req.context.prisma.user.findFirst({
 		where: { username: username },
-		include: { TestCredits: true, TransferCredits: true, DegreePlan: true },
+		include: { TestCredits: true, TransferCredits: true, DegreePlan: {
+			include: {
+				DegreePlanCourses: true
+			},
+		} },
 	})
 	res.json(user)
 })

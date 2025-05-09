@@ -1,4 +1,7 @@
 import express from "express"
+import { fileURLToPath } from "url"
+import { dirname } from "path"
+import path from "path"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import cors from "cors"
@@ -29,6 +32,11 @@ const BASE_URL = process.env.BASE_URL
 
 const prisma = new PrismaClient()
 
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+app.use(express.static(path.join(__dirname, "../../dist")))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(cors())
@@ -50,6 +58,11 @@ app.use(authorization)
 
 // routes
 app.use("/api", router)
+
+// serve the static files from the dist folder
+app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "../dist/index.html"))
+})
 
 // error handling middleware
 // this should be the last middleware
