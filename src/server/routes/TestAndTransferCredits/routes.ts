@@ -48,6 +48,7 @@ router.get("/transferCreditEquivalenciesByUTDCourse", async (req, res) => {
 		GNED 1060
 		GNED 1070
 		GNED 1080
+		// CORE AREA + COMPONENT
 		GNED 1090
 		GNED 2090
 		GNED 3090
