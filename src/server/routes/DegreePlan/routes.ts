@@ -1,16 +1,10 @@
 import { StatusCodes } from "http-status-codes"
 import { Router } from "express"
-import { z } from "zod"
+import { routeSchemas } from "../routeSchema"
 const router = Router()
 
 router.get("/:degreePlanID", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.params)
+	const { data, error } = routeSchemas["/api/degreePlan/:degreePlanID - get"].safeParse(req.params)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -28,18 +22,7 @@ router.get("/:degreePlanID", async (req, res) => {
 
 // probably change userID to be in the cookie instead
 router.post("/", async (req, res) => {
-	const { data, error } = z
-		.object({
-			userID: z.string(),
-			degreeID: z.object({
-				degreeName: z.string(),
-				degreeYear: z.string(),
-			}),
-			name: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/ - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -66,17 +49,7 @@ router.post("/", async (req, res) => {
 
 // TODO: handle test and transfer credits
 router.post("/addCourse", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanID: z.string(),
-			course: z.object({
-				prefix: z.string(),
-				number: z.string(),
-			}),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/addCourse - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -100,13 +73,7 @@ router.post("/addCourse", async (req, res) => {
 })
 
 router.delete("/removeCourse", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanCourseID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/removeCourse - delete"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -118,19 +85,7 @@ router.delete("/removeCourse", async (req, res) => {
 })
 
 router.put("/updateCourseSemester", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanCourseID: z.string(),
-			semester: z
-				.object({
-					semesterTerm: z.enum(["FALL", "SPRING", "SUMMER"]),
-					semesterYear: z.string(),
-				})
-				.nullable(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/updateCourseSemester - put"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -157,13 +112,7 @@ router.put("/updateCourseSemester", async (req, res) => {
 })
 
 router.get("/:degreePlanID/getAllCourseToRequirementBlockLinks", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.params)
+	const { data, error } = routeSchemas["/api/degreePlan/:degreePlanID/getAllCourseToRequirementBlockLinks - get"].safeParse(req.params)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -186,15 +135,7 @@ router.get("/:degreePlanID/getAllCourseToRequirementBlockLinks", async (req, res
 
 // TODO: check for terminal block
 router.put("/linkCourseToRequirementBlock", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanCourseID: z.string(),
-			blockID: z.string(),
-			credit: z.number().int().nonnegative(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/linkCourseToRequirementBlock - put"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -223,14 +164,7 @@ router.put("/linkCourseToRequirementBlock", async (req, res) => {
 })
 
 router.delete("/unlinkCourseFromRequirementBlock", async (req, res) => {
-	const { data, error } = z
-		.object({
-			degreePlanCourseID: z.string(),
-			blockID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/unlinkCourseFromRequirementBlock - delete"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -247,14 +181,7 @@ router.delete("/unlinkCourseFromRequirementBlock", async (req, res) => {
 })
 
 router.post("/addTransferCredit", async (req, res) => {
-	const { data, error } = z
-		.object({
-			userID: z.string(),
-			transferCourseEquivalencyID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/addTransferCredit - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -273,17 +200,7 @@ router.post("/addTransferCredit", async (req, res) => {
 })
 
 router.post("/applyTransferCredit", async (req, res) => {
-	const { data, error } = z
-		.object({
-			userID: z.string(),
-			degreePlanID: z.string(),
-			prefix: z.string(),
-			number: z.string(),
-			transferCourseEquivalencyID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/degreePlan/applyTransferCredit - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}

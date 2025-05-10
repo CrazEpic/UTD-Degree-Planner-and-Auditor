@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { Router } from "express"
-import { z } from "zod"
+import { routeSchemas } from "../routeSchema"
 const router = Router()
 
 router.get("/transferCreditSchools", async (req, res) => {
@@ -10,14 +10,7 @@ router.get("/transferCreditSchools", async (req, res) => {
 
 // table is excpected to be big, so we need to paginate results later
 router.get("/transferCreditEquivalenciesByUTDCourse", async (req, res) => {
-	const { data, error } = z
-		.object({
-			prefix: z.string().nonempty().toUpperCase(),
-			number: z.string().length(4).toUpperCase(),
-			schoolsFilter: z.string().optional(),
-		})
-		.strict()
-		.safeParse(req.query)
+	const { data, error } = routeSchemas["/api/testAndTransferCredits/transferCreditEquivalenciesByUTDCourse - get"].safeParse(req.query)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -109,12 +102,7 @@ router.get("/transferCreditEquivalenciesByUTDCourse", async (req, res) => {
 })
 
 router.get("/transferCreditEquivalenciesByTransferSchool", async (req, res) => {
-	const { data, error } = z
-		.object({
-			transferSchoolSchoolID: z.string().nonempty().toUpperCase(),
-		})
-		.strict()
-		.safeParse(req.query)
+	const { data, error } = routeSchemas["/api/testAndTransferCredits/transferCreditEquivalenciesByTransferSchool - get"].safeParse(req.query)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}

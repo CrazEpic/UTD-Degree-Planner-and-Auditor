@@ -29,7 +29,7 @@ function App() {
 	// TODO: should probably put this in a context or something
 	const fetchCourses = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/api/courses")
+			const response = await axios.get("http://localhost:3000/api/course/course/courses")
 			setCourses(response.data)
 		} catch (error) {
 			console.log(error)

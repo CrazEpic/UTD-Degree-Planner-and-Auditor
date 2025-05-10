@@ -1,0 +1,1214 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "UTD Degree Planner and Auditor",
+        "description": "API Documentation for UTD Degree Planner and Auditor"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "Create a new course": {
+                "type": "object",
+                "properties": {
+                    "prefix": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "prefix",
+                    "number",
+                    "name"
+                ],
+                "additionalProperties": false
+            },
+            "Update a course": {
+                "type": "object",
+                "properties": {
+                    "prefix": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "requisites": {
+                        "type": "object",
+                        "properties": {
+                            "prerequisites": {
+                                "type": "object"
+                            },
+                            "corequisites": {
+                                "type": "object"
+                            },
+                            "prerequisitesOrCorequisites": {
+                                "type": "object"
+                            }
+                        },
+                        "required": [
+                            "prerequisites",
+                            "corequisites",
+                            "prerequisitesOrCorequisites"
+                        ]
+                    }
+                },
+                "required": [
+                    "prefix",
+                    "number",
+                    "name",
+                    "requisites"
+                ],
+                "additionalProperties": false
+            }
+        },
+        "parameters": {}
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Serve the static files from the dist folder",
+                "summary": "Serve the static files from the dist folder",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildCourse/course": {
+            "post": {
+                "description": "Create a new course",
+                "summary": "Create a new course",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Create a new course"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a course",
+                "summary": "Update a course",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Update a course"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/degree": {
+            "post": {
+                "description": "Create a new degree",
+                "summary": "Create a new degree",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "year": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "year"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/insertBlockAtPosition": {
+            "post": {
+                "description": "Insert a block at a position",
+                "summary": "Insert a block at a position",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "parentBlockID": {
+                                        "type": "string"
+                                    },
+                                    "position": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "blockTypeInformation": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "blockType": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "NONTERMINAL"
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "blockType"
+                                                ]
+                                            },
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "blockType": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "COURSE"
+                                                        ]
+                                                    },
+                                                    "prefix": {
+                                                        "type": "string"
+                                                    },
+                                                    "number": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "blockType",
+                                                    "prefix",
+                                                    "number"
+                                                ]
+                                            },
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "blockType": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "TEXT"
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "blockType"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "parentBlockID",
+                                    "position",
+                                    "blockTypeInformation"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/deleteBlock": {
+            "delete": {
+                "description": "Delete a block",
+                "summary": "Delete a block",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blockID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "blockID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/updateBlockName": {
+            "put": {
+                "description": "Update a block name",
+                "summary": "Update a block name",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blockID": {
+                                        "type": "string"
+                                    },
+                                    "blockName": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "blockID",
+                                    "blockName"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/updateTextBlock": {
+            "put": {
+                "description": "Update a text block",
+                "summary": "Update a text block",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blockID": {
+                                        "type": "string"
+                                    },
+                                    "text": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "blockID",
+                                    "text"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/buildDegree/updateNonterminalBlockCondition": {
+            "put": {
+                "description": "Update a nonterminal block condition",
+                "summary": "Update a nonterminal block condition",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blockID": {
+                                        "type": "string"
+                                    },
+                                    "conditions": {
+                                        "type": "object",
+                                        "properties": {
+                                            "blockFulfillmentCondition": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "blocksToFulfill": {
+                                                        "type": "number",
+                                                        "exclusiveMinimum": 0
+                                                    }
+                                                },
+                                                "required": [
+                                                    "blocksToFulfill"
+                                                ]
+                                            },
+                                            "minBlockInclusionCondition": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "minBlocksToInclude": {
+                                                        "type": "number",
+                                                        "exclusiveMinimum": 0
+                                                    }
+                                                },
+                                                "required": [
+                                                    "minBlocksToInclude"
+                                                ]
+                                            },
+                                            "creditHourCondition": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "minCreditHours": {
+                                                        "type": "number",
+                                                        "exclusiveMinimum": 0
+                                                    }
+                                                },
+                                                "required": [
+                                                    "minCreditHours"
+                                                ]
+                                            },
+                                            "levelCondition": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "creditHourRequirement": {
+                                                        "type": "number",
+                                                        "exclusiveMinimum": 0
+                                                    },
+                                                    "level": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "1000",
+                                                            "2000",
+                                                            "3000",
+                                                            "4000",
+                                                            "UPPER_DIVISION"
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "creditHourRequirement",
+                                                    "level"
+                                                ]
+                                            },
+                                            "hourBeyondBlockCondition": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "blockKey": {
+                                                        "type": "string"
+                                                    },
+                                                    "hoursBeyondBlock": {
+                                                        "type": "number",
+                                                        "exclusiveMinimum": 0
+                                                    }
+                                                },
+                                                "required": [
+                                                    "blockKey",
+                                                    "hoursBeyondBlock"
+                                                ]
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    }
+                                },
+                                "required": [
+                                    "blockID",
+                                    "conditions"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/course/courses": {
+            "get": {
+                "description": "Get all courses",
+                "summary": "Get all courses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/course/course": {
+            "get": {
+                "description": "Get a course by prefix and number",
+                "summary": "Get a course by prefix and number",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "prefix",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "number",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degree/degrees": {
+            "get": {
+                "description": "Get all degrees",
+                "summary": "Get all degrees",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degree/:name/:year": {
+            "get": {
+                "description": "Get a degree by name and year",
+                "summary": "Get a degree by name and year",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "name",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "year",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/:degreePlanID": {
+            "get": {
+                "description": "Get a degree plan by ID",
+                "summary": "Get a degree plan by ID",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "degreePlanID",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/": {
+            "post": {
+                "description": "Create a new degree plan",
+                "summary": "Create a new degree plan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userID": {
+                                        "type": "string"
+                                    },
+                                    "degreeID": {
+                                        "type": "object",
+                                        "properties": {
+                                            "degreeName": {
+                                                "type": "string"
+                                            },
+                                            "degreeYear": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "degreeName",
+                                            "degreeYear"
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userID",
+                                    "degreeID",
+                                    "name"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/addCourse": {
+            "post": {
+                "description": "Add a course to a degree plan",
+                "summary": "Add a course to a degree plan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "degreePlanID": {
+                                        "type": "string"
+                                    },
+                                    "course": {
+                                        "type": "object",
+                                        "properties": {
+                                            "prefix": {
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "prefix",
+                                            "number"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "degreePlanID",
+                                    "course"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/removeCourse": {
+            "delete": {
+                "description": "Remove a course from a degree plan",
+                "summary": "Remove a course from a degree plan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "degreePlanCourseID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "degreePlanCourseID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/updateCourseSemester": {
+            "put": {
+                "description": "Update a course's semester in a degree plan",
+                "summary": "Update a course's semester in a degree plan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "degreePlanCourseID": {
+                                        "type": "string"
+                                    },
+                                    "semester": {
+                                        "type": [
+                                            "object",
+                                            "null"
+                                        ],
+                                        "properties": {
+                                            "semesterTerm": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "FALL",
+                                                    "SPRING",
+                                                    "SUMMER"
+                                                ]
+                                            },
+                                            "semesterYear": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "semesterTerm",
+                                            "semesterYear"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "degreePlanCourseID",
+                                    "semester"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/:degreePlanID/getAllCourseToRequirementBlockLinks": {
+            "get": {
+                "description": "Get all course to requirement block links",
+                "summary": "Get all course to requirement block links",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "degreePlanID",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/linkCourseToRequirementBlock": {
+            "put": {
+                "description": "Link a course to a requirement block",
+                "summary": "Link a course to a requirement block",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "degreePlanCourseID": {
+                                        "type": "string"
+                                    },
+                                    "blockID": {
+                                        "type": "string"
+                                    },
+                                    "credit": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    }
+                                },
+                                "required": [
+                                    "degreePlanCourseID",
+                                    "blockID",
+                                    "credit"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/unlinkCourseFromRequirementBlock": {
+            "delete": {
+                "description": "Unlink a course from a requirement block",
+                "summary": "Unlink a course from a requirement block",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "degreePlanCourseID": {
+                                        "type": "string"
+                                    },
+                                    "blockID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "degreePlanCourseID",
+                                    "blockID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/addTransferCredit": {
+            "post": {
+                "description": "Add a transfer credit",
+                "summary": "Add a transfer credit",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userID": {
+                                        "type": "string"
+                                    },
+                                    "transferCourseEquivalencyID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userID",
+                                    "transferCourseEquivalencyID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/applyTransferCredit": {
+            "post": {
+                "description": "Apply a transfer credit",
+                "summary": "Apply a transfer credit",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userID": {
+                                        "type": "string"
+                                    },
+                                    "degreePlanID": {
+                                        "type": "string"
+                                    },
+                                    "prefix": {
+                                        "type": "string"
+                                    },
+                                    "number": {
+                                        "type": "string"
+                                    },
+                                    "transferCourseEquivalencyID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userID",
+                                    "degreePlanID",
+                                    "prefix",
+                                    "number",
+                                    "transferCourseEquivalencyID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testAndTransferCredits/transferCreditSchools": {
+            "get": {
+                "description": "Get all transfer credit schools",
+                "summary": "Get all transfer credit schools",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testAndTransferCredits/transferCreditEquivalenciesByUTDCourse": {
+            "get": {
+                "description": "Get transfer credit equivalencies by UTD course",
+                "summary": "Get transfer credit equivalencies by UTD course",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "required": true,
+                        "name": "prefix",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "minLength": 4,
+                            "maxLength": 4
+                        },
+                        "required": true,
+                        "name": "number",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": false,
+                        "name": "schoolsFilter",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testAndTransferCredits/transferCreditEquivalenciesByTransferSchool": {
+            "get": {
+                "description": "Get transfer credit equivalencies by transfer school",
+                "summary": "Get transfer credit equivalencies by transfer school",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "required": true,
+                        "name": "transferSchoolSchoolID",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/:username": {
+            "get": {
+                "description": "Get a user by username",
+                "summary": "Get a user by username",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "username",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "webhooks": {}
+}
