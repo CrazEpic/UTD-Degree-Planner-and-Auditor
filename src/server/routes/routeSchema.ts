@@ -3,6 +3,7 @@ import { z } from "zod"
 import fs from "fs"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+import { prismaZodSchemas } from "../../../prisma/json-schema/prisma-zod-objects.ts"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -288,10 +289,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Course"],
 				},
 			},
 		},
@@ -315,10 +313,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Course"],
 				},
 			},
 		},
@@ -342,10 +337,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Degree"],
 				},
 			},
 		},
@@ -369,10 +361,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["BlockRequirement"],
 				},
 			},
 		},
@@ -396,10 +385,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["BlockRequirement"],
 				},
 			},
 		},
@@ -423,10 +409,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["BlockRequirement"],
 				},
 			},
 		},
@@ -450,10 +433,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["TextBlock"],
 				},
 			},
 		},
@@ -477,10 +457,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["NonterminalBlock"],
 				},
 			},
 		},
@@ -497,10 +474,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: z.array(prismaZodSchemas["Course"]),
 				},
 			},
 		},
@@ -520,10 +494,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Course"],
 				},
 			},
 		},
@@ -540,10 +511,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Degree"],
 				},
 			},
 		},
@@ -563,10 +531,21 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["Degree"].extend({
+						RootBlock: prismaZodSchemas["BlockRequirement"].extend({
+							innerBlocks: z
+								.array(
+									prismaZodSchemas["BlockRequirement"].extend({
+										NonterminalBlock: prismaZodSchemas["NonterminalBlock"].optional(),
+										CourseBlock: prismaZodSchemas["CourseBlock"].optional(),
+										TextBlock: prismaZodSchemas["TextBlock"].optional(),
+										MatcherGroupBlock: prismaZodSchemas["MatcherGroupBlock"].optional(),
+										FlagToggleBlock: prismaZodSchemas["FlagToggleBlock"].optional(),
+									})
+								)
+								.optional(),
+						}),
+					}),
 				},
 			},
 		},
@@ -586,10 +565,11 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlan"].extend({
+						DegreePlanCourses: prismaZodSchemas["DegreePlanCourse"].extend({
+							Course: prismaZodSchemas["Course"].optional(),
+						}),
+					}),
 				},
 			},
 		},
@@ -613,10 +593,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlan"],
 				},
 			},
 		},
@@ -640,10 +617,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourse"],
 				},
 			},
 		},
@@ -667,10 +641,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourse"],
 				},
 			},
 		},
@@ -694,10 +665,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourse"],
 				},
 			},
 		},
@@ -717,10 +685,10 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourseCreditHourClaim"].extend({
+						DegreePlanCourse: prismaZodSchemas["DegreePlanCourse"],
+						Block: prismaZodSchemas["BlockRequirement"],
+					}),
 				},
 			},
 		},
@@ -744,10 +712,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourseCreditHourClaim"],
 				},
 			},
 		},
@@ -771,10 +736,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["DegreePlanCourseCreditHourClaim"],
 				},
 			},
 		},
@@ -798,10 +760,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["TransferCredit"],
 				},
 			},
 		},
@@ -825,10 +784,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["TransferCredit"],
 				},
 			},
 		},
@@ -845,10 +801,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: z.array(prismaZodSchemas["TransferSchool"]),
 				},
 			},
 		},
@@ -868,10 +821,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: z.array(prismaZodSchemas["TransferCourseEquivalency"]),
 				},
 			},
 		},
@@ -891,10 +841,7 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: z.array(prismaZodSchemas["TransferCourseEquivalency"]),
 				},
 			},
 		},
@@ -914,10 +861,15 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: {
-						type: "object",
-						properties: {},
-					},
+					schema: prismaZodSchemas["User"].extend({
+						TestCredits: z.array(prismaZodSchemas["TestCredit"]),
+						TransferCredits: z.array(prismaZodSchemas["TransferCredit"]),
+						DegreePlan: z.array(
+							prismaZodSchemas["DegreePlan"].extend({
+								DegreePlanCourses: z.array(prismaZodSchemas["DegreePlanCourse"]),
+							})
+						),
+					}),
 				},
 			},
 		},

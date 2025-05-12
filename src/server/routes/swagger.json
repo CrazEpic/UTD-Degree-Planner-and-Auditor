@@ -114,7 +114,34 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "coreCurriculumAreaName": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "requisites": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -140,7 +167,34 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "coreCurriculumAreaName": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "requisites": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -181,7 +235,17 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreeName": {
+                                            "type": "string"
+                                        },
+                                        "degreeYear": {
+                                            "type": "string"
+                                        },
+                                        "blockID": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -278,7 +342,31 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "blockName": {
+                                            "type": "string"
+                                        },
+                                        "parentBlockID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "blockPosition": {
+                                            "type": "integer",
+                                            "default": 1
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -315,7 +403,31 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "blockName": {
+                                            "type": "string"
+                                        },
+                                        "parentBlockID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "blockPosition": {
+                                            "type": "integer",
+                                            "default": 1
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -356,7 +468,31 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "blockName": {
+                                            "type": "string"
+                                        },
+                                        "parentBlockID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "blockPosition": {
+                                            "type": "integer",
+                                            "default": 1
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -397,7 +533,15 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "text": {
+                                            "type": "string",
+                                            "default": ""
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -516,7 +660,15 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "conditions": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -534,8 +686,38 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {}
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "prefix": {
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "coreCurriculumAreaName": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "requisites": {
+                                                "type": "object",
+                                                "properties": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -572,7 +754,34 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "coreCurriculumAreaName": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "requisites": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -591,7 +800,17 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreeName": {
+                                            "type": "string"
+                                        },
+                                        "degreeYear": {
+                                            "type": "string"
+                                        },
+                                        "blockID": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -628,7 +847,140 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreeName": {
+                                            "type": "string"
+                                        },
+                                        "degreeYear": {
+                                            "type": "string"
+                                        },
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "RootBlock": {
+                                            "type": "object",
+                                            "properties": {
+                                                "blockID": {
+                                                    "type": "string"
+                                                },
+                                                "blockName": {
+                                                    "type": "string"
+                                                },
+                                                "parentBlockID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "blockPosition": {
+                                                    "type": "integer",
+                                                    "default": 1
+                                                },
+                                                "innerBlocks": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "blockID": {
+                                                                "type": "string"
+                                                            },
+                                                            "blockName": {
+                                                                "type": "string"
+                                                            },
+                                                            "parentBlockID": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "type": "null"
+                                                                    },
+                                                                    {
+                                                                        "type": "null"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "blockPosition": {
+                                                                "type": "integer",
+                                                                "default": 1
+                                                            },
+                                                            "NonterminalBlock": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "conditions": {
+                                                                        "type": "object",
+                                                                        "properties": {}
+                                                                    }
+                                                                }
+                                                            },
+                                                            "CourseBlock": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "prefix": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "number": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "TextBlock": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "text": {
+                                                                        "type": "string",
+                                                                        "default": ""
+                                                                    }
+                                                                }
+                                                            },
+                                                            "MatcherGroupBlock": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "matcher": {
+                                                                        "type": "object",
+                                                                        "properties": {}
+                                                                    }
+                                                                }
+                                                            },
+                                                            "FlagToggleBlock": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "flag_id": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "RootBlock"
+                                    ]
                                 }
                             }
                         }
@@ -657,7 +1009,165 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "startSemesterTerm": {
+                                            "type": "string",
+                                            "enum": [
+                                                "FALL",
+                                                "SPRING",
+                                                "SUMMER"
+                                            ]
+                                        },
+                                        "startSemesterYear": {
+                                            "type": "string"
+                                        },
+                                        "endSemesterTerm": {
+                                            "type": "string",
+                                            "enum": [
+                                                "FALL",
+                                                "SPRING",
+                                                "SUMMER"
+                                            ]
+                                        },
+                                        "endSemesterYear": {
+                                            "type": "string"
+                                        },
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "degreeName": {
+                                            "type": "string"
+                                        },
+                                        "degreeYear": {
+                                            "type": "string"
+                                        },
+                                        "selectionOptions": {
+                                            "type": "object",
+                                            "properties": {}
+                                        },
+                                        "DegreePlanCourses": {
+                                            "type": "object",
+                                            "properties": {
+                                                "degreePlanCourseID": {
+                                                    "type": "string"
+                                                },
+                                                "degreePlanID": {
+                                                    "type": "string"
+                                                },
+                                                "prefix": {
+                                                    "type": "string"
+                                                },
+                                                "number": {
+                                                    "type": "string"
+                                                },
+                                                "semesterYear": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "semesterTerm": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "userID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "testComponentID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "transferCourseEquivalencyID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "Course": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "prefix": {
+                                                            "type": "string"
+                                                        },
+                                                        "number": {
+                                                            "type": "string"
+                                                        },
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "coreCurriculumAreaName": {
+                                                            "anyOf": [
+                                                                {
+                                                                    "type": "string"
+                                                                },
+                                                                {
+                                                                    "type": "null"
+                                                                },
+                                                                {
+                                                                    "type": "null"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "requisites": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "DegreePlanCourses"
+                                    ]
                                 }
                             }
                         }
@@ -714,7 +1224,49 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "startSemesterTerm": {
+                                            "type": "string",
+                                            "enum": [
+                                                "FALL",
+                                                "SPRING",
+                                                "SUMMER"
+                                            ]
+                                        },
+                                        "startSemesterYear": {
+                                            "type": "string"
+                                        },
+                                        "endSemesterTerm": {
+                                            "type": "string",
+                                            "enum": [
+                                                "FALL",
+                                                "SPRING",
+                                                "SUMMER"
+                                            ]
+                                        },
+                                        "endSemesterYear": {
+                                            "type": "string"
+                                        },
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "degreeName": {
+                                            "type": "string"
+                                        },
+                                        "degreeYear": {
+                                            "type": "string"
+                                        },
+                                        "selectionOptions": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -767,7 +1319,85 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "semesterYear": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "semesterTerm": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "userID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "testComponentID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -804,7 +1434,85 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "semesterYear": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "semesterTerm": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "userID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "testComponentID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -865,7 +1573,85 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "semesterYear": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "semesterTerm": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "userID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "testComponentID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -894,7 +1680,131 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "credit": {
+                                            "type": "integer"
+                                        },
+                                        "DegreePlanCourse": {
+                                            "type": "object",
+                                            "properties": {
+                                                "degreePlanCourseID": {
+                                                    "type": "string"
+                                                },
+                                                "degreePlanID": {
+                                                    "type": "string"
+                                                },
+                                                "prefix": {
+                                                    "type": "string"
+                                                },
+                                                "number": {
+                                                    "type": "string"
+                                                },
+                                                "semesterYear": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "semesterTerm": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "userID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "testComponentID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "transferCourseEquivalencyID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "Block": {
+                                            "type": "object",
+                                            "properties": {
+                                                "blockID": {
+                                                    "type": "string"
+                                                },
+                                                "blockName": {
+                                                    "type": "string"
+                                                },
+                                                "parentBlockID": {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        },
+                                                        {
+                                                            "type": "null"
+                                                        }
+                                                    ]
+                                                },
+                                                "blockPosition": {
+                                                    "type": "integer",
+                                                    "default": 1
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "DegreePlanCourse",
+                                        "Block"
+                                    ]
                                 }
                             }
                         }
@@ -940,7 +1850,17 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "credit": {
+                                            "type": "integer"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -981,7 +1901,17 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "blockID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "credit": {
+                                            "type": "integer"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1022,7 +1952,14 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1075,7 +2012,14 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "type": "string"
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1093,8 +2037,27 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {}
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "schoolID": {
+                                                "type": "string"
+                                            },
+                                            "schoolName": {
+                                                "type": "string"
+                                            },
+                                            "schoolCity": {
+                                                "type": "string"
+                                            },
+                                            "schoolState": {
+                                                "type": "string"
+                                            },
+                                            "schoolCountry": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1141,8 +2104,30 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {}
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "transferCourseEquivalencyID": {
+                                                "type": "string"
+                                            },
+                                            "transferCourseID": {
+                                                "type": "string"
+                                            },
+                                            "transferCourseName": {
+                                                "type": "string"
+                                            },
+                                            "utdCourseEquivalency": {
+                                                "type": "string"
+                                            },
+                                            "utdCourseEquivalencyName": {
+                                                "type": "string"
+                                            },
+                                            "transferSchoolSchoolID": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1171,8 +2156,30 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {}
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "transferCourseEquivalencyID": {
+                                                "type": "string"
+                                            },
+                                            "transferCourseID": {
+                                                "type": "string"
+                                            },
+                                            "transferCourseName": {
+                                                "type": "string"
+                                            },
+                                            "utdCourseEquivalency": {
+                                                "type": "string"
+                                            },
+                                            "utdCourseEquivalencyName": {
+                                                "type": "string"
+                                            },
+                                            "transferSchoolSchoolID": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1201,7 +2208,184 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {}
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "TestCredits": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "testComponentID": {
+                                                        "type": "string"
+                                                    },
+                                                    "userID": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "TransferCredits": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "userID": {
+                                                        "type": "string"
+                                                    },
+                                                    "transferCourseEquivalencyID": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "DegreePlan": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "degreePlanID": {
+                                                        "type": "string"
+                                                    },
+                                                    "startSemesterTerm": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "FALL",
+                                                            "SPRING",
+                                                            "SUMMER"
+                                                        ]
+                                                    },
+                                                    "startSemesterYear": {
+                                                        "type": "string"
+                                                    },
+                                                    "endSemesterTerm": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "FALL",
+                                                            "SPRING",
+                                                            "SUMMER"
+                                                        ]
+                                                    },
+                                                    "endSemesterYear": {
+                                                        "type": "string"
+                                                    },
+                                                    "userID": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "degreeName": {
+                                                        "type": "string"
+                                                    },
+                                                    "degreeYear": {
+                                                        "type": "string"
+                                                    },
+                                                    "selectionOptions": {
+                                                        "type": "object",
+                                                        "properties": {}
+                                                    },
+                                                    "DegreePlanCourses": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "degreePlanCourseID": {
+                                                                    "type": "string"
+                                                                },
+                                                                "degreePlanID": {
+                                                                    "type": "string"
+                                                                },
+                                                                "prefix": {
+                                                                    "type": "string"
+                                                                },
+                                                                "number": {
+                                                                    "type": "string"
+                                                                },
+                                                                "semesterYear": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "type": "string"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "semesterTerm": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "type": "string"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "userID": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "type": "string"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "testComponentID": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "type": "string"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "transferCourseEquivalencyID": {
+                                                                    "anyOf": [
+                                                                        {
+                                                                            "type": "string"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        },
+                                                                        {
+                                                                            "type": "null"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "DegreePlanCourses"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "TestCredits",
+                                        "TransferCredits",
+                                        "DegreePlan"
+                                    ]
                                 }
                             }
                         }
