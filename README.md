@@ -92,7 +92,7 @@ Use Postman to test HTTP, SSE, and WebSockets. Keep in mind that some features l
 - **Instance Type:** t2.micro
 
 ### Local Building
-```
+```bash
 git clone https://github.com/CrazEpic/UTD-Degree-Planner-and-Auditor.git
 cd UTD-Degree-Planner-and-Auditor
 npm install
