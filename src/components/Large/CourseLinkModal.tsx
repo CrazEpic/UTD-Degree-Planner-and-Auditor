@@ -35,7 +35,7 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
         let requirements : Block[] = []
         async () => {
             try {
-                const response = await axios.put("http://localhost:3000/api/degreePlan/getAllCourseToRequirementBlockLinks", {
+                const response = await axios.put("/api/degreePlan/getAllCourseToRequirementBlockLinks", {
                     degreePlanID: planID,
                 })
                 requirements = parseRequirements(response)
@@ -60,7 +60,7 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
         console.log("Attempt to link course " + courseID + " with requirement " + reqID + " for " + hours + " hours.")
         async () => {
             try {
-                const response = await axios.put("http://localhost:3000/api/degreePlan/linkCourseToRequirementBlock", {
+                const response = await axios.put("/api/degreePlan/linkCourseToRequirementBlock", {
                     degreePlanCourseID: courseID,
                     blockID: reqID,
                     credit: hours,

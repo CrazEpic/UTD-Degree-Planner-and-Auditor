@@ -19,7 +19,7 @@ const DegreeBuildingWindow = () => {
 	// Undefined Undefined (can be fixed with timeout + placeholder info)
 	const fetchDegrees = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/api/degree/degrees")
+			const response = await axios.get("/api/degree/degrees")
 			setDegrees(response.data)
 		} catch (error) {
 			console.log(error)
@@ -102,7 +102,7 @@ const DegreeBuildingWindow = () => {
 										const name = formData.get("name") as string
 										const year = formData.get("year") as string
 										try {
-											await axios.post("http://localhost:3000/api/buildDegree/degree", {
+											await axios.post("/api/buildDegree/degree", {
 												name: name,
 												year: year,
 											})

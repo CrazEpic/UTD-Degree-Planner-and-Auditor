@@ -920,7 +920,7 @@ const getOpenApiDocumentation = () => {
 			title: "UTD Degree Planner and Auditor",
 			description: "API Documentation for UTD Degree Planner and Auditor",
 		},
-		servers: [{ url: "http://localhost:3000/" }],
+		servers: [{ url: `${process.env.BASE_URL}/` }],
 	})
 }
 

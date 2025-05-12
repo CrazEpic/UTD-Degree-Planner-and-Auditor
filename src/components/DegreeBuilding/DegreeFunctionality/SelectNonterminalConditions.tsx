@@ -53,7 +53,7 @@ const SelectNonterminalConditions = ({
 				[addedCondition]: newCondition,
 			}
 			try {
-				await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+				await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 					blockID: nonterminalBlockID,
 					conditions: newConditions,
 				})
@@ -66,7 +66,7 @@ const SelectNonterminalConditions = ({
 			}
 			delete newConditions[deletedCondition]
 			try {
-				await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+				await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 					blockID: nonterminalBlockID,
 					conditions: newConditions,
 				})

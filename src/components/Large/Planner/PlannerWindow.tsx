@@ -18,7 +18,7 @@ function PlannerWindow() {
 				if (!user) {
 					return
 				}
-				const response = await axios.get(`http://localhost:3000/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
+				const response = await axios.get(`/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
 				setDegreePlan(response.data)
 			} catch (error) {
 				console.error("Error fetching degree plan:", error)

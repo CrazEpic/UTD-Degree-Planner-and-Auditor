@@ -25,7 +25,7 @@ const RequirementWindow = ({ degreeName, degreeYear, mode }: { degreeName: strin
 
 	const fetchDegree = useCallback(async () => {
 		try {
-			const response = await axios.get(`http://localhost:3000/api/degree/${degreeName}/${degreeYear}`)
+			const response = await axios.get(`/api/degree/${degreeName}/${degreeYear}`)
 			setDegree(parseDegree(response.data))
 		} catch (error) {
 			console.log(error)

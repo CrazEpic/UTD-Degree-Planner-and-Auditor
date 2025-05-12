@@ -21,7 +21,7 @@ const CourseBuildingWindow = () => {
 
     const addNewCourse = async (name: string, prefix: string, number: string) => {
         try {
-            axios.put("http://localhost:3000/api/buildCourse/course", {
+            axios.put("/api/buildCourse/course", {
                 prefix: prefix,
                 number: number,
                 name: name,

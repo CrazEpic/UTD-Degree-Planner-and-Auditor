@@ -29,7 +29,7 @@ const NonterminalConditions = ({
 									const formData = new FormData(form)
 									const newBlocksToFulfill = formData.get("blocksToFulfill") as string
 									try {
-										await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+										await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 											blockID: nonterminalBlockID,
 											conditions: {
 												...conditions,
@@ -72,7 +72,7 @@ const NonterminalConditions = ({
 									const formData = new FormData(form)
 									const newMinBlocksToInclude = formData.get("minBlocksToInclude") as string
 									try {
-										await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+										await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 											blockID: nonterminalBlockID,
 											conditions: {
 												...conditions,
@@ -115,7 +115,7 @@ const NonterminalConditions = ({
 									const formData = new FormData(form)
 									const newMinCreditHours = formData.get("minCreditHours") as string
 									try {
-										await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+										await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 											blockID: nonterminalBlockID,
 											conditions: {
 												...conditions,
@@ -159,7 +159,7 @@ const NonterminalConditions = ({
 									const newLevel = formData.get("level") as string
 									const newCreditHourRequirement = formData.get("creditHourRequirement") as string
 									try {
-										await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+										await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 											blockID: nonterminalBlockID,
 											conditions: {
 												...conditions,
@@ -215,7 +215,7 @@ const NonterminalConditions = ({
 									const newBlockKey = formData.get("blockKey") as string
 									const newHoursBeyondBlock = formData.get("hoursBeyondBlock") as string
 									try {
-										await axios.put("http://localhost:3000/api/buildDegree/updateNonterminalBlockCondition", {
+										await axios.put("/api/buildDegree/updateNonterminalBlockCondition", {
 											blockID: nonterminalBlockID,
 											conditions: {
 												...conditions,

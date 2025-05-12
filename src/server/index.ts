@@ -32,7 +32,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const app = express()
 const PORT = process.env.PORT
-const BASE_URL = process.env.BASE_URL
 const prisma = new PrismaClient()
 
 writeDocumentation()
@@ -62,8 +61,9 @@ app.use(authorization)
 // routes
 app.use("/api", router)
 
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "../dist/index.html"))
+// meant to serve static files after vite build
+app.get("/{*splat}", (req, res) => {
+	res.sendFile(path.join(__dirname, "../../dist", "index.html")) // or 'build'
 })
 
 // error handling middleware
@@ -71,5 +71,6 @@ app.get("/", (req, res) => {
 app.use(errorHandler)
 
 app.listen(PORT, () => {
-	console.log(`Server is running on ${BASE_URL}`)
+	
+	console.log(`Server is running on port ${PORT}`)
 })

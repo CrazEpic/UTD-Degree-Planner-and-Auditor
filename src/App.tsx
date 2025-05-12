@@ -18,7 +18,7 @@ function App() {
 
 	const fetchUser = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/api/user/craz")
+			const response = await axios.get(`/api/user/craz`)
 			setUser(response.data)
 		} catch (error) {
 			console.error("Error fetching user data:", error)
@@ -29,7 +29,7 @@ function App() {
 	// TODO: should probably put this in a context or something
 	const fetchCourses = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/api/course/course/courses")
+			const response = await axios.get("/api/course/courses")
 			setCourses(response.data)
 		} catch (error) {
 			console.log(error)
@@ -37,11 +37,9 @@ function App() {
 	}
 
 	useEffect(() => {
-
 		// Replace fetch user with the userlogin
 		// Let user select a degree plan
 		fetchUser()
-
 
 		fetchCourses()
 	}, [])
@@ -70,7 +68,6 @@ function App() {
 								path="/"
 								element={
 									<div className="flex flex-row h-[calc(100vh-55px)]">
-
 										{/* TODO: Refactor for everything to be inside "LargeWindow" -> rename StudentView? */}
 										<LargeWindow></LargeWindow>
 										<MatcherContext.Provider value={{ conditions: null, search: searchCourses, close: endSearch }}>
@@ -86,6 +83,15 @@ function App() {
 
 							{/* Route here if user is not logged in */}
 							<Route path="/login" element={<LoginWindow></LoginWindow>} />
+							{/* Catchall route if the route doesn't exist */}
+							<Route
+								path="/*"
+								element={
+									<div className="flex min-h-screen">
+										<p className="m-auto text-2xl">This route does not exist</p>
+									</div>
+								}
+							/>
 						</Routes>
 					</CoursesContext.Provider>
 				</UserContext.Provider>

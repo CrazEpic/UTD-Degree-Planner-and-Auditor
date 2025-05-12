@@ -86,7 +86,7 @@ const CourseBlockView = ({ course, indent, mode }: { course: CourseBlock; indent
 							onClick={async () => {
 								// TODO: Implement planned courses
 								try {
-									const response = await axios.post("http://localhost:3000/api/degreePlan/addCourse", {
+									const response = await axios.post("/api/degreePlan/addCourse", {
 										degreePlanID: user?.DegreePlan?.degreePlanID,
 										course: { prefix: course.prefix, number: course.number },
 									})

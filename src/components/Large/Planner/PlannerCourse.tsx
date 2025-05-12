@@ -59,7 +59,7 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 														className="rounded-lg rounded-b-none hover:bg-gray-100"
 														onClick={async () => {
 															try {
-																const response = await axios.put("http://localhost:3000/api/degreePlan/updateCourseSemester", {
+																const response = await axios.put("/api/degreePlan/updateCourseSemester", {
 																	degreePlanCourseID: course.degreePlanCourseID,
 																	semester: {
 																		semesterTerm: semester.split(" ")[0],
@@ -85,7 +85,7 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 												className="rounded-lg rounded-b-none hover:bg-gray-100"
 												onClick={async () => {
 													try {
-														const response = await axios.put("http://localhost:3000/api/degreePlan/updateCourseSemester", {
+														const response = await axios.put("/api/degreePlan/updateCourseSemester", {
 															degreePlanCourseID: course.degreePlanCourseID,
 															semester: null
 														})
@@ -123,7 +123,7 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 									className="text-xl px-2 py-3 text-nowrap relative rounded-lg rounded-t-none hover:bg-gray-100"
 									onClick={async () => {
 										try {
-											const response = await axios.delete("http://localhost:3000/api/degreePlan/removeCourse", {
+											const response = await axios.delete("/api/degreePlan/removeCourse", {
 												data: { degreePlanCourseID: course.degreePlanCourseID },
 											})
 

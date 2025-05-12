@@ -17,7 +17,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
 
 	const fetchDegree = useCallback(async () => {
 		try {
-			const response = await axios.get(`http://localhost:3000/api/degree/${degreeName}/${degreeYear}`)
+			const response = await axios.get(`/api/degree/${degreeName}/${degreeYear}`)
 			setDegree(parseDegree(response.data))
 		} catch (error) {
 			console.log(error)
@@ -91,7 +91,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
                                         className="border-2 rounded-md hover:bg-red-200 size-fit"
                                         onClick={async () => {
                                             try {
-                                                await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+                                                await axios.delete("/api/buildDegree/deleteBlock", {
                                                     data: {
                                                         blockID: inner.blockID,
                                                     },
@@ -121,7 +121,7 @@ const EditDegreeView = ({ degreeName, degreeYear}: { degreeName: string; degreeY
                                         className="border-2 rounded-md hover:bg-red-200"
                                         onClick={async () => {
                                             try {
-                                                await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+                                                await axios.delete("/api/buildDegree/deleteBlock", {
                                                     data: {
                                                         blockID: inner.blockID,
                                                     },

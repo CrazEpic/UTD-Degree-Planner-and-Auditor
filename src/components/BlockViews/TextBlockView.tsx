@@ -19,7 +19,7 @@ const TextBlockView = ({
 	const updateValue = (value: string) => {
 		if (type === "DEGREE") {
 			try {
-				axios.put("http://localhost:3000/api/buildDegree/updateTextBlock", {
+				axios.put("/api/buildDegree/updateTextBlock", {
 					blockID: textBlockID,
 					text: value,
 				})

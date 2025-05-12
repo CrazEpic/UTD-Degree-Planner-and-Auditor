@@ -93,7 +93,7 @@ function BlockView({
 												const formData = new FormData(form)
 												const blockName = formData.get("blockName") as string
 												try {
-													axios.put("http://localhost:3000/api/buildDegree/updateBlockName", {
+													axios.put("/api/buildDegree/updateBlockName", {
 														blockID: requirement.blockID,
 														blockName: blockName,
 													})
@@ -161,7 +161,7 @@ function BlockView({
 															className="border-2 rounded-md hover:bg-red-200 m-1 size-fit"
 															onClick={async () => {
 																try {
-																	await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																	await axios.delete("/api/buildDegree/deleteBlock", {
 																		data: {
 																			blockID: inner.blockID,
 																		},
@@ -193,7 +193,7 @@ function BlockView({
 															className="border-2 rounded-md hover:bg-red-200"
 															onClick={async () => {
 																try {
-																	await axios.delete("http://localhost:3000/api/buildDegree/deleteBlock", {
+																	await axios.delete("/api/buildDegree/deleteBlock", {
 																		data: {
 																			blockID: inner.blockID,
 																		},

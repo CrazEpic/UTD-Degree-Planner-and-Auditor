@@ -8,7 +8,7 @@ const InsertNonterminalButton = ({ blockID, insertPosition, fetchDegree } : { bl
 			className="flex flex-row gap-1 border-2 rounded-md h-10 p-1 items-center hover:bg-green-200 lg:w-min max-lg:w-full"
 			onClick={async () => {
 				try {
-					await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+					await axios.post("/api/buildDegree/insertBlockAtPosition", {
 						parentBlockID: blockID,
 						position: insertPosition,
 						blockTypeInformation: {

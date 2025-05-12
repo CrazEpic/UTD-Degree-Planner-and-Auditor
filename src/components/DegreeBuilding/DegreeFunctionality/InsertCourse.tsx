@@ -37,7 +37,7 @@ const CourseSearch = ({
 							return
 						}
 						try {
-							await axios.post("http://localhost:3000/api/buildDegree/insertBlockAtPosition", {
+							await axios.post("/api/buildDegree/insertBlockAtPosition", {
 								parentBlockID: blockID,
 								position: insertPosition,
 								blockTypeInformation: {

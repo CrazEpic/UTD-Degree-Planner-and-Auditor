@@ -14,7 +14,7 @@ type transferSchool = {
 
 const fetchSchools = async () => {
 	try {
-		const response = await axios.get("http://localhost:3000/api/testAndTransferCredits/transferCreditSchools")
+		const response = await axios.get("/api/testAndTransferCredits/transferCreditSchools")
 		return response.data
 	} catch (error) {
 		console.log("Failed to fetch schools: ", error)
@@ -69,7 +69,7 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 							}
 							setSchoolQuery(value.schoolName)
 							const schoolTransferCourses = await axios.get(
-								"http://localhost:3000/api/testAndTransferCredits/transferCreditEquivalenciesByTransferSchool",
+								"/api/testAndTransferCredits/transferCreditEquivalenciesByTransferSchool",
 								{
 									params: {
 										transferSchoolSchoolID: value.schoolID,
