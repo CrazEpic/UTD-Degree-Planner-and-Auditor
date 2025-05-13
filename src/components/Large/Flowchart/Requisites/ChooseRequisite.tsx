@@ -2,7 +2,19 @@ import { ChevronDownIcon, CheckIcon, CheckCircleIcon, ExclamationCircleIcon } fr
 import { Disclosure, DisclosureButton, DisclosurePanel, Checkbox } from "@headlessui/react"
 import axios from "axios"
 
-const ChooseRequisite = ({ requisites, setTemporarilyAddedCourses, setTemporarilySelectedCustomRequisites, pathToRequisite, parentCanBeFulfilled }) => {
+const ChooseRequisite = ({ 
+	requisites, 
+	setTemporarilyAddedCourses, 
+	setTemporarilySelectedCustomRequisites, 
+	pathToRequisite, 
+	parentCanBeFulfilled,
+}: {
+	requisites: object,
+	setTemporarilyAddedCourses: Function, 
+	setTemporarilySelectedCustomRequisites: Function, 
+	pathToRequisite: string[], 
+	parentCanBeFulfilled: boolean,
+}) => {
 	const tryToFulfillBranchViaCanBeFulfilled = (requisites) => {
 		if (Object.hasOwn(requisites, "logicalOperator")) {
 			// has branches

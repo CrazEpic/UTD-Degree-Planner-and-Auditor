@@ -1,7 +1,7 @@
 import { DisclosurePanel } from "@headlessui/react"
 import InsertNonterminalButton from "./InsertNonterminalButton"
 import InsertCourse from "./InsertCourse"
-import { Block, NonTerminalBlock } from "../../../types/degreeTest"
+import { Block, NonTerminalBlock } from "../../../types/block"
 import InsertTextButton from "./InsertTextButton"
 import SelectNonterminalConditions from "./SelectNonterminalConditions"
 import SlideTransition from "../../Shared/SlideTransition"

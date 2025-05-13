@@ -1,5 +1,5 @@
-import { CourseBlock, DegreePlanCourse } from "../../../types/degreeTest"
-import { Button, Checkbox } from "@headlessui/react"
+import { CourseBlock } from "../../../types/block"
+import { Checkbox } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/24/outline"
 
 const MatchingCourseView = ({

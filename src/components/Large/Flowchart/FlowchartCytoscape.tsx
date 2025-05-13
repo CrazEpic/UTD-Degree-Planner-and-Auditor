@@ -1,6 +1,6 @@
 import cytoscape from "cytoscape"
 import dagre from "cytoscape-dagre"
-import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid"
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { UserContext } from "../../../contexts/UserContext"
 import { useEffect, useContext, useState } from "react"
@@ -27,7 +27,7 @@ let cy: cytoscape.Core
 
 const FlowchartCytoscape = () => {
 	// TODO: I WILL FIX WHERE I API CALL LATER BUT I JUST NEED THE INFORMATION
-	const { user } = useContext(UserContext)
+	const user = useContext(UserContext)?.user
 	const [degreePlan, setDegreePlan] = useState(null)
 	// temporarilyAddedCourses will be affected by requisite selector
 	const [temporarilyAddedCourses, setTemporarilyAddedCourses] = useState([])

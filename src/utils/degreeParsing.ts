@@ -1,4 +1,5 @@
-import { Block, Degree } from "../types/degreeTest";
+import { Degree } from "../types/degree"
+import { Block } from "../types/block"
 
 export const createDefaultBlock = (id: number) : Block => {
 	return {

@@ -1,8 +1,8 @@
 import { PlusIcon } from "@heroicons/react/24/solid"
-import { CourseBlock } from "../../types/degreeTest"
+import { CourseBlock } from "../../types/block"
 import { Button } from "@headlessui/react"
 import { UserContext } from "../../contexts/UserContext"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { semesterFromDate, compareSemesters } from "../../utils/semester"
 import axios from "axios"
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react"
-import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../../types/degreeTest"
+import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../../types/degree"
 import BlockView from "../../BlockViews/BlockView"
 import axios from "axios"
 import CourseBlockView from "../../BlockViews/CourseBlockView"

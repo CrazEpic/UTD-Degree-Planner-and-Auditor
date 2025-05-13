@@ -1,9 +1,10 @@
 import { useContext, useState } from "react"
-import { Block, Course } from "../../types/degreeTest"
+import { Course } from "../../types/degree"
 import RequirementLinkBlock from "./RequirementLinkBlock"
 import axios from "axios"
 import { createDefaultBlock } from "../../utils/degreeParsing"
 import { UserContext } from "../../contexts/UserContext"
+import { Block } from "../../types/block"
 
 // TODO: Implement progress updates
 function getProgress() {
@@ -47,10 +48,8 @@ function CourseLinkModal({course, close}: {course: Course, close(): void}) {
         return requirements
     }
 
-    
-
     // Holds the allocation of hours for each requirement in reqList
-    const reqList = getRequirements(planID)
+    const reqList = getRequirements(planID as string)
     const [hoursAllocation, setHoursAllocation] = useState(new Array(reqList.length).fill(0))
 
     const appliedHours = hoursAllocation.reduce((sum, val) => sum + val, 0)

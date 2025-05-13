@@ -3,7 +3,7 @@ import { PlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 import { useContext, useState } from "react"
 import { CoursesContext } from "../../../contexts/CoursesContext"
-import { Course } from "../../../types/degreeTest"
+import { Course } from "../../../types/degree"
 import { courseSearchSort } from "../../../utils/course"
 
 // TODO: Style this properly

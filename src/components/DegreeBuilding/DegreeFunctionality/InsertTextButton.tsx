@@ -2,7 +2,15 @@ import { Button } from "@headlessui/react"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 
-const InsertTextButton = ({ blockID, insertPosition, fetchDegree }) => {
+const InsertTextButton = ({ 
+	blockID,
+	insertPosition,
+	fetchDegree,
+}: {
+	blockID: string,
+	insertPosition: number,
+	fetchDegree: Function,
+}) => {
 	return (
 		<Button
 			className="flex flex-row gap-1 border-2 rounded-md h-10 p-1 items-center hover:bg-green-200 lg:w-min max-lg:w-full"

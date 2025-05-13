@@ -3,7 +3,7 @@ import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@he
 import PlannerWindow from "./Planner/PlannerWindow"
 import FlowchartWindow from "./Flowchart/FlowchartWindow"
 import CourseLinkModal from "./CourseLinkModal"
-import { Course, UserContextType } from "../../types/degreeTest"
+import { Course } from "../../types/degree"
 import { UserContext } from "../../contexts/UserContext"
 import { Fragment } from "react/jsx-runtime"
 import clsx from "clsx"
@@ -15,7 +15,7 @@ import { ModalContext } from "../../contexts/ModalContext"
 
 function LargeWindow() {
 
-	const user = (useContext(UserContext) as UserContextType).user
+	const user = useContext(UserContext)?.user
 
 	// 	Mask information for modals
 	const [mask, setMask] = useState(false)
@@ -60,7 +60,7 @@ function LargeWindow() {
 						{modalType === "LINK" ? (
 							// Course linking window
 							<div className="fixed lg:top-[calc((100vh-55px)/2)] lg:left-[calc((100vw-375px)/2)] max-lg:top-1/2 max-lg:left-1/2 -translate-1/2 w-fit h-fit bg-white rounded-lg z-50">
-								<CourseLinkModal course={course} close={closeModal}></CourseLinkModal>
+								<CourseLinkModal course={course as Course} close={closeModal}></CourseLinkModal>
 							</div>
 						) : (
 							// Test and transfer credit window
@@ -125,7 +125,7 @@ function LargeWindow() {
 								<FlowchartWindow></FlowchartWindow>
 							</TabPanel>
 							<TabPanel>
-								<RequirementWindow degreeName={user?.DegreePlan?.degreeName} degreeYear={user?.DegreePlan?.degreeYear} mode={"NORMAL"}></RequirementWindow>
+								<RequirementWindow degreeName={user?.DegreePlan?.degreeName as string} degreeYear={user?.DegreePlan?.degreeYear as string} mode={"NORMAL"}></RequirementWindow>
 							</TabPanel>
 							<TabPanel>
 								<PrerequisiteWindow></PrerequisiteWindow>

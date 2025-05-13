@@ -3,13 +3,10 @@ import { Button, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react
 import axios from "axios"
 import { UserContext } from "../../../contexts/UserContext"
 import { useContext, useState } from "react"
-import { DegreePlanCourse } from "../../../types/degreeTest"
+import { DegreePlanCourse, SemesterTerm } from "../../../types/degree"
 import { getAllSemestersFromStartToEnd } from "../../../utils/semester"
 import { ModalContext } from "../../../contexts/ModalContext"
 
-function click(message: string) {
-	console.log(message)
-}
 
 function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 	// Might have an issue with the ? "could be undefined"
@@ -20,8 +17,8 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 	const linkCourse = useContext(ModalContext)?.linkCourse
 
 	const allSemestersFromStartToEnd = getAllSemestersFromStartToEnd(
-		{ term: user?.DegreePlan?.startSemesterTerm, year: parseInt(user?.DegreePlan?.startSemesterYear) },
-		{ term: user?.DegreePlan?.endSemesterTerm, year: parseInt(user?.DegreePlan?.endSemesterYear) }
+		{ term: user?.DegreePlan?.startSemesterTerm as SemesterTerm, year: parseInt(user?.DegreePlan?.startSemesterYear as string) },
+		{ term: user?.DegreePlan?.endSemesterTerm  as SemesterTerm, year: parseInt(user?.DegreePlan?.endSemesterYear as string) }
 	)
 
 	return (
@@ -39,9 +36,11 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 						{/* Will not hover on mobile*/}
 						<Menu as="div" className="w-fit">
 							<MenuButton>
-								<EllipsisVerticalIcon className="size-6 hover:bg-blue-200"></EllipsisVerticalIcon>
+								<EllipsisVerticalIcon className="size-8 hover:bg-blue-200"></EllipsisVerticalIcon>
 							</MenuButton>
 							<MenuItems className="absolute right-0 border-2 rounded-lg bg-white flex flex-col z-10">
+
+								{/* Move Course */}
 								<MenuItem
 									as="div"
 									className="flex flex-row items-center justify-between text-xl py-3 p-1 text-nowrap relative rounded-lg rounded-b-none hover:bg-gray-100"
@@ -105,11 +104,13 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 									)}
 								</MenuItem>
 								<hr />
+
+								{/* TODO: Switch to unlink if currently linked */}
 								<MenuItem
 									as="button"
 									className="text-xl px-2 py-3 text-nowrap relative hover:bg-gray-100"
 									onClick={() => {
-										click("Link")
+										console.log("Link")
 										if (linkCourse) {
 											linkCourse(course.Course)
 										}
@@ -118,6 +119,8 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 									Link Course
 								</MenuItem>
 								<hr />
+
+								{/* Remove Course */}
 								<MenuItem
 									as="button"
 									className="text-xl px-2 py-3 text-nowrap relative rounded-lg rounded-t-none hover:bg-gray-100"
@@ -148,8 +151,5 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 		</>
 	)
 }
-
-// Learn to create a default version
-// Course Name CR 1234
 
 export default PlannerCourse

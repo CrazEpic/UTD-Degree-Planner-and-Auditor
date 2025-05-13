@@ -1,4 +1,4 @@
-import { CourseBlock } from "../../types/degreeTest"
+import { CourseBlock } from "../../types/degree"
 import { Button, Input } from "@headlessui/react"
 import CourseBlockView from "../BlockViews/CourseBlockView"
 import { useContext, useState } from "react"

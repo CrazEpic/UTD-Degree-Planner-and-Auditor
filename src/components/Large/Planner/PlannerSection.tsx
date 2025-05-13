@@ -1,4 +1,4 @@
-import { DegreePlanCourse } from "../../../types/degreeTest"
+import { DegreePlanCourse } from "../../../types/degree"
 import PlannerCourse from "./PlannerCourse"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { Button } from "@headlessui/react"

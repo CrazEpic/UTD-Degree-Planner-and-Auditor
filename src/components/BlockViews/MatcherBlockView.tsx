@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/24/solid"
 import { Button } from "@headlessui/react"
-import { MatcherGroupBlock } from "../../types/degreeTest"
+import { MatcherGroupBlock } from "../../types/block"
 import { useContext } from "react"
 import { MatcherContext } from "../../contexts/MatcherContext"
 

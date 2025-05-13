@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react"
-import { CourseBlock, Degree, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/degreeTest"
+import { Degree } from "../../types/degree"
+import { CourseBlock, FlagToggleBlock, MatcherGroupBlock, NonTerminalBlock, TextBlock } from "../../types/block"
 import BlockView from "../BlockViews/BlockView"
 import axios from "axios"
 import { Button, Disclosure, DisclosureButton } from "@headlessui/react"

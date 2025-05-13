@@ -4,7 +4,7 @@ import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch
 import axios from "axios"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import EditDegreeView from "./EditDegreeView"
-import { Degree } from "../../types/degreeTest"
+import { Degree } from "../../types/degree"
 
 const DegreeBuildingWindow = () => {
 	const [degrees, setDegrees] = useState([])

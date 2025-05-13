@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Block, Degree } from "../../../types/degreeTest"
+import { Block, Degree } from "../../../types/degree"
 import BlockView from "../../BlockViews/BlockView"
 import axios from "axios"
 

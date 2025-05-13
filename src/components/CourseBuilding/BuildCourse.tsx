@@ -1,12 +1,13 @@
 import { Button, Disclosure, DisclosureButton, DisclosurePanel, Input } from "@headlessui/react"
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline"
-import { Course } from "../../types/degreeTest"
+import { Course } from "../../types/degree"
 import { CourseRequisite, CustomRequisite, Requisite } from "../../server/types/requisites"
+import { useState } from "react"
 
 const createCourseRequisite = () : CourseRequisite => {
 	return {
 		type: "course",
-		courseID: "ID",
+		courseID: "CR 1234",
 	}
 }
 
@@ -17,7 +18,8 @@ const createCustomRequisite = () : CustomRequisite => {
 	}
 }
 
-let requisiteList : Requisite[] = [
+// Replace template
+let requisiteTemplate : Requisite[] = [
 	createCourseRequisite(),
 	createCourseRequisite(),
 	createCourseRequisite(),
@@ -34,11 +36,6 @@ const renderRequisites = (requisites: Requisite[], name: string) => {
 						<ChevronDownIcon className="size-8"></ChevronDownIcon>
 						<h1 className="text-md">{name}</h1>
 					</DisclosureButton>
-
-					{/* Add Requirement -> Search for course / Add custom */}
-					<Button>
-						<PlusIcon className="size-8"></PlusIcon>
-					</Button>
 				</div>
 				<DisclosurePanel className="flex flex-col gap-2">
 
@@ -54,6 +51,28 @@ const renderRequisites = (requisites: Requisite[], name: string) => {
 							</div>
 						))
 					}
+
+					{/* Add Requirement -> Search for course / Add custom */}
+					<div className="flex flex-row items-center gap-2">
+						<Button 
+							className="flex flex-row justify-center items-center border border-black rounded-md w-full hover:bg-green-200"
+							onClick={() => {
+								
+							}}
+						>
+							Requirement
+							<PlusIcon className="size-8"></PlusIcon>
+						</Button>
+						<Button 
+							className="flex flex-row justify-center items-center border border-black rounded-md w-full hover:bg-green-200"
+							onClick={() => {
+
+							}}
+						>
+							Custom
+							<PlusIcon className="size-8"></PlusIcon>
+						</Button>
+					</div>
 				</DisclosurePanel>
 			</Disclosure>
 		</div>
@@ -61,9 +80,14 @@ const renderRequisites = (requisites: Requisite[], name: string) => {
 }
 
 const BuildCourse = ({ course, update }: { course: Course, update: Function }) => {
+
+	// TODO: Use these
+	const [prerequisites, setPrerequisites] = useState<Requisite[]>(requisiteTemplate)
+	const [corequisites, setCorequisites] = useState<Requisite[]>(requisiteTemplate)
+	const [prerequisitesOrCorequisites, setPrerequisitesOrCorequisites] = useState<Requisite[]>(requisiteTemplate)
+
 	return (
 		<>
-			{/* May center this after the fact */}
 			<div className="flex flex-col gap-2 items-center min-w-80 m-auto p-4">
 
 				{/* Course View */}
@@ -75,53 +99,9 @@ const BuildCourse = ({ course, update }: { course: Course, update: Function }) =
 						</div> 
 					*/}
 
-					{/* Input Course Values */}
-					<div className="flex flex-col items-center gap-2">				
-						<div className="flex flex-row gap-2 px-3">
-							{/* Input Prefix */}
-							<form
-								id="prefix-form"
-								method="post"
-								onSubmit={async (event) => {
-									event.preventDefault()
-									const form = event.target as HTMLFormElement
-									const formData = new FormData(form)
-									const coursePrefix = formData.get("coursePrefix") as string
-									update(course.id, "prefix", coursePrefix)
-								}}
-							>
-								<label>
-									<Input
-										name="coursePrefix"
-										placeholder="Prefix"
-										type="text"
-										defaultValue={course.prefix}
-										className={"border-2 border-black text-center text-xl h-12 rounded-md w-full"}
-									/>
-								</label>
-							</form>
-							{/* Input Number */}
-							<form
-								method="post"
-								onSubmit={async (event) => {
-									event.preventDefault()
-									const form = event.target as HTMLFormElement
-									const formData = new FormData(form)
-									const courseNumber = formData.get("courseNumber") as string
-									update(course.id, "number", courseNumber)
-								}}
-							>
-								<label>
-									<Input
-										name="courseNumber"
-										placeholder="Number"
-										type="text"
-										defaultValue={course.number}
-										className={"border-2 border-black text-center text-xl h-12 rounded-md w-full"}
-									/>
-								</label>
-							</form>
-						</div>
+					<div className="flex flex-col items-center gap-2 min-w-80 px-3">				
+						<p className="self-start text-2xl">{course.prefix + " " + course.number}</p>
+
 						{/* Input Name */}
 						<form
 							method="post"
@@ -132,7 +112,7 @@ const BuildCourse = ({ course, update }: { course: Course, update: Function }) =
 								const courseName = formData.get("courseName") as string
 								update(course.id, "name", courseName)
 							}}
-							className="w-full px-3"
+							className="w-full"
 						>
 							<label>
 								<Input
@@ -140,18 +120,18 @@ const BuildCourse = ({ course, update }: { course: Course, update: Function }) =
 									placeholder="Name"
 									type="text"
 									defaultValue={course.name}
-									className={"border-2 border-black text-center text-xl h-24 rounded-md w-full"}
+									className={"border-2 border-black text-center h-24 rounded-md w-full"}
 								/>
 							</label>
 						</form>
 					</div>
 				</div>
 
-				{/* Requisites (probably some object keys idea) */}
+				{/* Requisites */}
 				<div className="flex flex-col gap-2 w-full">
-					{renderRequisites(requisiteList, "Prerequisites")}
-					{renderRequisites(requisiteList, "Corequisites")}
-					{renderRequisites(requisiteList, "Prerequisites or Corequisites")}
+					{renderRequisites(prerequisites, "Prerequisites")}
+					{renderRequisites(corequisites, "Corequisites")}
+					{renderRequisites(prerequisitesOrCorequisites, "Prerequisites or Corequisites")}
 				</div>
 			</div>
 		</>

@@ -1,6 +1,6 @@
 import { Combobox, ComboboxOptions, ComboboxOption, ComboboxInput, Input, Switch } from "@headlessui/react"
 import { useState, useEffect, useContext } from "react"
-import { Course } from "../../types/degreeTest"
+import { Course } from "../../types/degree"
 import { UserContext } from "../../contexts/UserContext"
 import BuildCourse from "./BuildCourse"
 import { CoursesContext } from "../../contexts/CoursesContext"
@@ -19,6 +19,11 @@ const CourseBuildingWindow = () => {
     // Add new courses
     const [addDegreeVisible, setAddDegreeVisible] = useState(false)
 
+    // course info did not match
+    const invalidCourseInfo = (name: string, prefix: string, number: string) => {
+        
+    }
+
     const addNewCourse = async (name: string, prefix: string, number: string) => {
         try {
             axios.put("/api/buildCourse/course", {
@@ -26,7 +31,7 @@ const CourseBuildingWindow = () => {
                 number: number,
                 name: name,
             })
-            courseContext?.fetchCourses()
+            await courseContext?.fetchCourses()
         } catch (error) {
             console.log("Failed to add course to courses", error)
         }
@@ -60,11 +65,9 @@ const CourseBuildingWindow = () => {
     // Template code
     const plan = useContext(UserContext)?.user?.DegreePlan
 
-    // Copied over from degree building window
     useEffect(() => {
-        // fetchYears()
-        // fetchCourses()
-    }, [selectedCourse])
+        
+    }, [selectedCourse, courseContext])
 
     return (
         <>
@@ -127,8 +130,12 @@ const CourseBuildingWindow = () => {
                                     const name = formData.get("name") as string
                                     const prefix = formData.get("prefix") as string
                                     const number = formData.get("number") as string
-                                    addNewCourse(name, prefix, number)
-                                    setAddDegreeVisible(false)
+                                    if (name === "" || prefix === "" || number === "") {
+                                        invalidCourseInfo(name, prefix, number)
+                                    } else {
+                                        addNewCourse(name, prefix, number)
+                                        setAddDegreeVisible(false)
+                                    }
                                 }}
                                 className="flex flex-col gap-2 w-fit"
                             >

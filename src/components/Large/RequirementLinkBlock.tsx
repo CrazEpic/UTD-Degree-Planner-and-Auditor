@@ -1,7 +1,7 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/solid"
 import ProgressBar from "../Small/Requirements/ProgressBar"
 import { useState } from "react"
-import { Block } from "../../types/degreeTest"
+import { Block } from "../../types/block"
 
 function updateProgress(progress: number[], add: boolean) : number[] {
     let newProgress = progress

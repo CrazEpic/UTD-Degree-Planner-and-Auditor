@@ -1,4 +1,5 @@
-import { DegreePlanCourse, Test, TestCredit, TestEquivalency, Transfer, TransferCourseEquivalency, TransferCredit, User } from "../types/degreeTest"
+import { DegreePlanCourse, User } from "../types/degree"
+import { Test, TestCredit, TestEquivalency, Transfer, TransferCourseEquivalency, TransferCredit } from "../types/testAndTransfer"
 
 const createTransferEquivalency = () : TransferCourseEquivalency => {
     return {

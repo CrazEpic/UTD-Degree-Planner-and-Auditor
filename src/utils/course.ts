@@ -1,4 +1,4 @@
-import { Course } from "../types/degreeTest"
+import { Course } from "../types/degree"
 
 export const courseSearchSort = (courseA: Course, courseB: Course, query: string) => {
     let input = query.toLowerCase().trimEnd()

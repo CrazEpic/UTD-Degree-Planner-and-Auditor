@@ -1,4 +1,4 @@
-import { SemesterTerm } from "../types/degreeTest"
+import { SemesterTerm } from "../types/degree"
 
 export const semesterFromDate = (date: Date): { term: SemesterTerm.SPRING | SemesterTerm.SUMMER | SemesterTerm.FALL; year: number } => {
 	const springSemesterStart = new Date(date.getFullYear(), 0)

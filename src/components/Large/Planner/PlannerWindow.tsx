@@ -5,11 +5,11 @@ import { UserContext } from "../../../contexts/UserContext"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
 import { compareSemesters, getNextSemester, semesterFromDate, stringFromTerm } from "../../../utils/semester"
-import { DegreePlan, DegreePlanCourse, UserContextType } from "../../../types/degreeTest"
+import { DegreePlan, DegreePlanCourse } from "../../../types/degree"
 
 function PlannerWindow() {
 	// User could be undefined because of the ?
-	const user = useContext<UserContextType | null>(UserContext)?.user
+	const user = useContext(UserContext)?.user
 
 	const [degreePlan, setDegreePlan] = useState<DegreePlan | null>(null)
 	useEffect(() => {

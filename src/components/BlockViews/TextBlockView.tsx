@@ -1,6 +1,6 @@
 import { Input } from "@headlessui/react"
 import axios from "axios"
-import { Mode } from "../../types/requirementWindow"
+import { Mode } from "../../types/degree"
 
 const TextBlockView = ({ 
 	textBlockID, 
@@ -21,7 +21,7 @@ const TextBlockView = ({
 			try {
 				axios.put("/api/buildDegree/updateTextBlock", {
 					blockID: textBlockID,
-					text: value,
+					text: value as string,
 				})
 				update()
 			} catch (error) {
@@ -31,6 +31,10 @@ const TextBlockView = ({
 		if (type === "COURSE") {
 			// API Call to update course information
 			// render new information with update()
+
+			/* 
+				Return course as JSON with all requisites
+			*/
 		}
 	}
 
