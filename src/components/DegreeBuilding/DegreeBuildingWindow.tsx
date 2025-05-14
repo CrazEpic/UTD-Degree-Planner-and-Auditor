@@ -32,10 +32,11 @@ const DegreeBuildingWindow = () => {
 		<>
 			<div className="p-4">
 				<div className="flex flex-row justify-between">	
-					<div className="flex flex-row mb-10">
+					<div className="flex lg:flex-row max-lg:flex-col gap-2 mb-10">
 
 						{/* Search for a degree already in the list */}
 						<Combobox
+							as="div"
 							value={selectedDegree}
 							onChange={(value) => {
 								if (value) {
@@ -45,6 +46,7 @@ const DegreeBuildingWindow = () => {
 							by={(degreeA, degreeB) => {
 								return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
 							}}
+							className="w-50"
 						>
 							<div>
 								<ComboboxInput
@@ -81,9 +83,9 @@ const DegreeBuildingWindow = () => {
 						</Combobox>
 
 						{/* Add a new degree to the list */}
-						<div className="flex flex-row gap-2 h-fit items-center">
-							<div className="flex flex-col items-center">
-								<p>Add New Degree</p>
+						<div className="flex lg:flex-row max-lg:flex-col gap-2 h-fit">
+							<div className="flex lg:flex-col max-lg:flex-row max-lg:gap-2 items-center">
+								<p className="max-lg:hidden">Add New Degree</p>
 								<Switch
 									checked={addDegreeVisible}
 									onChange={setAddDegreeVisible}
@@ -91,6 +93,7 @@ const DegreeBuildingWindow = () => {
 								>
 									<span className="size-4 translate-x-1 rounded-full bg-white transition group-data-[checked]:translate-x-6" />
 								</Switch>
+								<p className="lg:hidden">Add New Degree</p>
 							</div>
 							{addDegreeVisible && (
 								<form
@@ -112,14 +115,14 @@ const DegreeBuildingWindow = () => {
 										}
 										setAddDegreeVisible(false)
 									}}
-									className="flex flex-row gap-2 items-center"
+									className="flex lg:flex-row max-lg:flex-col gap-2 items-center"
 								>
 									<label>
 										<Input 
 											name="name" 
 											placeholder="Enter degree name" 
 											type="text" 
-											className={"border-2 border-black rounded-md px-2 h-10"}></Input>
+											className={"border-2 border-black rounded-md px-2 h-10 w-fit"}></Input>
 									</label>
 									<label>
 										<Input
@@ -128,11 +131,11 @@ const DegreeBuildingWindow = () => {
 											type="number"
 											min="1961"
 											defaultValue={new Date().getFullYear()}
-											className={"border-2 border-black rounded-md px-2 h-10 w-20"}
+											className={"border-2 border-black rounded-md px-2 h-10 w-fit"}
 										></Input>
 									</label>
-									<button type="submit" name="submit" value="Submit" className="size-6">
-										<PlusIcon></PlusIcon>
+									<button type="submit" name="submit" value="Submit" className="border border-black rounded-md w-full hover:bg-green-200">
+										<p>Add Degree</p>
 									</button>
 								</form>
 							)}

@@ -162,7 +162,7 @@ const CourseBuildingWindow = () => {
                                         type="text" 
                                         className={"border-2 border-black rounded-md px-2 h-10"}></Input>
                                 </label>
-                                <button type="submit" name="submit" value="Submit" className="border border-black rounded-md w-full">
+                                <button type="submit" name="submit" value="Submit" className="border border-black rounded-md w-full hover:bg-green-200">
                                     <p>Add Course</p>
                                 </button>
                             </form>

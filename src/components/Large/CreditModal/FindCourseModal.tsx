@@ -108,10 +108,13 @@ const FindCourseModal = ({
                 {/* TODO: Restyle these buttons */}
                 <div className="flex flex-row justify-between w-full">
                     <button
-                        className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
+                        className="flex flex-row items-center w-fit border bg-red-100 pr-1 rounded-lg"
                         onClick={() => {
                             console.log("Back to credit")
-                            back(null)
+                            back({
+                                id: "",
+                                equivalency: "",
+                            })
                         }}
                     >
                         <ChevronLeftIcon className="size-8"></ChevronLeftIcon>
