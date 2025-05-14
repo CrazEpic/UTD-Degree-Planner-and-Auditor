@@ -1,57 +1,42 @@
-import { Dispatch, SetStateAction, useContext, useState } from "react"
-import { Course, DegreePlan, DegreePlanCourse } from "../../../types/degreeTest"
-import { UserContext } from "../../../contexts/UserContext"
+import { useContext, useState } from "react"
+import { Course, User } from "../../../types/degree"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
-import MatchingCourseView from "./MatchingCourseView"
+import EquivalentCourseView from "./EquivalentCourseView"
+import axios from "axios"
+import { getEquivalentCourses } from "../../../utils/credit"
+import { CoursesContext } from "../../../contexts/CoursesContext"
+import { UserContext } from "../../../contexts/UserContext"
+import { Credit } from "../../../types/testAndTransfer"
 
-let count = 0
+const FindCourseModal = ({ 
+    type,
+    credit,
+    back,
+    closeModal
+} : { 
+    type: string,
+    credit: Credit,
+    back: Function,
+    closeModal(): void
+}) => {
 
-const createDefaultCourse = () : Course =>  {
-    count += 1
+    const user = useContext(UserContext)?.user
 
-    return {
-        id: count.toString(),
-        prefix: "CR",
-        number: "1234",
-        name: "Course Name",
-    }
-}
+    const allCourses = useContext(CoursesContext)?.courses
 
-const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Dispatch<SetStateAction<null>>, closeModal(): void }) => {
+    // Fetch the applicable courses from the equivalency??
+    const equivalentCourses = getEquivalentCourses(allCourses as Course[], credit.equivalency)
 
-    const plan = useContext(UserContext)?.user?.DegreePlan
+    const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
 
-    // Template courses for modal
-    let count = 0;
-    const createDegreePlanCourse = () : DegreePlanCourse => {
-        count += 1
-
-        return {
-            degreePlanCourseID: count.toString(),
-            degreePlanID: (plan?.degreePlanID as string),
-            DegreePlan: (plan as DegreePlan),
-            Course: createDefaultCourse(),
-            prefix: "CR",
-            number: "1234",
-        }
-    }
-    const degreePlanCourses : DegreePlanCourse[] = [
-        createDegreePlanCourse(),
-        createDegreePlanCourse(),
-        createDegreePlanCourse(),
-        createDegreePlanCourse(),
-    ]
-
-    const [selectedCourse, setSelectedCourse] = useState<DegreePlanCourse | null>(null)
-
-    const update = (action: string, courseID: string) => {
+    const update = (action: string, coursePrefix: string, courseNumber: string) => {
         if (action === "ADD") {
-            try {
-                setSelectedCourse(
-                    degreePlanCourses.find(course => course.degreePlanCourseID === courseID),
-                )
-            } catch (error) {
-                console.error("Course not found in course list")
+            const course = equivalentCourses.find(course => course.prefix === coursePrefix && course.number === courseNumber)
+            if (course) {
+                setSelectedCourse(course)
+            }
+            else {
+                console.log("Course not found in equivalent list")
             }
         }
         else {
@@ -59,13 +44,49 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
         }
     }
 
-    // Check to see if equivalency is valid
-    // may change the courses to requirement blocks -> 2 courses for equivalence
-    // example: AP: BC Calculus -> 2 different calculus courses
-    const isComplete = () : boolean => {
-        return !!selectedCourse
+    const isComplete = () : boolean => {return !!selectedCourse}
+
+    // TODO: modify styling or something to display error
+    const failed = () => {
+        // Something went wrong with applying the credit
+        console.log("Failed to do something")
+        console.log("Modify the styling to display the error")
     }
 
+    const addCredit = async ()  => {
+        let response = null
+        if (type === "Transfer") {
+            try {
+                response = await axios.post("http://localhost:3000/api/degreePlan/addTransferCredit", {
+                    userID: user?.userID,
+                    transferCourseEquivalencyID: credit.id,
+                })
+                console.log(response.data)
+            } catch (error) {
+                console.error("Could not add transfer credit")
+                failed()
+            }
+            try {
+                response = await axios.post("http://localhost:3000/api/degreePlan/applyTransferCredit", {
+                    userID: user?.userID,
+                    degreePlanID: user?.DegreePlan?.degreePlanID,
+                    prefix: selectedCourse?.prefix,
+                    number: selectedCourse?.number,
+                    transferCourseEquivalencyID: credit.id,
+                })
+                console.log(response.data)
+            } catch (error) {
+                console.error("Could not apply transfer credit")
+                failed()
+            }
+        }
+
+        // Implement applying test credits
+        else {
+            console.log("Apply test credit")
+        }
+        closeModal()
+    }
 
     return (
         <>
@@ -73,18 +94,18 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
                 <h1 className="h-8 text-xl max-w-100 line-clamp-1">Matching Courses</h1>
                 <hr className="w-full" />
                 <div className="flex flex-col gap-4 w-full px-2">
-
-                    {degreePlanCourses.length > 0 &&
+                    {equivalentCourses.length > 0 ? (
                         <>
-                            {degreePlanCourses.map((course) =>
-                                <>
-                                    <MatchingCourseView course={{id: course.degreePlanCourseID, number: course.number, prefix: course.prefix}} name={"Course"} selected={!!(selectedCourse?.degreePlanCourseID === course.degreePlanCourseID)} updateCourse={update}></MatchingCourseView>
-                                </>
+                            {equivalentCourses.map((course) =>
+                                <EquivalentCourseView course={course} selected={!!(selectedCourse?.prefix === course.prefix && selectedCourse?.number === course.number)} updateCourse={update}></EquivalentCourseView>
                             )}
                         </>
-                        
-                    }
+                    ) : (
+                        <p>No applicable courses were found</p>
+                    )}
                 </div>
+
+                {/* TODO: Restyle these buttons */}
                 <div className="flex flex-row justify-between w-full">
                     <button
                         className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
@@ -93,7 +114,7 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
                             back(null)
                         }}
                     >
-                        <ChevronLeftIcon className="size-6 max-lg:size-8"></ChevronLeftIcon>
+                        <ChevronLeftIcon className="size-8"></ChevronLeftIcon>
                         Back
                     </button>
 
@@ -102,14 +123,7 @@ const FindCourseModal = ({ type, back, closeModal } : { type: string, back: Disp
                         className={"flex flex-row justify-end w-fit border p-1 rounded-lg " + (isComplete() && "bg-green-100")}
                         onClick={() => {
                             console.log("Submit Credit")
-                            if (type === "Transfer") {
-                                // Update the degree plan with API
-                                closeModal()
-                            }
-                            else {
-                                // Update the degree plan with API
-                                closeModal()
-                            }
+                            addCredit()
                         }}
                         disabled={!isComplete()}
                     >

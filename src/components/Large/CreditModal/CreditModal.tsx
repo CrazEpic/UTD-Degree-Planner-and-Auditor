@@ -1,29 +1,32 @@
-import { Dispatch, SetStateAction, useState } from "react"
-import { Test, Transfer } from "../../../types/degreeTest"
+import { useState } from "react"
 import FindCourseModal from './FindCourseModal'
 import FindTransferCredit from "./FindTransferCredit"
 import FindTestCredit from "./FindTestCredit"
+import { Credit } from "../../../types/testAndTransfer"
 
 const CreditModal = ({ type, close } : { type: string, close(): void }) => {
 
     // Figure how to pass credit
-    const [credit, setCredit] = useState<Transfer | Test | null>(null)
+    const [credit, setCredit] = useState<Credit>({id: "", equivalency: ""})
 
     return (
         <>
-            {credit ? (
-                // If a credit has been found, search by equivalent course
-                <FindCourseModal type={type} back={setCredit as Dispatch<SetStateAction<null>>} closeModal={close}></FindCourseModal>
-            ) : (
+            {credit.id === "" ? (
 
                 // If a credit has not been found, search for a credit
                 <>
                     {type === "Transfer" ? (
-                        <FindTransferCredit foundCredit={setCredit as Dispatch<SetStateAction<Transfer>>} closeModal={close}/>
+                        <FindTransferCredit foundCredit={setCredit} closeModal={close}/>
                     ) : (
-                        <FindTestCredit foundCredit={setCredit as Dispatch<SetStateAction<Test>>} closeModal={close}></FindTestCredit>
+
+                        // Currently broken
+                        <FindTestCredit foundCredit={setCredit} closeModal={close}></FindTestCredit>
                     )}
                 </>
+            ) : (
+
+                // If a credit has been found, search by equivalent course
+                <FindCourseModal type={type} credit={credit} back={setCredit} closeModal={close}></FindCourseModal>
             )}
         </>
     )

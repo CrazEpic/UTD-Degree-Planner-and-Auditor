@@ -1,8 +1,9 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
-import { Test } from "../../../types/degreeTest"
-import { Dispatch, SetStateAction, useContext, useState } from 'react'
+import { Test } from "../../../types/testAndTransfer"
+import { useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
+// Template code to be replaced
 const types = ["AP", "IB", "CLEP", "A & AS Level"]
 const tests = [
     ["Art: History", " Envrionmental Science"],
@@ -11,7 +12,16 @@ const tests = [
     ["Biology AS Level"],
 ]
 
-const FindTransferCredit = ({ foundCredit, closeModal } : { foundCredit: Dispatch<SetStateAction<Test>>, closeModal(): void }) => {
+
+// TODO: Update this for the new API Calls and credit formatting
+// TODO: ALSO update for grade input as well
+const FindTransferCredit = ({ 
+    foundCredit, 
+    closeModal 
+} : { 
+    foundCredit: Function, 
+    closeModal(): void 
+}) => {
 
     const [credit, setCredit] = useState<Test>({type: "", name: ""})
 
@@ -128,14 +138,14 @@ const FindTransferCredit = ({ foundCredit, closeModal } : { foundCredit: Dispatc
 
                     {/* Gray out until the credit is defined */}
                     <button
-                        className={"flex flex-row justify-end w-fit border p-1 rounded-lg " + (isCompleted() && "bg-green-100")}
+                        className={"flex flex-row justify-end w-fit border pl-1 rounded-lg " + (isCompleted() && "bg-green-100")}
                         onClick={() => {
                             foundCredit(credit)
                         }}
                         disabled={!isCompleted()}
                     >
                         Next
-                        <ChevronRightIcon className="size-6 max-lg:size-8"></ChevronRightIcon>
+                        <ChevronRightIcon className="size-8"></ChevronRightIcon>
                     </button>
                 </div>
             </div>

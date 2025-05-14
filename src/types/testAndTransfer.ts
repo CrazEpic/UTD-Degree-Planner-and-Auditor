@@ -1,15 +1,11 @@
 import { DegreePlanCourse, User } from "./degree"
 
-export type Transfer = {
-    school: string
-    course: string
+export type Credit = {
+    id: string,
+    equivalency: string,
 }
 
-export type Test = {
-    type: string
-    name: string
-}
-
+// Is this necessary?
 export type TestCredit = {
     User: User
     TestEquivalency: TestEquivalency
@@ -23,6 +19,7 @@ export type TestEquivalency = {
     TestCredit: TestCredit[]
 }
 
+// Is this necessary?
 export type TransferCredit = {
     User: User
     TransferCourseEquivalency: TransferCourseEquivalency

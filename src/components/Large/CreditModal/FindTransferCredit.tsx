@@ -1,15 +1,23 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react"
-import { Transfer } from "../../../types/degreeTest"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
 
 type transferSchool = {
-	schoolID: string
-	schoolName: string
-	schoolCity: string
-	schoolStart: string
-	schoolCountry: string
+	schoolID: string,
+	schoolName: string,
+	schoolCity: string,
+	schoolState: string,
+	schoolCountry: string,
+}
+
+type transferCredit = {
+    transferCourseEquivalencyID: string,
+    transferCourseID: string,
+    transferCourseName: string,
+    utdCourseEquivalency: string,
+    utdCourseEquivalencyName: string,
+    transferSchoolSchoolID: string,
 }
 
 const fetchSchools = async () => {
@@ -32,12 +40,18 @@ const compareSchools = (schoolA: string, schoolB: string, input: string) => {
 	return aIndex - bIndex
 }
 
-const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch<SetStateAction<Transfer>>; closeModal(): void }) => {
-	const [schools, setSchools] = useState([])
+const FindTransferCredit = ({ 
+	foundCredit, 
+	closeModal, 
+}: { 
+	foundCredit: Function, 
+	closeModal(): void 
+}) => {
+	const [schools, setSchools] = useState<transferSchool[]>([])
 	const [schoolQuery, setSchoolQuery] = useState<string>("")
 	const [selectedSchool, setSelectedSchool] = useState({})
 	// Courses need to be matched to the school (probably through school id)
-	const [courses, setCourses] = useState([])
+	const [courses, setCourses] = useState<transferCredit[]>([])
 	const [courseQuery, setCourseQuery] = useState<string>("")
 	const [selectedCourse, setSelectedCourse] = useState({})
 
@@ -50,6 +64,10 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 		load()
 	}, [])
 
+	const isComplete = () => {
+		return schools.includes(selectedSchool as transferSchool) && courses.includes(selectedCourse as transferCredit)
+	}
+
 	return (
 		<>
 			<div className="flex flex-col items-center w-80 border-2 rounded-lg p-4 gap-4">
@@ -60,7 +78,7 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 					<Combobox
 						as="div"
 						value={selectedSchool}
-						onChange={async (value) => {
+						onChange={async (value: transferSchool) => {
 							setSelectedSchool(value)
 							if (value === null || (Object.keys(value).length === 0 && value.constructor === Object)) {
 								setSchoolQuery("")
@@ -101,19 +119,21 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 								})
 								.slice(0, 50)
 								.map((school) => (
-									<ComboboxOption value={school} className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md">
+									<ComboboxOption key={school.schoolID} value={school} className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md">
 										{school.schoolName}
 									</ComboboxOption>
 								))}
 						</ComboboxOptions>
 					</Combobox>
 				</div>
+
+				{/* FIXME: Does not retain value after selection */}
 				<div className="flex flex-row gap-2 items-center w-full">
 					<p>Course: </p>
 					<Combobox
 						as="div"
 						value={selectedCourse}
-						onChange={(value) => {
+						onChange={(value: transferCredit) => {
                             setSelectedCourse(value)
 							if (value === null || (Object.keys(value).length === 0 && value.constructor === Object)) {
 								setCourseQuery("")
@@ -131,7 +151,7 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 							placeholder="Search for a course"
 							className="border-black border rounded-md px-1"
 						/>
-						<ComboboxOptions className="relative mt-1">
+						<ComboboxOptions className="relative mt-1 z-20">
 							<div className="absolute flex flex-col bg-white w-full max-h-60 overflow-y-auto border-2 rounded-md empty:invisible">
 								{courses
 									.filter((course) => {
@@ -145,16 +165,17 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 									})
                                     .slice(0, 50)
 									.map((course) => (
-										<ComboboxOption value={course} className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md">
+										<ComboboxOption key={course.transferCourseEquivalencyID} value={course} className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md">
 											{course.transferCourseID + " " + course.transferCourseName}
 										</ComboboxOption>
-									))}
+									))
+								}
 							</div>
 						</ComboboxOptions>
 					</Combobox>
 				</div>
-				{/* Restyle the buttons */}
-				{/* <div className="flex flex-row justify-between w-full">
+				
+				<div className="flex flex-row justify-between w-full">
 					<button
 						className="flex flex-row w-fit border bg-red-100 p-1 rounded-lg"
 						onClick={() => {
@@ -165,18 +186,20 @@ const FindTransferCredit = ({ foundCredit, closeModal }: { foundCredit: Dispatch
 						Cancel
 					</button>
 
-					Gray out until the credit is defined
 					<button
-						className={"flex flex-row justify-end w-fit border p-1 rounded-lg " + (isCompleted() && "bg-green-100")}
+						className={"flex flex-row items-center justify-end w-fit pl-1 border rounded-lg " + (isComplete() && "bg-green-100")}
 						onClick={() => {
-							foundCredit(credit)
+							foundCredit({
+								id: (selectedCourse as transferCredit).transferCourseEquivalencyID,
+								equivalency: (selectedCourse as transferCredit).utdCourseEquivalency,
+							})
 						}}
-						disabled={!isCompleted()}
+						disabled={!isComplete()}
 					>
 						Next
-						<ChevronRightIcon className="size-6 max-lg:size-8"></ChevronRightIcon>
+						<ChevronRightIcon className="size-8"></ChevronRightIcon>
 					</button>
-				</div> */}
+				</div>
 			</div>
 		</>
 	)
