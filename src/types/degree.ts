@@ -1,5 +1,5 @@
 import { Block } from "./block"
-import { TestCredit, TransferCredit } from "./testAndTransfer"
+import { TestCredit, TransferCredit } from "./testAndTransferTypes"
 
 export type Course = {
 	id: string

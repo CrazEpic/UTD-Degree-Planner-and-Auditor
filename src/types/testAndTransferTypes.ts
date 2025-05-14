@@ -5,6 +5,23 @@ export type Credit = {
     equivalency: string,
 }
 
+export type transferSchool = {
+	schoolID: string,
+	schoolName: string,
+	schoolCity: string,
+	schoolState: string,
+	schoolCountry: string,
+}
+
+export type transferCredit = {
+    transferCourseEquivalencyID: string,
+    transferCourseID: string,
+    transferCourseName: string,
+    utdCourseEquivalency: string,
+    utdCourseEquivalencyName: string,
+    transferSchoolSchoolID: string,
+}
+
 // Is this necessary?
 export type TestCredit = {
     User: User

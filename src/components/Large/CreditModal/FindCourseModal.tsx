@@ -6,7 +6,7 @@ import axios from "axios"
 import { getEquivalentCourses } from "../../../utils/credit"
 import { CoursesContext } from "../../../contexts/CoursesContext"
 import { UserContext } from "../../../contexts/UserContext"
-import { Credit } from "../../../types/testAndTransfer"
+import { Credit } from "../../../types/testAndTransferTypes"
 
 const FindCourseModal = ({ 
     type,

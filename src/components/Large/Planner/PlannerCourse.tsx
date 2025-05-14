@@ -6,6 +6,7 @@ import { useContext, useState } from "react"
 import { DegreePlanCourse, SemesterTerm } from "../../../types/degree"
 import { getAllSemestersFromStartToEnd } from "../../../utils/semester"
 import { ModalContext } from "../../../contexts/ModalContext"
+import { getTagInformation } from "../../../utils/course"
 
 
 function PlannerCourse({ course }: { course: DegreePlanCourse }) {
@@ -21,9 +22,11 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 		{ term: user?.DegreePlan?.endSemesterTerm  as SemesterTerm, year: parseInt(user?.DegreePlan?.endSemesterYear as string) }
 	)
 
+	const tags = getTagInformation(course)
+
 	return (
 		<>
-			<div className="border-3 rounded-lg w-full h-[125px] p-1 flex flex-col">
+			<div className="border-3 rounded-lg w-full h-[140px] p-1 flex flex-col">
 				<div className="flex flex-row justify-between p-1">
 					{/* 
 						How should we represent the tags on courses
@@ -31,7 +34,7 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 						Could also use this to represent Core Courses
 						Might just be if (TestCredit) and if (TransferCredit)
 					*/}
-					<p className="">{"Tag"}</p>
+					<p className="">{tags.join(',')}</p>
 					<div className="relative">
 						{/* Will not hover on mobile*/}
 						<Menu as="div" className="w-fit">
@@ -147,6 +150,9 @@ function PlannerCourse({ course }: { course: DegreePlanCourse }) {
 				</div>
 				<h1 className="text-xl text-center self-center">{course.prefix + " " + course.number}</h1>
 				<p className="text-md text-center self-center line-clamp-2 max-w-8/10">{course.Course.name}</p>
+				{tags.includes("T") &&
+					<p>More words</p>
+				}
 			</div>
 		</>
 	)

@@ -1,5 +1,5 @@
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
-import { Test } from "../../../types/testAndTransfer"
+import { Test } from "../../../types/testAndTransferTypes"
 import { useState } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 

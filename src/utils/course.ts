@@ -1,4 +1,4 @@
-import { Course } from "../types/degree"
+import { Course, DegreePlanCourse } from "../types/degree"
 
 export const courseSearchSort = (courseA: Course, courseB: Course, query: string) => {
     let input = query.toLowerCase().trimEnd()
@@ -31,4 +31,19 @@ export const courseSearchSort = (courseA: Course, courseB: Course, query: string
     if (bIndex === -1) return -1
 
     return bIndex - aIndex
+}
+
+export const getTagInformation = (course: DegreePlanCourse) => {
+    let tags : string[] = []
+
+    if (course.TestCredit) {
+        // Split based on test type
+        tags = [...tags, "Test"]
+    }
+
+    if (course.TransferCredit) {
+        tags = [...tags, "T"]
+    }
+
+    return tags
 }

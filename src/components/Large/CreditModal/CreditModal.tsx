@@ -2,7 +2,7 @@ import { useState } from "react"
 import FindCourseModal from './FindCourseModal'
 import FindTransferCredit from "./FindTransferCredit"
 import FindTestCredit from "./FindTestCredit"
-import { Credit } from "../../../types/testAndTransfer"
+import { Credit } from "../../../types/testAndTransferTypes"
 
 const CreditModal = ({ type, close } : { type: string, close(): void }) => {
 

@@ -2,23 +2,8 @@ import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headl
 import { useEffect, useState } from "react"
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import axios from "axios"
-
-type transferSchool = {
-	schoolID: string,
-	schoolName: string,
-	schoolCity: string,
-	schoolState: string,
-	schoolCountry: string,
-}
-
-type transferCredit = {
-    transferCourseEquivalencyID: string,
-    transferCourseID: string,
-    transferCourseName: string,
-    utdCourseEquivalency: string,
-    utdCourseEquivalencyName: string,
-    transferSchoolSchoolID: string,
-}
+import { transferCredit, transferSchool } from "../../../types/testAndTransferTypes"
+import { createDefaultTransferCredit, createDefaultTransferSchool } from "../../../utils/testAndTransferUtils"
 
 const fetchSchools = async () => {
 	try {
@@ -49,11 +34,11 @@ const FindTransferCredit = ({
 }) => {
 	const [schools, setSchools] = useState<transferSchool[]>([])
 	const [schoolQuery, setSchoolQuery] = useState<string>("")
-	const [selectedSchool, setSelectedSchool] = useState({})
+	const [selectedSchool, setSelectedSchool] = useState<transferSchool>(createDefaultTransferSchool())
 	// Courses need to be matched to the school (probably through school id)
 	const [courses, setCourses] = useState<transferCredit[]>([])
 	const [courseQuery, setCourseQuery] = useState<string>("")
-	const [selectedCourse, setSelectedCourse] = useState({})
+	const [selectedCourse, setSelectedCourse] = useState<transferCredit>(createDefaultTransferCredit())
 
 	useEffect(() => {
 		const load = async () => {
@@ -65,7 +50,7 @@ const FindTransferCredit = ({
 	}, [])
 
 	const isComplete = () => {
-		return schools.includes(selectedSchool as transferSchool) && courses.includes(selectedCourse as transferCredit)
+		return schools.includes(selectedSchool) && courses.includes(selectedCourse)
 	}
 
 	return (
@@ -74,13 +59,15 @@ const FindTransferCredit = ({
 				<h1 className="h-8 text-2xl max-w-80 line-clamp-1 justify-self-start">Transfer Credit Selection</h1>
 				<hr className="w-full" />
 				<div className="flex flex-row gap-2 items-center w-full">
+
+					{/* When the query becomes empty the page disappears */}
 					<p>School: </p>
 					<Combobox
 						as="div"
 						value={selectedSchool}
 						onChange={async (value: transferSchool) => {
 							setSelectedSchool(value)
-							if (value === null || (Object.keys(value).length === 0 && value.constructor === Object)) {
+							if (value === null || value.schoolName === "") {
 								setSchoolQuery("")
 								setCourses([])
                                 return
@@ -135,12 +122,12 @@ const FindTransferCredit = ({
 						value={selectedCourse}
 						onChange={(value: transferCredit) => {
                             setSelectedCourse(value)
-							if (value === null || (Object.keys(value).length === 0 && value.constructor === Object)) {
+							if (value === null || selectedCourse.transferCourseEquivalencyID) {
 								setCourseQuery("")
                                 return
 							}
                         }}
-						disabled={Object.keys(selectedSchool).length === 0 && selectedSchool.constructor === Object}
+						disabled={selectedSchool?.schoolID === ""}
 					>
 						<ComboboxInput
 							type="text"
@@ -190,8 +177,8 @@ const FindTransferCredit = ({
 						className={"flex flex-row items-center justify-end w-fit pl-1 border rounded-lg " + (isComplete() && "bg-green-100")}
 						onClick={() => {
 							foundCredit({
-								id: (selectedCourse as transferCredit).transferCourseEquivalencyID,
-								equivalency: (selectedCourse as transferCredit).utdCourseEquivalency,
+								id: selectedCourse.transferCourseEquivalencyID,
+								equivalency: selectedCourse.utdCourseEquivalency,
 							})
 						}}
 						disabled={!isComplete()}
