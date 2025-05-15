@@ -36,7 +36,7 @@ export type TestEquivalency = {
     minScore: string,
     maxScore: string,
     maxClaimableCreditHours: number,
-    utdEquivalencyCourses: JSON,
+    utdEquivalencyCourses: string,
     TestCredit: TestCredit[],
 }
 

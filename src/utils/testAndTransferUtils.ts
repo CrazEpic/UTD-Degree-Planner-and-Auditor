@@ -20,3 +20,16 @@ export const createDefaultTransferCredit = () : transferCredit => {
         transferSchoolSchoolID: "",
     }
 }
+
+export const createDefaultTestEquivalency = () => {
+    return {
+        testComponentID: "",
+        testType: "",
+        examName: "",
+        minScore: "",
+        maxScore: "",
+        maxClaimableCreditHours: 0,
+        utdEquivalencyCourses: "",
+        TestCredit: [],
+    }
+}

@@ -10,7 +10,7 @@ const fetchSchools = async () => {
 		const response = await axios.get("/api/testAndTransferCredits/transferCreditSchools")
 		return response.data
 	} catch (error) {
-		console.log("Failed to fetch schools: ", error)
+		console.error("Failed to fetch schools: ", error)
 		return []
 	}
 }
@@ -122,7 +122,7 @@ const FindTransferCredit = ({
 						value={selectedCourse}
 						onChange={(value: transferCredit) => {
                             setSelectedCourse(value)
-							if (value === null || selectedCourse.transferCourseEquivalencyID) {
+							if (value === null || selectedCourse.transferCourseEquivalencyID === "") {
 								setCourseQuery("")
                                 return
 							}
