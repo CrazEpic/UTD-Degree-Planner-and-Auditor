@@ -33,15 +33,17 @@ export const courseSearchSort = (courseA: Course, courseB: Course, query: string
     return bIndex - aIndex
 }
 
+// Can be updated as more tags are added
 export const getTagInformation = (course: DegreePlanCourse) => {
     let tags : string[] = []
 
-    if (course.TestCredit) {
-        // Split based on test type
-        tags = [...tags, "Test"]
+    if (course.testComponentID) {
+        // Split based on test type (AP / CLEP / IB / A Level)
+        // There should be a better way than course.TestCredit.TestEquivalency.testType
+        tags = [...tags, course.TestCredit?.TestEquivalency?.testType as string]
     }
 
-    if (course.TransferCredit) {
+    if (course.transferCourseEquivalencyID) {
         tags = [...tags, "T"]
     }
 

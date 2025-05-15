@@ -24,27 +24,31 @@ export type transferCredit = {
 
 // Is this necessary?
 export type TestCredit = {
-    User: User
-    TestEquivalency: TestEquivalency
-    DegreePlanCourse: DegreePlanCourse[]
+    User: User,
+    TestEquivalency: TestEquivalency,
+    DegreePlanCourse: DegreePlanCourse[],
 }
 
 export type TestEquivalency = {
-    testComponentID: string
-    courseEquivalency: JSON
-    maxClaimableCreditHours: number
-    TestCredit: TestCredit[]
+    testComponentID: string,
+    testType: string,
+    examName: string,
+    minScore: string,
+    maxScore: string,
+    maxClaimableCreditHours: number,
+    utdEquivalencyCourses: JSON,
+    TestCredit: TestCredit[],
 }
 
 // Is this necessary?
 export type TransferCredit = {
-    User: User
-    TransferCourseEquivalency: TransferCourseEquivalency
-    DegreePlanCourse: DegreePlanCourse[]
+    User: User,
+    TransferCourseEquivalency: TransferCourseEquivalency,
+    DegreePlanCourse: DegreePlanCourse[],
 }
 
 export type TransferCourseEquivalency = {
-    transferCourseEquivalencyID: string
-    courseEquivalency: string
-    TransferCredit: TransferCredit[]
+    transferCourseEquivalencyID: string,
+    courseEquivalency: string,
+    TransferCredit: TransferCredit[],
 }
