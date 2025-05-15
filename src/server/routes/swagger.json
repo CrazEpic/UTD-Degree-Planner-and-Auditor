@@ -2013,11 +2013,266 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "userID": {
+                                        "degreePlanCourseID": {
                                             "type": "string"
                                         },
-                                        "transferCourseEquivalencyID": {
+                                        "degreePlanID": {
                                             "type": "string"
+                                        },
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "semesterYear": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "semesterTerm": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "userID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "testComponentID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/addTestCredit": {
+            "post": {
+                "description": "Add a test credit",
+                "summary": "Add a test credit",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userID": {
+                                        "type": "string"
+                                    },
+                                    "testComponentID": {
+                                        "type": "string"
+                                    },
+                                    "testScore": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    }
+                                },
+                                "required": [
+                                    "userID",
+                                    "testComponentID",
+                                    "testScore"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "testComponentID": {
+                                            "type": "string"
+                                        },
+                                        "userID": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/degreePlan/applyTestCredit": {
+            "post": {
+                "description": "Apply a test credit",
+                "summary": "Apply a test credit",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "userID": {
+                                        "type": "string"
+                                    },
+                                    "degreePlanID": {
+                                        "type": "string"
+                                    },
+                                    "prefix": {
+                                        "type": "string"
+                                    },
+                                    "number": {
+                                        "type": "string"
+                                    },
+                                    "testComponentID": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "userID",
+                                    "degreePlanID",
+                                    "prefix",
+                                    "number",
+                                    "testComponentID"
+                                ],
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "degreePlanCourseID": {
+                                            "type": "string"
+                                        },
+                                        "degreePlanID": {
+                                            "type": "string"
+                                        },
+                                        "prefix": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "string"
+                                        },
+                                        "semesterYear": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "semesterTerm": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "userID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "testComponentID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "transferCourseEquivalencyID": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
                                         }
                                     }
                                 }
@@ -2176,6 +2431,50 @@
                                                 "type": "string"
                                             },
                                             "transferSchoolSchoolID": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/testAndTransferCredits/testCreditEquivalencies": {
+            "get": {
+                "description": "Get all test credit equivalencies",
+                "summary": "Get all test credit equivalencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "testComponentID": {
+                                                "type": "string"
+                                            },
+                                            "testType": {
+                                                "type": "string"
+                                            },
+                                            "examName": {
+                                                "type": "string"
+                                            },
+                                            "minScore": {
+                                                "type": "integer"
+                                            },
+                                            "maxScore": {
+                                                "type": "integer"
+                                            },
+                                            "maxClaimableHours": {
+                                                "type": "integer"
+                                            },
+                                            "utdEquivalencyCourses": {
                                                 "type": "string"
                                             }
                                         }

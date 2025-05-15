@@ -116,4 +116,9 @@ router.get("/transferCreditEquivalenciesByTransferSchool", async (req, res) => {
 	res.json(credits)
 })
 
+router.get("/testCreditEquivalencies", async (req, res) => {
+	const testCreditEquivalencies = await req.context.prisma.testEquivalency.findMany({})
+	res.json(testCreditEquivalencies)
+})
+
 export default router

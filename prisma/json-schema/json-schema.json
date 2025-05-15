@@ -288,6 +288,9 @@
         "testComponentID": {
           "type": "string"
         },
+        "testScore": {
+          "type": "integer"
+        },
         "userID": {
           "type": "string"
         }

@@ -180,6 +180,7 @@ model User {
 model TestCredit {
     TestEquivalency  TestEquivalency    @relation(fields: [testComponentID], references: [testComponentID])
     testComponentID  String             @map("test_component_id")
+    testScore        Int                @map("test_score")
     userID           String             @map("user_id")
     User             User               @relation(fields: [userID], references: [userID])
     DegreePlanCourse DegreePlanCourse[]

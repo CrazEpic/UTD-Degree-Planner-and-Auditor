@@ -13,7 +13,7 @@ router.get("/:degreePlanID", async (req, res) => {
 		where: { degreePlanID: degreePlanID },
 		include: {
 			DegreePlanCourses: {
-				include: { Course: true },
+				include: { Course: true, TransferCredit: true, TestCredit: true },
 			},
 		},
 	})
@@ -27,6 +27,7 @@ router.post("/", async (req, res) => {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
 	const { userID, degreeID, name } = data
+	// TODO: account for semester start and (end?)
 	const degreePlan = await req.context.prisma.degreePlan.create({
 		data: {
 			name: name,
@@ -211,6 +212,11 @@ router.post("/applyTransferCredit", async (req, res) => {
 	const transferCourseEquivalency = await req.context.prisma.transferCourseEquivalency.findUnique({
 		where: { transferCourseEquivalencyID: transferCourseEquivalencyID },
 	})
+
+	if (!transferCourseEquivalency) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Transfer Course Equivalency not found")
+	}
+
 	const { utdCourseEquivalency } = transferCourseEquivalency
 
 	if (utdCourseEquivalency == "UTD 9998") {
@@ -219,6 +225,23 @@ router.post("/applyTransferCredit", async (req, res) => {
 
 	if (utdCourseEquivalency != `${prefix} ${number}` && utdCourseEquivalency != `${prefix} ${number[0]}---`) {
 		return res.status(StatusCodes.BAD_REQUEST).send("Course does not fulfill equivalency " + utdCourseEquivalency)
+	}
+
+	// don't double dip even if the course is another transfer, test, planned, or already taken
+	const foundDegreePlanCourse = await req.context.prisma.degreePlanCourse.findFirst({
+		where: {
+			DegreePlan: {
+				degreePlanID: degreePlanID,
+			},
+			Course: {
+				prefix: prefix,
+				number: number,
+			},
+		},
+	})
+
+	if (foundDegreePlanCourse) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course already in planner")
 	}
 
 	const degreePlanCourse = await req.context.prisma.degreePlanCourse.create({
@@ -245,6 +268,158 @@ router.post("/applyTransferCredit", async (req, res) => {
 		},
 	})
 	res.json(degreePlanCourse)
+})
+
+router.post("/addTestCredit", async (req, res) => {
+	const { data, error } = routeSchemas["/api/degreePlan/addTestCredit - post"].safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { userID, testComponentID, testScore } = data
+
+	// check if test score is valid
+	const testEquivalency = await req.context.prisma.testEquivalency.findUnique({
+		where: { testComponentID: testComponentID },
+	})
+	if (!testEquivalency) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Test Equivalency not found")
+	}
+	const { minScore } = testEquivalency
+	if (testScore < minScore) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Test score is too low")
+	}
+
+	// check if the course is already in the degree plan
+	const foundDegreePlanCourse = await req.context.prisma.degreePlanCourse.findFirst({
+		where: {
+			DegreePlan: {
+				User: {
+					userID: userID,
+				},
+			},
+			TestCredit: {
+				testComponentID: testComponentID,
+			},
+		},
+	})
+	if (foundDegreePlanCourse) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course already in planner")
+	}
+
+	const testCredit = await req.context.prisma.testCredit.create({
+		data: {
+			testScore: testScore,
+			User: {
+				connect: { userID: userID },
+			},
+			TestEquivalency: {
+				connect: { testComponentID: testComponentID },
+			},
+		},
+	})
+	res.json(testCredit)
+})
+
+router.post("/applyTestCredit", async (req, res) => {
+	const { data, error } = routeSchemas["/api/degreePlan/applyTestCredit - post"].safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { userID, degreePlanID, prefix, number, testComponentID } = data
+	const testEquivalency = await req.context.prisma.testEquivalency.findUnique({
+		where: { testComponentID: testComponentID },
+	})
+
+	if (!testEquivalency) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Test Equivalency not found")
+	}
+
+	const { utdEquivalencyCourses } = testEquivalency
+
+	const courseID = `${prefix} ${number}`
+
+	// check if the course is in the equivalency
+	const utdEquivalencyCoursesArray = utdEquivalencyCourses.split(", ")
+
+	const validEquivalencies = utdEquivalencyCoursesArray.filter((course) => {
+		// check if the course is in the equivalency
+		return course === courseID || (course.includes("---") && `${prefix} ${number[0]}---` == course)
+	})
+
+	if (validEquivalencies.length == 0) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course not in equivalency")
+	}
+
+	// want to make sure you don't count a credit more than you can
+	// and don't claim more than maxClaimableHours
+	const appliedTestCredits = await req.context.prisma.testCredit.findMany({
+		where: {
+			userID: userID,
+			testComponentID: testComponentID,
+		},
+		include: {
+			DegreePlanCourse: true,
+		},
+	})
+
+	const doubleDipping = appliedTestCredits.some((appliedTestCredit) => {
+		return `${appliedTestCredit.DegreePlanCourse.prefix} ${appliedTestCredit.DegreePlanCourse.number}` === courseID
+	})
+
+	if (doubleDipping) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course already claimed")
+	}
+
+	const claimedCreditHours = appliedTestCredits.reduce((acc, testCredit) => {
+		// credit hours is the second digit
+		return acc + parseInt(testCredit.DegreePlanCourse.number[1])
+	}, 0)
+
+	if (claimedCreditHours + parseInt(number[1]) >= testEquivalency.maxClaimableHours) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Adding this test credit will exceed max claimable hours")
+	}
+
+	// check if the course is already in the degree plan
+	const foundDegreePlanCourse = await req.context.prisma.degreePlanCourse.findFirst({
+		where: {
+			DegreePlan: {
+				degreePlanID: degreePlanID,
+			},
+			Course: {
+				prefix: prefix,
+				number: number,
+			},
+		},
+	})
+
+	if (foundDegreePlanCourse) {
+		return res.status(StatusCodes.BAD_REQUEST).send("Course already in planner")
+	}
+
+	const testCredit = await req.context.prisma.degreePlanCourse.create({
+		data: {
+			Course: {
+				connect: {
+					courseID: {
+						prefix: prefix,
+						number: number,
+					},
+				},
+			},
+			DegreePlan: {
+				connect: { degreePlanID: degreePlanID },
+			},
+			TestCredit: {
+				connect: {
+					testCreditID: {
+						userID: userID,
+						testComponentID: testComponentID,
+					},
+				},
+			},
+		},
+	})
+	res.json(testCredit)
 })
 
 export default router

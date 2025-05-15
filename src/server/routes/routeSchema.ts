@@ -226,6 +226,24 @@ export const routeSchemas = {
 		})
 		.strict()
 		.required(),
+	"/api/degreePlan/addTestCredit - post": z
+		.object({
+			userID: z.string(),
+			testComponentID: z.string(),
+			testScore: z.number().int().nonnegative(),
+		})
+		.strict()
+		.required(),
+	"/api/degreePlan/applyTestCredit - post": z
+		.object({
+			userID: z.string(),
+			degreePlanID: z.string(),
+			prefix: z.string(),
+			number: z.string(),
+			testComponentID: z.string(),
+		})
+		.strict()
+		.required(),
 	// TEST AND TRANSFER CREDITS
 	"/api/testAndTransferCredits/transferCreditSchools - get": {},
 	"/api/testAndTransferCredits/transferCreditEquivalenciesByUTDCourse - get": z
@@ -240,6 +258,7 @@ export const routeSchemas = {
 			transferSchoolSchoolID: z.string().nonempty().toUpperCase(),
 		})
 		.strict(),
+	"/api/testAndTransferCredits/testCreditEquivalencies - get": {},
 	// USER
 	"/api/user/:username - get": z
 		.object({
@@ -784,7 +803,55 @@ registry.registerPath({
 			description: "OK",
 			content: {
 				"application/json": {
-					schema: prismaZodSchemas["TransferCredit"],
+					schema: prismaZodSchemas["DegreePlanCourse"],
+				},
+			},
+		},
+	},
+})
+
+registry.registerPath({
+	path: "/api/degreePlan/addTestCredit",
+	method: "post",
+	description: "Add a test credit",
+	summary: "Add a test credit",
+	request: {
+		body: {
+			content: {
+				"application/json": { schema: routeSchemas["/api/degreePlan/addTestCredit - post"] },
+			},
+		},
+	},
+	responses: {
+		200: {
+			description: "OK",
+			content: {
+				"application/json": {
+					schema: prismaZodSchemas["TestCredit"],
+				},
+			},
+		},
+	},
+})
+
+registry.registerPath({
+	path: "/api/degreePlan/applyTestCredit",
+	method: "post",
+	description: "Apply a test credit",
+	summary: "Apply a test credit",
+	request: {
+		body: {
+			content: {
+				"application/json": { schema: routeSchemas["/api/degreePlan/applyTestCredit - post"] },
+			},
+		},
+	},
+	responses: {
+		200: {
+			description: "OK",
+			content: {
+				"application/json": {
+					schema: prismaZodSchemas["DegreePlanCourse"],
 				},
 			},
 		},
@@ -842,6 +909,23 @@ registry.registerPath({
 			content: {
 				"application/json": {
 					schema: z.array(prismaZodSchemas["TransferCourseEquivalency"]),
+				},
+			},
+		},
+	},
+})
+
+registry.registerPath({
+	path: "/api/testAndTransferCredits/testCreditEquivalencies",
+	method: "get",
+	description: "Get all test credit equivalencies",
+	summary: "Get all test credit equivalencies",
+	responses: {
+		200: {
+			description: "OK",
+			content: {
+				"application/json": {
+					schema: z.array(prismaZodSchemas["TestEquivalency"]),
 				},
 			},
 		},
