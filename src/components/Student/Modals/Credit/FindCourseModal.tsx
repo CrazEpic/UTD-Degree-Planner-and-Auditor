@@ -83,7 +83,30 @@ const FindCourseModal = ({
 
         // Implement applying test credits
         else {
-            console.log("Apply test credit")
+            try {
+                response = await axios.post("http://localhost:3000/api/degreePlan/addTestCredit", {
+                    userID: user?.userID,
+                    testComponentID: credit.id,
+                    testScore: credit.score
+                })
+                console.log(response.data)
+            } catch (error) {
+                console.error("Could not add test credit")
+                failed()
+            }
+            try {
+                response = await axios.post("http://localhost:3000/api/degreePlan/applyTestCredit", {
+                    userID: user?.userID,
+                    degreePlanID: user?.DegreePlan?.degreePlanID,
+                    prefix: selectedCourse?.prefix,
+                    number: selectedCourse?.number,
+                    testComponentID: credit.id,
+                })
+                console.log(response.data)
+            } catch (error) {
+                console.error("Could not apply test credit")
+                failed()
+            }
         }
         closeModal()
     }

@@ -20,7 +20,7 @@ const CreditModal = ({ type, close } : { type: string, close(): void }) => {
                     ) : (
                         // Currently broken
                         <>
-                            {/* <FindTestCredit foundCredit={setCredit} closeModal={close}></FindTestCredit> */}
+                            <FindTestCredit foundCredit={setCredit} closeModal={close}></FindTestCredit>
                         </>
                     )}
                 </>

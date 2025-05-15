@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Input, Select } from '@headlessui/react'
+import axios from 'axios'
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Input } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { createDefaultTestEquivalency } from '../../../../utils/testAndTransferUtils'
-import { TestEquivalency } from '../../../../types/testAndTransferTypes'
+import { scoreRange, TestEquivalency } from '../../../../types/testAndTransferTypes'
 
 // Should come back as TestEquivalency[]
 const fetchTests = async () => {
     try {
-        // API call for tests
-        // return response.data
-        return []
+        const response = await axios.get("/api/testAndTransferCredits/testCreditEquivalencies")
+        return response.data
     } catch (error) {
         console.error("Failed to fetch schools: ", error)
 		return []
@@ -50,13 +50,14 @@ const FindTransferCredit = ({
         },
     ]
 
-    const [testType, setTestType] = useState<string>("")
+    const [typeQuery, setTypeQuery] = useState<string>("")
+    const [selectedType, setSelectedType] = useState<string>("")
     
     const [tests, setTests] = useState<TestEquivalency[]>([])
     const [testQuery, setTestQuery] = useState<string>("")
     const [selectedTest, setSelectedTest] = useState<TestEquivalency>(createDefaultTestEquivalency())
 
-    const [scoreRange, setScoreRange] = useState({min: -1, max: -1})
+    const [range, setRange] = useState<scoreRange>({type: "", min: 0, max: 0})
     const [grade, setGrade] = useState(0)
 
     useEffect(() => {
@@ -66,28 +67,63 @@ const FindTransferCredit = ({
         }
 
         load()
-        if (scoreRanges.findIndex((range) => range.type === testType)) {
-            const range = scoreRanges.find((range) => range.type === testType)
-            setScoreRange({ min: (range?.min as number), max: (range?.max as number)})
+        setSelectedType(testTypes[0])
+    }, [])
+
+    useEffect(() => {
+        if (scoreRanges.findIndex((range) => range.type === selectedType) >= 0) {
+            setRange(scoreRanges.find((range) => range.type === selectedType) as scoreRange)
         }
-    })
+        setGrade(range.min)
+    }, [selectedType])
 
     const isCompleted = () : boolean => {
-        return selectedTest.testType === testType
+        return selectedTest !== null && selectedTest.testType === selectedType && grade >= parseInt(selectedTest.minScore)
     }
 
     return (
         <>
             <div className="flex flex-col items-center w-80 border-2 rounded-lg p-4 gap-4">
-                <h1 className="h-8 text-2xl max-w-80 line-clamp-1 justify-self-start">Transfer Credit Selection</h1>
+                <h1 className="h-8 text-2xl max-w-80 line-clamp-1 justify-self-start">Test Credit Selection</h1>
                 <hr className="w-full" />
                 <div className="flex flex-row gap-2 items-center w-full">
                     <p>Type: </p>
-                    <Select value={testType} onChange={() => setTestType}>
-                        {testTypes.map((type) => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </Select>
+                    <Combobox 
+                        as="div" 
+                        value={selectedType} 
+                        onChange={(value: string) => {
+                            setSelectedType(value)
+                            if (value === null) {
+                                setTypeQuery("")
+                                return
+                            }
+                        }}
+                    >
+                        <ComboboxInput
+                            type="text"
+                            name="type"
+                            onChange={(e) => {
+                                setTypeQuery(e.target.value)
+                            }}
+                            placeholder="Filter by test type"
+                            className="border-black border rounded-md px-1"
+                        />
+                        <ComboboxOptions className="relative mt-1 z-20">
+                            <div className="absolute flex flex-col bg-white w-full max-h-60 overflow-y-auto border-2 rounded-md empty:invisible">
+                                {testTypes
+                                    .filter((type) => {
+                                        if (typeQuery === "" || typeQuery === null) {
+											return true
+										}
+										return type.toLowerCase().includes(typeQuery.toLowerCase())
+                                    })
+                                    .map((type) => (
+                                        <ComboboxOption value={type}>{type}</ComboboxOption>
+                                    )
+                                )}
+                            </div>
+                        </ComboboxOptions>
+                    </Combobox>
                 </div>
                 <div className="flex flex-row gap-2 items-center w-full">
                     <p>Test: </p>
@@ -95,11 +131,11 @@ const FindTransferCredit = ({
                         as="div" 
                         value={selectedTest} 
                         onChange={(value: TestEquivalency) => {
-                            setSelectedTest(value)
-                            if (value === null || selectedTest.testComponentID === "") {
+                            if (value === null) {
                                 setTestQuery("")
                                 return
                             }
+                            setSelectedTest(value)
                         }}
                     >
                         <ComboboxInput
@@ -114,7 +150,7 @@ const FindTransferCredit = ({
                         <ComboboxOptions className="relative mt-1 z-20">
                             <div className="absolute flex flex-col bg-white w-full max-h-60 overflow-y-auto border-2 rounded-md empty:invisible">
                                 {tests
-                                    .filter((test) => test.testType === testType)
+                                    .filter((test) => test.testType === selectedType)
                                     .filter((test) => {
                                         if (testQuery === "" || testQuery === null) {
 											return true
@@ -124,7 +160,7 @@ const FindTransferCredit = ({
                                     .slice(0, 50)
                                     .map((test) => (
                                         <ComboboxOption
-                                            value={test.examName}
+                                            value={test}
                                             className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md"
                                         >
                                             {test.examName}
@@ -135,18 +171,18 @@ const FindTransferCredit = ({
                         </ComboboxOptions>
                     </Combobox>
                 </div>
+
                 <div className="flex flex-row gap-2 items-center w-full">
                     <p>Grade: </p>
                     <Input
                         type="number"
                         name="grade"
-                        min={scoreRange.min}
-                        max={scoreRange.max}
-                        defaultValue={scoreRange.min}
-                        value={grade}
+                        min={range !== null ? range.min : -1}
+                        max={range !== null ? range.max : -1}
                         onChange={() => setGrade}
                         placeholder="Enter your grade"
-                        disabled={selectedTest.examName === ""}
+                        disabled={selectedTest !== null}
+                        className="border border-black rounded-md"
                     />
                 </div>
 

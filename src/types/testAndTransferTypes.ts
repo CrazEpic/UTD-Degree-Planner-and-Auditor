@@ -3,6 +3,7 @@ import { DegreePlanCourse, User } from "./degree"
 export type Credit = {
     id: string,
     equivalency: string,
+    score?: number,
 }
 
 export type transferSchool = {
@@ -22,7 +23,12 @@ export type transferCredit = {
     transferSchoolSchoolID: string,
 }
 
-// Is this necessary?
+export type scoreRange = {
+    type: string,
+    min: number,
+    max: number,
+}
+
 export type TestCredit = {
     User: User,
     TestEquivalency: TestEquivalency,
