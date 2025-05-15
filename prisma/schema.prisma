@@ -183,7 +183,7 @@ model TestCredit {
     testScore        Int                @map("test_score")
     userID           String             @map("user_id")
     User             User               @relation(fields: [userID], references: [userID])
-    DegreePlanCourse DegreePlanCourse[]
+    DegreePlanCourses DegreePlanCourse[]
 
     @@id(name: "testCreditID", [userID, testComponentID])
     @@map("test_credit")
@@ -194,7 +194,7 @@ model TransferCredit {
     User                        User                      @relation(fields: [userID], references: [userID])
     TransferCourseEquivalency   TransferCourseEquivalency @relation(fields: [transferCourseEquivalencyID], references: [transferCourseEquivalencyID])
     transferCourseEquivalencyID String                    @map("transfer_course_equivalency_id")
-    DegreePlanCourse            DegreePlanCourse[]
+    DegreePlanCourses            DegreePlanCourse[]
 
     @@id(name: "transferCreditID", [userID, transferCourseEquivalencyID])
     @@map("transfer_credit")
