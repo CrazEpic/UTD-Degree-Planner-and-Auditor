@@ -358,12 +358,14 @@ router.post("/applyTestCredit", async (req, res) => {
 			testComponentID: testComponentID,
 		},
 		include: {
-			DegreePlanCourse: true,
+			DegreePlanCourses: true,
 		},
 	})
 
 	const doubleDipping = appliedTestCredits.some((appliedTestCredit) => {
-		return `${appliedTestCredit.DegreePlanCourse.prefix} ${appliedTestCredit.DegreePlanCourse.number}` === courseID
+		return appliedTestCredit.DegreePlanCourses.some((course) => {
+			return `${course.prefix} ${course.number}` === courseID
+		})
 	})
 
 	if (doubleDipping) {
@@ -371,8 +373,12 @@ router.post("/applyTestCredit", async (req, res) => {
 	}
 
 	const claimedCreditHours = appliedTestCredits.reduce((acc, testCredit) => {
-		// credit hours is the second digit
-		return acc + parseInt(testCredit.DegreePlanCourse.number[1])
+		return (
+			acc +
+			testCredit.DegreePlanCourses.reduce((acc, course) => {
+				return acc + parseInt(course.number[1])
+			}, 0)
+		)
 	}, 0)
 
 	if (claimedCreditHours + parseInt(number[1]) >= testEquivalency.maxClaimableHours) {
