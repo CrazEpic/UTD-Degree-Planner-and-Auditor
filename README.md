@@ -17,7 +17,9 @@
 - Students need a way to track their degree progress and the ability to create plans that align with their current situation.
   - E.g. student who wants to graduate in the shortest amount of time but has to limit their hours for a certain semester. Which courses are most important?
 
-### Solution
+### Solution\*
+
+\*This list is not indicative of what has been implemented. Rather this list details what the overall application **should** do.
 
 We design a web-based application that supports two main types of users: students and advisors.
 
@@ -31,6 +33,8 @@ We design a web-based application that supports two main types of users: student
   - Credits already received (courses from all semesters before current date's semester + applied test credits + applied transfer credits)
   - Credits planned (courses in "Future")
 - Visual flowchart representation of requisite chains for a given degree plan
+  - Please refer to [Documentation and Considerations](#documentation-and-considerations) for more information.
+- Ability to view the most important courses for degree plan
   - Please refer to [Documentation and Considerations](#documentation-and-considerations) for more information.
 - Ability to set restrictions on specific semesters
   - Limit number of hours
@@ -51,33 +55,46 @@ Given our work duration of ~12 weeks and that this is a new project, we hope to 
 
 ### Future Works and Considerations
 
+This list serves as our current considerations at this point in time.
+
 #### High Priority Items
 
+- Block Selection Logic
+  - For a degree, there are branches that you can choose from. For example, you can choose one of either Math Sequences 1 or 2. Another example is from ATEC, where you can fulfill a block category this condition: "Choose five courses from at least two areas".
+  - We need to support user preferences (when they lock in a specific course or branch to take). We also need to resolve ambiguous degree paths during our recommendations in the flowchart view when we list the most important classes.
+    - A similar approach has already been taken with requisite selection logic for the flowchart.
+- Semester Checking
+  - When moving courses between planned, semesters, or test/transfer, we need to check to make sure that the course requisites are plausible.
+    - For example, Operating Systems Concepts (CS 4348) should not be placed before its requisite, Data Structures (CS3345).
+      - Note that this problem is exacerbated by the fact that requisites follow a boolean branching structure as well.
 - Backwards compatibility (year-by-year) for courses, course requisites, and degree requirements
-
 - Course hour splitting
   - Example 1: CS degree footnote states *"3. Three semester credit hours of Calculus are counted under Mathematics Core, and five semester credit hours of Calculus are counted as Component Area Option Core."*
   - Example 2: Substitution for CS lab. Since the lab is 1 credit hour, a user can substitute a 4-hour course and use the remaining 3 hours as free elective credit.
 - Overrides and substitutions
   - Our design cannot handle all every cases and thus there is a need to allow carefully designed functionality to override/bypass degree requirements. However, great care must be taken to ensure this is not the most common and obvious operation in the context of the application.
 - Implement Matcher and Flag blocks
-lock courses and semesters
-Handle test credit AND and OR
-Semester move course check
+  - Matcher blocks are meant to match to a specific core curriculum, a list of classes, or a specific prefix or course level.
+  - Flag blocks are meant as a catch-all way to add conditionals to a degree plan.
+    - For example, there are cases where block selection changes depending on a condition we cannot generally track. For example, taking a specific number of hours for a block could depend on taking more or less hours for Math Sequence.
+    - Another example is a course requirement for specific circumstances (i.e. transfer student sometimes do not need to take an introductory freshman course like UNIV 1100)
 
 #### Medium Priority Items
 
-Requisite Preferences
-
+- Requisite Preferences
+- Figure out how to properly sync data, whether through UTD systems, web scraping, or periodic maintenance.
 - Clean out all TODO in the code by either resolving them or deleting them if too old/irrelevant.
 - Consideration for database update/deletion cascade. (ex. how does removing a course from a degree affect every degree plan with that course and degree?)
   - Ideally, degrees should not be "hard" editable after an advisor creates and submits them. This means the overall structure and block conditions should not change. However, a degree should be "soft" editable, where changing a text field or footnote does not affect students' degree plans.
+- Implement test credit AND/OR parsing.
+  - A specific AP credit that gives you an option to take a certain set of courses as credit is AP Mathematics: Calculus BC. Our parsing only assumes that credit is given as a comma-separated list.
 - Combining multiple majors/minors/certifications into a single degree plan
 - Extend application to handle multiple degree plans
 - Proper account management and authentication (not UTD SSO since prospective students like seniors in high school should be able to use the application too)
   - Tools like Firebase Authentication can work.
-- Consider if test/transfer credits should be defined per user or per user's degree plans.
+- Consider if test/transfer credits should be defined per user or per user's degree plans
 - Extend logic to allow planning transfer credit classes for a specific semester
+  - For example, a course at Dallas College could be placed in a future semester.
 - Implement proper and useful error handling via Prisma codes to both the frontend and backend.
 - Implement degree footnotes
 
@@ -234,7 +251,119 @@ Go to http://localhost:5173/api-docs
 
 #### Representation of Degrees
 
-a
+After weeks of researching, we have come up with a degree structure that should be general enough to handle most of UTD's degrees.
+
+Degrees are represented as nested blocks. A block can either be nonterminal (meaning it should map to another block) or terminal (meaning it doesn't map to another block).
+
+Nonterminal blocks are able to have conditions applied to them. The idea is to be able to build combinations of conditions together to handle block requirements. For example, a Math Sequence block could contain 2 nested blocks (each representing a specific sequence) alongside the condition of BlockFulfillmentCondition with blocksToFulfill as 1. This represents an OR on the blocks.
+
+Below is the type file for block conditions
+
+```ts
+type BlockFulfillmentCondition = {
+ blocksToFulfill: number
+}
+
+type MinBlockInclusionCondition = {
+ minBlocksToInclude: number
+}
+
+type CreditHourCondition = {
+ minCreditHours: number
+}
+
+type LevelCondition = {
+ creditHourRequirement: number
+ level: CourseLevel
+}
+
+type HourBeyondBlockCondition = {
+ blockKey: string
+ hoursBeyondBlock: number
+}
+
+export type DegreeConditions = {
+ blockFulfillmentCondition?: BlockFulfillmentCondition
+ minBlockInclusionCondition?: MinBlockInclusionCondition
+ creditHourCondition?: CreditHourCondition
+ levelCondition?: LevelCondition
+ hourBeyondBlockCondition?: HourBeyondBlockCondition
+}
+```
+
+Blocks that are terminal are currently of two types: course and text. These simply represent a course or helper text respectively.
+
+Here is the current type file we are using for the block structure.
+
+```ts
+import { Course, Degree } from "./degree"
+
+export type NonTerminalBlock = {
+ id: string
+ conditions: object
+}
+
+export type CourseBlock = {
+ id: string
+ Block: BlockRequirement
+ Course: Course
+ prefix: string
+ number: string
+}
+
+export type TextBlock = {
+ id: string
+ text: string
+}
+
+export type MatcherGroupBlock = {
+ id: string
+ matcher: string // JSON?
+}
+
+export type FlagToggleBlock = {
+ id: string
+ flag: DegreeFlag
+ flagId: string
+}
+
+export type DegreeFlag = {
+ id: string
+ flag: string
+ toggles: FlagToggleBlock[]
+}
+
+export type Block = {
+ blockID: string
+ blockName: string
+ parentBlockID: string
+ blockPosition: number
+ innerBlocks: Block[]
+ blockType: string
+ blockContent: NonTerminalBlock | CourseBlock | TextBlock | MatcherGroupBlock | FlagToggleBlock
+}
+
+export type BlockRequirement = {
+ blockID: string
+ blockName: string
+ parentBlockID?: string
+ ParentBlock?: BlockRequirement
+ InnerBlocks: BlockRequirement[]
+
+ // TODO: use lexoranking for ordering
+ blockPosition: number
+
+ // PLEASE ONLY USE ONE AND ONLY ONE OF THE BLOCKS BELOW
+ NonterminalBlock?: NonTerminalBlock
+ CourseBlock?: CourseBlock
+ TextBlock?: TextBlock
+ MatcherGroupBlock?: MatcherGroupBlock
+ FlagToggleBlock?: FlagToggleBlock
+
+ // should only be true for the root block
+ Degree?: Degree
+
+```
 
 #### Representation of Course Requisites
 
@@ -304,15 +433,29 @@ For the purposes of obtaining development data, [this Jupyter notebook](./webscr
 
 To generate the requisite flowchart, all ambiguity in course selection must be resolved.
 
+This represents a high-level pseudocode of the intended steps for course selection resolution.
+
+```text
 Get all courses with credit received
 Get all future courses in planner
 Resolve all block ambiguity in the planner
 -> Get all courses in the degree
 Fulfill all requisites to the best of your ability
-while unresolved requisites
+While unresolved requisites
  Resolve all ambiguous requisites
  Fetch all missing requisite courses if needed
+```
 
 ##### Heuristic for Calculating Class Priority
 
 We use [Cytoscape.js](https://js.cytoscape.org/) both for visualization and graph operations as this simplifies a majority of the graph operations we need.
+
+Steps
+
+1. Find the course with the most incoming predecessor edges (progate edges forward). Call this your critical course.
+2. Find the courses that you can currently take (root nodes) that are predecessors of your critical course.
+3. Of the valid root nodes you found, list the course with the broadest edge contributions (most number of successer nodes).
+
+Here is an example of the generated flowchart. The left number represents the node's number of predecessors and the right number represent the node's number of successors. The yellow nodes are the temporarily added courses from requisite selection. The white nodes are the current courses in the planner.
+
+![Flowchart](./_README_ASSETS/Flowchart.PNG)
