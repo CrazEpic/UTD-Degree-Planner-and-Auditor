@@ -81,6 +81,7 @@ This list serves as our current considerations at this point in time.
 - Degree Validation Logic
   - Progress Bar
   - Fulfill block conditions (based on planner + preferences)
+- Course requisite editor on Build Course page
 
 #### Medium Priority Items
 
@@ -197,6 +198,8 @@ Make sure to zip UTD-Degree-Planner-and-Auditor in order to copy UTD-Degree-Plan
 
 #### Copy and Setup on AWS
 
+Remember to setup the security group to allow traffic from TCP Port 3000. Additionally, allow traffic from HTTP/HTTPS.
+
 ```bash
 # Copy the zip file to the EC2 instance
 scp -i ./YOUR_KEY.pem /path/to/UTD-Degree-Planner-and-Auditor.zip ec2-user@AWS_PUBLIC_IPV4_DNS:/home/ec2-user/
@@ -207,9 +210,12 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.bashrc
 nvm install --lts
 # Unzip the project and set it up
-unzip UTD-Degree-Planner-and-Auditor.zip rm UTD-Degree-Planner-and-Auditor.zip cd UTD-Degree-Planner-and-Auditor
+unzip UTD-Degree-Planner-and-Auditor.zip
+rm UTD-Degree-Planner-and-Auditor.zip
+cd UTD-Degree-Planner-and-Auditor
 # Clean install
-rm -rf node_modules/ package-lock.json npm install
+rm -rf node_modules/ package-lock.json
+npm install
 # Run the production build
 npm run prod
 ```
