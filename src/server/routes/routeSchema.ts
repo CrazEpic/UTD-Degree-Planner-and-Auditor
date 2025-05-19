@@ -869,6 +869,30 @@ registry.registerPath({
 })
 
 registry.registerPath({
+	path: "/api/degreePlan/changeDegreePlan",
+	method: "post",
+	description: "Change degree for degree plan",
+	summary: "Change degree for degree plan",
+	request: {
+		body: {
+			content: {
+				"application/json": { schema: routeSchemas["/api/degreePlan/changeDegreePlan - post"] },
+			},
+		},
+	},
+	responses: {
+		200: {
+			description: "OK",
+			content: {
+				"application/json": {
+					schema: prismaZodSchemas["DegreePlan"]
+				}
+			}
+		}
+	}
+})
+
+registry.registerPath({
 	path: "/api/testAndTransferCredits/transferCreditSchools",
 	method: "get",
 	description: "Get all transfer credit schools",
