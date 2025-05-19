@@ -12,11 +12,12 @@ import SearchWindow from "./SearchWindow"
 import { MatcherContext } from "../../contexts/MatcherContext"
 import { UserContext } from "../../contexts/UserContext"
 import { ModalContext } from "../../contexts/ModalContext"
-import { Course, Degree, DegreePlan } from "../../types/degree"
+import { Course, Degree } from "../../types/degree"
 import axios from "axios"
 
 const StudentView = () => {
-	const user = useContext(UserContext)?.user
+    const userContext = useContext(UserContext)
+    const user = userContext?.user
 
 	// 	Mask information for modals
 	const [mask, setMask] = useState(false)
@@ -74,7 +75,6 @@ const StudentView = () => {
 		degreeYear: 2025,
 	})
 	const [query, setQuery] = useState("")
-	const [selectedDegreePlan, setSelectedDegreePlan] = useState<DegreePlan | null>()
 
 	// Undefined Undefined (can be fixed with timeout + placeholder info)
 	const fetchDegrees = async () => {
@@ -87,45 +87,18 @@ const StudentView = () => {
 	}
 
 	const updateDegreePlan = async () => {
-		// Check if the plan is already in the database
-		// Degree.DegreePlan exists?
-
-		/*
-        if (plan already exists) {
-            then select that plan
+        try {
+            const response = await axios.post("/api/degreePlan/changeDegreePlan", {
+                degreePlanID: user?.DegreePlan?.degreePlanID as string,
+                newDegree: {
+                    degreeName: degreeInfo.degreeName as string,
+                    degreeYear: degreeInfo.degreeYear,
+                },
+            })
+        } catch (error) {
+            console.error("Creating degree plan failed", error)
         }
-        */
-
-		// Template
-		if (degreeInfo.degreeName === "Computer Science") {
-		} else {
-			try {
-				const response = await axios.post("/api/degreePlan/changeDegreePlan", {
-					degreePlanID: user?.DegreePlan?.degreePlanID as string,
-					newDegree: {
-						degreeName: degreeInfo.degreeName as string,
-						degreeYear: degreeInfo.degreeYear,
-					},
-				})
-			} catch (error) {
-				console.error("Creating degree plan failed", error)
-			}
-
-			// else (create a new plan and switch to that)
-			// try {
-			//     const response = await axios.get(`/api/degreePlan`, {
-			//         userID: user?.userID as string,
-			//         degreeID: {
-			//             degreeName: degreeInfo.degreeName as string,
-			//             degreeYear: degreeInfo.degreeYear,
-			//         },
-			//         name: "New " + degreeInfo.degreeName + degreeInfo.degreeYear as string,
-			//     })
-			//     setSelectedDegreePlan(response.data)
-			// } catch (error) {
-			//     console.error("Creating degree plan failed", error)
-			// }
-		}
+        userContext?.fetchUser()
 	}
 
 	useEffect(() => {
@@ -268,7 +241,7 @@ const StudentView = () => {
 								<TabPanel>
 									<ModalContext.Provider value={{ linkCourse: linkCourse, findCredit: findCredit }}>
 										<PlannerWindow
-											degreePlanID={selectedDegreePlan?.degreePlanID ?? (user?.DegreePlan?.degreePlanID as string)}
+											degreePlanID={user?.DegreePlan?.degreePlanID as string}
 										></PlannerWindow>
 									</ModalContext.Provider>
 								</TabPanel>
