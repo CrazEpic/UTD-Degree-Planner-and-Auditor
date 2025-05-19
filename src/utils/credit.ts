@@ -1,93 +1,32 @@
-import { DegreePlanCourse, Test, TestCredit, TestEquivalency, Transfer, TransferCourseEquivalency, TransferCredit, User } from "../types/degreeTest"
+import { Course } from "../types/degree"
 
-const createTransferEquivalency = () : TransferCourseEquivalency => {
-    return {
-        externalSchool: "",
-        externalCourseID: "",
-        courseEquivalency: JSON,
-        TransferCredit: [],
+// TODO: Parse the equivalency information
+export const getEquivalentCourses = (courses: Course[], equivalency: string) : Course[] => {
+    let equivalentCourses = new Set<Course>()
+
+    // If there are multiple conditions, evaluate each separately
+    let conditions = [equivalency]
+    if (equivalency.includes(",")) {
+        conditions = equivalency.split(",")
     }
-}
-
-const createTestEquivalency = () : TestEquivalency => {
-    return {
-        testComponentID: "",
-        courseEquivalency: JSON,
-        maxClaimableCreditHours: 0,
-        TestCredit: [],
-    }
-}
-
-const createNewTransferCredit = () : TransferCredit => {
-    return {
-        User: {
-            userID: "",
-            username: "",
-            TestCredits: [],
-            TransferCredits: [],
-        },
-        TransferCourseEquivalency: createTransferEquivalency(),
-        DegreePlanCourse: [],
-    }
-}
-
-const createNewTestCredit = () : TestCredit => {
-    return {
-        User: {
-            userID: "",
-            username: "",
-            TestCredits: [],
-            TransferCredits: [],
-        },
-        TestEquivalency: createTestEquivalency(),
-        DegreePlanCourse: [],
-    }
-}
-
-
-// TODO: Implement these functions with API calls
-const getTransferCredit = (credit: Transfer) : TransferCourseEquivalency => {
     
-    // Find the transfer equivalency based on the school and course name
+    
+    let courseID
+    courses.forEach((course) => {
+        conditions.forEach((condition) => {
+            courseID = course.prefix + " " + course.number
+            
+            // ID Check
+            if (courseID === condition) {
+                equivalentCourses.add(course)
+            }
 
-    return createTransferEquivalency()
-}
+            // PRE X--- Check (need to check if the condtion contains ---)
+            if (condition.endsWith("---") && courseID.startsWith(condition.slice(0, -3))) {
+                equivalentCourses.add(course)
+            }
+        })
+    })
 
-const getTestCredit = (credit: Test) : TestEquivalency => {
-
-    // Find the test equivalency based on the test type and name
-
-    return createTestEquivalency()
-}
-
-// Still needs an argument to work with
-const getEquivalentCourses = () : DegreePlanCourse[] => {
-
-    // Get the coruses that are equivalent to the given credit
-
-    return []
-}
-
-// Converts Transfer -> TransferCredit
-export const convertTransferCredit = (credit: Transfer | null, user: User) : TransferCredit | null => {
-    if (credit) {
-        let transferCredit = createNewTransferCredit()
-        transferCredit.User = user
-        transferCredit.TransferCourseEquivalency = getTransferCredit(credit)
-        transferCredit.DegreePlanCourse = getEquivalentCourses()
-        return transferCredit
-    }
-    return null
-}
-
-// Converts Test -> TestCredit
-export const convertTestCredit = (credit: Test | null, user: User) : TestCredit | null => {
-    if (credit) {
-        let testCredit = createNewTestCredit()
-        testCredit.User = user
-        testCredit.TestEquivalency = getTestCredit(credit)
-        testCredit.DegreePlanCourse = getEquivalentCourses()
-        return testCredit
-    }
-    return null
+    return Array.from(equivalentCourses)
 }

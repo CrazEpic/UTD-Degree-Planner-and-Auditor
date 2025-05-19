@@ -1,5 +1,9 @@
 import { createContext } from "react"
-import { UserContextType } from "../types/degreeTest"
+import { User } from "../types/degree"
 
-// export const UserContext = createContext(null)
+type UserContextType = {
+    user: User | null
+    fetchUser(): void
+}
+
 export const UserContext = createContext<UserContextType | null>(null)

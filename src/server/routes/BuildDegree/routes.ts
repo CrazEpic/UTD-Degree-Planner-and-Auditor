@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { StatusCodes } from "http-status-codes"
-import { z } from "zod"
+import { routeSchemas } from "../routeSchema"
 const router = Router()
 
 // DEGREE BUILDING STUFF
@@ -8,14 +8,7 @@ const router = Router()
 // TODO: think about when a degree is deleted, the cascade delete
 
 router.post("/degree", async (req, res) => {
-	const { data, error } = z
-		.object({
-			name: z.string(),
-			year: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/degree - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -40,19 +33,7 @@ router.post("/degree", async (req, res) => {
 })
 
 router.post("/insertBlockAtPosition", async (req, res) => {
-	const { data, error } = z
-		.object({
-			parentBlockID: z.string(),
-			position: z.number().nonnegative(),
-			blockTypeInformation: z.discriminatedUnion("blockType", [
-				z.object({ blockType: z.literal("NONTERMINAL") }),
-				z.object({ blockType: z.literal("COURSE"), prefix: z.string(), number: z.string() }),
-				z.object({ blockType: z.literal("TEXT") }),
-			]),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/insertBlockAtPosition - post"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -107,13 +88,7 @@ router.post("/insertBlockAtPosition", async (req, res) => {
 })
 
 router.delete("/deleteBlock", async (req, res) => {
-	const { data, error } = z
-		.object({
-			blockID: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/deleteBlock - delete"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -125,14 +100,7 @@ router.delete("/deleteBlock", async (req, res) => {
 })
 
 router.put("/updateBlockName", async (req, res) => {
-	const { data, error } = z
-		.object({
-			blockID: z.string(),
-			blockName: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/updateBlockName - put"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -145,14 +113,7 @@ router.put("/updateBlockName", async (req, res) => {
 })
 
 router.put("/updateTextBlock", async (req, res) => {
-	const { data, error } = z
-		.object({
-			blockID: z.string(),
-			text: z.string(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/updateTextBlock - put"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -165,44 +126,7 @@ router.put("/updateTextBlock", async (req, res) => {
 })
 
 router.put("/updateNonterminalBlockCondition", async (req, res) => {
-	const { data, error } = z
-		.object({
-			blockID: z.string(),
-			conditions: z
-				.object({
-					blockFulfillmentCondition: z
-						.object({
-							blocksToFulfill: z.number().positive(),
-						})
-						.optional(),
-					minBlockInclusionCondition: z
-						.object({
-							minBlocksToInclude: z.number().positive(),
-						})
-						.optional(),
-					creditHourCondition: z
-						.object({
-							minCreditHours: z.number().positive(),
-						})
-						.optional(),
-					levelCondition: z
-						.object({
-							creditHourRequirement: z.number().positive(),
-							level: z.enum(["1000", "2000", "3000", "4000", "UPPER_DIVISION"]),
-						})
-						.optional(),
-					hourBeyondBlockCondition: z
-						.object({
-							blockKey: z.string(),
-							hoursBeyondBlock: z.number().positive(),
-						})
-						.optional(),
-				})
-				.strict(),
-		})
-		.strict()
-		.required()
-		.safeParse(req.body)
+	const { data, error } = routeSchemas["/api/buildDegree/updateNonterminalBlockCondition - put"].safeParse(req.body)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}

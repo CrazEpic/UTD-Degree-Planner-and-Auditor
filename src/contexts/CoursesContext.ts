@@ -1,4 +1,9 @@
 import { createContext } from "react"
-import { CoursesContextType } from "../types/degreeTest"
+import { Course } from "../types/degree"
+
+type CoursesContextType = {
+    courses: Course[]
+    fetchCourses(): void
+}
 
 export const CoursesContext = createContext<CoursesContextType | null>(null)

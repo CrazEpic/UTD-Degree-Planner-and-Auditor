@@ -1,0 +1,521 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "TestEquivalency": {
+      "type": "object",
+      "properties": {
+        "testComponentID": {
+          "type": "string"
+        },
+        "testType": {
+          "type": "string"
+        },
+        "examName": {
+          "type": "string"
+        },
+        "minScore": {
+          "type": "integer"
+        },
+        "maxScore": {
+          "type": "integer"
+        },
+        "maxClaimableHours": {
+          "type": "integer"
+        },
+        "utdEquivalencyCourses": {
+          "type": "string"
+        }
+      }
+    },
+    "TransferSchool": {
+      "type": "object",
+      "properties": {
+        "schoolID": {
+          "type": "string"
+        },
+        "schoolName": {
+          "type": "string"
+        },
+        "schoolCity": {
+          "type": "string"
+        },
+        "schoolState": {
+          "type": "string"
+        },
+        "schoolCountry": {
+          "type": "string"
+        }
+      }
+    },
+    "TransferCourseEquivalency": {
+      "type": "object",
+      "properties": {
+        "transferCourseEquivalencyID": {
+          "type": "string"
+        },
+        "transferCourseID": {
+          "type": "string"
+        },
+        "transferCourseName": {
+          "type": "string"
+        },
+        "utdCourseEquivalency": {
+          "type": "string"
+        },
+        "utdCourseEquivalencyName": {
+          "type": "string"
+        },
+        "transferSchoolSchoolID": {
+          "type": "string"
+        }
+      }
+    },
+    "Course": {
+      "type": "object",
+      "properties": {
+        "prefix": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "coreCurriculumAreaName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requisites": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "CoreCurriculumArea": {
+      "type": "object",
+      "properties": {
+        "coreCurriculumAreaName": {
+          "type": "string"
+        }
+      }
+    },
+    "Degree": {
+      "type": "object",
+      "properties": {
+        "degreeName": {
+          "type": "string"
+        },
+        "degreeYear": {
+          "type": "string"
+        },
+        "blockID": {
+          "type": "string"
+        }
+      }
+    },
+    "BlockRequirement": {
+      "type": "object",
+      "properties": {
+        "blockID": {
+          "type": "string"
+        },
+        "blockName": {
+          "type": "string"
+        },
+        "parentBlockID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "blockPosition": {
+          "type": "integer",
+          "default": 1
+        }
+      }
+    },
+    "NonterminalBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "conditions": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "CourseBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        }
+      }
+    },
+    "TextBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        }
+      }
+    },
+    "MatcherGroupBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "matcher": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "FlagToggleBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "flag_id": {
+          "type": "string"
+        }
+      }
+    },
+    "DegreeFlag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "TestCredit": {
+      "type": "object",
+      "properties": {
+        "testComponentID": {
+          "type": "string"
+        },
+        "testScore": {
+          "type": "integer"
+        },
+        "userID": {
+          "type": "string"
+        }
+      }
+    },
+    "TransferCredit": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "transferCourseEquivalencyID": {
+          "type": "string"
+        }
+      }
+    },
+    "DegreePlan": {
+      "type": "object",
+      "properties": {
+        "degreePlanID": {
+          "type": "string"
+        },
+        "startSemesterTerm": {
+          "type": "string",
+          "enum": [
+            "FALL",
+            "SPRING",
+            "SUMMER"
+          ]
+        },
+        "startSemesterYear": {
+          "type": "string"
+        },
+        "endSemesterTerm": {
+          "type": "string",
+          "enum": [
+            "FALL",
+            "SPRING",
+            "SUMMER"
+          ]
+        },
+        "endSemesterYear": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "degreeName": {
+          "type": "string"
+        },
+        "degreeYear": {
+          "type": "string"
+        },
+        "selectionOptions": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "object"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "DegreePlanCourse": {
+      "type": "object",
+      "properties": {
+        "degreePlanCourseID": {
+          "type": "string"
+        },
+        "degreePlanID": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "semesterYear": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "semesterTerm": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "enum": [
+            "FALL",
+            "SPRING",
+            "SUMMER"
+          ]
+        },
+        "userID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "testComponentID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "transferCourseEquivalencyID": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "DegreePlanCourseCreditHourClaim": {
+      "type": "object",
+      "properties": {
+        "blockID": {
+          "type": "string"
+        },
+        "degreePlanCourseID": {
+          "type": "string"
+        },
+        "credit": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "testEquivalency": {
+      "$ref": "#/definitions/TestEquivalency"
+    },
+    "transferSchool": {
+      "$ref": "#/definitions/TransferSchool"
+    },
+    "transferCourseEquivalency": {
+      "$ref": "#/definitions/TransferCourseEquivalency"
+    },
+    "course": {
+      "$ref": "#/definitions/Course"
+    },
+    "coreCurriculumArea": {
+      "$ref": "#/definitions/CoreCurriculumArea"
+    },
+    "degree": {
+      "$ref": "#/definitions/Degree"
+    },
+    "blockRequirement": {
+      "$ref": "#/definitions/BlockRequirement"
+    },
+    "nonterminalBlock": {
+      "$ref": "#/definitions/NonterminalBlock"
+    },
+    "courseBlock": {
+      "$ref": "#/definitions/CourseBlock"
+    },
+    "textBlock": {
+      "$ref": "#/definitions/TextBlock"
+    },
+    "matcherGroupBlock": {
+      "$ref": "#/definitions/MatcherGroupBlock"
+    },
+    "flagToggleBlock": {
+      "$ref": "#/definitions/FlagToggleBlock"
+    },
+    "degreeFlag": {
+      "$ref": "#/definitions/DegreeFlag"
+    },
+    "user": {
+      "$ref": "#/definitions/User"
+    },
+    "testCredit": {
+      "$ref": "#/definitions/TestCredit"
+    },
+    "transferCredit": {
+      "$ref": "#/definitions/TransferCredit"
+    },
+    "degreePlan": {
+      "$ref": "#/definitions/DegreePlan"
+    },
+    "degreePlanCourse": {
+      "$ref": "#/definitions/DegreePlanCourse"
+    },
+    "degreePlanCourseCreditHourClaim": {
+      "$ref": "#/definitions/DegreePlanCourseCreditHourClaim"
+    }
+  }
+}

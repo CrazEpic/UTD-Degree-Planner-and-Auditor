@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { StatusCodes } from "http-status-codes"
+import { routeSchemas } from "../routeSchema"
 const router = Router()
 
 // get all degrees
@@ -10,7 +11,11 @@ router.get("/degrees", async (req, res) => {
 
 // TODO: CACHE THIS WITH REDIS PLEASE
 router.get("/:name/:year", async (req, res) => {
-	const { name, year } = req.params
+	const { data, error } = routeSchemas["/api/degree/:name/:year - get"].safeParse(req.params)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { name, year } = data
 	const degree = await req.context.prisma.degree.findUnique({
 		where: { degreeID: { degreeName: name, degreeYear: year } },
 		include: { RootBlock: true },
@@ -43,6 +48,7 @@ router.get("/:name/:year", async (req, res) => {
 	})
 	const courseBlocks = await req.context.prisma.courseBlock.findMany({
 		where: { id: { in: blockIDs } },
+		include: { Course: true },
 	})
 	const textBlocks = await req.context.prisma.textBlock.findMany({
 		where: { id: { in: blockIDs } },

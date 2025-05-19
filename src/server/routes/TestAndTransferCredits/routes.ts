@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { Router } from "express"
-import { z } from "zod"
+import { routeSchemas } from "../routeSchema"
 const router = Router()
 
 router.get("/transferCreditSchools", async (req, res) => {
@@ -9,15 +9,8 @@ router.get("/transferCreditSchools", async (req, res) => {
 })
 
 // table is excpected to be big, so we need to paginate results later
-router.get("/transferCreditEquivalencies", async (req, res) => {
-	const { data, error } = z
-		.object({
-			prefix: z.string().nonempty().toUpperCase(),
-			number: z.string().length(4).toUpperCase(),
-			schoolsFilter: z.string().optional(),
-		})
-		.strict()
-		.safeParse(req.query)
+router.get("/transferCreditEquivalenciesByUTDCourse", async (req, res) => {
+	const { data, error } = routeSchemas["/api/testAndTransferCredits/transferCreditEquivalenciesByUTDCourse - get"].safeParse(req.query)
 	if (error) {
 		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
 	}
@@ -48,6 +41,7 @@ router.get("/transferCreditEquivalencies", async (req, res) => {
 		GNED 1060
 		GNED 1070
 		GNED 1080
+		// CORE AREA + COMPONENT
 		GNED 1090
 		GNED 2090
 		GNED 3090
@@ -105,6 +99,26 @@ router.get("/transferCreditEquivalencies", async (req, res) => {
 		})
 	}
 	res.json(credits)
+})
+
+router.get("/transferCreditEquivalenciesByTransferSchool", async (req, res) => {
+	const { data, error } = routeSchemas["/api/testAndTransferCredits/transferCreditEquivalenciesByTransferSchool - get"].safeParse(req.query)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { transferSchoolSchoolID } = data
+
+	const credits = await req.context.prisma.transferCourseEquivalency.findMany({
+		where: {
+			transferSchoolSchoolID: transferSchoolSchoolID,
+		},
+	})
+	res.json(credits)
+})
+
+router.get("/testCreditEquivalencies", async (req, res) => {
+	const testCreditEquivalencies = await req.context.prisma.testEquivalency.findMany({})
+	res.json(testCreditEquivalencies)
 })
 
 export default router
