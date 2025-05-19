@@ -78,6 +78,9 @@ This list serves as our current considerations at this point in time.
   - Flag blocks are meant as a catch-all way to add conditionals to a degree plan.
     - For example, there are cases where block selection changes depending on a condition we cannot generally track. For example, taking a specific number of hours for a block could depend on taking more or less hours for Math Sequence.
     - Another example is a course requirement for specific circumstances (i.e. transfer student sometimes do not need to take an introductory freshman course like UNIV 1100)
+- Degree Validation Logic
+  - Progress Bar
+  - Fulfill block conditions (based on planner + preferences)
 
 #### Medium Priority Items
 
@@ -255,7 +258,14 @@ After weeks of researching, we have come up with a degree structure that should 
 
 Degrees are represented as nested blocks. A block can either be nonterminal (meaning it should map to another block) or terminal (meaning it doesn't map to another block).
 
-Nonterminal blocks are able to have conditions applied to them. The idea is to be able to build combinations of conditions together to handle block requirements. For example, a Math Sequence block could contain 2 nested blocks (each representing a specific sequence) alongside the condition of BlockFulfillmentCondition with blocksToFulfill as 1. This represents an OR on the blocks.
+Nonterminal blocks are able to have conditions applied to them. The idea is to be able to build combinations of conditions together to handle block requirements. 
+
+For example, MATH Sequence - Students may choose one of the following sequences:
+
+- I. MATH 2413 Differential Calculus and MATH 2414 Integral Calculus
+- II. MATH 2417 Calculus I and MATH 2419 Calculus II
+
+We represent this Math Sequence in our model with a block to represent the choice between sequences and have each sequence nested insde as its own block as well. To create the OR functionality between the sequences we use the BlockFulfillmentCondition and set the value of blocksToFulfill to 1.
 
 Below is the type file for block conditions
 
@@ -290,6 +300,12 @@ export type DegreeConditions = {
  hourBeyondBlockCondition?: HourBeyondBlockCondition
 }
 ```
+
+A more complex example, ATEC Prescribed Electives
+
+15 semester credit hours; Choose any five courses from the following. At least two courses must be at the 4000-level, and the courses must come from at least two of the categories. Category List: (Animation and Games, Critical Media Studies, Design, Emerging Communication, Emerging Media Art)
+
+Prescribed Electives would be a block with the CreditHourCondition of 15 hours, a LevelCondition of 4000 level and 6 credit hours required, and a MinBlockInclusionCondition of 2. Then nested within the Prescribed Electives block, there will be a block to represent each category. These blocks will be terminal and contain a list of courses pertaining to that category.
 
 Blocks that are terminal are currently of two types: course and text. These simply represent a course or helper text respectively.
 
