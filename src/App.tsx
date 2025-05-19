@@ -56,7 +56,7 @@ function App() {
 							<Route path="/buildCourse" element={<CourseBuildingWindow/>} />
 
 							{/* Redirect here if user is not logged in */}
-							<Route path="/login" element={<LoginWindow updateRole={setUserRole}/>} />
+							<Route path="/login" element={<LoginWindow role={userRole} updateRole={setUserRole}/>} />
 
 							{/* Catchall route if the route doesn't exist */}
 							<Route

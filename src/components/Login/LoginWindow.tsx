@@ -3,7 +3,7 @@ import clsx from "clsx"
 import { Input, Select, Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import SelectPlan from "./SelectPlan"
 
-const LoginWindow = ({ updateRole }: { updateRole: Function }) => {
+const LoginWindow = ({ role, updateRole }: { role: string, updateRole: Function }) => {
 
     const [signedIn, setSignedIn] = useState(false)
     const [existingUser, setExistingUser] = useState(false)
@@ -79,6 +79,8 @@ const LoginWindow = ({ updateRole }: { updateRole: Function }) => {
                                             setSignedIn(true)
                                             updateRole(role)
                                             setExistingUser(true)
+                                            // send to advisor page based on role
+                                            
                                         }
                                         else {
                                             failedAuth()

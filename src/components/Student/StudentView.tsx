@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect, useState } from "react"
 import clsx from "clsx"
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
+import { Tab, TabGroup, TabList, TabPanel, TabPanels, Combobox, ComboboxOptions, ComboboxOption, ComboboxInput } from "@headlessui/react"
 import { AcademicCapIcon, ArrowTrendingUpIcon, BookOpenIcon, KeyIcon } from "@heroicons/react/24/outline"
 import CourseLinkModal from "./Modals/CourseLink/CourseLinkModal"
 import CreditModal from "./Modals/Credit/CreditModal"
@@ -12,7 +12,8 @@ import SearchWindow from "./SearchWindow"
 import { MatcherContext } from "../../contexts/MatcherContext"
 import { UserContext } from "../../contexts/UserContext"
 import { ModalContext } from "../../contexts/ModalContext"
-import { Course } from "../../types/degree"
+import { Course, Degree, DegreePlan } from "../../types/degree"
+import axios from "axios"
 
 const StudentView = () => {
 
@@ -68,6 +69,115 @@ const StudentView = () => {
 		setMatcher(false)
 	}
 
+    const [degrees, setDegrees] = useState([])
+	const [degreeInfo, setDegreeInfo] = useState({
+		degreeName: "Computer Science",
+		degreeYear: 2025,
+	})
+    const [query, setQuery] = useState("")
+    const [selectedDegreePlan, setSelectedDegreePlan] = useState<DegreePlan | null>()
+
+    // Undefined Undefined (can be fixed with timeout + placeholder info)
+    const fetchDegrees = async () => {
+        try {
+            const response = await axios.get("/api/degree/degrees")
+            setDegrees(response.data)
+        } catch (error) {
+            console.error("Getting degrees failed", error)
+        }
+    }
+
+    const updateDegreePlan = async () => {
+        // Check if the plan is already in the database
+        // Degree.DegreePlan exists?
+        
+        /*
+        if (plan already exists) {
+            then select that plan
+        }
+        */
+
+        // Template
+        if (degreeInfo.degreeName === "Computer Science") {
+
+        }
+        else {
+            // else (create a new plan and switch to that)
+            try {
+                const response = await axios.get(`/api/degreePlan`, {
+                    userID: user?.userID as string,
+                    degreeID: {
+                        degreeName: degreeInfo.degreeName as string,
+                        degreeYear: degreeInfo.degreeYear,
+                    },
+                    name: "New " + degreeInfo.degreeName + degreeInfo.degreeYear as string,
+                })
+                setSelectedDegreePlan(response.data)
+            } catch (error) {
+                console.error("Creating degree plan failed", error)
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchDegrees()
+        updateDegreePlan()
+    }, [degreeInfo])
+
+    const renderDegreeDropdown = () => {
+        return (
+            <>
+                {/* Search for a degree already in the list */}
+                <Combobox
+                    as="div"
+                    value={degreeInfo}
+                    onChange={(value) => {
+                        if (value) {
+                            setDegreeInfo(value)
+                        }
+                    }}
+                    by={(degreeA, degreeB) => {
+                        return degreeA.degreeName === degreeB.degreeName && degreeA.degreeYear === degreeB.degreeYear
+                    }}
+                    className="w-50"
+                >
+                    <div>
+                        <ComboboxInput
+                            onChange={(event) => {
+                                setQuery(event.target.value)
+                            }}
+                            displayValue={(degree: Degree) => {
+                                if (degree.degreeName === "" && parseInt(degree.degreeYear) === -1) {
+                                    return ""
+                                }
+                                return degree.degreeName + " " + degree.degreeYear
+                            }}
+                            placeholder="Search for a degree"
+                            className="border-2 border-black rounded-md p-2 h-10 mb-1"
+                        ></ComboboxInput>
+                        <ComboboxOptions static className="border-black border-2 rounded-md">
+                            {degrees
+                                .filter((degree: Degree) => {
+                                    return `${degree.degreeName} + " " + ${degree.degreeYear}`.toLowerCase().includes(query.toLowerCase())
+                                })
+                                .map((degree: Degree) => {
+                                    return (
+                                        <ComboboxOption
+                                            key={degree.degreeName + " " + degree.degreeYear}
+                                            value={degree}
+                                            className="hover:bg-gray-200 cursor-pointer px-2 rounded-md"
+                                        >
+                                            {degree.degreeName + " " + degree.degreeYear}
+                                        </ComboboxOption>
+                                    )
+                                })}
+                        </ComboboxOptions>
+                    </div>
+                </Combobox>
+            </>
+        )
+    }
+
     return (
         <>
             <div className="flex flex-row h-[calc(100vh-55px)]">
@@ -92,8 +202,8 @@ const StudentView = () => {
                     }
                     <div className={"w-full overflow-auto p-4 " + (mask ? "backdrop-brightness-70 brightness-70" : "")}>
                         <TabGroup selectedIndex={tabIndex} onChange={setTabIndex}>
-                            <div className="flex flex-row justify-between relative">
-                                <TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 max-lg:w-full overflow-hidden pt-1">
+                            <div className="flex flex-row justify-between gap-2 relative">
+                                <TabList className="flex flex-row justify-between items-end border-2 rounded-lg w-80 h-fit max-lg:w-full overflow-hidden pt-1">
 
                                     {/* May have to change styling of focus:outline for accessibility */}
                                     <Tab as={Fragment}>
@@ -133,11 +243,14 @@ const StudentView = () => {
                                         )}
                                     </Tab> 
                                 </TabList>
+                                <div className="">
+                                    {renderDegreeDropdown()}
+                                </div>
                             </div>
                             <TabPanels>
                                 <TabPanel>
                                     <ModalContext.Provider value={{linkCourse: linkCourse, findCredit: findCredit}}>
-                                        <PlannerWindow></PlannerWindow>
+                                        <PlannerWindow degreePlanID={selectedDegreePlan?.degreePlanID ?? user?.DegreePlan?.degreePlanID as string}></PlannerWindow>
                                     </ModalContext.Provider>
                                 </TabPanel>
                                 <TabPanel>

@@ -7,7 +7,11 @@ import { UserContext } from "../../../contexts/UserContext"
 import { compareSemesters, getNextSemester, semesterFromDate, stringFromTerm } from "../../../utils/semester"
 import { DegreePlan, DegreePlanCourse } from "../../../types/degree"
 
-function PlannerWindow() {
+const PlannerWindow = ({
+	degreePlanID
+}: {
+	degreePlanID: string
+}) => {
 	// User could be undefined because of the ?
 	const user = useContext(UserContext)?.user
 
@@ -18,7 +22,9 @@ function PlannerWindow() {
 			if (!user) {
 				return
 			}
-			const response = await axios.get(`/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
+
+			// Update with degreePlanID
+			const response = await axios.get(`/api/degreePlan/${degreePlanID}`)
 			setDegreePlan(response.data)
 		} catch (error) {
 			console.error("Error fetching degree plan:", error)
