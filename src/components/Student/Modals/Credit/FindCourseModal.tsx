@@ -68,11 +68,11 @@ const FindCourseModal = ({
             }
             try {
                 response = await axios.post("http://localhost:3000/api/degreePlan/applyTransferCredit", {
-                    userID: user?.userID,
-                    degreePlanID: user?.DegreePlan?.degreePlanID,
-                    prefix: selectedCourse?.prefix,
-                    number: selectedCourse?.number,
-                    transferCourseEquivalencyID: credit.id,
+                    userID: user?.userID as string,
+                    degreePlanID: user?.DegreePlan?.degreePlanID  as string,
+                    prefix: selectedCourse?.prefix  as string,
+                    number: selectedCourse?.number  as string,
+                    transferCourseEquivalencyID: credit.id  as string,
                 })
                 console.log(response.data)
             } catch (error) {
@@ -96,11 +96,11 @@ const FindCourseModal = ({
             }
             try {
                 response = await axios.post("http://localhost:3000/api/degreePlan/applyTestCredit", {
-                    userID: user?.userID,
-                    degreePlanID: user?.DegreePlan?.degreePlanID,
-                    prefix: selectedCourse?.prefix,
-                    number: selectedCourse?.number,
-                    testComponentID: credit.id,
+                    userID: user?.userID as string,
+                    degreePlanID: user?.DegreePlan?.degreePlanID  as string,
+                    prefix: selectedCourse?.prefix  as string,
+                    number: selectedCourse?.number  as string,
+                    testComponentID: credit.id  as string,
                 })
                 console.log(response.data)
             } catch (error) {

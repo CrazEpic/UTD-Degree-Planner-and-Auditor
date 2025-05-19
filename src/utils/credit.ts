@@ -5,7 +5,11 @@ export const getEquivalentCourses = (courses: Course[], equivalency: string) : C
     let equivalentCourses = new Set<Course>()
 
     // If there are multiple conditions, evaluate each separately
-    const conditions = equivalency.split(",")
+    let conditions = [equivalency]
+    if (equivalency.includes(",")) {
+        conditions = equivalency.split(",")
+    }
+    
     
     let courseID
     courses.forEach((course) => {

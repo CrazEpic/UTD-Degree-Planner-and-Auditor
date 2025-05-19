@@ -46,7 +46,6 @@ export type TestEquivalency = {
     TestCredit: TestCredit[],
 }
 
-// Is this necessary?
 export type TransferCredit = {
     User: User,
     TransferCourseEquivalency: TransferCourseEquivalency,

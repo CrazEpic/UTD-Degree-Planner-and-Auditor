@@ -120,21 +120,19 @@ const FindTransferCredit = ({
 					<Combobox
 						as="div"
 						value={selectedCourse}
-						onChange={(value: transferCredit) => {
-                            setSelectedCourse(value)
-							if (value === null || selectedCourse.transferCourseEquivalencyID === "") {
-								setCourseQuery("")
-                                return
-							}
-                        }}
+						onChange={setSelectedCourse}
 						disabled={selectedSchool?.schoolID === ""}
 					>
 						<ComboboxInput
 							type="text"
 							name="course"
-							onChange={(e) => {
-								setCourseQuery(e.target.value)
+							displayValue={(course: transferCredit) => {
+								if (selectedCourse.transferCourseID === "") {
+									return ""
+								}
+								return course?.transferCourseID + " " + course?.transferCourseName
 							}}
+							onChange={(e) => { setCourseQuery(e.target.value) }}
 							placeholder="Search for a course"
 							className="border-black border rounded-md px-1"
 						/>
@@ -152,7 +150,11 @@ const FindTransferCredit = ({
 									})
                                     .slice(0, 50)
 									.map((course) => (
-										<ComboboxOption key={course.transferCourseEquivalencyID} value={course} className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md">
+										<ComboboxOption 
+											key={course.transferCourseEquivalencyID} 
+											value={course} 
+											className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md"
+										>
 											{course.transferCourseID + " " + course.transferCourseName}
 										</ComboboxOption>
 									))

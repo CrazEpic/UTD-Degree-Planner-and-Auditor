@@ -16,7 +16,6 @@ const fetchTests = async () => {
     }
 }
 
-// TODO: ALSO update for grade input as well
 const FindTransferCredit = ({ 
     foundCredit, 
     closeModal 
@@ -78,7 +77,7 @@ const FindTransferCredit = ({
     }, [selectedType])
 
     const isCompleted = () : boolean => {
-        return selectedTest !== null && selectedTest.testType === selectedType && grade >= parseInt(selectedTest.minScore)
+        return selectedTest !== null && selectedTest.testType === selectedType && grade >= parseInt(selectedTest.minScore) && grade <= parseInt(selectedTest.maxScore)
     }
 
     return (
@@ -105,6 +104,7 @@ const FindTransferCredit = ({
                             onChange={(e) => {
                                 setTypeQuery(e.target.value)
                             }}
+                            defaultValue={testTypes[0]}
                             placeholder="Filter by test type"
                             className="border-black border rounded-md px-1"
                         />
@@ -130,20 +130,13 @@ const FindTransferCredit = ({
                     <Combobox 
                         as="div" 
                         value={selectedTest} 
-                        onChange={(value: TestEquivalency) => {
-                            if (value === null) {
-                                setTestQuery("")
-                                return
-                            }
-                            setSelectedTest(value)
-                        }}
+                        onChange={setSelectedTest}
                     >
                         <ComboboxInput
                             type="text"
                             name="name"
-                            onChange={(e) => {
-                                setTestQuery(e.target.value)
-                            }}
+                            displayValue={(test: TestEquivalency) => test?.examName ?? ""}
+                            onChange={(e) => { setTestQuery(e.target.value) }}
                             placeholder="Search for a test"
                             className="border-black border rounded-md px-1"
                         />
@@ -160,6 +153,7 @@ const FindTransferCredit = ({
                                     .slice(0, 50)
                                     .map((test) => (
                                         <ComboboxOption
+                                            key={test.testComponentID}
                                             value={test}
                                             className="hover:bg-gray-200 w-full cursor-pointer px-1 rounded-md"
                                         >
@@ -177,11 +171,12 @@ const FindTransferCredit = ({
                     <Input
                         type="number"
                         name="grade"
+                        value={grade}
                         min={range !== null ? range.min : -1}
                         max={range !== null ? range.max : -1}
-                        onChange={() => setGrade}
+                        onChange={(e) => setGrade(parseInt(e.target.value))}
                         placeholder="Enter your grade"
-                        disabled={selectedTest !== null}
+                        disabled={selectedTest === null}
                         className="border border-black rounded-md"
                     />
                 </div>
@@ -205,6 +200,7 @@ const FindTransferCredit = ({
                             foundCredit({
                                 id: selectedTest.testComponentID,
                                 equivalency: selectedTest.utdEquivalencyCourses,
+                                score: grade,
                             })
                         }}
                         disabled={!isCompleted()}

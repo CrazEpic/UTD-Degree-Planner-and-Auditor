@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { Button } from "@headlessui/react"
 import PlannerCourse from "./PlannerCourse"
@@ -12,9 +12,21 @@ function currentHours(courseList: DegreePlanCourse[]) {
 	return total
 }
 
-function PlannerSection({ name, courseList }: { name: string; courseList: DegreePlanCourse[] }) {
+function PlannerSection({ 
+	name, 
+	courseList,
+	fetchDegree,
+}: { 
+	name: string; 
+	courseList: DegreePlanCourse[],
+	fetchDegree?: Function,
+}) {
 
 	const findCredit = useContext(ModalContext)?.findCredit
+
+	useEffect(() => {
+		if (fetchDegree) fetchDegree()
+	}, [findCredit])
 	
 	return (
 		<>

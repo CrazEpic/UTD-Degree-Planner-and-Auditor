@@ -12,18 +12,20 @@ function PlannerWindow() {
 	const user = useContext(UserContext)?.user
 
 	const [degreePlan, setDegreePlan] = useState<DegreePlan | null>(null)
-	useEffect(() => {
-		const fetchDegreePlan = async () => {
-			try {
-				if (!user) {
-					return
-				}
-				const response = await axios.get(`/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
-				setDegreePlan(response.data)
-			} catch (error) {
-				console.error("Error fetching degree plan:", error)
+
+	const fetchDegreePlan = async () => {
+		try {
+			if (!user) {
+				return
 			}
+			const response = await axios.get(`/api/degreePlan/${user.DegreePlan?.degreePlanID}`)
+			setDegreePlan(response.data)
+		} catch (error) {
+			console.error("Error fetching degree plan:", error)
 		}
+	}
+
+	useEffect(() => {
 		fetchDegreePlan()
 	}, [user])
 
@@ -109,8 +111,8 @@ function PlannerWindow() {
 							<ChevronDownIcon className="size-8" />
 						</DisclosureButton>
 						<DisclosurePanel className="flex flex-col pt-4 gap-4">
-							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={testCredits}></PlannerSection>
-							<PlannerSection name="Transferred Credits" courseList={transferredCredits}></PlannerSection>
+							<PlannerSection name="Test Credits (AP/IB/CLEP/etc.)" courseList={testCredits} fetchDegree={fetchDegreePlan}></PlannerSection>
+							<PlannerSection name="Transferred Credits" courseList={transferredCredits} fetchDegree={fetchDegreePlan}></PlannerSection>
 						</DisclosurePanel>
 					</>
 				)}

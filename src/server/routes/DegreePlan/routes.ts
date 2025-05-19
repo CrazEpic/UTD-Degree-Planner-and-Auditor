@@ -381,7 +381,7 @@ router.post("/applyTestCredit", async (req, res) => {
 		)
 	}, 0)
 
-	if (claimedCreditHours + parseInt(number[1]) >= testEquivalency.maxClaimableHours) {
+	if (claimedCreditHours + parseInt(number[1]) > testEquivalency.maxClaimableHours) {
 		return res.status(StatusCodes.BAD_REQUEST).send("Adding this test credit will exceed max claimable hours")
 	}
 

@@ -18,10 +18,7 @@ const CreditModal = ({ type, close } : { type: string, close(): void }) => {
                     {type === "Transfer" ? (
                         <FindTransferCredit foundCredit={setCredit} closeModal={close}/>
                     ) : (
-                        // Currently broken
-                        <>
-                            <FindTestCredit foundCredit={setCredit} closeModal={close}></FindTestCredit>
-                        </>
+                        <FindTestCredit foundCredit={setCredit} closeModal={close}></FindTestCredit>
                     )}
                 </>
             ) : (
