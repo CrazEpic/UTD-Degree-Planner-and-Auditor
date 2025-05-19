@@ -57,7 +57,7 @@ const FindCourseModal = ({
         let response = null
         if (type === "Transfer") {
             try {
-                response = await axios.post("http://localhost:3000/api/degreePlan/addTransferCredit", {
+                response = await axios.post("/api/degreePlan/addTransferCredit", {
                     userID: user?.userID,
                     transferCourseEquivalencyID: credit.id,
                 })
@@ -67,7 +67,7 @@ const FindCourseModal = ({
                 failed()
             }
             try {
-                response = await axios.post("http://localhost:3000/api/degreePlan/applyTransferCredit", {
+                response = await axios.post("/api/degreePlan/applyTransferCredit", {
                     userID: user?.userID as string,
                     degreePlanID: user?.DegreePlan?.degreePlanID  as string,
                     prefix: selectedCourse?.prefix  as string,
@@ -84,7 +84,7 @@ const FindCourseModal = ({
         // Implement applying test credits
         else {
             try {
-                response = await axios.post("http://localhost:3000/api/degreePlan/addTestCredit", {
+                response = await axios.post("/api/degreePlan/addTestCredit", {
                     userID: user?.userID,
                     testComponentID: credit.id,
                     testScore: credit.score
@@ -95,7 +95,7 @@ const FindCourseModal = ({
                 failed()
             }
             try {
-                response = await axios.post("http://localhost:3000/api/degreePlan/applyTestCredit", {
+                response = await axios.post("/api/degreePlan/applyTestCredit", {
                     userID: user?.userID as string,
                     degreePlanID: user?.DegreePlan?.degreePlanID  as string,
                     prefix: selectedCourse?.prefix  as string,
