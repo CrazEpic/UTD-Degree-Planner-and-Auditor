@@ -244,6 +244,16 @@ export const routeSchemas = {
 		})
 		.strict()
 		.required(),
+	"/api/degreePlan/changeDegreePlan - post": z
+		.object({
+			degreePlanID: z.string(),
+			newDegree: z.object({
+				degreeName: z.string(),
+				degreeYear: z.string(),
+			}),
+		})
+		.strict()
+		.required(),
 	// TEST AND TRANSFER CREDITS
 	"/api/testAndTransferCredits/transferCreditSchools - get": {},
 	"/api/testAndTransferCredits/transferCreditEquivalenciesByUTDCourse - get": z

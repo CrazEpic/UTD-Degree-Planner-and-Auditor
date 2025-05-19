@@ -428,4 +428,26 @@ router.post("/applyTestCredit", async (req, res) => {
 	res.json(testCredit)
 })
 
+router.post("/changeDegreePlan", async (req, res) => {
+	const { data, error } = routeSchemas["/api/degreePlan/changeDegreePlan - post"].safeParse(req.body)
+	if (error) {
+		return res.status(StatusCodes.BAD_REQUEST).send(error.errors)
+	}
+	const { degreePlanID, newDegree } = data
+	const degreePlan = await req.context.prisma.degreePlan.update({
+		where: { degreePlanID: degreePlanID },
+		data: {
+			Degree: {
+				connect: {
+					degreeID: {
+						degreeName: newDegree.degreeName,
+						degreeYear: newDegree.degreeYear,
+					},
+				},
+			},
+		},
+	})
+	res.json(degreePlan)
+})
+
 export default router
