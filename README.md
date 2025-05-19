@@ -45,29 +45,50 @@ We design a web-based application that supports two main types of users: student
 
 For a more in-depth look at our data representation and algorithms, please refer to our section on [Documentation and Considerations](#documentation-and-considerations).
 
+### Developers' Comment
+
+Given our work duration of ~12 weeks and that this is a new project, we hope to lay out a solid foundation and well-written documenation to give clear direction for the project. For continuing this project, we highly recommend reading through this README in its entirety, especially [Future Works and Considerations](#future-works-and-considerations) and [Documentation and Considerations](#documentation-and-considerations). Doing so will give a better idea of what has been implemented, what has been designed but not implemented, and what needs to be thought out.
+
 ### Future Works and Considerations
+
+#### High Priority Items
+
+- Backwards compatibility (year-by-year) for courses, course requisites, and degree requirements
 
 - Course hour splitting
   - Example 1: CS degree footnote states *"3. Three semester credit hours of Calculus are counted under Mathematics Core, and five semester credit hours of Calculus are counted as Component Area Option Core."*
   - Example 2: Substitution for CS lab. Since the lab is 1 credit hour, a user can substitute a 4-hour course and use the remaining 3 hours as free elective credit.
 - Overrides and substitutions
   - Our design cannot handle all every cases and thus there is a need to allow carefully designed functionality to override/bypass degree requirements. However, great care must be taken to ensure this is not the most common and obvious operation in the context of the application.
-- Combining multiple majors/minors/certifications into a single degree plan
-- Extend application to handle multiple degree plans
-- Extend logic to allow planning transfer credit classes for a specific semester
-- Consider if test/transfer credits should be defined per user or per user's degree plans.
-- Backwards compatibility (year-by-year) for courses, course requisites, and degree requirements
-- Proper account management and authentication (not UTD SSO since prospective students like seniors in high school should be able to use the application too)
-  - Tools like Firebase Authentication can work.
+- Implement Matcher and Flag blocks
+lock courses and semesters
+Handle test credit AND and OR
+Semester move course check
+
+#### Medium Priority Items
+
+Requisite Preferences
+
+- Clean out all TODO in the code by either resolving them or deleting them if too old/irrelevant.
 - Consideration for database update/deletion cascade. (ex. how does removing a course from a degree affect every degree plan with that course and degree?)
   - Ideally, degrees should not be "hard" editable after an advisor creates and submits them. This means the overall structure and block conditions should not change. However, a degree should be "soft" editable, where changing a text field or footnote does not affect students' degree plans.
+- Combining multiple majors/minors/certifications into a single degree plan
+- Extend application to handle multiple degree plans
+- Proper account management and authentication (not UTD SSO since prospective students like seniors in high school should be able to use the application too)
+  - Tools like Firebase Authentication can work.
+- Consider if test/transfer credits should be defined per user or per user's degree plans.
+- Extend logic to allow planning transfer credit classes for a specific semester
+- Implement proper and useful error handling via Prisma codes to both the frontend and backend.
+- Implement degree footnotes
+
+#### Low Priority Items and Other Considerations
+
 - Deciding to switch to a fully relational database structure.
   - Currently, we mix JSON into the SQLite database for ease of development. For example, course requisites are defined as a JSON format. This has the benefit that TS objects can be easily typed and parsing through a structured JSON is simpler. However, developers may find the need to convert to a fully relational database structure.
 - Usage of AI/ML such as chatbots?
   - Although our application should not be a ground truth for advising questions, it should serve as a very accurate and helpful tool to plan for your degree. Given the development of AI chatbots, integrating one could be useful. However, we must carefully research the needs it would be fulfilling that are not already being fulfilled programmatically by our logic. Additionally, safeguards must be in place to prevent chatbot misuse, hallucinations, etc.
     - Overall, a chatbot integration is well outside the scope of the project until all core features are refined and polished. We believe that there is not much of a need to implement a chatbot that doesn't outweigh the time and cost needed.
     - If a chatbot is desired, consider techniques such as Retrieval-Augmented-Generation and Knowledge Graphs to supplement chatbot responses.
-- Implement proper and useful error handling via Prisma codes to both the frontend and backend.
 
 ## Tech Stack
 
@@ -184,7 +205,7 @@ Swagger is used to document all APIs. To keep DRY principles as much as possible
 3. [./src/server/routes/routeSchema.ts](./src/server/routes/routeSchema.ts) will utilize these Prisma zod objects as response templates when needed. Request templates are defined within the file itself and are also used across the routes as input validation.
    - @asteasolutions/zod-to-openapi is used to connect zod objects with OpenAPI json format.
 
-Therefore, when modifying APIs, we strongly advised checking the corresponding path registration and request input template located in [./src/server/routes/routeSchema.ts](./src/server/routes/routeSchema.ts).
+Therefore, when modifying APIs, we strongly advise checking the corresponding path registration and request input template located in [./src/server/routes/routeSchema.ts](./src/server/routes/routeSchema.ts).
 
 To update the Swagger documentation
 
@@ -226,48 +247,48 @@ export type CourseLevel = "1000" | "2000" | "3000" | "4000" | "UPPER_DIVISION"
 
 // match a list of predefined courses, or a core curriculum area, with prefix/level as optional conditions
 type MatcherRequisite = {
- type: "matcher"
- matchList?: string[] | string
- condition: {
-  prefix?: string
-  level?: CourseLevel
-  minGrade?: string
-  minCreditHours?: number
- }
+  type: "matcher"
+  matchList?: string[] | string
+  condition: {
+    prefix?: string
+    level?: CourseLevel
+    minGrade?: string
+    minCreditHours?: number
+  }
 }
 
 export type CourseRequisite = {
- type: "course"
- courseID: string
- minGrade?: string
+  type: "course"
+  courseID: string
+  minGrade?: string
 }
 
 type MajorRequisite = {
- type: "major"
- major: string
+  type: "major"
+  major: string
 }
 
 type MinorRequisite = {
- type: "minor"
- minor: string
+  type: "minor"
+  minor: string
 }
 
 export type CustomRequisite = {
- type: "custom"
- text: string
+  type: "custom"
+  text: string
 }
 
 export type Requisite = MatcherRequisite | CourseRequisite | MajorRequisite | MinorRequisite | CustomRequisite
 
 type RequisiteGroup = {
- logicalOperator: "AND" | "OR"
- requisites: RequisiteGroup[] | [Requisite]
+  logicalOperator: "AND" | "OR"
+  requisites: RequisiteGroup[] | [Requisite]
 }
 
 export type Requisites = {
- prerequisites: RequisiteGroup
- corequisites: RequisiteGroup
- prerequisitesOrCorequisites: RequisiteGroup
+  prerequisites: RequisiteGroup
+  corequisites: RequisiteGroup
+  prerequisitesOrCorequisites: RequisiteGroup
 }
 ```
 
@@ -289,8 +310,8 @@ Resolve all block ambiguity in the planner
 -> Get all courses in the degree
 Fulfill all requisites to the best of your ability
 while unresolved requisites
-	Resolve all ambiguous requisites
-	Fetch all missing requisite courses if needed 
+ Resolve all ambiguous requisites
+ Fetch all missing requisite courses if needed
 
 ##### Heuristic for Calculating Class Priority
 

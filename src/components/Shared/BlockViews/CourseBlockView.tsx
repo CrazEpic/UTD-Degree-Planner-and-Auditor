@@ -6,7 +6,6 @@ import { UserContext } from "../../../contexts/UserContext"
 import { semesterFromDate, compareSemesters } from "../../../utils/semester"
 import { CourseBlock } from "../../../types/block"
 
-
 const CourseBlockView = ({ course, indent, mode }: { course: CourseBlock; indent: boolean; mode: string }) => {
 	const user = useContext(UserContext)?.user
 	const fetchUser = useContext(UserContext)?.fetchUser
@@ -45,16 +44,11 @@ const CourseBlockView = ({ course, indent, mode }: { course: CourseBlock; indent
 									year: parseInt(degreePlanCourse.semesterYear),
 								},
 								semesterFromDate(new Date())
-							) < 0
+							) < 0 ||
+							degreePlanCourse.testComponentID ||
+							degreePlanCourse.transferCourseEquivalencyID
 						)
 					}
-					// else if (degreePlanCourse.testComponentID) {
-					// 	return
-					// }
-					// else if (degreePlanCourse.transferCourseEquivalencyID) {
-					// 	return
-					// }
-					return false
 				})
 			) {
 				return "Completed"

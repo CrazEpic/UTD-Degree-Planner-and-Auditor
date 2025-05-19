@@ -124,6 +124,8 @@ const FlowchartCytoscape = () => {
 				return acc
 			}, {})
 
+		console.log("Courses requisites needed:", coursesRequisitesNeeded)
+
 		// add canBeFulfilled property to all requisites so we can attempt to fulfill them
 		// togglable property is for the user to select which requisites they want to fulfill
 		// untogglable means that the course is already in the planner and cannot be toggled off (not temporary)
@@ -287,7 +289,7 @@ const FlowchartCytoscape = () => {
 				if (Object.hasOwn(requisites, "logicalOperator")) {
 					return requisites.requisites.flatMap((requisite) => getRequisiteEdges(requisite, requisiteType))
 				} else if (Object.hasOwn(requisites, "type")) {
-					if (requisites.type == "course" && requisites.canBeFulfilled) {
+					if (requisites.type == "course" && requisites.canBeFulfilled && !creditReceived.has(requisites.courseID)) {
 						return [
 							{
 								data: {
